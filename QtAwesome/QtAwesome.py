@@ -3,9 +3,8 @@ PyQtAwesome - use font-awesome in PyQt / PySide applications
 
 This is a port to Python of the C++ QtAwesome by Rick Blommers
 """
-
 from __future__ import print_function
-from PyQt4.QtCore import (Qt, QObject, QFile, QPoint, QRect, QChar, qRound,
+from PyQt4.QtCore import (Qt, QObject, QPoint, QRect, QChar, qRound, 
                           QByteArray, QIODevice)
 from PyQt4.QtGui import (QFontDatabase, QIcon, QIconEngine, QPainter, QColor,
                          QPixmap, QFont)
@@ -25,13 +24,10 @@ _resource = { 'fontname' : None }
 def _load():
     """Load the font file"""
     if(_resource['fontname'] is None):
-        file = QFile(os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                  'fonts', 'fontawesome-4.3.0.ttf'))
-        if(not file.open(QIODevice.ReadOnly)):
-            print('Font awesome font could not be loaded')
-            return False
-        font_data = QByteArray(file.readAll())
-        file.close()
+        path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                           'fonts', 'fontawesome-4.3.0.ttf')
+        with open(path, 'r') as file:
+            font_data = QByteArray(file.read())
         
         id = QFontDatabase.addApplicationFontFromData(font_data)
         loadedFontFamilies = QFontDatabase.applicationFontFamilies(id)
@@ -39,8 +35,6 @@ def _load():
             _resource['fontname'] = loadedFontFamilies[0]
         else:
             print('Font is empty')
-            return False
-    return True
 
 
 class QtAwesomeCharIconPainter: 

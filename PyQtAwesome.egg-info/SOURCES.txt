@@ -1,8 +1,0 @@
-PyQtAwesome.egg-info/PKG-INFO
-PyQtAwesome.egg-info/SOURCES.txt
-PyQtAwesome.egg-info/dependency_links.txt
-PyQtAwesome.egg-info/top_level.txt
-QtAwesome/QtAwesome.py
-QtAwesome/__init__.py
-QtAwesome/example.py
-QtAwesome/fa.py

@@ -1,2 +1,2 @@
-# Compiled python files
 *.py[oc]
+*.egg-info/
