@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: PyQtAwesome
+Version: 0.1
+Summary: FontAwesome icons in PyQt / PySide applications
+Home-page: https://github.com/SylvainCorlay/PyQtAwesome
+Author: Sylvain Corlay
+Author-email: sylvain.corlay@gmail.com
+License: MIT License
+Description: UNKNOWN
+Keywords: PyQt
+Platform: UNKNOWN
