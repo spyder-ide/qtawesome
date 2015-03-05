@@ -25,7 +25,7 @@ def _load():
     """Load the font file"""
     if(_resource['fontname'] is None):
         path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                           'fonts', 'fontawesome-4.3.0.ttf')
+                            'fonts', 'fontawesome-4.3.0.ttf')
         with open(path, 'r') as file:
             font_data = QByteArray(file.read())
         
@@ -38,7 +38,7 @@ def _load():
 
 
 class QtAwesomeCharIconPainter: 
-    """ The font-awesome icon painter"""
+    """The font-awesome icon painter"""
 
     def paint(self, awesome, painter, rect, mode, state, options):
         painter.save()
@@ -67,7 +67,7 @@ class QtAwesomeCharIconPainter:
 
 
 class QtAwesomeIconPainterIconEngine(QIconEngine):
-    """ The painter icon engine. """
+    """The painter icon engine"""
 
     def __init__(self, awesome, painter, options):
         super(QtAwesomeIconPainterIconEngine, self).__init__()
@@ -94,12 +94,14 @@ class QtAwesome(QObject):
         self.painters = {}
         _load()
 
-    def by_char(self, character, options={}):
-        opt = dict(_default_options, **options)
-        opt['text'] = QChar(int(character))
-        return self.by_painter(self.painter, opt)
+    def by_char(self, character, options=None):
+        if options is None:
+            options = {}
+        options = dict(_default_options, **options)
+        options['text'] = QChar(int(character))
+        return self.by_painter(self.painter, options)
 
-    def by_name(self, name, options={}):
+    def by_name(self, name, options=None):
         if name in codes:
             return self.by_char(codes[name], options)
         if name in self.painters:
@@ -108,9 +110,11 @@ class QtAwesome(QObject):
         else:
             return QIcon()
     
-    def by_painter(self, painter, options={}):
-        opt = dict(_default_options, **options)
-        engine = QtAwesomeIconPainterIconEngine(self, painter, opt)
+    def by_painter(self, painter, options=None):
+        if options is None:
+            options = {}
+        options = dict(_default_options, **options)
+        engine = QtAwesomeIconPainterIconEngine(self, painter, options)
         return QIcon(engine)
     
     def give(self, name, painter):
