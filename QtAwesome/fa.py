@@ -598,73 +598,11 @@ codes = {
 bunch = type('struct', (object,), codes)()
 
 
-from .QtAwesome import CharIconEngine, CharIconPainter
-from PyQt4.QtCore import QChar, QObject, QByteArray
-from PyQt4.QtGui import QColor, QFontDatabase, QIcon, QFont
-import os
-
-_default_options = {
-    'color' : QColor(50, 50, 50),
-    'color-disabled' : QColor(70, 70, 70, 60),
-    'color-active' : QColor(10, 10, 10),
-    'color-selected' : QColor(10, 10, 10),
-    'scale-factor' : 0.9,
-}
-
-_font_resource = { 'fontname' : None }
-
-def _load_fa():
-    """Load the font file"""
-    if(_font_resource['fontname'] is None):
-        path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                            'fonts', 'fontawesome-4.3.0.ttf')
-        with open(path, 'r') as file:
-            font_data = QByteArray(file.read())
-        
-        id = QFontDatabase.addApplicationFontFromData(font_data)
-        loadedFontFamilies = QFontDatabase.applicationFontFamilies(id)
-        if(loadedFontFamilies):
-            _font_resource['fontname'] = loadedFontFamilies[0]
-        else:
-            print('Font is empty')
+from .QtAwesome import FontIconSet
 
 
-class QtAwesome(QObject):
+class QtAwesome(FontIconSet):
     """The main class for managing icons"""
     
     def __init__(self):
-        super(QtAwesome, self).__init__()
-        self.painter = CharIconPainter()
-        self.painters = {}
-        _load_fa()
-
-    def by_char(self, character, options=None):
-        if options is None:
-            options = {}
-        options = dict(_default_options, **options)
-        options['text'] = QChar(int(character))
-        return self.by_painter(self.painter, options)
-
-    def by_name(self, name, options=None):
-        if name in codes:
-            return self.by_char(codes[name], options)
-        if name in self.painters:
-            painter = self.painters[name]
-            return self.by_painter(painter, options)     
-        else:
-            return QIcon()
-    
-    def by_painter(self, painter, options=None):
-        if options is None:
-            options = {}
-        options = dict(_default_options, **options)
-        engine = CharIconEngine(self, painter, options)
-        return QIcon(engine)
-    
-    def give(self, name, painter):
-        self.painters[name] = painter
-    
-    def font(self, size):
-        font = QFont(_font_resource['fontname'])
-        font.setPixelSize(size)
-        return font
+        super(QtAwesome, self).__init__('fontawesome-4.3.0.ttf', codes)
