@@ -1,4 +1,4 @@
-# A dictionary mapping icon-names to unicode-values
+# A dictionary mapping font-awesome icon-names to unicode characters
 codes = {
     'adjust' : 0xf042,
     'adn' : 0xf170,
@@ -595,14 +595,30 @@ codes = {
     'youtubesquare' : 0xf166,
 }
 
-bunch = type('struct', (object,), codes)()
+from .iconic_font import IconicFont
 
-
-from .QtAwesome import FontIconSet
-
-
-class QtAwesome(FontIconSet):
-    """The main class for managing icons"""
+class QtAwesome(IconicFont):
+    """The font-awesome specific Iconic font"""
     
     def __init__(self):
         super(QtAwesome, self).__init__('fontawesome-4.3.0.ttf', codes)
+
+_res = { 'iconic' : None, }
+
+def _instance():
+    if _res['iconic'] is None:
+        _res['iconic'] =  QtAwesome()
+    return _res['iconic']
+
+
+def icon(*args, **kwargs):     
+    return _instance().icon_by_name(*args, **kwargs)
+
+def font(*args, **kwargs):     
+    return _instance().font(*args, **kwargs)
+
+def icon_by_char(*args, **kwargs):    
+    return _instance().icon_by_char(*args, **kwargs)
+
+def give(*args, **kwargs):
+    return _instance().give(*args, **kwargs)

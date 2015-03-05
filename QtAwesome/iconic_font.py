@@ -1,6 +1,10 @@
+"""Classes handling iconic fonts"""
+
 from __future__ import print_function
-from PyQt4.QtCore import Qt, QPoint, QRect, qRound
-from PyQt4.QtGui import QIcon, QIconEngine, QPainter, QPixmap
+from PyQt4.QtCore import Qt, QObject, QChar, QPoint, QRect, qRound, QByteArray
+from PyQt4.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
+                         QFontDatabase, QFont)
+import os
 
 
 class CharIconPainter: 
@@ -52,11 +56,6 @@ class CharIconEngine(QIconEngine):
         return pm
 
 
-from PyQt4.QtCore import QChar, QObject, QByteArray
-from PyQt4.QtGui import QColor, QFontDatabase, QIcon, QFont
-import os
-
-
 _default_options = {
     'color' : QColor(50, 50, 50),
     'color-disabled' : QColor(70, 70, 70, 60),
@@ -66,13 +65,13 @@ _default_options = {
 }
 
 
-class FontIconSet(QObject):
-    """The main class for managing icons"""
+class IconicFont(QObject):
+    """The main class for managing iconic fonts"""
     
     def __init__(self, ttf_filename, codes):
         """Takes a filename for the ttf font and a dictionary mapping icon
         names to char numbers"""
-        super(FontIconSet, self).__init__()
+        super(IconicFont, self).__init__()
         self.painter = CharIconPainter()
         self.codes = codes
         self.painters = {}
@@ -93,25 +92,25 @@ class FontIconSet(QObject):
         else:
             print('Font is empty')
 
-    def by_char(self, character, options=None):
+    def icon_by_char(self, character, options=None):
         """Returns the icon corresponding to the given character"""
         if options is None:
             options = {}
         options = dict(_default_options, **options)
         options['text'] = QChar(int(character))
-        return self.by_painter(self.painter, options)
+        return self._icon_by_painter(self.painter, options)
 
-    def by_name(self, name, options=None):
+    def icon_by_name(self, name, options=None):
         """Returns the icon corresponding to the given name"""
         if name in self.codes:
-            return self.by_char(self.codes[name], options)
+            return self.icon_by_char(self.codes[name], options)
         if name in self.painters:
             painter = self.painters[name]
-            return self.by_painter(painter, options)     
+            return self._icon_by_painter(painter, options)     
         else:
             return QIcon()
     
-    def by_painter(self, painter, options=None):
+    def _icon_by_painter(self, painter, options=None):
         """Returns the icon corresponding to the given painter"""
         if options is None:
             options = {}
@@ -120,7 +119,7 @@ class FontIconSet(QObject):
         return QIcon(engine)
     
     def give(self, name, painter):
-        """Associates a user provided painter to an icon name"""
+        """Associates a user-provided CharIconPainter to an icon name"""
         self.painters[name] = painter
     
     def font(self, size):
