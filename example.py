@@ -9,7 +9,7 @@ class DuplicateIconPainter:
     def paint(self, awesome, painter, rectIn, mode, state, options):
         drawSize = QtCore.qRound(rectIn.height() * 0.5)
         offset = rectIn.height() / 4.0
-        char = QtCore.QChar(fa.charmap['plus'])
+        char = QtCore.QChar(fa.charmap('plus'))
         painter.setFont(awesome.font(drawSize))
         painter.setPen(QtGui.QColor(100, 100, 100))
         painter.drawText(QtCore.QRect(QtCore.QPoint(offset * 2, offset * 2),
@@ -20,7 +20,7 @@ class DuplicateIconPainter:
                                                     rectIn.height() - drawSize - offset),
                                       QtCore.QSize(drawSize, drawSize)),
                          QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter, char)
-        
+
 
 class AwesomeExample(QtGui.QWidget):
     
@@ -31,7 +31,7 @@ class AwesomeExample(QtGui.QWidget):
         beerButton = QtGui.QPushButton(fa.icon('beer'), 'Cheers!')
         
         # Call an icon by character
-        coffeeButton = QtGui.QPushButton(fa.icon_by_char(fa.charmap['coffee']), 'Black please!')
+        coffeeButton = QtGui.QPushButton(fa.icon_by_char(fa.charmap('coffee')), 'Black please!')
         
         # Pass options
         musicButton = QtGui.QPushButton(fa.icon('music', {'color': QtGui.QColor(255, 0, 0), 'verb' : 1}), 'Music')
@@ -68,4 +68,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-

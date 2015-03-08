@@ -4,6 +4,7 @@ from __future__ import print_function
 from PyQt4.QtCore import Qt, QObject, QChar, QPoint, QRect, qRound, QByteArray
 from PyQt4.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
                          QFontDatabase, QFont)
+import json
 import os
 
 
@@ -73,17 +74,20 @@ class IconicFont(QObject):
         names to char numbers"""
         super(IconicFont, self).__init__()
         self.painter = CharIconPainter()
-        self.charmap = charmap
         self.painters = {}
-        self.ttf_name = ttf_filename
-        self._load_font()
+        self._load_font(ttf_filename, charmap)
 
-    def _load_font(self):
+    def _load_font(self, ttf_filename, charmap):
         """loads the font file"""
         path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                            'fonts', self.ttf_name)
+                           'fonts', ttf_filename)
         with open(path, 'r') as file:
             font_data = QByteArray(file.read())
+
+        path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                    'fonts', charmap)
+        with open(path, 'r') as codes:
+            self.charmap = json.load(codes, object_hook=lambda o:{k : int(o[k], 16) for k in o})
         
         id = QFontDatabase.addApplicationFontFromData(font_data)
         loadedFontFamilies = QFontDatabase.applicationFontFamilies(id)
