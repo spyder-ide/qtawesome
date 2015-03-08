@@ -1,5 +1,4 @@
-# A dictionary mapping font-awesome icon-names to unicode characters
-codes = {
+charmap = {
     'adjust' : 0xf042,
     'adn' : 0xf170,
     'aligncenter' : 0xf037,
@@ -597,19 +596,12 @@ codes = {
 
 from .iconic_font import IconicFont
 
-class QtAwesome(IconicFont):
-    """The font-awesome specific Iconic font"""
-    
-    def __init__(self):
-        super(QtAwesome, self).__init__('fontawesome-4.3.0.ttf', codes)
-
 _res = { 'iconic' : None, }
 
 def _instance():
     if _res['iconic'] is None:
-        _res['iconic'] =  QtAwesome()
+        _res['iconic'] =  IconicFont('fontawesome-4.3.0.ttf', charmap)
     return _res['iconic']
-
 
 def icon(*args, **kwargs):     
     return _instance().icon_by_name(*args, **kwargs)

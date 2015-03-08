@@ -1,7 +1,7 @@
 import sys
 from PyQt4 import QtGui, QtCore
 
-from QtAwesome import fa
+from QtAwesome import fa, ei
 
 
 class DuplicateIconPainter:
@@ -9,7 +9,7 @@ class DuplicateIconPainter:
     def paint(self, awesome, painter, rectIn, mode, state, options):
         drawSize = QtCore.qRound(rectIn.height() * 0.5)
         offset = rectIn.height() / 4.0
-        char = QtCore.QChar(fa.codes['plus'])
+        char = QtCore.QChar(fa.charmap['plus'])
         painter.setFont(awesome.font(drawSize))
         painter.setPen(QtGui.QColor(100, 100, 100))
         painter.drawText(QtCore.QRect(QtCore.QPoint(offset * 2, offset * 2),
@@ -30,7 +30,8 @@ class AwesomeExample(QtGui.QWidget):
         # Call an icon by name
         beerButton = QtGui.QPushButton(fa.icon('beer'), 'Cheers!')
         
-        coffeeButton = QtGui.QPushButton(fa.icon_by_char(fa.codes['coffee']), 'Black please!')
+        # Call an icon by character
+        coffeeButton = QtGui.QPushButton(fa.icon_by_char(fa.charmap['coffee']), 'Black please!')
         
         # Pass options
         musicButton = QtGui.QPushButton(fa.icon('music', {'color': QtGui.QColor(255, 0, 0), 'verb' : 1}), 'Music')
@@ -42,6 +43,9 @@ class AwesomeExample(QtGui.QWidget):
         # You can use a custom painter
         fa.give('double', DuplicateIconPainter())
         duplicateButton = QtGui.QPushButton(fa.icon('double'), 'Custom painter')
+        
+        # Use elusive icon
+        elusiveButton = QtGui.QPushButton(ei.icon('asl'), 'Elusive Icons')
 
         # Layout
         vbox = QtGui.QVBoxLayout()
@@ -50,6 +54,7 @@ class AwesomeExample(QtGui.QWidget):
         vbox.addWidget(musicButton)
         vbox.addWidget(label)
         vbox.addWidget(duplicateButton)
+        vbox.addWidget(elusiveButton)
         self.setLayout(vbox)
         self.setWindowTitle('Awesome')
         self.show()

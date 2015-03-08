@@ -5,3 +5,4 @@ This is a port to Python of the C++ QtAwesome by Rick Blommers
 """
 
 import fa
+import ei

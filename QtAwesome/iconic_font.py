@@ -68,12 +68,12 @@ _default_options = {
 class IconicFont(QObject):
     """The main class for managing iconic fonts"""
     
-    def __init__(self, ttf_filename, codes):
+    def __init__(self, ttf_filename, charmap):
         """Takes a filename for the ttf font and a dictionary mapping icon
         names to char numbers"""
         super(IconicFont, self).__init__()
         self.painter = CharIconPainter()
-        self.codes = codes
+        self.charmap = charmap
         self.painters = {}
         self.ttf_name = ttf_filename
         self._load_font()
@@ -97,13 +97,13 @@ class IconicFont(QObject):
         if options is None:
             options = {}
         options = dict(_default_options, **options)
-        options['text'] = QChar(int(character))
+        options['text'] = QChar(character)
         return self._icon_by_painter(self.painter, options)
 
     def icon_by_name(self, name, options=None):
         """Returns the icon corresponding to the given name"""
-        if name in self.codes:
-            return self.icon_by_char(self.codes[name], options)
+        if name in self.charmap:
+            return self.icon_by_char(self.charmap[name], options)
         if name in self.painters:
             painter = self.painters[name]
             return self._icon_by_painter(painter, options)     
