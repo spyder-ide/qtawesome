@@ -102,17 +102,24 @@ class IconicFont(QObject):
 
     def icon(self, fullname, options=None):
         prefix, name = fullname.split('.')
+        if prefix == 'custom':
+            return self.custom_icon(name, options)
         return self.icon_by_name(prefix, name, options)
 
     def icon_by_name(self, prefix, name, options=None):
         """Returns the icon corresponding to the given name"""
         if name in self.charmap[prefix]:
             return self.icon_by_char(prefix, self.charmap[prefix][name], options)
+        else:
+            return QIcon()
+        
+    def custom_icon(self, name, options=None):
+        """Returns the custom icon corresponding to the given name."""
+        if options is None:
+            options = {}
         if name in self.painters:
             painter = self.painters[name]
             return self._icon_by_painter(painter, options)     
-        else:
-            return QIcon()
 
     def icon_by_char(self, prefix, character, options=None):
         """Returns the icon corresponding to the given character"""
@@ -123,15 +130,13 @@ class IconicFont(QObject):
         options['prefix'] = prefix
         return self._icon_by_painter(self.painter, options)
 
-    def _icon_by_painter(self, painter, options=None):
+    def _icon_by_painter(self, painter, options):
         """Returns the icon corresponding to the given painter"""
-        if options is None:
-            options = {}
         options = dict(_default_options, **options)
         engine = CharIconEngine(self, painter, options)
         return QIcon(engine)
     
-    def give(self, name, painter):
+    def set_custom_icon(self, name, painter):
         """Associates a user-provided CharIconPainter to an icon name"""
         self.painters[name] = painter
     

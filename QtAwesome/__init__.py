@@ -19,9 +19,6 @@ def _instance():
 def icon(*args, **kwargs):
     return _instance().icon(*args, **kwargs)
 
-def icon_by_name(*args, **kwargs):     
-    return _instance().icon_by_name(*args, **kwargs)
-
 def icon_by_char(*args, **kwargs):    
     return _instance().icon_by_char(*args, **kwargs)
 
@@ -29,8 +26,8 @@ def charmap(prefixed_name):
     prefix, name = prefixed_name.split('.')
     return _instance().charmap[prefix][name]
 
-def font(*args, **kwargs):     
+def font(*args, **kwargs):
     return _instance().font(*args, **kwargs)
 
-def give(*args, **kwargs):
-    return _instance().give(*args, **kwargs)
+def set_custom_icon(*args, **kwargs):
+    return _instance().set_custom_icon(*args, **kwargs)

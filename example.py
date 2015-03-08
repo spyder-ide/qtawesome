@@ -3,7 +3,7 @@ from PyQt4 import QtGui, QtCore
 import QtAwesome as qta
 
 
-class DuplicateIconPainter:
+class CustomIconPainter:
     """A custom painter for example bellow"""
     def paint(self, awesome, painter, rectIn, mode, state, options):
         drawSize = QtCore.qRound(rectIn.height() * 0.5)
@@ -39,8 +39,8 @@ class AwesomeExample(QtGui.QWidget):
         music_button = QtGui.QPushButton(styling_icon, 'Styling')
         
         # Use a custom painter and assign it a name
-        qta.give('double', DuplicateIconPainter())
-        duplicate_button = QtGui.QPushButton(qta.icon('fa.double'), 'Custom painter')
+        qta.set_custom_icon('double', CustomIconPainter())
+        custom_button = QtGui.QPushButton(qta.icon('custom.double'), 'Custom painter')
         
         # Get icons by character
         coffee_icon = qta.icon_by_char('fa', qta.charmap('fa.coffee'))
@@ -52,12 +52,9 @@ class AwesomeExample(QtGui.QWidget):
 
         # Layout
         vbox = QtGui.QVBoxLayout()
-        vbox.addWidget(fa_button)
-        vbox.addWidget(elusive_button)
-        vbox.addWidget(music_button)
-        vbox.addWidget(duplicate_button)
-        vbox.addWidget(coffee_button)
-        vbox.addWidget(label)
+        for w in [fa_button, elusive_button, music_button, custom_button, coffee_button, label]:
+            vbox.addWidget(w)    
+
         self.setLayout(vbox)
         self.setWindowTitle('Awesome')
         self.show()
