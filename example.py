@@ -1,7 +1,6 @@
 import sys
 from PyQt4 import QtGui, QtCore
-
-from QtAwesome import fa, ei
+import QtAwesome as qta
 
 
 class DuplicateIconPainter:
@@ -9,8 +8,8 @@ class DuplicateIconPainter:
     def paint(self, awesome, painter, rectIn, mode, state, options):
         drawSize = QtCore.qRound(rectIn.height() * 0.5)
         offset = rectIn.height() / 4.0
-        char = QtCore.QChar(fa.charmap('plus'))
-        painter.setFont(awesome.font(drawSize))
+        char = QtCore.QChar(qta.charmap('fa.plus'))
+        painter.setFont(awesome.font('fa', drawSize))
         painter.setPen(QtGui.QColor(100, 100, 100))
         painter.drawText(QtCore.QRect(QtCore.QPoint(offset * 2, offset * 2),
                                       QtCore.QSize(drawSize, drawSize)),
@@ -27,34 +26,38 @@ class AwesomeExample(QtGui.QWidget):
     def __init__(self):
         super(AwesomeExample, self).__init__()
         
-        # Call an icon by name
-        beerButton = QtGui.QPushButton(fa.icon('beer'), 'Cheers!')
-        
-        # Call an icon by character
-        coffeeButton = QtGui.QPushButton(fa.icon_by_char(fa.charmap('coffee')), 'Black please!')
-        
-        # Pass options
-        musicButton = QtGui.QPushButton(fa.icon('music', {'color': QtGui.QColor(255, 0, 0), 'verb' : 1}), 'Music')
-         
-        # You can also directly render a label with this font
-        label = QtGui.QLabel(QtCore.QChar(0xf0f4))
-        label.setFont(fa.font(16))
+        # Get icons by name. 
+        fa_icon = qta.icon('fa.flag')
+        fa_button = QtGui.QPushButton(fa_icon, 'Font Awesome!')
 
-        # You can use a custom painter
-        fa.give('double', DuplicateIconPainter())
-        duplicateButton = QtGui.QPushButton(fa.icon('double'), 'Custom painter')
+        asl_icon = qta.icon('ei.asl')
+        elusive_button = QtGui.QPushButton(asl_icon, 'Elusive Icons!')
         
-        # Use elusive icon
-        elusiveButton = QtGui.QPushButton(ei.icon('asl'), 'Elusive Icons')
+        # Styling
+        styling_icon = qta.icon('fa.music', {'color': QtGui.QColor(255, 0, 0),
+                                             'color-active': QtGui.QColor(190, 0, 0)})
+        music_button = QtGui.QPushButton(styling_icon, 'Styling')
+        
+        # Use a custom painter and assign it a name
+        qta.give('double', DuplicateIconPainter())
+        duplicate_button = QtGui.QPushButton(qta.icon('fa.double'), 'Custom painter')
+        
+        # Get icons by character
+        coffee_icon = qta.icon_by_char('fa', qta.charmap('fa.coffee'))
+        coffee_button = QtGui.QPushButton(coffee_icon, 'Black please!')
+        
+        # Render a label with this font
+        label = QtGui.QLabel(QtCore.QChar(0xf0f4))
+        label.setFont(qta.font('fa', 16))
 
         # Layout
         vbox = QtGui.QVBoxLayout()
-        vbox.addWidget(beerButton)
-        vbox.addWidget(coffeeButton)
-        vbox.addWidget(musicButton)
+        vbox.addWidget(fa_button)
+        vbox.addWidget(elusive_button)
+        vbox.addWidget(music_button)
+        vbox.addWidget(duplicate_button)
+        vbox.addWidget(coffee_button)
         vbox.addWidget(label)
-        vbox.addWidget(duplicateButton)
-        vbox.addWidget(elusiveButton)
         self.setLayout(vbox)
         self.setWindowTitle('Awesome')
         self.show()

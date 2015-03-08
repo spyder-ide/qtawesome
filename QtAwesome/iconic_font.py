@@ -32,8 +32,9 @@ class CharIconPainter:
         painter.setPen(color)
 
         drawSize = qRound(rect.height() * options['scale-factor'])
+        prefix = options['prefix']
 
-        painter.setFont(awesome.font(drawSize))
+        painter.setFont(awesome.font(prefix, drawSize))
         painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, text)
         painter.restore()
 
@@ -69,15 +70,18 @@ _default_options = {
 class IconicFont(QObject):
     """The main class for managing iconic fonts"""
     
-    def __init__(self, ttf_filename, charmap):
+    def __init__(self, *font_resources):
         """Takes a filename for the ttf font and a dictionary mapping icon
         names to char numbers"""
         super(IconicFont, self).__init__()
         self.painter = CharIconPainter()
         self.painters = {}
-        self._load_font(ttf_filename, charmap)
+        self.fontname = {}
+        self.charmap = {}
+        for prefix, ttf_filename, charmap_filename in font_resources:
+            self.load_font(prefix, ttf_filename, charmap_filename)
 
-    def _load_font(self, ttf_filename, charmap):
+    def load_font(self, prefix, ttf_filename, charmap_filename):
         """loads the font file"""
         path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                            'fonts', ttf_filename)
@@ -85,35 +89,40 @@ class IconicFont(QObject):
             font_data = QByteArray(file.read())
 
         path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                    'fonts', charmap)
+                    'fonts', charmap_filename)
         with open(path, 'r') as codes:
-            self.charmap = json.load(codes, object_hook=lambda o:{k : int(o[k], 16) for k in o})
+            self.charmap[prefix] = json.load(codes, object_hook=lambda o:{k : int(o[k], 16) for k in o})
         
         id = QFontDatabase.addApplicationFontFromData(font_data)
         loadedFontFamilies = QFontDatabase.applicationFontFamilies(id)
         if(loadedFontFamilies):
-            self.fontname = loadedFontFamilies[0]
+            self.fontname[prefix] = loadedFontFamilies[0]
         else:
             print('Font is empty')
 
-    def icon_by_char(self, character, options=None):
-        """Returns the icon corresponding to the given character"""
-        if options is None:
-            options = {}
-        options = dict(_default_options, **options)
-        options['text'] = QChar(character)
-        return self._icon_by_painter(self.painter, options)
+    def icon(self, fullname, options=None):
+        prefix, name = fullname.split('.')
+        return self.icon_by_name(prefix, name, options)
 
-    def icon_by_name(self, name, options=None):
+    def icon_by_name(self, prefix, name, options=None):
         """Returns the icon corresponding to the given name"""
-        if name in self.charmap:
-            return self.icon_by_char(self.charmap[name], options)
+        if name in self.charmap[prefix]:
+            return self.icon_by_char(prefix, self.charmap[prefix][name], options)
         if name in self.painters:
             painter = self.painters[name]
             return self._icon_by_painter(painter, options)     
         else:
             return QIcon()
-    
+
+    def icon_by_char(self, prefix, character, options=None):
+        """Returns the icon corresponding to the given character"""
+        if options is None:
+            options = {}
+        options = dict(_default_options, **options)
+        options['text'] = QChar(character)
+        options['prefix'] = prefix
+        return self._icon_by_painter(self.painter, options)
+
     def _icon_by_painter(self, painter, options=None):
         """Returns the icon corresponding to the given painter"""
         if options is None:
@@ -126,8 +135,8 @@ class IconicFont(QObject):
         """Associates a user-provided CharIconPainter to an icon name"""
         self.painters[name] = painter
     
-    def font(self, size):
+    def font(self, prefix, size):
         """Returns the icon QFont with the given size"""
-        font = QFont(self.fontname)
+        font = QFont(self.fontname[prefix])
         font.setPixelSize(size)
         return font
