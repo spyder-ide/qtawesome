@@ -40,7 +40,7 @@ class CharIconPainter:
             color = options.get('color_selected', color)
             char = options.get('selected', char)
 
-        painter.setPen(color)
+        painter.setPen(QColor(color))
 
         drawSize = qRound(rect.height() * options['scale_factor'])
         prefix = options['prefix']

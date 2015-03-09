@@ -38,8 +38,8 @@ class AwesomeExample(QtGui.QWidget):
         # Styling
         styling_icon = qta.icon('fa.music',
                                 active='fa.legal',
-                                color=QtGui.QColor(255, 0, 0),
-                                color_active=QtGui.QColor(190, 0, 0))
+                                color='blue',
+                                color_active='orange')
         music_button = QtGui.QPushButton(styling_icon, 'Styling')
 
         # Use a custom painter and assign it a name
@@ -54,7 +54,7 @@ class AwesomeExample(QtGui.QWidget):
         # Stack icons
         camera_ban = qta.icon_stack(['fa.camera', 'fa.ban'],
                                     options=[{'scale_factor': 0.5, 'active': 'fa.legal'},
-                                             {'color': QtGui.QColor(255, 0, 0)}])
+                                             {'color': 'red'}])
         stack_button = QtGui.QPushButton(camera_ban, 'Stack')
         stack_button.setIconSize(QtCore.QSize(32, 32))
 
