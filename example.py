@@ -4,6 +4,7 @@ import QtAwesome as qta
 
 
 class CustomIconPainter:
+
     """A custom painter for example bellow"""
     def paint(self, awesome, painter, rectIn, mode, state, options):
         drawSize = QtCore.qRound(rectIn.height() * 0.5)
@@ -44,16 +45,24 @@ class AwesomeExample(QtGui.QWidget):
         
         # Get icons by character
         coffee_icon = qta.icon_by_char('fa', qta.charmap('fa.coffee'))
-        coffee_button = QtGui.QPushButton(coffee_icon, 'Black please!')
+        coffee_button = QtGui.QPushButton(coffee_icon, 'Access by character')
         
         # Render a label with this font
-        label = QtGui.QLabel(QtCore.QChar(0xf0f4))
+        label = QtGui.QLabel(QtCore.QChar(0xf19c) + ' ' + 'Label')
         label.setFont(qta.font('fa', 16))
+
+        # Stack icons
+        camera_ban = qta.icon_stack(['fa.camera', 'fa.ban'],
+                                     options=[{'scale-factor': 0.5},
+                                              {'color': QtGui.QColor(255, 0, 0)}])
+        stack_button = QtGui.QPushButton(camera_ban, 'Stack')
+        stack_button.setIconSize(QtCore.QSize(32, 32))
 
         # Layout
         vbox = QtGui.QVBoxLayout()
-        for w in [fa_button, elusive_button, music_button, custom_button, coffee_button, label]:
-            vbox.addWidget(w)    
+        for w in [fa_button, elusive_button, music_button, custom_button, 
+                  coffee_button, label, stack_button]:
+            vbox.addWidget(w)
 
         self.setLayout(vbox)
         self.setWindowTitle('Awesome')

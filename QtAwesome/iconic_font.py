@@ -12,6 +12,15 @@ class CharIconPainter:
     """The char icon painter"""
 
     def paint(self, awesome, painter, rect, mode, state, options):
+        """Main paint method"""
+        if isinstance(options, list):
+            for opt in options:
+                self.paint_icon(awesome, painter, rect, mode, state, opt)
+        else:
+            self.paint_icon(awesome, painter, rect, mode, state, options)
+
+    def paint_icon(self, awesome, painter, rect, mode, state, options):
+        """Paint a single icon"""
         painter.save()
         color = options['color']
         text = options['text']
@@ -102,44 +111,64 @@ class IconicFont(QObject):
 
     def icon(self, fullname, options=None):
         prefix, name = fullname.split('.')
-        if prefix == 'custom':
-            return self.custom_icon(name, options)
         return self.icon_by_name(prefix, name, options)
+
+    def icon_stack(self, fullnames, options=None):
+        prefixes_names = zip(*(fn.split('.') for fn in fullnames))
+        return self.icon_stack_by_name(*prefixes_names, options=options)
 
     def icon_by_name(self, prefix, name, options=None):
         """Returns the icon corresponding to the given name"""
+        if prefix == 'custom':
+            return self.custom_icon(name, options)
         if name in self.charmap[prefix]:
             return self.icon_by_char(prefix, self.charmap[prefix][name], options)
         else:
             return QIcon()
-        
+
+    def icon_stack_by_name(self, prefixes, names, options=None):
+        """Returns the stacked icon corresponding to the given names""" 
+        return self.icon_stack_by_char(prefixes, [self.charmap[p][n] for 
+               p, n in zip(prefixes, names)], options)
+
     def custom_icon(self, name, options=None):
         """Returns the custom icon corresponding to the given name."""
         if options is None:
             options = {}
+        options = dict(_default_options, **options)
         if name in self.painters:
             painter = self.painters[name]
-            return self._icon_by_painter(painter, options)     
+            return self._icon_by_painter(painter, options)
+        else:
+            return QIcon()
 
     def icon_by_char(self, prefix, character, options=None):
         """Returns the icon corresponding to the given character"""
         if options is None:
             options = {}
-        options = dict(_default_options, **options)
-        options['text'] = QChar(character)
-        options['prefix'] = prefix
+        options = dict(_default_options, text=QChar(character), prefix=prefix,
+                       **options)
+        return self._icon_by_painter(self.painter, options)
+
+    def icon_stack_by_char(self, prefixes, chars, options=None):
+        """Returns the stacked icon corresponding to the given names"""
+        if options is None:
+            options = [{}] * len(chars)
+        if isinstance(options, dict):
+            options = [options] * len(chars)
+        options = [dict(_default_options, prefix=prefixes[i], text=QChar(chars[i]),
+                        **(options[i])) for i in xrange(len(chars))] 
         return self._icon_by_painter(self.painter, options)
 
     def _icon_by_painter(self, painter, options):
         """Returns the icon corresponding to the given painter"""
-        options = dict(_default_options, **options)
         engine = CharIconEngine(self, painter, options)
         return QIcon(engine)
-    
+
     def set_custom_icon(self, name, painter):
         """Associates a user-provided CharIconPainter to an icon name"""
         self.painters[name] = painter
-    
+
     def font(self, prefix, size):
         """Returns the icon QFont with the given size"""
         font = QFont(self.fontname[prefix])
