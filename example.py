@@ -4,6 +4,7 @@ import QtAwesome as qta
 
 
 class CustomIconPainter:
+
     """A custom painter for example bellow"""
     def paint(self, awesome, painter, rectIn, mode, state, options):
         drawSize = QtCore.qRound(rectIn.height() * 0.5)

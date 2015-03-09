@@ -12,11 +12,15 @@ class CharIconPainter:
     """The char icon painter"""
 
     def paint(self, awesome, painter, rect, mode, state, options):
-        # If options is a list, paint a stack of icons
+        """Main paint method"""
         if isinstance(options, list):
             for opt in options:
-                self.paint(awesome, painter, rect, mode, state, opt)
-            return
+                self.paint_icon(awesome, painter, rect, mode, state, opt)
+        else:
+            self.paint_icon(awesome, painter, rect, mode, state, options)
+
+    def paint_icon(self, awesome, painter, rect, mode, state, options):
+        """Paint a single icon"""
         painter.save()
         color = options['color']
         text = options['text']
@@ -131,9 +135,12 @@ class IconicFont(QObject):
         """Returns the custom icon corresponding to the given name."""
         if options is None:
             options = {}
+        options = dict(_default_options, **options)
         if name in self.painters:
             painter = self.painters[name]
-            return self._icon_by_painter(painter, options)     
+            return self._icon_by_painter(painter, options)
+        else:
+            return QIcon()
 
     def icon_by_char(self, prefix, character, options=None):
         """Returns the icon corresponding to the given character"""
@@ -151,17 +158,10 @@ class IconicFont(QObject):
             options = [options] * len(chars)
         options = [dict(_default_options, prefix=prefixes[i], text=QChar(chars[i]),
                         **(options[i])) for i in xrange(len(chars))] 
-        return self._icon_stack_by_painter(self.painter, options)
+        return self._icon_by_painter(self.painter, options)
 
     def _icon_by_painter(self, painter, options):
         """Returns the icon corresponding to the given painter"""
-        options = dict(_default_options, **options)
-        engine = CharIconEngine(self, painter, options)
-        return QIcon(engine)
-
-    def _icon_stack_by_painter(self, painter, options):
-        """Returns the icon stack corresponding to the given painter"""
-        options = [dict(_default_options, **opt) for opt in options]
         engine = CharIconEngine(self, painter, options)
         return QIcon(engine)
 
