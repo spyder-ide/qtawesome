@@ -9,7 +9,7 @@ import os
 
 _default_options = {
     'color': QColor(50, 50, 50),
-    'scale-factor': 0.9,
+    'scale_factor': 0.9,
 }
 
 
@@ -42,7 +42,7 @@ class CharIconPainter:
 
         painter.setPen(color)
 
-        drawSize = qRound(rect.height() * options['scale-factor'])
+        drawSize = qRound(rect.height() * options['scale_factor'])
         prefix = options['prefix']
 
         painter.setFont(awesome.font(prefix, drawSize))
@@ -181,6 +181,20 @@ class IconicFont(QObject):
                         **(options[i])) for i in xrange(len(chars))]
         return self._icon_by_painter(self.painter, options)
 
+    def font(self, prefix, size):
+        """Returns QFont corresponding to the given prefix and size
+
+        Arguments
+        ---------
+        prefix: str
+            prefix string of the loaded font
+        size: int
+            size for the font
+        """
+        font = QFont(self.fontname[prefix])
+        font.setPixelSize(size)
+        return font
+
     def set_custom_icon(self, name, painter):
         """Associates a user-provided CharIconPainter to an icon name
         The custom icon can later be addressed by calling
@@ -195,20 +209,6 @@ class IconicFont(QObject):
             `paint(self, awesome, painter, rect, mode, state, options)`
         """
         self.painters[name] = painter
-
-    def font(self, prefix, size):
-        """Returns QFont corresponding to the given prefix and size
-
-        Arguments
-        ---------
-        prefix: str
-            prefix string of the loaded font
-        size: int
-            size for the font
-        """
-        font = QFont(self.fontname[prefix])
-        font.setPixelSize(size)
-        return font
 
     def _custom_icon(self, name, **kwargs):
         """Returns the custom icon corresponding to the given name"""
