@@ -37,8 +37,8 @@ class AwesomeExample(QtGui.QWidget):
 
         # Styling
         styling_icon = qta.icon('fa.music',
-                                {'color': QtGui.QColor(255, 0, 0),
-                                 'color-active': QtGui.QColor(190, 0, 0)})
+                                color=QtGui.QColor(255, 0, 0),
+                                color_active=QtGui.QColor(190, 0, 0))
         music_button = QtGui.QPushButton(styling_icon, 'Styling')
 
         # Use a custom painter and assign it a name

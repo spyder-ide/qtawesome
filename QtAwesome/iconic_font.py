@@ -28,17 +28,17 @@ class CharIconPainter:
     def _paint_icon(self, awesome, painter, rect, mode, state, options):
         """Paint a single icon"""
         painter.save()
-        color, text = options['color'], options['text']
+        color, char = options['color'], options['char']
 
         if(mode == QIcon.Disabled):
             color = options.get('color-disabled', color)
-            text = options.get('text-disabled', text)
+            char = options.get('char-disabled', char)
         elif (mode == QIcon.Active):
             color = options.get('color-active', color)
-            text = options.get('text-active', text)
+            char = options.get('char-active', char)
         elif(mode == QIcon.Selected):
             color = options.get('color-selected', color)
-            text = options.get('text-selected', text)
+            char = options.get('char-selected', char)
 
         painter.setPen(color)
 
@@ -46,7 +46,7 @@ class CharIconPainter:
         prefix = options['prefix']
 
         painter.setFont(awesome.font(prefix, drawSize))
-        painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, text)
+        painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, char)
         painter.restore()
 
 
@@ -128,7 +128,7 @@ class IconicFont(QObject):
         else:
             print('Font is empty')
 
-    def icon(self, fullname, options=None):
+    def icon(self, fullname, **kwargs):
         """Returns a QIcon object corresponding to the provided icon name 
         (including prefix)
 
@@ -140,7 +140,7 @@ class IconicFont(QObject):
             options to be passed to the icon painter
         """
         prefix, name = fullname.split('.')
-        return self._icon_by_name(prefix, name, options)
+        return self._icon_by_name(prefix, name, **kwargs)
 
     def icon_stack(self, fullnames, options=None):
         """Returns a QIcon object corresponding to the provided icon names
@@ -185,12 +185,12 @@ class IconicFont(QObject):
         font.setPixelSize(size)
         return font
 
-    def _icon_by_name(self, prefix, name, options=None):
+    def _icon_by_name(self, prefix, name, **kwargs):
         """Returns the icon corresponding to the given prefix and name"""
         if prefix == 'custom':
-            return self._custom_icon(name, options)
+            return self._custom_icon(name, **kwargs)
         if name in self.charmap[prefix]:
-            return self._icon_by_char(prefix, self.charmap[prefix][name], options)
+            return self._icon_by_char(prefix, self.charmap[prefix][name], **kwargs)
         else:
             return QIcon()
 
@@ -199,23 +199,19 @@ class IconicFont(QObject):
         return self._icon_stack_by_char(prefixes, [self.charmap[p][n] for
                                                    p, n in zip(prefixes, names)], options)
 
-    def _custom_icon(self, name, options=None):
+    def _custom_icon(self, name, **kwargs):
         """Returns the custom icon corresponding to the given name"""
-        if options is None:
-            options = {}
-        options = dict(_default_options, **options)
+        options = dict(_default_options, **kwargs)
         if name in self.painters:
             painter = self.painters[name]
             return self._icon_by_painter(painter, options)
         else:
             return QIcon()
 
-    def _icon_by_char(self, prefix, character, options=None):
+    def _icon_by_char(self, prefix, character, **kwargs):
         """Returns the icon corresponding to the given character"""
-        if options is None:
-            options = {}
-        options = dict(_default_options, text=character, prefix=prefix,
-                       **options)
+        options = dict(_default_options, char=character, prefix=prefix,
+                       **kwargs)
         return self._icon_by_painter(self.painter, options)
 
     def _icon_stack_by_char(self, prefixes, chars, options=None):
@@ -224,7 +220,7 @@ class IconicFont(QObject):
             options = [{}] * len(chars)
         if isinstance(options, dict):
             options = [options] * len(chars)
-        options = [dict(_default_options, prefix=prefixes[i], text=chars[i],
+        options = [dict(_default_options, prefix=prefixes[i], char=chars[i],
                         **(options[i])) for i in xrange(len(chars))]
         return self._icon_by_painter(self.painter, options)
 
