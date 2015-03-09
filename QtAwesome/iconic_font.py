@@ -31,14 +31,14 @@ class CharIconPainter:
         color, char = options['color'], options['char']
 
         if(mode == QIcon.Disabled):
-            color = options.get('color-disabled', color)
-            char = options.get('char-disabled', char)
+            color = options.get('color_disabled', color)
+            char = options.get('disabled', char)
         elif (mode == QIcon.Active):
-            color = options.get('color-active', color)
-            char = options.get('char-active', char)
+            color = options.get('color_active', color)
+            char = options.get('active', char)
         elif(mode == QIcon.Selected):
-            color = options.get('color-selected', color)
-            char = options.get('char-selected', char)
+            color = options.get('color_selected', color)
+            char = options.get('selected', char)
 
         painter.setPen(color)
 
@@ -128,7 +128,7 @@ class IconicFont(QObject):
         else:
             print('Font is empty')
 
-    def icon(self, fullname, **kwargs):
+    def icon(self, name, **kwargs):
         """Returns a QIcon object corresponding to the provided icon name 
         (including prefix)
 
@@ -139,21 +139,33 @@ class IconicFont(QObject):
         options: dict or None
             options to be passed to the icon painter
         """
-        prefix, name = fullname.split('.')
-        return self._icon_by_name(prefix, name, **kwargs)
+        prefix, name = name.split('.')
+        if prefix == 'custom':
+            return self._custom_icon(name, **kwargs)
+        else:
+            for kw in ['disabled', 'active', 'selected']:
+                if kw in kwargs:
+                    p, n = kwargs[kw].split('.')
+                    if n in self.charmap[p]:
+                        kwargs[kw] = self.charmap[p][n]
+            options = dict(_default_options, **kwargs)
+            if name in self.charmap[prefix]:
+                options = dict(
+                    options, char=self.charmap[prefix][name], prefix=prefix,)
+            return self._icon_by_painter(self.painter, options)
 
-    def icon_stack(self, fullnames, options=None):
+    def icon_stack(self, names, options=None):
         """Returns a QIcon object corresponding to the provided icon names
         (including prefixes)
 
         Arguments
         ---------
-        fullname: list of str
+        names: list of str
             icon names, of the form PREFIX.NAME
         options: list of dict or None
             options to be passed to the icon painter
         """
-        prefixes_names = zip(*(fn.split('.') for fn in fullnames))
+        prefixes_names = zip(*(fn.split('.') for fn in names))
         return self._icon_stack_by_name(*prefixes_names, options=options)
 
     def set_custom_icon(self, name, painter):
@@ -185,15 +197,6 @@ class IconicFont(QObject):
         font.setPixelSize(size)
         return font
 
-    def _icon_by_name(self, prefix, name, **kwargs):
-        """Returns the icon corresponding to the given prefix and name"""
-        if prefix == 'custom':
-            return self._custom_icon(name, **kwargs)
-        if name in self.charmap[prefix]:
-            return self._icon_by_char(prefix, self.charmap[prefix][name], **kwargs)
-        else:
-            return QIcon()
-
     def _icon_stack_by_name(self, prefixes, names, options=None):
         """Returns the stacked icon corresponding to the given prefixes and names"""
         return self._icon_stack_by_char(prefixes, [self.charmap[p][n] for
@@ -207,12 +210,6 @@ class IconicFont(QObject):
             return self._icon_by_painter(painter, options)
         else:
             return QIcon()
-
-    def _icon_by_char(self, prefix, character, **kwargs):
-        """Returns the icon corresponding to the given character"""
-        options = dict(_default_options, char=character, prefix=prefix,
-                       **kwargs)
-        return self._icon_by_painter(self.painter, options)
 
     def _icon_stack_by_char(self, prefixes, chars, options=None):
         """Returns the stacked icon corresponding to the given names"""
