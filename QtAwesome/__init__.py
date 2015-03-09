@@ -19,7 +19,10 @@ def _instance():
 def icon(*args, **kwargs):
     return _instance().icon(*args, **kwargs)
 
-def icon_by_char(*args, **kwargs):    
+def icon_stack(*args, **kwargs):
+    return _instance().icon_stack(*args, **kwargs)
+
+def icon_by_char(*args, **kwargs):
     return _instance().icon_by_char(*args, **kwargs)
 
 def charmap(prefixed_name):
