@@ -3,9 +3,6 @@ PyQtAwesome - use font-awesome in PyQt / PySide applications
 
 This is a port to Python of the C++ QtAwesome by Rick Blommers
 """
-import json
-import os
-    
 from .iconic_font import IconicFont
 
 _resource = { 'iconic' : None, }
@@ -22,8 +19,8 @@ def icon(*args, **kwargs):
 def icon_stack(*args, **kwargs):
     return _instance().icon_stack(*args, **kwargs)
 
-def icon_by_char(*args, **kwargs):
-    return _instance().icon_by_char(*args, **kwargs)
+def load_font(*args, **kwargs):
+    return _instance().icon_stack(*args, **kwargs)
 
 def charmap(prefixed_name):
     prefix, name = prefixed_name.split('.')

@@ -42,11 +42,7 @@ class AwesomeExample(QtGui.QWidget):
         # Use a custom painter and assign it a name
         qta.set_custom_icon('double', CustomIconPainter())
         custom_button = QtGui.QPushButton(qta.icon('custom.double'), 'Custom painter')
-        
-        # Get icons by character
-        coffee_icon = qta.icon_by_char('fa', qta.charmap('fa.coffee'))
-        coffee_button = QtGui.QPushButton(coffee_icon, 'Access by character')
-        
+                
         # Render a label with this font
         label = QtGui.QLabel(QtCore.QChar(0xf19c) + ' ' + 'Label')
         label.setFont(qta.font('fa', 16))
@@ -61,7 +57,7 @@ class AwesomeExample(QtGui.QWidget):
         # Layout
         vbox = QtGui.QVBoxLayout()
         for w in [fa_button, elusive_button, music_button, custom_button, 
-                  coffee_button, label, stack_button]:
+                  label, stack_button]:
             vbox.addWidget(w)
 
         self.setLayout(vbox)
