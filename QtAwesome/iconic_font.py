@@ -1,19 +1,20 @@
 """Classes handling iconic fonts"""
 
 from __future__ import print_function
-from PyQt4.QtCore import Qt, QObject, QChar, QPoint, QRect, qRound, QByteArray
+from PyQt4.QtCore import Qt, QObject, QPoint, QRect, qRound, QByteArray
 from PyQt4.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
                          QFontDatabase, QFont)
 import json
 import os
 
 _default_options = {
-    'color' : QColor(50, 50, 50),
-    'scale-factor' : 0.9,
+    'color': QColor(50, 50, 50),
+    'scale-factor': 0.9,
 }
 
 
-class CharIconPainter: 
+class CharIconPainter:
+
     """Char icon painter"""
 
     def paint(self, awesome, painter, rect, mode, state, options):
@@ -28,7 +29,7 @@ class CharIconPainter:
         """Paint a single icon"""
         painter.save()
         color, text = options['color'], options['text']
-        
+
         if(mode == QIcon.Disabled):
             color = options.get('color-disabled', color)
             text = options.get('text-disabled', text)
@@ -50,6 +51,7 @@ class CharIconPainter:
 
 
 class CharIconEngine(QIconEngine):
+
     """Icon engine"""
 
     def __init__(self, awesome, painter, options):
@@ -59,7 +61,8 @@ class CharIconEngine(QIconEngine):
         self.options = options
 
     def paint(self, painter, rect, mode, state):
-        self.painter.paint(self.awesome, painter, rect, mode, state, self.options)
+        self.painter.paint(
+            self.awesome, painter, rect, mode, state, self.options)
 
     def pixmap(self, size, mode, state):
         pm = QPixmap(size)
@@ -69,11 +72,12 @@ class CharIconEngine(QIconEngine):
 
 
 class IconicFont(QObject):
+
     """Main class for managing iconic fonts"""
-    
+
     def __init__(self, *args):
         """Constructor
-        
+
         Arguments
         ---------
         *args: tuples
@@ -94,9 +98,9 @@ class IconicFont(QObject):
 
     def load_font(self, prefix, ttf_filename, charmap_filename, directory=None):
         """Loads a font file and the associated charmap
-        
+
         If `directory` is None, the files will be looked up in ./fonts/ 
-        
+
         Arguments
         ---------
         prefix: str
@@ -109,12 +113,14 @@ class IconicFont(QObject):
             directory for font and charmap files  
         """
         if directory is None:
-            directory = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'fonts')
+            directory = os.path.join(
+                os.path.dirname(os.path.realpath(__file__)), 'fonts')
         with open(os.path.join(directory, ttf_filename), 'r') as file:
             font_data = QByteArray(file.read())
         with open(os.path.join(directory, charmap_filename), 'r') as codes:
-            self.charmap[prefix] = json.load(codes, object_hook=lambda o:{k : int(o[k], 16) for k in o})
-        
+            self.charmap[prefix] = json.load(codes,
+                                             object_hook=lambda o: {k: unichr(int(o[k], 16)) for k in o})
+
         id = QFontDatabase.addApplicationFontFromData(font_data)
         loadedFontFamilies = QFontDatabase.applicationFontFamilies(id)
         if(loadedFontFamilies):
@@ -125,7 +131,7 @@ class IconicFont(QObject):
     def icon(self, fullname, options=None):
         """Returns a QIcon object corresponding to the provided icon name 
         (including prefix)
-        
+
         Arguments
         ---------
         fullname: str
@@ -139,7 +145,7 @@ class IconicFont(QObject):
     def icon_stack(self, fullnames, options=None):
         """Returns a QIcon object corresponding to the provided icon names
         (including prefixes)
-        
+
         Arguments
         ---------
         fullname: list of str
@@ -154,7 +160,7 @@ class IconicFont(QObject):
         """Associates a user-provided CharIconPainter to an icon name
         The custom icon can later be addressed by calling
         icon('custom.NAME') where NAME is the provided name for that icon.
-        
+
         Arguments
         ---------
         name: str
@@ -167,7 +173,7 @@ class IconicFont(QObject):
 
     def font(self, prefix, size):
         """Returns QFont corresponding to the given prefix and size
-        
+
         Arguments
         ---------
         prefix: str
@@ -190,8 +196,8 @@ class IconicFont(QObject):
 
     def _icon_stack_by_name(self, prefixes, names, options=None):
         """Returns the stacked icon corresponding to the given prefixes and names"""
-        return self._icon_stack_by_char(prefixes, [self.charmap[p][n] for 
-               p, n in zip(prefixes, names)], options)
+        return self._icon_stack_by_char(prefixes, [self.charmap[p][n] for
+                                                   p, n in zip(prefixes, names)], options)
 
     def _custom_icon(self, name, options=None):
         """Returns the custom icon corresponding to the given name"""
@@ -208,7 +214,7 @@ class IconicFont(QObject):
         """Returns the icon corresponding to the given character"""
         if options is None:
             options = {}
-        options = dict(_default_options, text=QChar(character), prefix=prefix,
+        options = dict(_default_options, text=character, prefix=prefix,
                        **options)
         return self._icon_by_painter(self.painter, options)
 
@@ -218,8 +224,8 @@ class IconicFont(QObject):
             options = [{}] * len(chars)
         if isinstance(options, dict):
             options = [options] * len(chars)
-        options = [dict(_default_options, prefix=prefixes[i], text=QChar(chars[i]),
-                        **(options[i])) for i in xrange(len(chars))] 
+        options = [dict(_default_options, prefix=prefixes[i], text=chars[i],
+                        **(options[i])) for i in xrange(len(chars))]
         return self._icon_by_painter(self.painter, options)
 
     def _icon_by_painter(self, painter, options):

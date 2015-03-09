@@ -5,7 +5,8 @@ This is a port to Python of the C++ QtAwesome by Rick Blommers
 """
 from .iconic_font import IconicFont
 
-_resource = { 'iconic' : None, }
+_resource = {'iconic': None, }
+
 
 def _instance():
     if _resource['iconic'] is None:
@@ -13,21 +14,27 @@ def _instance():
                                          ('ei', 'elusiveicons-webfont.ttf', 'elusiveicons-webfont-charmap.json'))
     return _resource['iconic']
 
+
 def icon(*args, **kwargs):
     return _instance().icon(*args, **kwargs)
+
 
 def icon_stack(*args, **kwargs):
     return _instance().icon_stack(*args, **kwargs)
 
+
 def load_font(*args, **kwargs):
     return _instance().icon_stack(*args, **kwargs)
+
 
 def charmap(prefixed_name):
     prefix, name = prefixed_name.split('.')
     return _instance().charmap[prefix][name]
 
+
 def font(*args, **kwargs):
     return _instance().font(*args, **kwargs)
+
 
 def set_custom_icon(*args, **kwargs):
     return _instance().set_custom_icon(*args, **kwargs)

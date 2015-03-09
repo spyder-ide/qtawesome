@@ -6,10 +6,11 @@ import QtAwesome as qta
 class CustomIconPainter:
 
     """A custom painter for example bellow"""
+
     def paint(self, awesome, painter, rectIn, mode, state, options):
         drawSize = QtCore.qRound(rectIn.height() * 0.5)
         offset = rectIn.height() / 4.0
-        char = QtCore.QChar(qta.charmap('fa.plus'))
+        char = qta.charmap('fa.plus')
         painter.setFont(awesome.font('fa', drawSize))
         painter.setPen(QtGui.QColor(100, 100, 100))
         painter.drawText(QtCore.QRect(QtCore.QPoint(offset * 2, offset * 2),
@@ -23,11 +24,11 @@ class CustomIconPainter:
 
 
 class AwesomeExample(QtGui.QWidget):
-    
+
     def __init__(self):
         super(AwesomeExample, self).__init__()
 
-        # Get icons by name. 
+        # Get icons by name.
         fa_icon = qta.icon('fa.flag')
         fa_button = QtGui.QPushButton(fa_icon, 'Font Awesome!')
 
@@ -35,22 +36,24 @@ class AwesomeExample(QtGui.QWidget):
         elusive_button = QtGui.QPushButton(asl_icon, 'Elusive Icons!')
 
         # Styling
-        styling_icon = qta.icon('fa.music', {'color': QtGui.QColor(255, 0, 0),
-                                             'color-active': QtGui.QColor(190, 0, 0)})
+        styling_icon = qta.icon('fa.music',
+                                {'color': QtGui.QColor(255, 0, 0),
+                                 'color-active': QtGui.QColor(190, 0, 0)})
         music_button = QtGui.QPushButton(styling_icon, 'Styling')
 
         # Use a custom painter and assign it a name
         qta.set_custom_icon('double', CustomIconPainter())
-        custom_button = QtGui.QPushButton(qta.icon('custom.double'), 'Custom painter')
+        custom_button = QtGui.QPushButton(
+            qta.icon('custom.double'), 'Custom painter')
 
         # Render a label with this font
-        label = QtGui.QLabel(QtCore.QChar(0xf19c) + ' ' + 'Label')
+        label = QtGui.QLabel(unichr(0xf19c) + ' ' + 'Label')
         label.setFont(qta.font('fa', 16))
 
         # Stack icons
         camera_ban = qta.icon_stack(['fa.camera', 'fa.ban'],
-                                     options=[{'scale-factor': 0.5},
-                                              {'color': QtGui.QColor(255, 0, 0)}])
+                                    options=[{'scale-factor': 0.5},
+                                             {'color': QtGui.QColor(255, 0, 0)}])
         stack_button = QtGui.QPushButton(camera_ban, 'Stack')
         stack_button.setIconSize(QtCore.QSize(32, 32))
 
@@ -65,7 +68,7 @@ class AwesomeExample(QtGui.QWidget):
         self.show()
 
 
-def main():    
+def main():
     app = QtGui.QApplication(sys.argv)
     _ = AwesomeExample()
     sys.exit(app.exec_())
