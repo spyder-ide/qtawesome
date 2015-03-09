@@ -26,23 +26,23 @@ class AwesomeExample(QtGui.QWidget):
     
     def __init__(self):
         super(AwesomeExample, self).__init__()
-        
+
         # Get icons by name. 
         fa_icon = qta.icon('fa.flag')
         fa_button = QtGui.QPushButton(fa_icon, 'Font Awesome!')
 
         asl_icon = qta.icon('ei.asl')
         elusive_button = QtGui.QPushButton(asl_icon, 'Elusive Icons!')
-        
+
         # Styling
         styling_icon = qta.icon('fa.music', {'color': QtGui.QColor(255, 0, 0),
                                              'color-active': QtGui.QColor(190, 0, 0)})
         music_button = QtGui.QPushButton(styling_icon, 'Styling')
-        
+
         # Use a custom painter and assign it a name
         qta.set_custom_icon('double', CustomIconPainter())
         custom_button = QtGui.QPushButton(qta.icon('custom.double'), 'Custom painter')
-                
+
         # Render a label with this font
         label = QtGui.QLabel(QtCore.QChar(0xf19c) + ' ' + 'Label')
         label.setFont(qta.font('fa', 16))
@@ -56,7 +56,7 @@ class AwesomeExample(QtGui.QWidget):
 
         # Layout
         vbox = QtGui.QVBoxLayout()
-        for w in [fa_button, elusive_button, music_button, custom_button, 
+        for w in [fa_button, elusive_button, music_button, custom_button,
                   label, stack_button]:
             vbox.addWidget(w)
 

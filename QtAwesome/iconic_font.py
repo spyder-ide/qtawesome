@@ -9,9 +9,6 @@ import os
 
 _default_options = {
     'color' : QColor(50, 50, 50),
-    'color-disabled' : QColor(70, 70, 70, 60),
-    'color-active' : QColor(10, 10, 10),
-    'color-selected' : QColor(10, 10, 10),
     'scale-factor' : 0.9,
 }
 
@@ -30,21 +27,17 @@ class CharIconPainter:
     def _paint_icon(self, awesome, painter, rect, mode, state, options):
         """Paint a single icon"""
         painter.save()
-        color = options['color']
-        text = options['text']
+        color, text = options['color'], options['text']
         
         if(mode == QIcon.Disabled):
-            color = options['color-disabled']
-            if 'text-disabled' in options: 
-                text = options['text-disabled']
+            color = options.get('color-disabled', color)
+            text = options.get('text-disabled', text)
         elif (mode == QIcon.Active):
-            color = options['color-active']
-            if 'text-active' in options:
-                text = options['text-active']
+            color = options.get('color-active', color)
+            text = options.get('text-active', text)
         elif(mode == QIcon.Selected):
-            color = options['color-selected']
-            if 'text-selected' in options: 
-                text = options['text-selected']
+            color = options.get('color-selected', color)
+            text = options.get('text-selected', text)
 
         painter.setPen(color)
 
@@ -141,7 +134,7 @@ class IconicFont(QObject):
             options to be passed to the icon painter
         """
         prefix, name = fullname.split('.')
-        return self.icon_by_name(prefix, name, options)
+        return self._icon_by_name(prefix, name, options)
 
     def icon_stack(self, fullnames, options=None):
         """Returns a QIcon object corresponding to the provided icon names
@@ -155,7 +148,7 @@ class IconicFont(QObject):
             options to be passed to the icon painter
         """
         prefixes_names = zip(*(fn.split('.') for fn in fullnames))
-        return self.icon_stack_by_name(*prefixes_names, options=options)
+        return self._icon_stack_by_name(*prefixes_names, options=options)
 
     def set_custom_icon(self, name, painter):
         """Associates a user-provided CharIconPainter to an icon name
@@ -186,21 +179,21 @@ class IconicFont(QObject):
         font.setPixelSize(size)
         return font
 
-    def icon_by_name(self, prefix, name, options=None):
+    def _icon_by_name(self, prefix, name, options=None):
         """Returns the icon corresponding to the given prefix and name"""
         if prefix == 'custom':
-            return self.custom_icon(name, options)
+            return self._custom_icon(name, options)
         if name in self.charmap[prefix]:
-            return self.icon_by_char(prefix, self.charmap[prefix][name], options)
+            return self._icon_by_char(prefix, self.charmap[prefix][name], options)
         else:
             return QIcon()
 
-    def icon_stack_by_name(self, prefixes, names, options=None):
+    def _icon_stack_by_name(self, prefixes, names, options=None):
         """Returns the stacked icon corresponding to the given prefixes and names"""
-        return self.icon_stack_by_char(prefixes, [self.charmap[p][n] for 
+        return self._icon_stack_by_char(prefixes, [self.charmap[p][n] for 
                p, n in zip(prefixes, names)], options)
 
-    def custom_icon(self, name, options=None):
+    def _custom_icon(self, name, options=None):
         """Returns the custom icon corresponding to the given name"""
         if options is None:
             options = {}
@@ -211,7 +204,7 @@ class IconicFont(QObject):
         else:
             return QIcon()
 
-    def icon_by_char(self, prefix, character, options=None):
+    def _icon_by_char(self, prefix, character, options=None):
         """Returns the icon corresponding to the given character"""
         if options is None:
             options = {}
@@ -219,7 +212,7 @@ class IconicFont(QObject):
                        **options)
         return self._icon_by_painter(self.painter, options)
 
-    def icon_stack_by_char(self, prefixes, chars, options=None):
+    def _icon_stack_by_char(self, prefixes, chars, options=None):
         """Returns the stacked icon corresponding to the given names"""
         if options is None:
             options = [{}] * len(chars)
