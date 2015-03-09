@@ -165,8 +165,9 @@ class IconicFont(QObject):
         options: list of dict or None
             options to be passed to the icon painter
         """
-        prefixes_names = zip(*(fn.split('.') for fn in names))
-        return self._icon_stack_by_name(*prefixes_names, options=options)
+        prefixes, names = zip(*(fn.split('.') for fn in names))
+        return self._icon_stack_by_char(prefixes, [self.charmap[p][n] for
+                                                   p, n in zip(prefixes, names)], options)
 
     def set_custom_icon(self, name, painter):
         """Associates a user-provided CharIconPainter to an icon name
@@ -196,11 +197,6 @@ class IconicFont(QObject):
         font = QFont(self.fontname[prefix])
         font.setPixelSize(size)
         return font
-
-    def _icon_stack_by_name(self, prefixes, names, options=None):
-        """Returns the stacked icon corresponding to the given prefixes and names"""
-        return self._icon_stack_by_char(prefixes, [self.charmap[p][n] for
-                                                   p, n in zip(prefixes, names)], options)
 
     def _custom_icon(self, name, **kwargs):
         """Returns the custom icon corresponding to the given name"""
