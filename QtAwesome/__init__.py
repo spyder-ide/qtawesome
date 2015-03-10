@@ -24,7 +24,7 @@ def icon_stack(*args, **kwargs):
 
 
 def load_font(*args, **kwargs):
-    return _instance().icon_stack(*args, **kwargs)
+    return _instance().load_font(*args, **kwargs)
 
 
 def charmap(prefixed_name):
