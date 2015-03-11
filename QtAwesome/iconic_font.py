@@ -7,31 +7,24 @@ from PyQt4.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
 import json
 import os
 
+
 _default_options = {
     'color': QColor(50, 50, 50),
     'scale_factor': 0.9,
-    'rotation': False,      # Valid options are: 'spin', or 'pulse'
-    'parent': False,        # Ref to instance of widget holding the icon
-    'spin_interval': 10,    # miliseconds
-    'spin_step': 1,         # degrees
-    'pulse_interval': 300,  # miliseconds
-    'pulse_step': 45,       # degrees
 }
 
 
-class CharIconPainter:
+class CharIconAnimator:
+    """ """
+    _defaults = {
+       'spin_interval': 10,    # miliseconds
+       'spin_step': 1,         # degrees
+       'pulse_interval': 300,  # miliseconds
+       'pulse_step': 45,       # degrees
+       }
 
-    """Char icon painter"""
     def __init__(self):
         self.rotation_info = {}
-
-    def paint(self, awesome, painter, rect, mode, state, options):
-        """Main paint method"""
-        if isinstance(options, list):
-            for opt in options:
-                self._paint_icon(awesome, painter, rect, mode, state, opt)
-        else:
-            self._paint_icon(awesome, painter, rect, mode, state, options)
 
     def _update_rotation(self, parent):
         """Update angle of rotation as needed"""
@@ -44,6 +37,52 @@ class CharIconPainter:
             angle += step
             self.rotation_info[parent] = timer, angle, step
             parent.update()
+
+    def setup(self, painter, rect, options):
+        """ """                
+        rec_size = rect.height()
+        type_, parent = options.get('type'), options.get('parent')
+
+        if parent and type_:
+            if parent not in self.rotation_info:
+                timer = QTimer()
+                timer.timeout.connect(lambda: self._update_rotation(parent))
+
+                if type_ == 'pulse':
+                    interval = options.get('interval',
+                                           self._defaults['pulse_interval'])
+                    step = options.get('step',
+                                       self._defaults['pulse_step'])
+                elif type_ == 'spin':
+                    interval = options.get('interval',
+                                           self._defaults['spin_interval'])
+                    step = options.get('step',
+                                       self._defaults['spin_step'])
+
+                # [Reference to QTimer, actual angle (deg), angle step (deg)]
+                self.rotation_info[parent] = [timer, 0, step]
+                timer.start(interval)
+            else:
+                timer, angle, step = self.rotation_info[parent]
+                center = rec_size / 2.0
+                painter.translate(center, center)
+                painter.rotate(angle)
+                painter.translate(-center, -center)
+
+
+class CharIconPainter:
+    """Char icon painter"""
+
+    def __init__(self):
+        self.animator = CharIconAnimator()
+
+    def paint(self, awesome, painter, rect, mode, state, options):
+        """Main paint method"""
+        if isinstance(options, list):
+            for opt in options:
+                self._paint_icon(awesome, painter, rect, mode, state, opt)
+        else:
+            self._paint_icon(awesome, painter, rect, mode, state, options)
 
     def _paint_icon(self, awesome, painter, rect, mode, state, options):
         """Paint a single icon"""
@@ -66,29 +105,10 @@ class CharIconPainter:
         draw_size = qRound(rec_size * options['scale_factor'])
         prefix = options['prefix']
 
-        # Handle rotation
-        rotation, parent = options.get('rotation'), options.get('parent')
-        if parent and rotation:
-            if parent not in self.rotation_info:
-                timer = QTimer()
-                timer.timeout.connect(lambda: self._update_rotation(parent))
-
-                if rotation == 'pulse':
-                    interval = options['pulse_interval']
-                    step = options['pulse_step']
-                elif rotation == 'spin':
-                    interval = options['spin_interval']
-                    step = options['spin_step']
-
-                # [Reference to QTimer, actual angle (deg), angle step (deg)]
-                self.rotation_info[parent] = [timer, 0, step]
-                timer.start(interval)
-            else:
-                timer, angle, step = self.rotation_info[parent]
-                center = rec_size / 2.0
-                painter.translate(center, center)
-                painter.rotate(angle)
-                painter.translate(-center, -center)
+        # Handle rotation/animation
+        animation = options.get('animation')
+        if animation is not None:
+            self.animator.setup(painter, rect, animation)
 
         painter.setFont(awesome.font(prefix, draw_size))
         painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, char)
@@ -160,14 +180,13 @@ class IconicFont(QObject):
         if directory is None:
             directory = os.path.join(
                 os.path.dirname(os.path.realpath(__file__)), 'fonts')
-        with open(os.path.join(directory, ttf_filename), 'r') as file:
-            font_data = QByteArray(file.read())
-        with open(os.path.join(directory, charmap_filename), 'r') as codes:
+        with open(os.path.join(directory, ttf_filename), 'rb') as f:
+            font_data = QByteArray(f.read())
+        with open(os.path.join(directory, charmap_filename), 'rb') as codes:
             self.charmap[prefix] = json.load(codes,
                                              object_hook=lambda o: {k: unichr(int(o[k], 16)) for k in o})
-
-        id = QFontDatabase.addApplicationFontFromData(font_data)
-        loadedFontFamilies = QFontDatabase.applicationFontFamilies(id)
+        id_ = QFontDatabase.addApplicationFontFromData(font_data)
+        loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
         if(loadedFontFamilies):
             self.fontname[prefix] = loadedFontFamilies[0]
         else:

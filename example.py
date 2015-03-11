@@ -61,21 +61,25 @@ class AwesomeExample(QtGui.QDialog):
 
         # Spin rotation icons
         spin_button = QtGui.QPushButton(' Spinning icon')
-        spin_icon = qta.icon('fa.spinner', rotation='spin', parent=spin_button,
-                             color='red')
+        spin_icon = qta.icon('fa.spinner', color='red', 
+                             animation={'type': 'spin',
+                                        'parent': spin_button})
         spin_button.setIcon(spin_icon)
 
         # Pulse rotation icons
         pulse_button = QtGui.QPushButton(' Pulsing icon')
-        pulse_icon = qta.icon('fa.spinner', rotation='pulse',
-                              parent=pulse_button, color='green')
+        pulse_icon = qta.icon('fa.spinner', color='green',
+                              animation={'type': 'pulse',
+                                         'parent': pulse_button})
         pulse_button.setIcon(pulse_icon)
 
         # Stacked rotation icons
         stack_rotation_button = QtGui.QPushButton('Stack rotation')
         options = [{'scale_factor': 0.4,
                     'parent': stack_rotation_button,
-                    'rotation': 'spin'},
+                    'animation': {'type': 'spin',
+                                  'parent': stack_rotation_button}
+                    },
                    {'color': 'blue'}]
         stack_rotation_icon = qta.icon_stack(['ei.asl', 'fa.squareo'],
                                              options=options)
