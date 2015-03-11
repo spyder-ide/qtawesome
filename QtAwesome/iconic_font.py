@@ -1,7 +1,7 @@
 """Classes handling iconic fonts"""
 
 from __future__ import print_function
-from PyQt4.QtCore import Qt, QObject, QPoint, QRect, qRound, QByteArray
+from PyQt4.QtCore import Qt, QObject, QPoint, QRect, qRound, QByteArray, QTimer
 from PyQt4.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
                          QFontDatabase, QFont)
 import json
@@ -10,12 +10,20 @@ import os
 _default_options = {
     'color': QColor(50, 50, 50),
     'scale_factor': 0.9,
+    'rotation': False,      # Valid options are: 'spin', or 'pulse'
+    'parent': False,        # Ref to instance of widget holding the icon
+    'spin_interval': 10,    # miliseconds
+    'spin_step': 1,         # degrees
+    'pulse_interval': 300,  # miliseconds
+    'pulse_step': 45,       # degrees
 }
 
 
 class CharIconPainter:
 
     """Char icon painter"""
+    def __init__(self):
+        self.rotation_info = {}
 
     def paint(self, awesome, painter, rect, mode, state, options):
         """Main paint method"""
@@ -25,27 +33,64 @@ class CharIconPainter:
         else:
             self._paint_icon(awesome, painter, rect, mode, state, options)
 
+    def _update_rotation(self, parent):
+        """Update angle of rotation as needed"""
+        if parent in self.rotation_info:
+            timer, angle, step = self.rotation_info[parent]
+
+            if angle >= 360:
+                angle = 0
+
+            angle += step
+            self.rotation_info[parent] = timer, angle, step
+            parent.update()
+
     def _paint_icon(self, awesome, painter, rect, mode, state, options):
         """Paint a single icon"""
         painter.save()
         color, char = options['color'], options['char']
 
-        if(mode == QIcon.Disabled):
+        if mode == QIcon.Disabled:
             color = options.get('color_disabled', color)
             char = options.get('disabled', char)
-        elif (mode == QIcon.Active):
+        elif mode == QIcon.Active:
             color = options.get('color_active', color)
             char = options.get('active', char)
-        elif(mode == QIcon.Selected):
+        elif mode == QIcon.Selected:
             color = options.get('color_selected', color)
             char = options.get('selected', char)
 
         painter.setPen(QColor(color))
 
-        drawSize = qRound(rect.height() * options['scale_factor'])
+        rec_size = rect.height()
+        draw_size = qRound(rec_size * options['scale_factor'])
         prefix = options['prefix']
 
-        painter.setFont(awesome.font(prefix, drawSize))
+        # Handle rotation
+        rotation, parent = options.get('rotation'), options.get('parent')
+        if parent and rotation:
+            if parent not in self.rotation_info:
+                timer = QTimer()
+                timer.timeout.connect(lambda: self._update_rotation(parent))
+
+                if rotation == 'pulse':
+                    interval = options['pulse_interval']
+                    step = options['pulse_step']
+                elif rotation == 'spin':
+                    interval = options['spin_interval']
+                    step = options['spin_step']
+
+                # [Reference to QTimer, actual angle (deg), angle step (deg)]
+                self.rotation_info[parent] = [timer, 0, step]
+                timer.start(interval)
+            else:
+                timer, angle, step = self.rotation_info[parent]
+                center = rec_size / 2.0
+                painter.translate(center, center)
+                painter.rotate(angle)
+                painter.translate(-center, -center)
+
+        painter.setFont(awesome.font(prefix, draw_size))
         painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, char)
         painter.restore()
 
@@ -81,10 +126,10 @@ class IconicFont(QObject):
         Arguments
         ---------
         *args: tuples
-            Each positional argument is a tuple of 3 or 4 values 
+            Each positional argument is a tuple of 3 or 4 values
             - The prefix string to be used when accessing a given font set
-            - The ttf font filename 
-            - The json charmap filename 
+            - The ttf font filename
+            - The json charmap filename
             - Optionally, the directory containing these files. When not
               provided, the files will be looked up in ./fonts/
         """
@@ -99,7 +144,7 @@ class IconicFont(QObject):
     def load_font(self, prefix, ttf_filename, charmap_filename, directory=None):
         """Loads a font file and the associated charmap
 
-        If `directory` is None, the files will be looked up in ./fonts/ 
+        If `directory` is None, the files will be looked up in ./fonts/
 
         Arguments
         ---------
@@ -110,7 +155,7 @@ class IconicFont(QObject):
         charmap_filename: str
             charmap filename
         directory: str or None, optional
-            directory for font and charmap files  
+            directory for font and charmap files
         """
         if directory is None:
             directory = os.path.join(
@@ -129,7 +174,7 @@ class IconicFont(QObject):
             print('Font is empty')
 
     def icon(self, name, **kwargs):
-        """Returns a QIcon object corresponding to the provided icon name 
+        """Returns a QIcon object corresponding to the provided icon name
         (including prefix)
 
         Arguments

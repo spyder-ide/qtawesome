@@ -23,7 +23,7 @@ class CustomIconPainter:
                          QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter, char)
 
 
-class AwesomeExample(QtGui.QWidget):
+class AwesomeExample(QtGui.QDialog):
 
     def __init__(self):
         super(AwesomeExample, self).__init__()
@@ -53,15 +53,41 @@ class AwesomeExample(QtGui.QWidget):
 
         # Stack icons
         camera_ban = qta.icon_stack(['fa.camera', 'fa.ban'],
-                                    options=[{'scale_factor': 0.5, 'active': 'fa.legal'},
+                                    options=[{'scale_factor': 0.5,
+                                              'active': 'fa.legal'},
                                              {'color': 'red'}])
         stack_button = QtGui.QPushButton(camera_ban, 'Stack')
         stack_button.setIconSize(QtCore.QSize(32, 32))
 
+        # Spin rotation icons
+        spin_button = QtGui.QPushButton(' Spinning icon')
+        spin_icon = qta.icon('fa.spinner', rotation='spin', parent=spin_button,
+                             color='red')
+        spin_button.setIcon(spin_icon)
+
+        # Pulse rotation icons
+        pulse_button = QtGui.QPushButton(' Pulsing icon')
+        pulse_icon = qta.icon('fa.spinner', rotation='pulse',
+                              parent=pulse_button, color='green')
+        pulse_button.setIcon(pulse_icon)
+
+        # Stacked rotation icons
+        stack_rotation_button = QtGui.QPushButton('Stack rotation')
+        options = [{'scale_factor': 0.4,
+                    'parent': stack_rotation_button,
+                    'rotation': 'spin'},
+                   {'color': 'blue'}]
+        stack_rotation_icon = qta.icon_stack(['ei.asl', 'fa.squareo'],
+                                             options=options)
+        stack_rotation_button.setIcon(stack_rotation_icon)
+        stack_rotation_button.setIconSize(QtCore.QSize(32, 32))
+
         # Layout
         vbox = QtGui.QVBoxLayout()
-        for w in [fa_button, elusive_button, music_button, custom_button,
-                  label, stack_button]:
+        widgets = [fa_button, elusive_button, music_button, custom_button,
+                   label, stack_button, spin_button, pulse_button,
+                   stack_rotation_button]
+        for w in widgets:
             vbox.addWidget(w)
 
         self.setLayout(vbox)
