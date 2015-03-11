@@ -43,8 +43,7 @@ class CharIconPainter:
 
         painter.setPen(QColor(color))
 
-        rec_size = rect.height()
-        draw_size = qRound(rec_size * options['scale_factor'])
+        draw_size = qRound(rect.height() * options['scale_factor'])
         prefix = options['prefix']
 
         # Animation setup hook
@@ -53,6 +52,13 @@ class CharIconPainter:
             animation.setup(self, painter, rect)
 
         painter.setFont(awesome.font(prefix, draw_size))
+        if 'offset' in options:
+            rect = QRect(rect)
+            rect.translate(options['offset'][0] * rect.width(),
+                           options['offset'][1] * rect.height())
+        
+        painter.setOpacity(options.get('opacity', 1.0))
+
         painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, char)
         painter.restore()
 

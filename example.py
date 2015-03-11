@@ -55,7 +55,7 @@ class AwesomeExample(QtGui.QDialog):
         camera_ban = qta.icon_stack(['fa.camera', 'fa.ban'],
                                     options=[{'scale_factor': 0.5,
                                               'active': 'fa.legal'},
-                                             {'color': 'red'}])
+                                             {'color': 'red', 'opacity': 0.7}])
         stack_button = QtGui.QPushButton(camera_ban, 'Stack')
         stack_button.setIconSize(QtCore.QSize(32, 32))
 
@@ -80,11 +80,18 @@ class AwesomeExample(QtGui.QDialog):
                                          options=options)
         stack_spin_button.setIcon(stack_spin_icon)
         stack_spin_button.setIconSize(QtCore.QSize(32, 32))
+        # Stack and offset icons
+        saveall = qta.icon_stack(['fa.save', 'fa.save'],
+                                   options=[{'scale_factor': 0.8, 
+                                             'offset': (0.2, 0.2),
+                                             'color': 'gray'},
+                                            {'scale_factor': 0.8}])
+        saveall_button = QtGui.QPushButton(saveall, 'Stack, offset')
 
         # Layout
         vbox = QtGui.QVBoxLayout()
         widgets = [fa_button, elusive_button, music_button, custom_button,
-                   label, stack_button, spin_button, pulse_button,
+                   label, stack_button, saveall_button, spin_button, pulse_button,
                    stack_spin_button]
         for w in widgets:
             vbox.addWidget(w)
