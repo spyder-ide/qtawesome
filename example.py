@@ -59,38 +59,33 @@ class AwesomeExample(QtGui.QDialog):
         stack_button = QtGui.QPushButton(camera_ban, 'Stack')
         stack_button.setIconSize(QtCore.QSize(32, 32))
 
-        # Spin rotation icons
+        # Spin icons
         spin_button = QtGui.QPushButton(' Spinning icon')
-        spin_icon = qta.icon('fa.spinner', color='red', 
-                             animation={'type': 'spin',
-                                        'parent': spin_button})
+        spin_icon = qta.icon('fa.spinner', color='red',
+                             animation=qta.Spin(spin_button))
         spin_button.setIcon(spin_icon)
 
-        # Pulse rotation icons
+        # Pulse icons
         pulse_button = QtGui.QPushButton(' Pulsing icon')
         pulse_icon = qta.icon('fa.spinner', color='green',
-                              animation={'type': 'pulse',
-                                         'parent': pulse_button})
+                              animation=qta.Pulse(pulse_button))
         pulse_button.setIcon(pulse_icon)
 
-        # Stacked rotation icons
-        stack_rotation_button = QtGui.QPushButton('Stack rotation')
+        # Stacked spin icons
+        stack_spin_button = QtGui.QPushButton('Stack spin')
         options = [{'scale_factor': 0.4,
-                    'parent': stack_rotation_button,
-                    'animation': {'type': 'spin',
-                                  'parent': stack_rotation_button}
-                    },
+                    'animation': qta.Spin(stack_spin_button)},
                    {'color': 'blue'}]
-        stack_rotation_icon = qta.icon_stack(['ei.asl', 'fa.squareo'],
-                                             options=options)
-        stack_rotation_button.setIcon(stack_rotation_icon)
-        stack_rotation_button.setIconSize(QtCore.QSize(32, 32))
+        stack_spin_icon = qta.icon_stack(['ei.asl', 'fa.squareo'],
+                                         options=options)
+        stack_spin_button.setIcon(stack_spin_icon)
+        stack_spin_button.setIconSize(QtCore.QSize(32, 32))
 
         # Layout
         vbox = QtGui.QVBoxLayout()
         widgets = [fa_button, elusive_button, music_button, custom_button,
                    label, stack_button, spin_button, pulse_button,
-                   stack_rotation_button]
+                   stack_spin_button]
         for w in widgets:
             vbox.addWidget(w)
 
