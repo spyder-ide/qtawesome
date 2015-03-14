@@ -1,5 +1,5 @@
 import sys
-from PyQt4 import QtGui, QtCore
+from qtpy import QtGui, QtCore
 import QtAwesome as qta
 
 
