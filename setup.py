@@ -10,13 +10,15 @@ except ImportError:
 setup(
     name='QtAwesome',
     version='0.1.0',
-    description='FontAwesome icons in PyQt / PySide applications',
+    description='FontAwesome icons in PyQt and PySide applications',
+    long_description='QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons in your PyQt and PySide application.',
     author='Sylvain Corlay',
     author_email='sylvain.corlay@gmail.com',
     license='MIT License',
     url='https://github.com/spyder-ide/qtawesome',
-    keywords='PyQt',
+    keywords=['PyQt', 'PySide', 'Icons'],
     packages=['qtawesome'],
     install_requires=['qtpy'],
     include_package_data=True,
+    platforms=['OS-independent'],
 )

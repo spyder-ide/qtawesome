@@ -63,6 +63,9 @@ spin_icon = qta.icon('fa.spinner', color='red',
                      animation=qta.Spin(spin_button))
 spin_button.setIcon(spin_icon)
 ```
+Other features
+--------------
 
-The API is pluggable so as to enable custom painters and animations.
+- The API is pluggable so as to enable custom painters and animations.
+- While QtAwesome embeds Font Awesome and Elusive Icons, it can also be used with other iconic fonts. A `load_font` function is available. A ttf font and a json character map for icon names must be provided. 
 
