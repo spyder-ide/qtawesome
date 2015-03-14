@@ -1,6 +1,6 @@
 import sys
 from qtpy import QtGui, QtCore
-import QtAwesome as qta
+import qtawesome as qta
 
 
 class CustomIconPainter:
