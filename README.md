@@ -19,11 +19,15 @@ The *Font Awesome* and *Elusive Icons* fonts are licensed under the SIL Open Fon
 Installation
 ------------
 ```python
-pip install qtawesome
+pip install QtAwesome
 ```
 
 Examples
 --------
+
+```python
+import qtawesome as qta
+```
 
 - Use Font Awesome and Elusive Icons.
 ```python
