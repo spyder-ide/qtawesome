@@ -6,6 +6,7 @@ from qtpy.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
                          QFontDatabase, QFont)
 import json
 import os
+from six import unichr
 
 
 _default_options = {
@@ -130,7 +131,7 @@ class IconicFont(QObject):
                 os.path.dirname(os.path.realpath(__file__)), 'fonts')
         with open(os.path.join(directory, ttf_filename), 'rb') as f:
             font_data = QByteArray(f.read())
-        with open(os.path.join(directory, charmap_filename), 'rb') as codes:
+        with open(os.path.join(directory, charmap_filename), 'r') as codes:
             self.charmap[prefix] = json.load(codes,
                                              object_hook=lambda o: {k: unichr(int(o[k], 16)) for k in o})
         id_ = QFontDatabase.addApplicationFontFromData(font_data)
@@ -190,7 +191,7 @@ class IconicFont(QObject):
                     if n in self.charmap[p]:
                         kwargs[kw] = self.charmap[p][n]
         options = [dict(_default_options, prefix=prefixes[i], char=chars[i],
-                        **(options[i])) for i in xrange(len(chars))]
+                        **(options[i])) for i in range(len(chars))]
         return self._icon_by_painter(self.painter, options)
 
     def font(self, prefix, size):

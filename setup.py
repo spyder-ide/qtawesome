@@ -16,9 +16,9 @@ setup(
     author_email='sylvain.corlay@gmail.com',
     license='MIT License',
     url='https://github.com/spyder-ide/qtawesome',
-    keywords=['PyQt', 'PySide', 'Icons'],
+    keywords=['PyQt', 'PySide', 'Icons', 'Font Awesome', 'Fonts'],
     packages=['qtawesome'],
-    install_requires=['qtpy'],
+    install_requires=['qtpy', 'six'],
     include_package_data=True,
     platforms=['OS-independent'],
     classifiers=[
