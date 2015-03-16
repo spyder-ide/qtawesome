@@ -9,7 +9,7 @@ except ImportError:
 
 setup(
     name='QtAwesome',
-    version='0.1.0',
+    version='0.1.2',
     description='FontAwesome icons in PyQt and PySide applications',
     long_description='QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons in your PyQt and PySide application.',
     author='Sylvain Corlay',
