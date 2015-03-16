@@ -103,6 +103,7 @@ class AwesomeExample(QtGui.QDialog):
 
 def main():
     app = QtGui.QApplication(sys.argv)
+    QtCore.QTimer.singleShot(5000, app.exit)
     _ = AwesomeExample()
     sys.exit(app.exec_())
 
