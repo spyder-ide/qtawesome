@@ -1,2 +1,13 @@
-*.py[oc]
-*.egg-info/
+# Python compiled files
+*.py[ocd]
+
+# Packages
+*.egg
+*.egg-info
+dist
+build
+
+# Gedit files
+*~
+
+

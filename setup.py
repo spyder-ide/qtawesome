@@ -7,14 +7,27 @@ except ImportError:
     from distutils.core import setup
     from distutils.core.command.install import install
 
+
+def read_version():
+    with open("qtawesome/__init__.py") as f:
+        lines = f.read().splitlines()
+        for l in lines:
+            if "__version__" in l:
+                return l.split("=")[1].strip().replace("'", '').replace('"', '')
+
+
+def readme():
+    return str(open('README.rst').read())
+
+
 setup(
     name='QtAwesome',
-    version='0.1.4',
+    version=read_version(),
     description='FontAwesome icons in PyQt and PySide applications',
-    long_description='QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons in your PyQt and PySide application.',
+    long_description=readme(),
     author='Sylvain Corlay',
     author_email='sylvain.corlay@gmail.com',
-    license='MIT License',
+    license='MIT',
     url='https://github.com/spyder-ide/qtawesome',
     keywords=['PyQt', 'PySide', 'Icons', 'Font Awesome', 'Fonts'],
     packages=['qtawesome'],
