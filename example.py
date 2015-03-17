@@ -1,7 +1,7 @@
 import sys
 from qtpy import QtGui, QtCore
 import qtawesome as qta
-
+from six import unichr
 
 class CustomIconPainter:
 
