@@ -76,7 +76,7 @@ class AwesomeExample(QtGui.QDialog):
         options = [{'scale_factor': 0.4,
                     'animation': qta.Spin(stack_spin_button)},
                    {'color': 'blue'}]
-        stack_spin_icon = qta.icon_stack(['ei.asl', 'fa.squareo'],
+        stack_spin_icon = qta.icon_stack(['ei.asl', 'fa.square-o'],
                                          options=options)
         stack_spin_button.setIcon(stack_spin_icon)
         stack_spin_button.setIconSize(QtCore.QSize(32, 32))
