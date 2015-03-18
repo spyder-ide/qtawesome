@@ -13,7 +13,7 @@
 .. image:: https://pypip.in/license/QtAwesome/badge.svg
 
 .. image:: https://travis-ci.org/spyder-ide/QtAwesome.svg?branch=master
-   :target: https://travis-ci.org/spyder-ide/QtAwesome
+   :target: https://travis-ci.org/spyder-ide/qtawesome
    :alt: Travis-CI build status
 
 QtAwesome - Iconic Fonts in PyQt and PySide applications
