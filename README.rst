@@ -39,7 +39,7 @@ Installation
 ------------
 .. code-block:: python
 
-    pip install QtAwesome
+    pip install qtawesome
 
 
 Examples
