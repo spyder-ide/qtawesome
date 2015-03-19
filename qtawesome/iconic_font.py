@@ -126,14 +126,20 @@ class IconicFont(QObject):
         directory: str or None, optional
             directory for font and charmap files
         """
+
+        def hook(o):
+            r={}
+            for k,v in o.iteritems():
+                r[k]=unichr(int(v, 16))
+            return r
+
         if directory is None:
             directory = os.path.join(
                 os.path.dirname(os.path.realpath(__file__)), 'fonts')
         with open(os.path.join(directory, ttf_filename), 'rb') as f:
             font_data = QByteArray(f.read())
         with open(os.path.join(directory, charmap_filename), 'r') as codes:
-            self.charmap[prefix] = json.load(codes,
-                                             object_hook=lambda o: {k: unichr(int(o[k], 16)) for k in o})
+            self.charmap[prefix] = json.load(codes, object_hook=hook)
         id_ = QFontDatabase.addApplicationFontFromData(font_data)
         loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
         if(loadedFontFamilies):
