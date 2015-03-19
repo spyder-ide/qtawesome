@@ -22,7 +22,7 @@ QtAwesome - Iconic Fonts in PyQt and PySide applications
 Description
 -----------
 
-QtAwesome enables iconic fonts such as `Font Awesome`_ and `Elusive Icons`_ in your PyQt and PySide application.
+QtAwesome enables iconic fonts such as `Font Awesome`_ and `Elusive Icons`_ in PyQt and PySide applications.
 
 It is a port to Python - PyQt / PySide of the `QtAwesome`_ C++ library by Rick Blommers.
 
