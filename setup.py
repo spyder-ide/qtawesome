@@ -2,10 +2,8 @@
 
 try:
     from setuptools import setup
-    from setuptools.command.install import install
 except ImportError:
     from distutils.core import setup
-    from distutils.core.command.install import install
 
 
 def read_version():
@@ -54,5 +52,5 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',]
+        'Programming Language :: Python :: 3.4']
 )

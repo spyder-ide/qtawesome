@@ -1,11 +1,13 @@
 """Classes handling iconic fonts"""
 
 from __future__ import print_function
-from qtpy.QtCore import Qt, QObject, QPoint, QRect, qRound, QByteArray
-from qtpy.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
-                         QFontDatabase, QFont)
+
 import json
 import os
+
+from qtpy.QtCore import Qt, QObject, QPoint, QRect, qRound, QByteArray
+from qtpy.QtGui import QIcon, QColor, QIconEngine, QPainter, QPixmap, \
+    QFontDatabase, QFont
 from six import unichr
 
 
