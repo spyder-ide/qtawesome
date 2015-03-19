@@ -12,7 +12,7 @@
    
 .. image:: https://pypip.in/license/QtAwesome/badge.svg
 
-.. image:: https://travis-ci.org/spyder-ide/QtAwesome.svg?branch=master
+.. image:: https://travis-ci.org/spyder-ide/qtawesome.svg?branch=master
    :target: https://travis-ci.org/spyder-ide/qtawesome
    :alt: Travis-CI build status
 
