@@ -57,7 +57,7 @@ class CharIconPainter:
             rect = QRect(rect)
             rect.translate(options['offset'][0] * rect.width(),
                            options['offset'][1] * rect.height())
-        
+
         painter.setOpacity(options.get('opacity', 1.0))
 
         painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, char)
@@ -127,11 +127,11 @@ class IconicFont(QObject):
             directory for font and charmap files
         """
 
-        def hook(o):
-            r={}
-            for k,v in o.iteritems():
-                r[k]=unichr(int(v, 16))
-            return r
+        def hook(obj):
+            result = {}
+            for key in obj:
+                result[key] = unichr(int(obj[key], 16))
+            return result
 
         if directory is None:
             directory = os.path.join(
