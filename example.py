@@ -1,7 +1,10 @@
 import sys
+
 from qtpy import QtGui, QtCore
-import qtawesome as qta
 from six import unichr
+
+import qtawesome as qta
+
 
 class CustomIconPainter:
 
@@ -17,8 +20,10 @@ class CustomIconPainter:
                                       QtCore.QSize(drawSize, drawSize)),
                          QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter, char)
         painter.setPen(QtGui.QColor(50, 50, 50))
-        painter.drawText(QtCore.QRect(QtCore.QPoint(rectIn.width() - drawSize - offset,
-                                                    rectIn.height() - drawSize - offset),
+        painter.drawText(QtCore.QRect(QtCore.QPoint(rectIn.width() -
+                                                    drawSize - offset,
+                                                    rectIn.height() -
+                                                    drawSize - offset),
                                       QtCore.QSize(drawSize, drawSize)),
                          QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter, char)
 
@@ -82,17 +87,17 @@ class AwesomeExample(QtGui.QDialog):
         stack_spin_button.setIconSize(QtCore.QSize(32, 32))
         # Stack and offset icons
         saveall = qta.icon_stack(['fa.save', 'fa.save'],
-                                   options=[{'scale_factor': 0.8, 
-                                             'offset': (0.2, 0.2),
-                                             'color': 'gray'},
-                                            {'scale_factor': 0.8}])
+                                 options=[{'scale_factor': 0.8,
+                                           'offset': (0.2, 0.2),
+                                           'color': 'gray'},
+                                          {'scale_factor': 0.8}])
         saveall_button = QtGui.QPushButton(saveall, 'Stack, offset')
 
         # Layout
         vbox = QtGui.QVBoxLayout()
         widgets = [fa_button, elusive_button, music_button, custom_button,
-                   label, stack_button, saveall_button, spin_button, pulse_button,
-                   stack_spin_button]
+                   label, stack_button, saveall_button, spin_button,
+                   pulse_button, stack_spin_button]
         for w in widgets:
             vbox.addWidget(w)
 
