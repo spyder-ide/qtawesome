@@ -1,5 +1,5 @@
 import sys
-from qtpy import QtGui, QtCore
+from qtpy import QtGui, QtCore, QtWidgets
 import qtawesome as qta
 from six import unichr
 
@@ -23,7 +23,7 @@ class CustomIconPainter:
                          QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter, char)
 
 
-class AwesomeExample(QtGui.QDialog):
+class AwesomeExample(QtWidgets.QDialog):
 
     def __init__(self):
         super(AwesomeExample, self).__init__()
@@ -102,7 +102,7 @@ class AwesomeExample(QtGui.QDialog):
 
 
 def main():
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     QtCore.QTimer.singleShot(5000, app.exit)
     _ = AwesomeExample()
     sys.exit(app.exec_())
