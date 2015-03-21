@@ -7,9 +7,9 @@ env:
 matrix:
   include:
     # Linux
-    - python: "2.7"
-      env: USE_QT_API=PyQt5
-      os: linux
+    #- python: "2.7"
+    #  env: USE_QT_API=PyQt5
+    #  os: linux
     - python: "2.7"
       env: USE_QT_API=PyQt4
       os: linux
