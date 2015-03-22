@@ -7,7 +7,7 @@ from .iconic_font import IconicFont
 from .animation import Pulse, Spin
 
 
-__version__ = '0.1.4'
+__version__ = '0.1.5'
 _resource = {'iconic': None, }
 
 
