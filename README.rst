@@ -97,5 +97,4 @@ Examples
 Other features
 --------------
 
-- The API is pluggable so as to enable custom painters and animations.
 - While QtAwesome embeds Font Awesome and Elusive Icons, it can also be used with other iconic fonts. A ``load_font`` function is available. A ttf font and a json character map for icon names must be provided.

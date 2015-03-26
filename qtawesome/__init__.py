@@ -37,7 +37,3 @@ def charmap(prefixed_name):
 
 def font(*args, **kwargs):
     return _instance().font(*args, **kwargs)
-
-
-def set_custom_icon(*args, **kwargs):
-    return _instance().set_custom_icon(*args, **kwargs)
