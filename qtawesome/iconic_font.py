@@ -3,7 +3,7 @@
 from __future__ import print_function
 from qtpy.QtCore import Qt, QObject, QPoint, QRect, qRound, QByteArray
 from qtpy.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
-                         QFontDatabase, QFont)
+                        QFontDatabase, QFont)
 import json
 import os
 from six import unichr
@@ -11,8 +11,24 @@ from six import unichr
 
 _default_options = {
     'color': QColor(50, 50, 50),
-    'scale_factor': 0.9,
-}
+    'color_disabled': QColor(150, 150, 150),
+    'opacity': 1.0,
+    'scale_factor': 1.0,
+    'shadow_color': QColor(75, 75, 75),
+    }
+
+
+def set_global_defaults(**kwargs):
+    """Set global defaults for all icons"""
+    valid_options = ['active', 'animation', 'color', 'color_active',
+                     'color_disabled', 'color_selected', 'disabled', 'offset',
+                     'scale_factor', 'selected']
+    for kw in kwargs:
+        if kw in valid_options:
+            _default_options[kw] = kwargs[kw]
+        else:
+            error = "Invalid option '{0}'".format(kw)
+            raise KeyError(error)
 
 
 class CharIconPainter:
