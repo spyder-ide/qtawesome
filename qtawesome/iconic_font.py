@@ -3,7 +3,7 @@
 from __future__ import print_function
 from qtpy.QtCore import Qt, QObject, QPoint, QRect, qRound, QByteArray
 from qtpy.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
-                         QFontDatabase, QFont)
+                        QFontDatabase, QFont)
 import json
 import os
 from six import unichr
@@ -21,11 +21,8 @@ class CharIconPainter:
 
     def paint(self, awesome, painter, rect, mode, state, options):
         """Main paint method"""
-        if isinstance(options, list):
-            for opt in options:
-                self._paint_icon(awesome, painter, rect, mode, state, opt)
-        else:
-            self._paint_icon(awesome, painter, rect, mode, state, options)
+        for opt in options:
+            self._paint_icon(awesome, painter, rect, mode, state, opt)
 
     def _paint_icon(self, awesome, painter, rect, mode, state, options):
         """Paint a single icon"""
@@ -136,16 +133,92 @@ class IconicFont(QObject):
         if directory is None:
             directory = os.path.join(
                 os.path.dirname(os.path.realpath(__file__)), 'fonts')
+
         with open(os.path.join(directory, ttf_filename), 'rb') as f:
             font_data = QByteArray(f.read())
+
         with open(os.path.join(directory, charmap_filename), 'r') as codes:
             self.charmap[prefix] = json.load(codes, object_hook=hook)
+
         id_ = QFontDatabase.addApplicationFontFromData(font_data)
         loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
+
         if(loadedFontFamilies):
             self.fontname[prefix] = loadedFontFamilies[0]
         else:
             print('Font is empty')
+
+    def icon_stack(self, names, **kwargs):
+        """Returns a QIcon object corresponding to the provided icon name
+        (including prefix)
+
+        Arguments
+        ---------
+        names: list of str
+            icon name, of the form PREFIX.NAME
+
+        options: dict
+            options to be passed to the icon painter
+        """
+        names = names if isinstance(names, list) else [names]
+        options_list = kwargs.pop('options', [{}]*len(names))
+        general_options = kwargs
+
+        if len(options_list) != len(names):
+            error = '"options" must be a list of size {0}'.format(len(names))
+            raise Exception(error)
+
+        parsed_options = []
+        for i in range(len(options_list)):
+            specific_options = options_list[i]
+            parsed_options.append(self._parse_options(specific_options,
+                                                      general_options,
+                                                      names[i]))
+
+        # Process high level API
+        api_options = parsed_options
+
+        return self._icon_by_painter(self.painter, api_options)
+
+    def _parse_options(self, specific_options, general_options, name):
+        """ """
+        options = dict(_default_options, **general_options)
+        options.update(specific_options)
+
+        # Handle icons for states
+        icon_kw = ['disabled', 'active', 'selected', 'char']
+        names = [options.get(kw, name) for kw in icon_kw]
+        prefix, chars = self._get_prefix_chars(names)
+        options.update(dict(zip(*(icon_kw, chars))))
+        options.update({'prefix': prefix})
+
+        # Handle colors for states
+        color_kw = ['color_active', 'color_selected']
+        colors = [options.get(kw, options['color']) for kw in color_kw]
+        options.update(dict(zip(*(color_kw, colors))))
+
+        return options
+
+    def _get_prefix_chars(self, names):
+        """ """
+        chars = []
+        for name in names:
+            if '.' in name:
+                prefix, n = name.split('.')
+                if prefix in self.charmap:
+                    if n in self.charmap[prefix]:
+                        chars.append(self.charmap[prefix][n])
+                    else:
+                        error = 'Invalid icon name "{0}" in font "{1}"'.format(
+                            n, prefix)
+                        raise Exception(error)
+                else:
+                    error = 'Invalid font prefix "{0}"'.format(prefix)
+                    raise Exception(error)
+            else:
+                raise Exception('Invalid icon name')
+
+        return prefix, chars
 
     def icon(self, name, **kwargs):
         """Returns a QIcon object corresponding to the provided icon name
@@ -153,52 +226,13 @@ class IconicFont(QObject):
 
         Arguments
         ---------
-        fullname: str
+        name: str
             icon name, of the form PREFIX.NAME
-        options: dict or None
+
+        options: dict
             options to be passed to the icon painter
         """
-        prefix, name = name.split('.')
-        if prefix == 'custom':
-            return self._custom_icon(name, **kwargs)
-        else:
-            for kw in ['disabled', 'active', 'selected']:
-                if kw in kwargs:
-                    p, n = kwargs[kw].split('.')
-                    if n in self.charmap[p]:
-                        kwargs[kw] = self.charmap[p][n]
-            options = dict(_default_options, **kwargs)
-            if name in self.charmap[prefix]:
-                options = dict(
-                    options, char=self.charmap[prefix][name], prefix=prefix,)
-            return self._icon_by_painter(self.painter, options)
-
-    def icon_stack(self, names, options=None):
-        """Returns a QIcon object corresponding to the provided icon names
-        (including prefixes)
-
-        Arguments
-        ---------
-        names: list of str
-            icon names, of the form PREFIX.NAME
-        options: list of dict or None
-            options to be passed to the icon painter
-        """
-        prefixes, names = zip(*(fn.split('.') for fn in names))
-        chars = [self.charmap[p][n] for p, n in zip(prefixes, names)]
-        if options is None:
-            options = [{}] * len(chars)
-        elif isinstance(options, dict):
-            options = [options] * len(chars)
-        for kwargs in options:
-            for kw in ['disabled', 'active', 'selected']:
-                if kw in kwargs:
-                    p, n = kwargs[kw].split('.')
-                    if n in self.charmap[p]:
-                        kwargs[kw] = self.charmap[p][n]
-        options = [dict(_default_options, prefix=prefixes[i], char=chars[i],
-                        **(options[i])) for i in range(len(chars))]
-        return self._icon_by_painter(self.painter, options)
+        return self.icon_stack(name, **kwargs)
 
     def font(self, prefix, size):
         """Returns QFont corresponding to the given prefix and size
