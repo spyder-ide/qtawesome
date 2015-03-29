@@ -3,7 +3,7 @@ PyQtAwesome - use font-awesome in PyQt / PySide applications
 
 This is a port to Python of the C++ QtAwesome by Rick Blommers
 """
-from .iconic_font import IconicFont
+from .iconic_font import IconicFont, set_global_defaults
 from .animation import Pulse, Spin
 
 
@@ -37,3 +37,8 @@ def charmap(prefixed_name):
 
 def font(*args, **kwargs):
     return _instance().font(*args, **kwargs)
+
+
+def set_defaults(**kwargs):
+    return set_global_defaults(**kwargs)
+
