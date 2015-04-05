@@ -13,9 +13,9 @@ matrix:
     - python: "2.7"
       env: USE_QT_API=PyQt4
       os: linux
-    - python: "2.7"
-      env: USE_QT_API=PySide
-      os: linux
+    #- python: "2.7"
+    #  env: USE_QT_API=PySide
+    #  os: linux
     - python: "3.3"
       env: USE_QT_API=PyQt4
       os: linux
