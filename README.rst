@@ -75,10 +75,10 @@ Examples
 .. code-block:: python
 
     # Stack icons
-    camera_ban = qta.icon_stack(['fa.camera', 'fa.ban'],
-                                options=[{'scale_factor': 0.5,
-                                          'active': 'fa.legal'},
-                                         {'color': 'red'}])
+    camera_ban = qta.icon(['fa.camera', 'fa.ban'],
+                          options=[{'scale_factor': 0.5,
+                                    'active': 'fa.legal'},
+                                   {'color': 'red'}])
     stack_button = QtGui.QPushButton(camera_ban, 'Stack')
     stack_button.setIconSize(QtCore.QSize(32, 32))
 

@@ -7,7 +7,7 @@ from .iconic_font import IconicFont
 from .animation import Pulse, Spin
 
 
-__version__ = '0.1.5'
+__version__ = '0.1.6'
 _resource = {'iconic': None, }
 
 
@@ -20,10 +20,6 @@ def _instance():
 
 def icon(*args, **kwargs):
     return _instance().icon(*args, **kwargs)
-
-
-def icon_stack(*args, **kwargs):
-    return _instance().icon_stack(*args, **kwargs)
 
 
 def load_font(*args, **kwargs):

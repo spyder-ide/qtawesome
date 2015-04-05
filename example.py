@@ -28,10 +28,10 @@ class AwesomeExample(QtWidgets.QDialog):
         label.setFont(qta.font('fa', 16))
 
         # Stack icons
-        camera_ban = qta.icon_stack(['fa.camera', 'fa.ban'],
-                                    options=[{'scale_factor': 0.5,
-                                              'active': 'fa.legal'},
-                                             {'color': 'red', 'opacity': 0.7}])
+        camera_ban = qta.icon(['fa.camera', 'fa.ban'],
+                              options=[{'scale_factor': 0.5,
+                                        'active': 'fa.legal'},
+                                       {'color': 'red', 'opacity': 0.7}])
         stack_button = QtGui.QPushButton(camera_ban, 'Stack')
         stack_button.setIconSize(QtCore.QSize(32, 32))
 
@@ -52,16 +52,16 @@ class AwesomeExample(QtWidgets.QDialog):
         options = [{'scale_factor': 0.4,
                     'animation': qta.Spin(stack_spin_button)},
                    {'color': 'blue'}]
-        stack_spin_icon = qta.icon_stack(['ei.asl', 'fa.square-o'],
-                                         options=options)
+        stack_spin_icon = qta.icon(['ei.asl', 'fa.square-o'],
+                                   options=options)
         stack_spin_button.setIcon(stack_spin_icon)
         stack_spin_button.setIconSize(QtCore.QSize(32, 32))
         # Stack and offset icons
-        saveall = qta.icon_stack(['fa.save', 'fa.save'],
-                                 options=[{'scale_factor': 0.8,
-                                           'offset': (0.2, 0.2),
-                                           'color': 'gray'},
-                                          {'scale_factor': 0.8}])
+        saveall = qta.icon(['fa.save', 'fa.save'],
+                           options=[{'scale_factor': 0.8,
+                                     'offset': (0.2, 0.2),
+                                     'color': 'gray'},
+                                    {'scale_factor': 0.8}])
         saveall_button = QtGui.QPushButton(saveall, 'Stack, offset')
 
         # Layout
