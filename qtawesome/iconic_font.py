@@ -34,12 +34,12 @@ class CharIconPainter:
 
     """Char icon painter"""
 
-    def paint(self, awesome, painter, rect, mode, state, options):
+    def paint(self, iconic, painter, rect, mode, state, options):
         """Main paint method"""
         for opt in options:
-            self._paint_icon(awesome, painter, rect, mode, state, opt)
+            self._paint_icon(iconic, painter, rect, mode, state, opt)
 
-    def _paint_icon(self, awesome, painter, rect, mode, state, options):
+    def _paint_icon(self, iconic, painter, rect, mode, state, options):
         """Paint a single icon"""
         painter.save()
         color, char = options['color'], options['char']
@@ -55,8 +55,11 @@ class CharIconPainter:
             char = options.get('selected', char)
 
         painter.setPen(QColor(color))
-
-        draw_size = qRound(rect.height() * options['scale_factor'])
+        # A 16 pixel-high icon yields a font size of 14, which is pixel perfect
+        # for font-awesome. 16 * 0.875 = 14
+        # The reason for not using full-sized glyphs is the negative bearing of
+        # fonts.
+        draw_size = 0.875 * qRound(rect.height() * options['scale_factor'])
         prefix = options['prefix']
 
         # Animation setup hook
@@ -64,7 +67,7 @@ class CharIconPainter:
         if animation is not None:
             animation.setup(self, painter, rect)
 
-        painter.setFont(awesome.font(prefix, draw_size))
+        painter.setFont(iconic.font(prefix, draw_size))
         if 'offset' in options:
             rect = QRect(rect)
             rect.translate(options['offset'][0] * rect.width(),
@@ -78,17 +81,17 @@ class CharIconPainter:
 
 class CharIconEngine(QIconEngine):
 
-    """Icon engine"""
+    """Specialization of QIconEngine used to draw font-based icons"""
 
-    def __init__(self, awesome, painter, options):
+    def __init__(self, iconic, painter, options):
         super(CharIconEngine, self).__init__()
-        self.awesome = awesome
+        self.iconic = iconic 
         self.painter = painter
         self.options = options
 
     def paint(self, painter, rect, mode, state):
         self.painter.paint(
-            self.awesome, painter, rect, mode, state, self.options)
+            self.iconic, painter, rect, mode, state, self.options)
 
     def pixmap(self, size, mode, state):
         pm = QPixmap(size)
@@ -104,9 +107,7 @@ class IconicFont(QObject):
     def __init__(self, *args):
         """Constructor
 
-        Arguments
-        ---------
-        *args: tuples
+        :param *args: tuples
             Each positional argument is a tuple of 3 or 4 values
             - The prefix string to be used when accessing a given font set
             - The ttf font filename
@@ -274,7 +275,7 @@ class IconicFont(QObject):
             name of the custom icon
         painter: CharIconPainter
             The icon painter, implementing
-            `paint(self, awesome, painter, rect, mode, state, options)`
+            `paint(self, iconic, painter, rect, mode, state, options)`
         """
         self.painters[name] = painter
 

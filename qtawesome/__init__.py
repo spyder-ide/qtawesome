@@ -1,7 +1,7 @@
 """
-PyQtAwesome - use font-awesome in PyQt / PySide applications
+qtawesome - use font-awesome in PyQt / PySide applications
 
-This is a port to Python of the C++ QtAwesome by Rick Blommers
+This is a port to Python of the C++ QtAwesome library by Rick Blommers
 """
 from .iconic_font import IconicFont, set_global_defaults
 from .animation import Pulse, Spin
