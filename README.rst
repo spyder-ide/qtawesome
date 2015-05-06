@@ -75,7 +75,7 @@ Examples
 .. code-block:: python
 
     # Stack icons
-    camera_ban = qta.icon(['fa.camera', 'fa.ban'],
+    camera_ban = qta.icon('fa.camera', 'fa.ban',
                           options=[{'scale_factor': 0.5,
                                     'active': 'fa.legal'},
                                    {'color': 'red'}])

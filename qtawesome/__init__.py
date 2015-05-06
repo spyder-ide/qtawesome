@@ -7,7 +7,7 @@ from .iconic_font import IconicFont, set_global_defaults
 from .animation import Pulse, Spin
 
 
-__version__ = '0.1.9'
+__version__ = '0.1.10'
 _resource = {'iconic': None, }
 
 
