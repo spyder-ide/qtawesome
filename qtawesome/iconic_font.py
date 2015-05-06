@@ -164,7 +164,7 @@ class IconicFont(QObject):
         else:
             print('Font is empty')
 
-    def icon_stack(self, names, **kwargs):
+    def icon(self, *names, **kwargs):
         """Returns a QIcon object corresponding to the provided icon name
         (including prefix)
 
@@ -176,8 +176,7 @@ class IconicFont(QObject):
         options: dict
             options to be passed to the icon painter
         """
-        names = names if isinstance(names, list) else [names]
-        options_list = kwargs.pop('options', [{}]*len(names))
+        options_list = kwargs.pop('options', [{}] * len(names))
         general_options = kwargs
 
         if len(options_list) != len(names):
@@ -235,20 +234,6 @@ class IconicFont(QObject):
                 raise Exception('Invalid icon name')
 
         return prefix, chars
-
-    def icon(self, name, **kwargs):
-        """Returns a QIcon object corresponding to the provided icon name
-        (including prefix)
-
-        Arguments
-        ---------
-        name: str
-            icon name, of the form PREFIX.NAME
-
-        options: dict
-            options to be passed to the icon painter
-        """
-        return self.icon_stack(name, **kwargs)
 
     def font(self, prefix, size):
         """Returns QFont corresponding to the given prefix and size
