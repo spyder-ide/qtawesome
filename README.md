@@ -69,12 +69,12 @@ spin_button.setIcon(spin_icon)
 
 ## Other features
 
-QtAwesome embeds Font Awesome and Elusive Icons, but it can also be used with other iconic fonts. The `load_font` function allows to load other font dynamically.
+- QtAwesome comes bundled with Font Awesome and Elusive Icons, but it can also be used with other iconic fonts. The `load_font` function allows to load other fonts dynamically.
+- QtAwesome relies on the [QtPy](https://github.com/spyder-ide/qtpy.git) project as a compatibility layer on the top ot PyQt or PySide.
 
 ## License
 
-MIT License. Copyright 2015 - The Spyder development team
-
+MIT License. Copyright 2015 - The Spyder development team.
 See the [LICENSE](LICENSE) file for details.
 
 The Font Awesome and Elusive Icons fonts are licensed under the SIL Open Font License.
