@@ -5,9 +5,8 @@ This is a port to Python of the C++ QtAwesome library by Rick Blommers
 """
 from .iconic_font import IconicFont, set_global_defaults
 from .animation import Pulse, Spin
+from ._version import version_info, __version__
 
-
-__version__ = '0.1.11'
 _resource = {'iconic': None, }
 
 

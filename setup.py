@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import os
 try:
     from setuptools import setup
     from setuptools.command.install import install
@@ -7,13 +7,11 @@ except ImportError:
     from distutils.core import setup
     from distutils.core.command.install import install
 
+here = os.path.abspath(os.path.dirname(__file__))
 
-def read_version():
-    with open("qtawesome/__init__.py") as f:
-        lines = f.read().splitlines()
-        for l in lines:
-            if "__version__" in l:
-                return l.split("=")[1].strip().replace("'", '').replace('"', '')
+version_ns = {}
+with open(os.path.join(here, 'qtawesome', '_version.py')) as f:
+    exec(f.read(), {}, version_ns)
 
 LONG_DESCRIPTION = """
 .. image:: https://img.shields.io/pypi/v/QtAwesome.svg
@@ -43,7 +41,7 @@ It is a port to Python - PyQt / PySide of the QtAwesome C++ library by Rick Blom
 
 setup(
     name='QtAwesome',
-    version=read_version(),
+    version=version_ns['__version__'],
     description='FontAwesome icons in PyQt and PySide applications',
     long_description=LONG_DESCRIPTION,
     author='Sylvain Corlay',
