@@ -1,4 +1,6 @@
 language: python
+sudo: false
+
 env:
   global:
     - MINCONDA_VERSION="latest"
@@ -26,7 +28,6 @@ matrix:
       env: USE_QT_API=PyQt4
       os: linux
 before_install:
-  - sudo apt-get update
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 install:
