@@ -6,7 +6,7 @@ env:
     - MINCONDA_OSX="MacOSX-x86_64"
 matrix:
   include:
-     Linux
+     # Linux
     - python: "2.7"
       env: USE_QT_API=PyQt5
       os: linux
