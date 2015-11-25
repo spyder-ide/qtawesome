@@ -6,10 +6,10 @@ env:
     - MINCONDA_OSX="MacOSX-x86_64"
 matrix:
   include:
-    # Linux
-    #- python: "2.7"
-    #  env: USE_QT_API=PyQt5
-    #  os: linux
+     Linux
+    - python: "2.7"
+      env: USE_QT_API=PyQt5
+      os: linux
     - python: "2.7"
       env: USE_QT_API=PyQt4
       os: linux
@@ -52,7 +52,7 @@ install:
 
   # Test environments for different Qt bindings
   - if [[ "$USE_QT_API" == "PyQt5" ]]; then
-      conda config --add channels dsdale24;
+      conda config --add channels spyder-ide;
       conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION qt5 pyqt5;
     elif [[ "$USE_QT_API" == "PyQt4" ]]; then
       conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION qt pyqt;
