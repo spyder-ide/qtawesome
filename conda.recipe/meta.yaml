@@ -1,0 +1,31 @@
+package:
+  name: qtawesome
+  version: 0.1.8.post1
+
+source:
+  git_url: ../
+  git_tag: a9e3d1e
+
+build:
+  noarch_python: True
+
+requirements:
+  build:
+    - python
+    - six
+    - qtpy
+  run:
+    - python
+    - qtpy
+    - six
+
+test:
+  imports:
+    - qtawesome
+  requires:
+    - pyqt
+
+about:
+  home: https://github.com/spyder-ide/qtawesome
+  license: MIT
+  summary: Iconic fonts in PyQt and PySide applications
