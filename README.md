@@ -65,7 +65,7 @@ spin_button.setIcon(spin_icon)
 
 - Screenshot
 
-![QtAwesome screenshot](qtawesome-screenshot.png)
+![QtAwesome screenshot](qtawesome-screenshot.gif)
 
 ## Other features
 
