@@ -1,10 +1,10 @@
 package:
   name: qtawesome
-  version: 0.1.8.post1
+  version: {{ environ.get('GIT_DESCRIBE_TAG', '').replace('v', '') }}
 
 source:
   git_url: ../
-  git_tag: a9e3d1e
+  git_tag: {{ environ.get('GIT_DESCRIBE_TAG') }}
 
 build:
   noarch_python: True
