@@ -79,6 +79,9 @@ class AwesomeExample(QtWidgets.QDialog):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+    # Enable High DPI display with PyQt5
+    if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+        app.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
     QtCore.QTimer.singleShot(5000, app.exit)
     _ = AwesomeExample()
     sys.exit(app.exec_())
