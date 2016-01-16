@@ -12,12 +12,10 @@ build:
 requirements:
   build:
     - python
-    - six
-    - qtpy
   run:
     - python
-    - qtpy
     - six
+    - qtpy
 
 test:
   imports:
