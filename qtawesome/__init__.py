@@ -150,7 +150,7 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
         qta.load_font('spyder', 'spyder.ttf', 'spyder-charmap.json')
 
     """
-    return _instance().load_font(*args, **kwargs)
+    return _instance().load_font(prefix, ttf_filename, charmap_filename, directory)
 
 
 def charmap(prefixed_name):
