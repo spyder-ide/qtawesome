@@ -1,11 +1,13 @@
-QtAwesome - Iconic Fonts in PyQt and PySide applications
-========================================================
+QtAwesome
+=========
 
 ## Description
 
-QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons in PyQt and PySide applications.
+QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons in PyQt
+and PySide applications.
 
-It started as a port to Python of the QtAwesome C++ library by Rick Blommers.
+It started as a Python port of the [QtAwesome](https://github.com/Gamecreature/qtawesome)
+C++ library by Rick Blommers.
 
 ## Installation
 
@@ -69,8 +71,11 @@ spin_button.setIcon(spin_icon)
 
 ## Other features
 
-- QtAwesome comes bundled with Font Awesome and Elusive Icons, but it can also be used with other iconic fonts. The `load_font` function allows to load other fonts dynamically.
-- QtAwesome relies on the [QtPy](https://github.com/spyder-ide/qtpy.git) project as a compatibility layer on the top ot PyQt or PySide.
+- QtAwesome comes bundled with Font Awesome and Elusive Icons, but it can also
+  be used with other iconic fonts. The `load_font` function allows to load
+  other fonts dynamically.
+- QtAwesome relies on the [QtPy](https://github.com/spyder-ide/qtpy.git)
+  project as a compatibility layer on the top ot PyQt or PySide.
 
 ## License
 

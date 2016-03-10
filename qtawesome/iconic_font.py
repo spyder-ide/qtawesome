@@ -1,4 +1,17 @@
-"""Classes handling iconic fonts"""
+r"""
+
+Iconic Font
+===========
+
+A lightweight module handling iconic fonts.
+
+It is designed to provide a simple way for creating QIcons from glyphs.
+
+From a user's viewpoint, the main entry point is the ``IconicFont`` class which
+contains methods for loading new iconic fonts with their character map and
+methods returning instances of ``QIcon``.
+
+"""
 
 # Standard library imports
 from __future__ import print_function
@@ -21,7 +34,7 @@ _default_options = {
 
 
 def set_global_defaults(**kwargs):
-    """Set global defaults for all icons"""
+    """Set global defaults for the options passed to the icon painter."""
 
     valid_options = [
         'active', 'selected', 'disabled', 'on', 'off',
@@ -44,15 +57,15 @@ def set_global_defaults(**kwargs):
 
 class CharIconPainter:
 
-    """Char icon painter"""
+    """Char icon painter."""
 
     def paint(self, iconic, painter, rect, mode, state, options):
-        """Main paint method"""
+        """Main paint method."""
         for opt in options:
             self._paint_icon(iconic, painter, rect, mode, state, opt)
 
     def _paint_icon(self, iconic, painter, rect, mode, state, options):
-        """Paint a single icon"""
+        """Paint a single icon."""
         painter.save()
         color = options['color']
         char = options['char']
@@ -85,10 +98,12 @@ class CharIconPainter:
                 char = options['off_selected']
 
         painter.setPen(QColor(color))
+
         # A 16 pixel-high icon yields a font size of 14, which is pixel perfect
         # for font-awesome. 16 * 0.875 = 14
-        # The reason for not using full-sized glyphs is the negative bearing of
-        # fonts.
+        # The reason why the glyph size is smaller than the icon size is to
+        # account for font bearing.
+
         draw_size = 0.875 * qRound(rect.height() * options['scale_factor'])
         prefix = options['prefix']
 
@@ -111,11 +126,11 @@ class CharIconPainter:
 
 class CharIconEngine(QIconEngine):
 
-    """Specialization of QIconEngine used to draw font-based icons"""
+    """Specialization of QIconEngine used to draw font-based icons."""
 
     def __init__(self, iconic, painter, options):
         super(CharIconEngine, self).__init__()
-        self.iconic = iconic 
+        self.iconic = iconic
         self.painter = painter
         self.options = options
 
@@ -132,18 +147,20 @@ class CharIconEngine(QIconEngine):
 
 class IconicFont(QObject):
 
-    """Main class for managing iconic fonts"""
+    """Main class for managing iconic fonts."""
 
     def __init__(self, *args):
-        """Constructor
+        """IconicFont Constructor.
 
-        :param *args: tuples
-            Each positional argument is a tuple of 3 or 4 values
-            - The prefix string to be used when accessing a given font set
-            - The ttf font filename
-            - The json charmap filename
+        Parameters
+        ----------
+        ``*args``: tuples
+            Each positional argument is a tuple of 3 or 4 values:
+            - The prefix string to be used when accessing a given font set,
+            - The ttf font filename,
+            - The json charmap filename,
             - Optionally, the directory containing these files. When not
-              provided, the files will be looked up in ./fonts/
+              provided, the files will be looked for in ``./fonts/``.
         """
         super(IconicFont, self).__init__()
         self.painter = CharIconPainter()
@@ -154,20 +171,20 @@ class IconicFont(QObject):
             self.load_font(*fargs)
 
     def load_font(self, prefix, ttf_filename, charmap_filename, directory=None):
-        """Loads a font file and the associated charmap
+        """Loads a font file and the associated charmap.
 
-        If `directory` is None, the files will be looked up in ./fonts/
+        If ``directory`` is None, the files will be looked for in ``./fonts/``.
 
-        Arguments
-        ---------
+        Parameters
+        ----------
         prefix: str
-            prefix string to be used when accessing a given font set
+            Prefix string to be used when accessing a given font set
         ttf_filename: str
-            ttf font filename
+            Ttf font filename
         charmap_filename: str
-            charmap filename
+            Charmap filename
         directory: str or None, optional
-            directory for font and charmap files
+            Directory for font and charmap files
         """
 
         def hook(obj):
@@ -193,16 +210,8 @@ class IconicFont(QObject):
             print('Font is empty')
 
     def icon(self, *names, **kwargs):
-        """Returns a QIcon object corresponding to the provided icon name
-        (including prefix)
-
-        Arguments
-        ---------
-        names: list of str
-            icon name, of the form PREFIX.NAME
-
-        options: dict
-            options to be passed to the icon painter
+        """
+        Return a QIcon object corresponding to the provided icon name.
         """
         options_list = kwargs.pop('options', [{}] * len(names))
         general_options = kwargs
@@ -224,7 +233,6 @@ class IconicFont(QObject):
         return self._icon_by_painter(self.painter, api_options)
 
     def _parse_options(self, specific_options, general_options, name):
-        """ """
         options = dict(_default_options, **general_options)
         options.update(specific_options)
 
@@ -296,7 +304,6 @@ class IconicFont(QObject):
         return options
 
     def _get_prefix_chars(self, names):
-        """ """
         chars = []
         for name in names:
             if '.' in name:
@@ -317,36 +324,29 @@ class IconicFont(QObject):
         return prefix, chars
 
     def font(self, prefix, size):
-        """Returns QFont corresponding to the given prefix and size
-
-        Arguments
-        ---------
-        prefix: str
-            prefix string of the loaded font
-        size: int
-            size for the font
-        """
+        """Return a QFont corresponding to the given prefix and size."""
         font = QFont(self.fontname[prefix])
         font.setPixelSize(size)
         return font
 
     def set_custom_icon(self, name, painter):
-        """Associates a user-provided CharIconPainter to an icon name
+        """Associate a user-provided CharIconPainter to an icon name.
+
         The custom icon can later be addressed by calling
         icon('custom.NAME') where NAME is the provided name for that icon.
 
-        Arguments
-        ---------
+        Parameters
+        ----------
         name: str
             name of the custom icon
         painter: CharIconPainter
             The icon painter, implementing
-            `paint(self, iconic, painter, rect, mode, state, options)`
+            ``paint(self, iconic, painter, rect, mode, state, options)``
         """
         self.painters[name] = painter
 
     def _custom_icon(self, name, **kwargs):
-        """Returns the custom icon corresponding to the given name"""
+        """Return the custom icon corresponding to the given name."""
         options = dict(_default_options, **kwargs)
         if name in self.painters:
             painter = self.painters[name]
@@ -355,6 +355,6 @@ class IconicFont(QObject):
             return QIcon()
 
     def _icon_by_painter(self, painter, options):
-        """Returns the icon corresponding to the given painter"""
+        """Return the icon corresponding to the given painter."""
         engine = CharIconEngine(self, painter, options)
         return QIcon(engine)

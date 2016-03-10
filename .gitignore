@@ -7,7 +7,11 @@
 dist
 build
 
-# Gedit files
-*~
+# Sphinx
+_build/
+_generate/
+_static/
+_templates/
 
-
+# OS X
+.DS_Store
