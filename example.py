@@ -1,7 +1,14 @@
+# -*- coding: utf-8 -*-
+
+# Standard library imports
 import sys
+
+# Third party imports
 from qtpy import QtCore, QtWidgets
-import qtawesome as qta
 from six import unichr
+
+# Local imports
+import qtawesome as qta
 
 
 class AwesomeExample(QtWidgets.QDialog):
@@ -22,6 +29,15 @@ class AwesomeExample(QtWidgets.QDialog):
                                 color='blue',
                                 color_active='orange')
         music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
+
+        # Toggle
+        toggle_icon = qta.icon('fa.home', selected='fa.legal',
+                               color_off='black',
+                               color_off_active='blue',
+                               color_on='orange',
+                               color_on_active='yellow')
+        toggle_button = QtWidgets.QPushButton(toggle_icon, 'Toggle')
+        toggle_button.setCheckable(True)
 
         # Render a label with this font
         label = QtWidgets.QLabel(unichr(0xf19c) + ' ' + 'Label')
@@ -56,6 +72,7 @@ class AwesomeExample(QtWidgets.QDialog):
                                    options=options)
         stack_spin_button.setIcon(stack_spin_icon)
         stack_spin_button.setIconSize(QtCore.QSize(32, 32))
+
         # Stack and offset icons
         saveall = qta.icon('fa.save', 'fa.save',
                            options=[{'scale_factor': 0.8,
@@ -66,9 +83,10 @@ class AwesomeExample(QtWidgets.QDialog):
 
         # Layout
         vbox = QtWidgets.QVBoxLayout()
-        widgets = [fa_button, elusive_button, music_button, stack_button,
-                   saveall_button, spin_button, pulse_button,
+        widgets = [fa_button, elusive_button, music_button, toggle_button,
+                   stack_button, saveall_button, spin_button, pulse_button,
                    stack_spin_button, label]
+
         for w in widgets:
             vbox.addWidget(w)
 
@@ -79,10 +97,11 @@ class AwesomeExample(QtWidgets.QDialog):
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
+
     # Enable High DPI display with PyQt5
     if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
         app.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
-    QtCore.QTimer.singleShot(5000, app.exit)
+    QtCore.QTimer.singleShot(10000, app.exit)
     _ = AwesomeExample()
     sys.exit(app.exec_())
 
