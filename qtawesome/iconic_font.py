@@ -13,12 +13,15 @@ methods returning instances of ``QIcon``.
 
 """
 
+# Standard library imports
 from __future__ import print_function
-from qtpy.QtCore import Qt, QObject, QPoint, QRect, qRound, QByteArray
-from qtpy.QtGui import (QIcon, QColor, QIconEngine, QPainter, QPixmap,
-                        QFontDatabase, QFont)
 import json
 import os
+
+# Third party imports
+from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
+from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
+                        QPainter, QPixmap)
 from six import unichr
 
 
@@ -26,16 +29,24 @@ _default_options = {
     'color': QColor(50, 50, 50),
     'color_disabled': QColor(150, 150, 150),
     'opacity': 1.0,
-    'scale_factor': 1.0
+    'scale_factor': 1.0,
 }
 
 
 def set_global_defaults(**kwargs):
-    """Set global defaults for the options passed to the icon painter.
-    """
-    valid_options = ['active', 'animation', 'color', 'color_active',
-        'color_disabled', 'color_selected', 'disabled', 'offset',
-        'scale_factor', 'selected']
+    """Set global defaults for the options passed to the icon painter."""
+
+    valid_options = [
+        'active', 'selected', 'disabled', 'on', 'off',
+        'on_active', 'on_selected', 'on_disabled',
+        'off_active', 'off_selected', 'off_disabled',
+        'color', 'color_on', 'color_off',
+        'color_active', 'color_selected', 'color_disabled',
+        'color_on_selected', 'color_on_active', 'color_on_disabled',
+        'color_off_selected', 'color_off_active', 'color_off_disabled',
+        'animation', 'offset', 'scale_factor',
+        ]
+
     for kw in kwargs:
         if kw in valid_options:
             _default_options[kw] = kwargs[kw]
@@ -56,17 +67,32 @@ class CharIconPainter:
     def _paint_icon(self, iconic, painter, rect, mode, state, options):
         """Paint a single icon."""
         painter.save()
-        color, char = options['color'], options['char']
+        color = options['color']
+        char = options['char']
 
-        if mode == QIcon.Disabled:
-            color = options.get('color_disabled', color)
-            char = options.get('disabled', char)
-        elif mode == QIcon.Active:
-            color = options.get('color_active', color)
-            char = options.get('active', char)
-        elif mode == QIcon.Selected:
-            color = options.get('color_selected', color)
-            char = options.get('selected', char)
+        color_options = {
+            QIcon.On: {
+                QIcon.Normal: (options['color_on'], options['on']),
+                QIcon.Disabled: (options['color_on_disabled'],
+                                 options['on_disabled']),
+                QIcon.Active: (options['color_on_active'],
+                               options['on_active']),
+                QIcon.Selected: (options['color_on_selected'],
+                                 options['on_selected']) 
+            },
+
+            QIcon.Off: {
+                QIcon.Normal: (options['color_off'], options['off']),
+                QIcon.Disabled: (options['color_off_disabled'],
+                                 options['off_disabled']),
+                QIcon.Active: (options['color_off_active'],
+                               options['off_active']),
+                QIcon.Selected: (options['color_off_selected'],
+                                 options['off_selected']) 
+            }
+        }
+
+        color, char = color_options[state][mode]
 
         painter.setPen(QColor(color))
 
@@ -181,7 +207,8 @@ class IconicFont(QObject):
             print('Font is empty')
 
     def icon(self, *names, **kwargs):
-        """Return a QIcon object corresponding to the provided icon name.
+        """
+        Return a QIcon object corresponding to the provided icon name.
         """
         options_list = kwargs.pop('options', [{}] * len(names))
         general_options = kwargs
@@ -206,17 +233,55 @@ class IconicFont(QObject):
         options = dict(_default_options, **general_options)
         options.update(specific_options)
 
-        # Handle icons for states
-        icon_kw = ['disabled', 'active', 'selected', 'char']
-        names = [options.get(kw, name) for kw in icon_kw]
+        # Handle icons for modes (Active, Disabled, Selected, Normal)
+        # and states (On, Off)
+        icon_kw = ['char', 'on', 'off', 'active', 'selected', 'disabled',
+                   'on_active', 'on_selected', 'on_disabled', 'off_active',
+                   'off_selected', 'off_disabled']
+        char = options.get('char', name)
+        on = options.get('on', char)
+        off = options.get('off', char)
+        active = options.get('active', on)
+        selected = options.get('selected', active)
+        disabled = options.get('disabled', char)
+        on_active = options.get('on_active', active)
+        on_selected = options.get('on_selected', selected)
+        on_disabled = options.get('on_disabled', disabled)
+        off_active = options.get('off_active', active)
+        off_selected = options.get('off_selected', selected)
+        off_disabled = options.get('off_disabled', disabled)
+
+        icon_dict = {'char': char,
+                     'on': on,
+                     'off': off,
+                     'active': active,
+                     'selected': selected,
+                     'disabled': disabled,
+                     'on_active': on_active,
+                     'on_selected': on_selected,
+                     'on_disabled': on_disabled,
+                     'off_active': off_active,
+                     'off_selected': off_selected,
+                     'off_disabled': off_disabled,
+                     }
+        names = [icon_dict.get(kw, name) for kw in icon_kw]
         prefix, chars = self._get_prefix_chars(names)
         options.update(dict(zip(*(icon_kw, chars))))
         options.update({'prefix': prefix})
 
-        # Handle colors for states
-        color_kw = ['color_active', 'color_selected']
-        colors = [options.get(kw, options['color']) for kw in color_kw]
-        options.update(dict(zip(*(color_kw, colors))))
+        # Handle colors for modes (Active, Disabled, Selected, Normal)
+        # and states (On, Off)
+        color = options.get('color')
+        options.setdefault('color_on', color)
+        options.setdefault('color_active', options['color_on'])
+        options.setdefault('color_selected', options['color_active'])
+        options.setdefault('color_on_active', options['color_active'])
+        options.setdefault('color_on_selected', options['color_selected'])
+        options.setdefault('color_on_disabled', options['color_disabled'])
+        options.setdefault('color_off', color)
+        options.setdefault('color_off_active', options['color_active'])
+        options.setdefault('color_off_selected', options['color_selected'])
+        options.setdefault('color_off_disabled', options['color_disabled'])
 
         return options
 
