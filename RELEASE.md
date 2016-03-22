@@ -10,7 +10,7 @@ To release a new version of qtawesome on PyPI:
 
 * git tag -a vX.X.X -m 'comment'
 
-* Update _version.py (add 'dev' and increment minor)
+* Update _version.py (add 'dev0' and increment minor)
 
 * git add and git commit
 
