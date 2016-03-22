@@ -18,7 +18,7 @@ from __future__ import print_function
 import json
 import os
 
-# Third party importd
+# Third party imports
 from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap)
