@@ -70,32 +70,29 @@ class CharIconPainter:
         color = options['color']
         char = options['char']
 
-        if state == QIcon.On:
-            if mode == QIcon.Normal:
-                color = options['color_on']
-                char = options['on']
-            elif mode == QIcon.Disabled:
-                color = options['color_on_disabled']
-                char = options['on_disabled']
-            elif mode == QIcon.Active:
-                color = options['color_on_active']
-                char = options['on_active']
-            elif mode == QIcon.Selected:
-                color = options['color_on_selected']
-                char = options['on_selected']
-        elif state == QIcon.Off:
-            if mode == QIcon.Normal:
-                color = options['color_off']
-                char = options['off']
-            elif mode == QIcon.Disabled:
-                color = options['color_off_disabled']
-                char = options['off_disabled']
-            elif mode == QIcon.Active:
-                color = options['color_off_active']
-                char = options['off_active']
-            elif mode == QIcon.Selected:
-                color = options['color_off_selected']
-                char = options['off_selected']
+        color_options = {
+            QIcon.On: {
+                QIcon.Normal: (options['color_on'], options['on']),
+                QIcon.Disabled: (options['color_on_disabled'],
+                                 options['on_disabled']),
+                QIcon.Active: (options['color_on_active'],
+                               options['on_active']),
+                QIcon.Selected: (options['color_on_selected'],
+                                 options['on_selected']) 
+            },
+
+            QIcon.Off: {
+                QIcon.Normal: (options['color_off'], options['off']),
+                QIcon.Disabled: (options['color_off_disabled'],
+                                 options['off_disabled']),
+                QIcon.Active: (options['color_off_active'],
+                               options['off_active']),
+                QIcon.Selected: (options['color_off_selected'],
+                                 options['off_selected']) 
+            }
+        }
+
+        color, char = color_options[state][mode]
 
         painter.setPen(QColor(color))
 
