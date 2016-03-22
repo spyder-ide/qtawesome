@@ -272,31 +272,16 @@ class IconicFont(QObject):
         # Handle colors for modes (Active, Disabled, Selected, Normal)
         # and states (On, Off)
         color = options.get('color')
-        color_on = options.get('color_on', color)
-        color_off = options.get('color_off', color)
-        color_active = options.get('color_active', color_on)
-        color_selected = options.get('color_selected', color_active)
-        color_disabled = options.get('color_disabled')
-        color_on_active = options.get('color_on_active', color_active)
-        color_on_selected = options.get('color_on_selected', color_selected)
-        color_on_disabled = options.get('color_on_disabled', color_disabled)
-        color_off_active = options.get('color_off_active', color_active)
-        color_off_selected = options.get('color_off_selected', color_selected)
-        color_off_disabled = options.get('color_off_disabled', color_disabled)
-
-        color_dict = {'color_active': color_active,
-                      'color_selected': color_selected,
-                      'color_disabled': color_disabled,
-                      'color_on': color_on,
-                      'color_on_active': color_on_active,
-                      'color_on_selected': color_on_selected,
-                      'color_on_disabled': color_on_disabled,
-                      'color_off': color_off,
-                      'color_off_active': color_off_active,
-                      'color_off_selected': color_off_selected,
-                      'color_off_disabled': color_off_disabled,
-                      }
-        options.update(color_dict)
+        options.setdefault('color_on', color)
+        options.setdefault('color_active', options['color_on'])
+        options.setdefault('color_selected', options['color_active'])
+        options.setdefault('color_on_active', options['color_active'])
+        options.setdefault('color_on_selected', options['color_selected'])
+        options.setdefault('color_on_disabled', options['color_disabled'])
+        options.setdefault('color_off', color)
+        options.setdefault('color_off_active', options['color_active'])
+        options.setdefault('color_off_selected', options['color_selected'])
+        options.setdefault('color_off_disabled', options['color_disabled'])
 
         return options
 
