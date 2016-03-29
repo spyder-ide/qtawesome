@@ -1,0 +1,9 @@
+name: qtawesome_docs
+
+channels:
+ - https://conda.anaconda.org/spyder-ide
+
+dependencies:
+- pyqt5
+- qtpy
+- six
