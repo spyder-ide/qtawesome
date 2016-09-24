@@ -1,5 +1,7 @@
-QtAwesome
-=========
+# QtAwesome
+
+[![Build Status](https://travis-ci.org/spyder-ide/qtawesome.svg?branch=master)](https://travis-ci.org/spyder-ide/qtawesome)
+[![Documentation Status](https://readthedocs.org/projects/qtawesome/badge/?version=latest)](http://qtawesome.readthedocs.org/en/latest/?badge=latest)
 
 ## Description
 
