@@ -1,17 +1,9 @@
-qtawesome
-=========
-
-Contents:
+================================
+qtawesome: Iconic Fonts for PyQt
+================================
 
 .. toctree::
-   :maxdepth: 2
 
-   qtawesome
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
+   introduction
+   usage
+   api_documentation
