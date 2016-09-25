@@ -13,8 +13,18 @@ C++ library by Rick Blommers.
 
 ## Installation
 
-```python
+Using `pip`:
+
+Make sure you have [pip installed](https://pip.readthedocs.org/en/stable/installing/) and run:
+
+```
 pip install qtawesome
+```
+
+Using `conda`:
+
+```
+conda install qtawesome
 ```
 
 ## Examples
