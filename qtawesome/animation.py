@@ -1,4 +1,4 @@
-from qtpy.QtCore import QTimer
+from .manifest import QtCore
 
 
 class Spin:
@@ -22,7 +22,7 @@ class Spin:
     def setup(self, icon_painter, painter, rect):
 
         if self.parent_widget not in self.info:
-            timer = QTimer()
+            timer = QtCore.QTimer()
             timer.timeout.connect(lambda: self._update(self.parent_widget))
             self.info[self.parent_widget] = [timer, 0, self.step]
             timer.start(self.interval)

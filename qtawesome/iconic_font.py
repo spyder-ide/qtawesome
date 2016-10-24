@@ -19,9 +19,9 @@ import json
 import os
 
 # Third party imports
-from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap)
+from .manifest import QtCore
 from six import unichr
 
 
@@ -101,7 +101,7 @@ class CharIconPainter:
         # The reason why the glyph size is smaller than the icon size is to
         # account for font bearing.
 
-        draw_size = 0.875 * qRound(rect.height() * options['scale_factor'])
+        draw_size = 0.875 * QtCore.qRound(rect.height() * options['scale_factor'])
         prefix = options['prefix']
 
         # Animation setup hook
@@ -111,13 +111,13 @@ class CharIconPainter:
 
         painter.setFont(iconic.font(prefix, draw_size))
         if 'offset' in options:
-            rect = QRect(rect)
+            rect = QtCore.QRect(rect)
             rect.translate(options['offset'][0] * rect.width(),
                            options['offset'][1] * rect.height())
 
         painter.setOpacity(options.get('opacity', 1.0))
 
-        painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, char)
+        painter.drawText(rect, QtCore.Qt.AlignCenter | QtCore.Qt.AlignVCenter, char)
         painter.restore()
 
 
@@ -137,12 +137,12 @@ class CharIconEngine(QIconEngine):
 
     def pixmap(self, size, mode, state):
         pm = QPixmap(size)
-        pm.fill(Qt.transparent)
-        self.paint(QPainter(pm), QRect(QPoint(0, 0), size), mode, state)
+        pm.fill(QtCore.Qt.transparent)
+        self.paint(QPainter(pm), QtCore.QRect(QtCore.QPoint(0, 0), size), mode, state)
         return pm
 
 
-class IconicFont(QObject):
+class IconicFont(QtCore.QObject):
 
     """Main class for managing iconic fonts."""
 
