@@ -20,31 +20,31 @@ from .manifest import QtCore, QtGui
 from six import unichr
 
 
-_default_options = {
+_defaultOptions = {
     'color': QtGui.QColor(50, 50, 50),
-    'color_disabled': QtGui.QColor(150, 150, 150),
+    'colorDisabled': QtGui.QColor(150, 150, 150),
     'opacity': 1.0,
-    'scale_factor': 1.0,
+    'scaleFactor': 1.0,
 }
 
 
-def set_global_defaults(**kwargs):
+def setGlobalDefaults(**kwargs):
     """Set global defaults for the options passed to the icon painter."""
 
     valid_options = [
         'active', 'selected', 'disabled', 'on', 'off',
-        'on_active', 'on_selected', 'on_disabled',
-        'off_active', 'off_selected', 'off_disabled',
-        'color', 'color_on', 'color_off',
-        'color_active', 'color_selected', 'color_disabled',
-        'color_on_selected', 'color_on_active', 'color_on_disabled',
-        'color_off_selected', 'color_off_active', 'color_off_disabled',
-        'animation', 'offset', 'scale_factor',
+        'onActive', 'onSelected', 'onDisabled',
+        'offActive', 'offSelected', 'offDisabled',
+        'color', 'colorOn', 'colorOff',
+        'colorActive', 'colorSelected', 'colorDisabled',
+        'colorOnSelected', 'colorOnActive', 'colorOnDisabled',
+        'colorOffSelected', 'colorOffActive', 'colorOffDisabled',
+        'animation', 'offset', 'scaleFactor',
         ]
 
     for kw in kwargs:
         if kw in valid_options:
-            _default_options[kw] = kwargs[kw]
+            _defaultOptions[kw] = kwargs[kw]
         else:
             error = "Invalid option '{0}'".format(kw)
             raise KeyError(error)
@@ -67,23 +67,23 @@ class CharIconPainter:
 
         color_options = {
             QtGui.QIcon.On: {
-                QtGui.QIcon.Normal: (options['color_on'], options['on']),
-                QtGui.QIcon.Disabled: (options['color_on_disabled'],
-                                 options['on_disabled']),
-                QtGui.QIcon.Active: (options['color_on_active'],
-                               options['on_active']),
-                QtGui.QIcon.Selected: (options['color_on_selected'],
-                                 options['on_selected']) 
+                QtGui.QIcon.Normal: (options['colorOn'], options['on']),
+                QtGui.QIcon.Disabled: (options['colorOnDisabled'],
+                                 options['onDisabled']),
+                QtGui.QIcon.Active: (options['colorOnActive'],
+                               options['onActive']),
+                QtGui.QIcon.Selected: (options['colorOnSelected'],
+                                 options['onSelected']) 
             },
 
             QtGui.QIcon.Off: {
-                QtGui.QIcon.Normal: (options['color_off'], options['off']),
-                QtGui.QIcon.Disabled: (options['color_off_disabled'],
-                                 options['off_disabled']),
-                QtGui.QIcon.Active: (options['color_off_active'],
-                               options['off_active']),
-                QtGui.QIcon.Selected: (options['color_off_selected'],
-                                 options['off_selected']) 
+                QtGui.QIcon.Normal: (options['colorOff'], options['off']),
+                QtGui.QIcon.Disabled: (options['colorOffDisabled'],
+                                 options['offDisabled']),
+                QtGui.QIcon.Active: (options['colorOffActive'],
+                               options['offActive']),
+                QtGui.QIcon.Selected: (options['colorOffSelected'],
+                                 options['offSelected']) 
             }
         }
 
@@ -96,7 +96,7 @@ class CharIconPainter:
         # The reason why the glyph size is smaller than the icon size is to
         # account for font bearing.
 
-        draw_size = 0.875 * QtCore.qRound(rect.height() * options['scale_factor'])
+        draw_size = 0.875 * QtCore.qRound(rect.height() * options['scaleFactor'])
         prefix = options['prefix']
 
         # Animation setup hook
@@ -225,26 +225,26 @@ class IconicFont(QtCore.QObject):
         return self._icon_by_painter(self.painter, api_options)
 
     def _parse_options(self, specific_options, general_options, name):
-        options = dict(_default_options, **general_options)
+        options = dict(_defaultOptions, **general_options)
         options.update(specific_options)
 
         # Handle icons for modes (Active, Disabled, Selected, Normal)
         # and states (On, Off)
         icon_kw = ['char', 'on', 'off', 'active', 'selected', 'disabled',
-                   'on_active', 'on_selected', 'on_disabled', 'off_active',
-                   'off_selected', 'off_disabled']
+                   'onActive', 'onSelected', 'onDisabled', 'offActive',
+                   'offSelected', 'offDisabled']
         char = options.get('char', name)
         on = options.get('on', char)
         off = options.get('off', char)
         active = options.get('active', on)
         selected = options.get('selected', active)
         disabled = options.get('disabled', char)
-        on_active = options.get('on_active', active)
-        on_selected = options.get('on_selected', selected)
-        on_disabled = options.get('on_disabled', disabled)
-        off_active = options.get('off_active', active)
-        off_selected = options.get('off_selected', selected)
-        off_disabled = options.get('off_disabled', disabled)
+        onActive = options.get('onActive', active)
+        onSelected = options.get('onSelected', selected)
+        onDisabled = options.get('onDisabled', disabled)
+        offActive = options.get('offActive', active)
+        offSelected = options.get('offSelected', selected)
+        offDisabled = options.get('offDisabled', disabled)
 
         icon_dict = {'char': char,
                      'on': on,
@@ -252,12 +252,12 @@ class IconicFont(QtCore.QObject):
                      'active': active,
                      'selected': selected,
                      'disabled': disabled,
-                     'on_active': on_active,
-                     'on_selected': on_selected,
-                     'on_disabled': on_disabled,
-                     'off_active': off_active,
-                     'off_selected': off_selected,
-                     'off_disabled': off_disabled,
+                     'onActive': onActive,
+                     'onSelected': onSelected,
+                     'onDisabled': onDisabled,
+                     'offActive': offActive,
+                     'offSelected': offSelected,
+                     'offDisabled': offDisabled,
                      }
         names = [icon_dict.get(kw, name) for kw in icon_kw]
         prefix, chars = self._get_prefix_chars(names)
@@ -267,16 +267,16 @@ class IconicFont(QtCore.QObject):
         # Handle colors for modes (Active, Disabled, Selected, Normal)
         # and states (On, Off)
         color = options.get('color')
-        options.setdefault('color_on', color)
-        options.setdefault('color_active', options['color_on'])
-        options.setdefault('color_selected', options['color_active'])
-        options.setdefault('color_on_active', options['color_active'])
-        options.setdefault('color_on_selected', options['color_selected'])
-        options.setdefault('color_on_disabled', options['color_disabled'])
-        options.setdefault('color_off', color)
-        options.setdefault('color_off_active', options['color_active'])
-        options.setdefault('color_off_selected', options['color_selected'])
-        options.setdefault('color_off_disabled', options['color_disabled'])
+        options.setdefault('colorOn', color)
+        options.setdefault('colorActive', options['colorOn'])
+        options.setdefault('colorSelected', options['colorActive'])
+        options.setdefault('colorOnActive', options['colorActive'])
+        options.setdefault('colorOnSelected', options['colorSelected'])
+        options.setdefault('colorOnDisabled', options['colorDisabled'])
+        options.setdefault('colorOff', color)
+        options.setdefault('colorOffActive', options['colorActive'])
+        options.setdefault('colorOffSelected', options['colorSelected'])
+        options.setdefault('colorOffDisabled', options['colorDisabled'])
 
         return options
 
@@ -324,7 +324,7 @@ class IconicFont(QtCore.QObject):
 
     def _custom_icon(self, name, **kwargs):
         """Return the custom icon corresponding to the given name."""
-        options = dict(_default_options, **kwargs)
+        options = dict(_defaultOptions, **kwargs)
         if name in self.painters:
             painter = self.painters[name]
             return self._icon_by_painter(painter, options)

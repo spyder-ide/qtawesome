@@ -16,7 +16,7 @@ Font-Awesome and other iconic fonts for PyQt / PySide applications.
    set_defaults
 """
 
-from .iconic_font import IconicFont, set_global_defaults
+from .iconic_font import IconicFont, setGlobalDefaults
 from .animation import Pulse, Spin
 from ._version import version_info, __version__
 
@@ -200,5 +200,5 @@ def set_defaults(**kwargs):
     'color_selected', 'disabled', 'offset', 'scale_factor', 'selected'.
 
     """
-    return set_global_defaults(**kwargs)
+    return setGlobalDefaults(**kwargs)
 
