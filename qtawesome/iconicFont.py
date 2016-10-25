@@ -14,11 +14,14 @@ methods returning instances of ``QtGui.QIcon``.
 """
 
 from __future__ import print_function
+
 import json
 import os
-from .manifest import QtCore, QtGui
+import yaml
+
 from six import unichr
 
+from .manifest import QtCore, QtGui
 
 _defaultOptions = {
     'color': QtGui.QColor(50, 50, 50),
@@ -28,10 +31,55 @@ _defaultOptions = {
 }
 
 
+def getDefaultFontDirectory():
+    """:return (str) the path to the fonts directory"""
+    directory = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), 'fonts')
+    return directory
+
+
+def writeCharmap(iconsYaml, ttfFile=None, jsonFile=None, directory=None):
+    """
+    Writes out the charmap file for a given ttf file.
+
+    To update font-awesome or elusive icons, one must
+
+    - replace the ttf font file with the new version
+    - regenerate the json charmap with the `icons.yml` file from the upstream
+      repository:
+
+    :param iconsYaml: A required file path to the  yaml file. Often in the sources dir
+    :param ttfFile:  The filepath to the ttf file. Optional if jsonFile is provided.
+    :param jsonFile: The jsonFile to write to. Optional if ttfFile is provided
+    :param directory: The directory to write to. Defaults to the included fonts dir.
+    :return: the path to the written json file
+    """
+    assert ttfFile or jsonFile, "You must provide either a ttf file or a json file to write to"
+    if not jsonFile:
+        directory = directory if directory else getDefaultFontDirectory()
+        ttf, ext = os.path.splitext(os.path.basename(ttfFile))
+        jsonFile = os.path.join(directory, ttf + '-charmap.json')
+
+    with open(iconsYaml, 'r') as file:
+        icons = yaml.load(file)['icons']
+
+    charmap = {icon['id']: icon['unicode'] for icon in icons}
+
+    for icon in icons:
+        if 'aliases' in icon:
+            for name in icon['aliases']:
+                charmap[name] = icon['unicode']
+
+    with open(jsonFile, 'w') as file:
+        json.dump(charmap, file, indent=4, sort_keys=True)
+
+    return jsonFile
+
+
 def setGlobalDefaults(**kwargs):
     """Set global defaults for the options passed to the icon painter."""
 
-    valid_options = [
+    validOptions = [
         'active', 'selected', 'disabled', 'on', 'off',
         'onActive', 'onSelected', 'onDisabled',
         'offActive', 'offSelected', 'offDisabled',
@@ -40,10 +88,10 @@ def setGlobalDefaults(**kwargs):
         'colorOnSelected', 'colorOnActive', 'colorOnDisabled',
         'colorOffSelected', 'colorOffActive', 'colorOffDisabled',
         'animation', 'offset', 'scaleFactor',
-        ]
+    ]
 
     for kw in kwargs:
-        if kw in valid_options:
+        if kw in validOptions:
             _defaultOptions[kw] = kwargs[kw]
         else:
             error = "Invalid option '{0}'".format(kw)
@@ -51,15 +99,14 @@ def setGlobalDefaults(**kwargs):
 
 
 class CharIconPainter:
-
     """Char icon painter."""
 
     def paint(self, iconic, painter, rect, mode, state, options):
         """Main paint method."""
         for opt in options:
-            self._paint_icon(iconic, painter, rect, mode, state, opt)
+            self._paintIcon(iconic, painter, rect, mode, state, opt)
 
-    def _paint_icon(self, iconic, painter, rect, mode, state, options):
+    def _paintIcon(self, iconic, painter, rect, mode, state, options):
         """Paint a single icon."""
         painter.save()
         color = options['color']
@@ -69,21 +116,21 @@ class CharIconPainter:
             QtGui.QIcon.On: {
                 QtGui.QIcon.Normal: (options['colorOn'], options['on']),
                 QtGui.QIcon.Disabled: (options['colorOnDisabled'],
-                                 options['onDisabled']),
+                                       options['onDisabled']),
                 QtGui.QIcon.Active: (options['colorOnActive'],
-                               options['onActive']),
+                                     options['onActive']),
                 QtGui.QIcon.Selected: (options['colorOnSelected'],
-                                 options['onSelected']) 
+                                       options['onSelected'])
             },
 
             QtGui.QIcon.Off: {
                 QtGui.QIcon.Normal: (options['colorOff'], options['off']),
                 QtGui.QIcon.Disabled: (options['colorOffDisabled'],
-                                 options['offDisabled']),
+                                       options['offDisabled']),
                 QtGui.QIcon.Active: (options['colorOffActive'],
-                               options['offActive']),
+                                     options['offActive']),
                 QtGui.QIcon.Selected: (options['colorOffSelected'],
-                                 options['offSelected']) 
+                                       options['offSelected'])
             }
         }
 
@@ -117,7 +164,6 @@ class CharIconPainter:
 
 
 class CharIconEngine(QtGui.QIconEngine):
-
     """Specialization of QtGui.QIconEngine used to draw font-based icons."""
 
     def __init__(self, iconic, painter, options):
@@ -138,7 +184,6 @@ class CharIconEngine(QtGui.QIconEngine):
 
 
 class IconicFont(QtCore.QObject):
-
     """Main class for managing iconic fonts."""
 
     def __init__(self, *args):
@@ -160,9 +205,9 @@ class IconicFont(QtCore.QObject):
         self.fontname = {}
         self.charmap = {}
         for fargs in args:
-            self.load_font(*fargs)
+            self.loadFont(*fargs)
 
-    def load_font(self, prefix, ttf_filename, charmap_filename, directory=None):
+    def loadFont(self, prefix, ttfFilename, charmapFilename, directory=None):
         """Loads a font file and the associated charmap.
 
         If ``directory`` is None, the files will be looked for in ``./fonts/``.
@@ -171,9 +216,9 @@ class IconicFont(QtCore.QObject):
         ----------
         prefix: str
             Prefix string to be used when accessing a given font set
-        ttf_filename: str
+        ttfFilename: str
             Ttf font filename
-        charmap_filename: str
+        charmapFilename: str
             Charmap filename
         directory: str or None, optional
             Directory for font and charmap files
@@ -186,17 +231,16 @@ class IconicFont(QtCore.QObject):
             return result
 
         if directory is None:
-            directory = os.path.join(
-                os.path.dirname(os.path.realpath(__file__)), 'fonts')
+            directory = getDefaultFontDirectory()
 
-        with open(os.path.join(directory, charmap_filename), 'r') as codes:
+        with open(os.path.join(directory, charmapFilename), 'r') as codes:
             self.charmap[prefix] = json.load(codes, object_hook=hook)
 
-        id_ = QtGui.QFontDatabase.addApplicationFont(os.path.join(directory, ttf_filename))
+        id_ = QtGui.QFontDatabase.addApplicationFont(os.path.join(directory, ttfFilename))
 
         loadedFontFamilies = QtGui.QFontDatabase.applicationFontFamilies(id_)
 
-        if(loadedFontFamilies):
+        if (loadedFontFamilies):
             self.fontname[prefix] = loadedFontFamilies[0]
         else:
             print('Font is empty')
@@ -205,34 +249,34 @@ class IconicFont(QtCore.QObject):
         """
         Return a QtGui.QIcon object corresponding to the provided icon name.
         """
-        options_list = kwargs.pop('options', [{}] * len(names))
-        general_options = kwargs
+        optionsList = kwargs.pop('options', [{}] * len(names))
+        generalOptions = kwargs
 
-        if len(options_list) != len(names):
+        if len(optionsList) != len(names):
             error = '"options" must be a list of size {0}'.format(len(names))
             raise Exception(error)
 
-        parsed_options = []
-        for i in range(len(options_list)):
-            specific_options = options_list[i]
-            parsed_options.append(self._parse_options(specific_options,
-                                                      general_options,
-                                                      names[i]))
+        parsedOptions = []
+        for i in range(len(optionsList)):
+            specificOptions = optionsList[i]
+            parsedOptions.append(self._parseOptions(specificOptions,
+                                                    generalOptions,
+                                                    names[i]))
 
         # Process high level API
-        api_options = parsed_options
+        apiOptions = parsedOptions
 
-        return self._icon_by_painter(self.painter, api_options)
+        return self._iconByPainter(self.painter, apiOptions)
 
-    def _parse_options(self, specific_options, general_options, name):
-        options = dict(_defaultOptions, **general_options)
-        options.update(specific_options)
+    def _parseOptions(self, specificOptions, generalOptions, name):
+        options = dict(_defaultOptions, **generalOptions)
+        options.update(specificOptions)
 
         # Handle icons for modes (Active, Disabled, Selected, Normal)
         # and states (On, Off)
-        icon_kw = ['char', 'on', 'off', 'active', 'selected', 'disabled',
-                   'onActive', 'onSelected', 'onDisabled', 'offActive',
-                   'offSelected', 'offDisabled']
+        iconKW = ['char', 'on', 'off', 'active', 'selected', 'disabled',
+                  'onActive', 'onSelected', 'onDisabled', 'offActive',
+                  'offSelected', 'offDisabled']
         char = options.get('char', name)
         on = options.get('on', char)
         off = options.get('off', char)
@@ -246,22 +290,22 @@ class IconicFont(QtCore.QObject):
         offSelected = options.get('offSelected', selected)
         offDisabled = options.get('offDisabled', disabled)
 
-        icon_dict = {'char': char,
-                     'on': on,
-                     'off': off,
-                     'active': active,
-                     'selected': selected,
-                     'disabled': disabled,
-                     'onActive': onActive,
-                     'onSelected': onSelected,
-                     'onDisabled': onDisabled,
-                     'offActive': offActive,
-                     'offSelected': offSelected,
-                     'offDisabled': offDisabled,
-                     }
-        names = [icon_dict.get(kw, name) for kw in icon_kw]
-        prefix, chars = self._get_prefix_chars(names)
-        options.update(dict(zip(*(icon_kw, chars))))
+        iconDict = {'char': char,
+                    'on': on,
+                    'off': off,
+                    'active': active,
+                    'selected': selected,
+                    'disabled': disabled,
+                    'onActive': onActive,
+                    'onSelected': onSelected,
+                    'onDisabled': onDisabled,
+                    'offActive': offActive,
+                    'offSelected': offSelected,
+                    'offDisabled': offDisabled,
+                    }
+        names = [iconDict.get(kw, name) for kw in iconKW]
+        prefix, chars = self._getPrefixChars(names)
+        options.update(dict(zip(*(iconKW, chars))))
         options.update({'prefix': prefix})
 
         # Handle colors for modes (Active, Disabled, Selected, Normal)
@@ -280,7 +324,7 @@ class IconicFont(QtCore.QObject):
 
         return options
 
-    def _get_prefix_chars(self, names):
+    def _getPrefixChars(self, names):
         chars = []
         for name in names:
             if '.' in name:
@@ -306,7 +350,7 @@ class IconicFont(QtCore.QObject):
         font.setPixelSize(size)
         return font
 
-    def set_custom_icon(self, name, painter):
+    def setCustomIcon(self, name, painter):
         """Associate a user-provided CharIconPainter to an icon name.
 
         The custom icon can later be addressed by calling
@@ -322,16 +366,16 @@ class IconicFont(QtCore.QObject):
         """
         self.painters[name] = painter
 
-    def _custom_icon(self, name, **kwargs):
+    def _customIcon(self, name, **kwargs):
         """Return the custom icon corresponding to the given name."""
         options = dict(_defaultOptions, **kwargs)
         if name in self.painters:
             painter = self.painters[name]
-            return self._icon_by_painter(painter, options)
+            return self._iconByPainter(painter, options)
         else:
             return QtGui.QIcon()
 
-    def _icon_by_painter(self, painter, options):
+    def _iconByPainter(self, painter, options):
         """Return the icon corresponding to the given painter."""
         engine = CharIconEngine(self, painter, options)
         return QtGui.QIcon(engine)
