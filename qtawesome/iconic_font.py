@@ -5,29 +5,24 @@ Iconic Font
 
 A lightweight module handling iconic fonts.
 
-It is designed to provide a simple way for creating QIcons from glyphs.
+It is designed to provide a simple way for creating QtGui.QIcons from glyphs.
 
 From a user's viewpoint, the main entry point is the ``IconicFont`` class which
 contains methods for loading new iconic fonts with their character map and
-methods returning instances of ``QIcon``.
+methods returning instances of ``QtGui.QIcon``.
 
 """
 
-# Standard library imports
 from __future__ import print_function
 import json
 import os
-
-# Third party imports
-from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
-                        QPainter, QPixmap)
-from .manifest import QtCore
+from .manifest import QtCore, QtGui
 from six import unichr
 
 
 _default_options = {
-    'color': QColor(50, 50, 50),
-    'color_disabled': QColor(150, 150, 150),
+    'color': QtGui.QColor(50, 50, 50),
+    'color_disabled': QtGui.QColor(150, 150, 150),
     'opacity': 1.0,
     'scale_factor': 1.0,
 }
@@ -71,30 +66,30 @@ class CharIconPainter:
         char = options['char']
 
         color_options = {
-            QIcon.On: {
-                QIcon.Normal: (options['color_on'], options['on']),
-                QIcon.Disabled: (options['color_on_disabled'],
+            QtGui.QIcon.On: {
+                QtGui.QIcon.Normal: (options['color_on'], options['on']),
+                QtGui.QIcon.Disabled: (options['color_on_disabled'],
                                  options['on_disabled']),
-                QIcon.Active: (options['color_on_active'],
+                QtGui.QIcon.Active: (options['color_on_active'],
                                options['on_active']),
-                QIcon.Selected: (options['color_on_selected'],
+                QtGui.QIcon.Selected: (options['color_on_selected'],
                                  options['on_selected']) 
             },
 
-            QIcon.Off: {
-                QIcon.Normal: (options['color_off'], options['off']),
-                QIcon.Disabled: (options['color_off_disabled'],
+            QtGui.QIcon.Off: {
+                QtGui.QIcon.Normal: (options['color_off'], options['off']),
+                QtGui.QIcon.Disabled: (options['color_off_disabled'],
                                  options['off_disabled']),
-                QIcon.Active: (options['color_off_active'],
+                QtGui.QIcon.Active: (options['color_off_active'],
                                options['off_active']),
-                QIcon.Selected: (options['color_off_selected'],
+                QtGui.QIcon.Selected: (options['color_off_selected'],
                                  options['off_selected']) 
             }
         }
 
         color, char = color_options[state][mode]
 
-        painter.setPen(QColor(color))
+        painter.setPen(QtGui.QColor(color))
 
         # A 16 pixel-high icon yields a font size of 14, which is pixel perfect
         # for font-awesome. 16 * 0.875 = 14
@@ -121,9 +116,9 @@ class CharIconPainter:
         painter.restore()
 
 
-class CharIconEngine(QIconEngine):
+class CharIconEngine(QtGui.QIconEngine):
 
-    """Specialization of QIconEngine used to draw font-based icons."""
+    """Specialization of QtGui.QIconEngine used to draw font-based icons."""
 
     def __init__(self, iconic, painter, options):
         super(CharIconEngine, self).__init__()
@@ -136,9 +131,9 @@ class CharIconEngine(QIconEngine):
             self.iconic, painter, rect, mode, state, self.options)
 
     def pixmap(self, size, mode, state):
-        pm = QPixmap(size)
+        pm = QtGui.QPixmap(size)
         pm.fill(QtCore.Qt.transparent)
-        self.paint(QPainter(pm), QtCore.QRect(QtCore.QPoint(0, 0), size), mode, state)
+        self.paint(QtGui.QPainter(pm), QtCore.QRect(QtCore.QPoint(0, 0), size), mode, state)
         return pm
 
 
@@ -197,9 +192,9 @@ class IconicFont(QtCore.QObject):
         with open(os.path.join(directory, charmap_filename), 'r') as codes:
             self.charmap[prefix] = json.load(codes, object_hook=hook)
 
-        id_ = QFontDatabase.addApplicationFont(os.path.join(directory, ttf_filename))
+        id_ = QtGui.QFontDatabase.addApplicationFont(os.path.join(directory, ttf_filename))
 
-        loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
+        loadedFontFamilies = QtGui.QFontDatabase.applicationFontFamilies(id_)
 
         if(loadedFontFamilies):
             self.fontname[prefix] = loadedFontFamilies[0]
@@ -208,7 +203,7 @@ class IconicFont(QtCore.QObject):
 
     def icon(self, *names, **kwargs):
         """
-        Return a QIcon object corresponding to the provided icon name.
+        Return a QtGui.QIcon object corresponding to the provided icon name.
         """
         options_list = kwargs.pop('options', [{}] * len(names))
         general_options = kwargs
@@ -306,8 +301,8 @@ class IconicFont(QtCore.QObject):
         return prefix, chars
 
     def font(self, prefix, size):
-        """Return a QFont corresponding to the given prefix and size."""
-        font = QFont(self.fontname[prefix])
+        """Return a QtGui.QFont corresponding to the given prefix and size."""
+        font = QtGui.QFont(self.fontname[prefix])
         font.setPixelSize(size)
         return font
 
@@ -334,9 +329,9 @@ class IconicFont(QtCore.QObject):
             painter = self.painters[name]
             return self._icon_by_painter(painter, options)
         else:
-            return QIcon()
+            return QtGui.QIcon()
 
     def _icon_by_painter(self, painter, options):
         """Return the icon corresponding to the given painter."""
         engine = CharIconEngine(self, painter, options)
-        return QIcon(engine)
+        return QtGui.QIcon(engine)

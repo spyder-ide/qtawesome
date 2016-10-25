@@ -4,7 +4,7 @@
 import sys
 
 # Third party imports
-from qtpy import QtCore, QtWidgets
+from qtawesome.manifest import QtCore, QtWidgets
 from six import unichr
 
 # Local imports

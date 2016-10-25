@@ -1,6 +1,5 @@
-# try:
-#     from Qt import QtCore, QtGui, QtWidgets
-# except ImportError:
-#     from qtpy import QtCore, QtGui, QtWidgets
+try:
+    from Qt import QtCore, QtGui, QtWidgets
+except ImportError:
+    from qtpy import QtCore, QtGui, QtWidgets
 
-from qtpy import QtCore, QtGui, QtWidgets
