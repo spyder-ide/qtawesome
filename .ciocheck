@@ -5,7 +5,7 @@
 [ciocheck]
 branch = origin/master
 diff_mode = commited
-file_mode = all
+file_mode = lines
 check = pep8,pydocstyle,flake8,pylint
 enforce = pep8,pydocstyle,flake8
 
