@@ -1,6 +1,13 @@
 # QtAwesome
 
+
+## Build status
 [![Build Status](https://travis-ci.org/spyder-ide/qtawesome.svg?branch=master)](https://travis-ci.org/spyder-ide/qtawesome)
+[![CircleCI](https://circleci.com/gh/spyder-ide/qtawesome/tree/master.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtawesome/tree/master)
+[![Code Issues](https://www.quantifiedcode.com/api/v1/project/5b42f6edb1ac4465b0e891a4b0144bd8/badge.svg)](https://www.quantifiedcode.com/app/project/5b42f6edb1ac4465b0e891a4b0144bd8)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/spyder-ide/qtawesome/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/spyder-ide/qtawesome/?branch=master)
+
+## Project information
 [![Documentation Status](https://readthedocs.org/projects/qtawesome/badge/?version=latest)](http://qtawesome.readthedocs.org/en/latest/?badge=latest)
 
 ## Description
