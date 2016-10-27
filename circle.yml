@@ -1,0 +1,31 @@
+machine:
+  environment:
+    # Used by qthelpers to close widgets after a defined time
+    TEST_CI: "True"
+    # Python versions to tests (Maximum of 5 different versions)
+    PY_VERSIONS: "2.7 2.7 3.4 3.5 3.5"
+    QT_VERSIONS: "4.* 5.* 5.* 4.* 5.*"
+    # Environment variables used by astropy helpers
+    TRAVIS_OS_NAME: "linux"
+    CONDA_CHANNELS: "spyder-ide"
+    CONDA_DEPENDENCIES: "qtpy"
+    PIP_DEPENDENCIES: "coveralls"
+
+dependencies:
+  override:
+    # First convert PY_VERSIONS to an array and then select the python version based on the CIRCLE_NODE_INDEX
+    - export PY_VERSIONS=($PY_VERSIONS) &&
+      export QT_VERSIONS=($QT_VERSIONS) &&
+      export TRAVIS_PYTHON_VERSION=${PY_VERSIONS[$CIRCLE_NODE_INDEX]} && 
+      export QT_VERSION=${QT_VERSIONS[$CIRCLE_NODE_INDEX]} && 
+      echo -e "PYTHON = $TRAVIS_PYTHON_VERSION \n============" &&
+      git clone git://github.com/astropy/ci-helpers.git &&
+      source ci-helpers/travis/setup_conda_$TRAVIS_OS_NAME.sh &&
+      PATH="$HOME/miniconda/bin:$PATH" "$HOME/miniconda/envs/test/bin/python" setup.py develop &&
+      "conda install --name test qt=${QT_VERSION} pyqt=${QT_VERSION}"
+      ;
+
+test:
+  override:
+    - PATH="$HOME/miniconda/bin:$PATH" "$HOME/miniconda/envs/test/bin/python" example.py: # note the colon
+        parallel: true
