@@ -10,6 +10,7 @@
 
 ## Project information
 [![Documentation Status](https://readthedocs.org/projects/qtawesome/badge/?version=latest)](http://qtawesome.readthedocs.org/en/latest/?badge=latest)
+[![Join the chat at https://gitter.im/spyder-ide/qtawesome](https://badges.gitter.im/spyder-ide/qtawesome.svg)](https://gitter.im/spyder-ide/qtawesome)
 
 ## Description
 
