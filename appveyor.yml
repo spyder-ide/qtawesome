@@ -1,4 +1,4 @@
-# https://ci.appveyor.com/project/goanpeca/conda-manager
+# https://ci.appveyor.com/project/goanpeca/qtawesome
 matrix:
   fast_finish: true
 
