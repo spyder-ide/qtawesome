@@ -1,10 +1,11 @@
 # https://circleci.com/gh/spyder-ide/qtawesome
+
 machine:
   environment:
     # Used by qthelpers to close widgets after a defined time
     TEST_CI: "True"
     # Python versions to tests (Maximum of 4 different versions)
-    PY_VERSIONS: "2.7 3.4 3.5 3.5"
+    PY_VERSIONS: "3.5 3.4 2.7"
     # Environment variables used by astropy helpers
     TRAVIS_OS_NAME: "linux"
     CONDA_DEPENDENCIES: "qtpy"
