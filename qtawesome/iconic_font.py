@@ -17,6 +17,7 @@ methods returning instances of ``QIcon``.
 from __future__ import print_function
 import json
 import os
+import hashlib
 
 # Third party imports
 from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
@@ -121,6 +122,10 @@ class CharIconPainter:
         painter.restore()
 
 
+class FontError(Exception):
+    """Exception for font errors."""
+
+
 class CharIconEngine(QIconEngine):
 
     """Specialization of QIconEngine used to draw font-based icons."""
@@ -197,14 +202,32 @@ class IconicFont(QObject):
         with open(os.path.join(directory, charmap_filename), 'r') as codes:
             self.charmap[prefix] = json.load(codes, object_hook=hook)
 
-        id_ = QFontDatabase.addApplicationFont(os.path.join(directory, ttf_filename))
+        ttf_hash_code = None
+        if ttf_filename == 'fontawesome-webfont.ttf':
+            ttf_hash_code = 'a3de2170e4e9df77161ea5d3f31b2668'
+        elif ttf_filename == 'elusiveicons-webfont.ttf':
+            ttf_hash_code = '207966b04c032d5b873fd595a211582e'
+        if ttf_hash_code != None:
+            hasher = hashlib.md5()
+            with open (os.path.join(directory, ttf_filename),
+                       'rb') as tff_font:
+                buffer = tff_font.read()
+                hasher.update(buffer)
+            ttf_calculated_hash_code = hasher.hexdigest()
+            if ttf_calculated_hash_code != ttf_hash_code:
+                raise FontError(u"Font is corrupt at: '{0}'".format(
+                                os.path.join(directory, ttf_filename)))
+
+        id_ = QFontDatabase.addApplicationFont(os.path.join(directory,
+                                                            ttf_filename))
 
         loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
 
         if(loadedFontFamilies):
             self.fontname[prefix] = loadedFontFamilies[0]
         else:
-            print('Font is empty')
+            raise FontError(u"Font is empty at: '{0}'".format(
+                            os.path.join(directory, ttf_filename)))
 
     def icon(self, *names, **kwargs):
         """
