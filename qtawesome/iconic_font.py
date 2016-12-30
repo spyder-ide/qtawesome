@@ -225,7 +225,11 @@ class IconicFont(QObject):
         if(loadedFontFamilies):
             self.fontname[prefix] = loadedFontFamilies[0]
         else:
-            raise FontError(u"Font is empty at: '{0}'".format(
+            raise FontError(u"Font at '{0}' appears to be empty. "
+                            "If you are on Windows 10, please read "
+                            "https://support.microsoft.com/en-us/kb/3053676 "
+                            "to know how to prevent Windows from blocking "
+                            "the fonts that come with QtAwesome.".format(
                             os.path.join(directory, ttf_filename)))
 
     def icon(self, *names, **kwargs):
