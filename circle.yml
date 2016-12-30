@@ -20,7 +20,7 @@ dependencies:
       source ci-helpers/travis/setup_conda_$TRAVIS_OS_NAME.sh &&
       export PATH="$HOME/miniconda/bin:$PATH" &&
       source activate test &&
-      conda install ciocheck -c conda-forge &&
+      conda install -q ciocheck -c spyder-ide &&
       python setup.py develop;
 
 test:
