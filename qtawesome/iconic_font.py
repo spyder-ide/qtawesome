@@ -17,6 +17,7 @@ methods returning instances of ``QIcon``.
 from __future__ import print_function
 import json
 import os
+import hashlib
 
 # Third party imports
 from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
@@ -121,6 +122,10 @@ class CharIconPainter:
         painter.restore()
 
 
+class FontError(Exception):
+    """Exception for font errors."""
+
+
 class CharIconEngine(QIconEngine):
 
     """Specialization of QIconEngine used to draw font-based icons."""
@@ -197,14 +202,35 @@ class IconicFont(QObject):
         with open(os.path.join(directory, charmap_filename), 'r') as codes:
             self.charmap[prefix] = json.load(codes, object_hook=hook)
 
-        id_ = QFontDatabase.addApplicationFont(os.path.join(directory, ttf_filename))
+        md5_hashes = {'fontawesome-webfont.ttf':
+                      'a3de2170e4e9df77161ea5d3f31b2668',
+                      'elusiveicons-webfont.ttf':
+                      '207966b04c032d5b873fd595a211582e'}
+        ttf_hash = md5_hashes.get(ttf_filename, None)
+        if ttf_hash is not None:
+            hasher = hashlib.md5()
+            with open(os.path.join(directory, ttf_filename), 'rb') as tff_font:
+                buffer = tff_font.read()
+                hasher.update(buffer)
+            ttf_calculated_hash_code = hasher.hexdigest()
+            if ttf_calculated_hash_code != ttf_hash:
+                raise FontError(u"Font is corrupt at: '{0}'".format(
+                                os.path.join(directory, ttf_filename)))
+
+        id_ = QFontDatabase.addApplicationFont(os.path.join(directory,
+                                                            ttf_filename))
 
         loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
 
         if(loadedFontFamilies):
             self.fontname[prefix] = loadedFontFamilies[0]
         else:
-            print('Font is empty')
+            raise FontError(u"Font at '{0}' appears to be empty. "
+                            "If you are on Windows 10, please read "
+                            "https://support.microsoft.com/en-us/kb/3053676 "
+                            "to know how to prevent Windows from blocking "
+                            "the fonts that come with QtAwesome.".format(
+                            os.path.join(directory, ttf_filename)))
 
     def icon(self, *names, **kwargs):
         """
