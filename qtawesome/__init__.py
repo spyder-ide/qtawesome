@@ -16,11 +16,11 @@ Font-Awesome and other iconic fonts for PyQt / PySide applications.
    set_defaults
 """
 
-from .iconic_font import IconicFont, set_global_defaults
+from .iconicFont import IconicFont, setGlobalDefaults
 from .animation import Pulse, Spin
 from ._version import version_info, __version__
 
-_resource = { 'iconic': None }
+_resource = {'iconic': None}
 
 
 def _instance():
@@ -125,7 +125,7 @@ def icon(*names, **kwargs):
     return _instance().icon(*names, **kwargs)
 
 
-def load_font(prefix, ttf_filename, charmap_filename, directory=None):
+def load_font(prefix, ttfFilename, charmapFilename, directory=None):
     """
     Loads a font file and the associated charmap.
 
@@ -135,9 +135,9 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
     ----------
     prefix: str
         Prefix string to be used when accessing a given font set
-    ttf_filename: str
+    ttfFilename: str
         Ttf font filename
-    charmap_filename: str
+    charmapFilename: str
         Character map filename
     directory: str or None, optional
         Directory for font and charmap files
@@ -150,10 +150,10 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
         qta.load_font('spyder', 'spyder.ttf', 'spyder-charmap.json')
 
     """
-    return _instance().load_font(prefix, ttf_filename, charmap_filename, directory)
+    return _instance().load_font(prefix, ttfFilename, charmapFilename, directory)
 
 
-def charmap(prefixed_name):
+def charmap(prefixedName):
     """
     Return the character map used for a given font.
 
@@ -163,7 +163,7 @@ def charmap(prefixed_name):
         The dictionary mapping the icon names to the corresponding unicode character.
 
     """
-    prefix, name = prefixed_name.split('.')
+    prefix, name = prefixedName.split('.')
     return _instance().charmap[prefix][name]
 
 
@@ -190,7 +190,7 @@ def font(prefix, size):
     return _instance().font(prefix, size)
 
 
-def set_defaults(**kwargs):
+def setDefaults(**kwargs):
     """
     Set default options for icons.
 
@@ -200,5 +200,4 @@ def set_defaults(**kwargs):
     'color_selected', 'disabled', 'offset', 'scale_factor', 'selected'.
 
     """
-    return set_global_defaults(**kwargs)
-
+    return setGlobalDefaults(**kwargs)

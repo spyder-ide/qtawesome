@@ -50,7 +50,7 @@ setup(
     url='https://github.com/spyder-ide/qtawesome',
     keywords=['PyQt', 'PySide', 'Icons', 'Font Awesome', 'Fonts'],
     packages=['qtawesome'],
-    install_requires=['qtpy', 'six'],
+    install_requires=['qtpy', 'six', 'pyyaml'],
     include_package_data=True,
     platforms=['OS-independent'],
     classifiers=[
