@@ -202,8 +202,10 @@ class IconicFont(QObject):
         with open(os.path.join(directory, charmap_filename), 'r') as codes:
             self.charmap[prefix] = json.load(codes, object_hook=hook)
 
-        md5_hashes = {'fontawesome-webfont.ttf': 'a3de2170e4e9df77161ea5d3f31b2668',
-                      'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e'}
+        md5_hashes = {'fontawesome-webfont.ttf':
+                        'a3de2170e4e9df77161ea5d3f31b2668',
+                    'elusiveicons-webfont.ttf':
+                        '207966b04c032d5b873fd595a211582e'}
         ttf_hash = md5_hashes.get(ttf_filename, None)
         if ttf_hash is not None:
             hasher = hashlib.md5()
