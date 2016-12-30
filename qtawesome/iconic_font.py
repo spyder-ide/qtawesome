@@ -209,8 +209,7 @@ class IconicFont(QObject):
         ttf_hash = md5_hashes.get(ttf_filename, None)
         if ttf_hash is not None:
             hasher = hashlib.md5()
-            with open (os.path.join(directory, ttf_filename),
-                       'rb') as tff_font:
+            with open(os.path.join(directory, ttf_filename), 'rb') as tff_font:
                 buffer = tff_font.read()
                 hasher.update(buffer)
             ttf_calculated_hash_code = hasher.hexdigest()
