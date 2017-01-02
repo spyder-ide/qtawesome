@@ -6,7 +6,7 @@
 branch = origin/master
 diff_mode = commited
 file_mode = lines
-check = pep8,pydocstyle,flake8,pylint
+check = pep8,pydocstyle,flake8
 enforce = pep8,pydocstyle,flake8
 
 # Python (pyformat)
