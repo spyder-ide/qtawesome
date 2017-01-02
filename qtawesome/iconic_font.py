@@ -199,6 +199,21 @@ class IconicFont(QObject):
             directory = os.path.join(
                 os.path.dirname(os.path.realpath(__file__)), 'fonts')
 
+        # Load font
+        id_ = QFontDatabase.addApplicationFont(os.path.join(directory,
+                                                            ttf_filename))
+        loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
+        if(loadedFontFamilies):
+            self.fontname[prefix] = loadedFontFamilies[0]
+        else:
+            raise FontError(u"Font at '{0}' appears to be empty. "
+                            "If you are on Windows 10, please read "
+                            "https://support.microsoft.com/en-us/kb/3053676 "
+                            "to know how to prevent Windows from blocking "
+                            "the fonts that come with QtAwesome.".format(
+                            os.path.join(directory, ttf_filename)))
+
+        # Verify that font is not corrupt
         with open(os.path.join(directory, charmap_filename), 'r') as codes:
             self.charmap[prefix] = json.load(codes, object_hook=hook)
 
@@ -217,25 +232,8 @@ class IconicFont(QObject):
                 raise FontError(u"Font is corrupt at: '{0}'".format(
                                 os.path.join(directory, ttf_filename)))
 
-        id_ = QFontDatabase.addApplicationFont(os.path.join(directory,
-                                                            ttf_filename))
-
-        loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
-
-        if(loadedFontFamilies):
-            self.fontname[prefix] = loadedFontFamilies[0]
-        else:
-            raise FontError(u"Font at '{0}' appears to be empty. "
-                            "If you are on Windows 10, please read "
-                            "https://support.microsoft.com/en-us/kb/3053676 "
-                            "to know how to prevent Windows from blocking "
-                            "the fonts that come with QtAwesome.".format(
-                            os.path.join(directory, ttf_filename)))
-
     def icon(self, *names, **kwargs):
-        """
-        Return a QIcon object corresponding to the provided icon name.
-        """
+        """Return a QIcon object corresponding to the provided icon name."""
         options_list = kwargs.pop('options', [{}] * len(names))
         general_options = kwargs
 
