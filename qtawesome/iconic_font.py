@@ -233,9 +233,7 @@ class IconicFont(QObject):
                                 os.path.join(directory, ttf_filename)))
 
     def icon(self, *names, **kwargs):
-        """
-        Return a QIcon object corresponding to the provided icon name.
-        """
+        """Return a QIcon object corresponding to the provided icon name."""
         options_list = kwargs.pop('options', [{}] * len(names))
         general_options = kwargs
 
