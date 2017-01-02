@@ -1,5 +1,19 @@
 # History of changes
 
+## Version 0.4.1 (2017-01-02)
+
+### Bugs fixed
+
+**Pull requests**
+
+* [PR 62](https://github.com/spyder-ide/qtawesome/pull/62) - Improve verification that our fonts are not empty and/or missing
+
+In this release 1 pull request was merged
+
+
+----
+
+
 ## Version 0.4 (2017/01/01)
 
 ### New features
