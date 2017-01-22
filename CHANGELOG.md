@@ -1,5 +1,29 @@
 # History of changes
 
+## Version 0.4.2 (2017-01-21)
+
+### Bugs fixed
+
+**Issues**
+
+* [Issue 65](https://github.com/spyder-ide/qtawesome/issues/65) - Update Appveyor Badge for new username spyder-ide
+* [Issue 64](https://github.com/spyder-ide/qtawesome/issues/64) - Integration with system fonts
+* [Issue 51](https://github.com/spyder-ide/qtawesome/issues/51) - Include  doc files in PyPi releases
+
+In this release 3 issues were closed
+
+**Pull requests**
+
+* [PR 67](https://github.com/spyder-ide/qtawesome/pull/67) - PR: Add a way to not verify hash of vendorized fonts
+* [PR 66](https://github.com/spyder-ide/qtawesome/pull/66) - PR: Update AppVeyor badge because of move to org account
+* [PR 63](https://github.com/spyder-ide/qtawesome/pull/63) - Update manifest template
+
+In this release 3 pull requests were merged
+
+
+----
+
+
 ## Version 0.4.1 (2017-01-02)
 
 ### Bugs fixed
