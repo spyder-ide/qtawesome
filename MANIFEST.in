@@ -2,3 +2,4 @@ include qtawesome/fonts/*
 recursive-include docs *
 exclude docs/*.yml
 include CHANGELOG.md LICENSE README.md
+include example.py
