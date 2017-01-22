@@ -1,5 +1,19 @@
 # History of changes
 
+## Version 0.4.3 (2017-01-22)
+
+### Bugs fixed
+
+**Pull requests**
+
+* [PR 68](https://github.com/spyder-ide/qtawesome/pull/68) - PR: Include example script into tarball to run tests when the package is installed
+
+In this release 1 pull request was merged
+
+
+----
+
+
 ## Version 0.4.2 (2017-01-21)
 
 ### Bugs fixed
