@@ -23,10 +23,8 @@ import hashlib
 from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap)
+from qtpy import QtWidgets
 from six import unichr
-
-# Spyder imports
-from spyder.utils.qthelpers import qapplication
 
 # Linux packagers, please set this to True if you want to make qtawesome
 # use system fonts
@@ -176,7 +174,7 @@ class IconicFont(QObject):
         self.painters = {}
         self.fontname = {}
         self.charmap = {}
-        qapplication()
+        app = QtWidgets.QApplication([])
         for fargs in args:
             self.load_font(*fargs)
 
