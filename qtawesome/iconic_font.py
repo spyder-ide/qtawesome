@@ -25,6 +25,8 @@ from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap)
 from six import unichr
 
+# Spyder imports
+from spyder.utils.qthelpers import qapplication
 
 # Linux packagers, please set this to True if you want to make qtawesome
 # use system fonts
@@ -174,6 +176,7 @@ class IconicFont(QObject):
         self.painters = {}
         self.fontname = {}
         self.charmap = {}
+        qapplication()
         for fargs in args:
             self.load_font(*fargs)
 
