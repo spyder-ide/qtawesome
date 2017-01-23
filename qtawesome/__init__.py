@@ -15,6 +15,9 @@ Font-Awesome and other iconic fonts for PyQt / PySide applications.
    font
    set_defaults
 """
+# Third party imports
+from qtpy import QtWidgets
+app = QtWidgets.QApplication([])
 
 from .iconic_font import IconicFont, set_global_defaults
 from .animation import Pulse, Spin
