@@ -219,7 +219,7 @@ class IconicFont(QObject):
                                 "en-us/kb/3053676 "
                                 "to know how to prevent Windows from blocking "
                                 "the fonts that come with QtAwesome.".format(
-                                os.path.join(directory, ttf_filename)))
+                                        os.path.join(directory, ttf_filename)))
 
             with open(os.path.join(directory, charmap_filename), 'r') as codes:
                 self.charmap[prefix] = json.load(codes, object_hook=hook)
