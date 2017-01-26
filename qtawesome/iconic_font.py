@@ -18,6 +18,7 @@ from __future__ import print_function
 import json
 import os
 import hashlib
+import warnings
 
 # Third party imports
 from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
@@ -263,6 +264,10 @@ class IconicFont(QObject):
             api_options = parsed_options
 
             return self._icon_by_painter(self.painter, api_options)
+        else:
+            warnings.warn("You need to have a running "
+                          "QApplication to use QtAwesome!")
+            return QIcon()
 
     def _parse_options(self, specific_options, general_options, name):
         options = dict(_default_options, **general_options)
