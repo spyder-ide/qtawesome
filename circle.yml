@@ -28,3 +28,5 @@ test:
     # Check style
     - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && ciocheck qtawesome: # note the colon
         parallel: true
+    - export PATH="$HOME/miniconda/bin:$PATH" && source activate test && py.test qtawesome: # note the colon
+        parallel: true

@@ -1,5 +1,5 @@
 r"""
-Tests for QtAwesome
+Tests for QtAwesome.
 """
 # Standard library imports
 import subprocess
@@ -8,7 +8,9 @@ import subprocess
 import pytest
 
 def test_segfault_import():
-    subprocess.call('python -c qtawesome')
+    output_number = subprocess.call('python -c "import qtawesome '
+                                    '; qtawesome.icon()"')
+    assert output_number == 0
     
 if __name__ == "__main__":
     pytest.main()
