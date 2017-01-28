@@ -58,3 +58,4 @@ build: false
 
 test_script:
   - "%CMD_IN_ENV% python example.py"
+  - "%CMD_IN_ENV% py.test qtawesome"
