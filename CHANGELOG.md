@@ -1,5 +1,19 @@
 # History of changes
 
+## Version 0.4.4 (2017-01-28)
+
+### Bugs fixed
+
+**Pull requests**
+
+* [PR 70](https://github.com/spyder-ide/qtawesome/pull/70) - PR: Prevent segfaults when importing QtAwesome out of a of QApplication
+
+In this release 1 pull request was merged
+
+
+----
+
+
 ## Version 0.4.3 (2017-01-22)
 
 ### Bugs fixed
