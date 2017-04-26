@@ -228,7 +228,7 @@ class IconicFont(QObject):
             # Verify that vendorized fonts are not corrupt
             if not SYSTEM_FONTS:
                 md5_hashes = {'fontawesome-webfont.ttf':
-                              'a3de2170e4e9df77161ea5d3f31b2668',
+                              'b06871f281fee6b241d60582ae9369b9',
                               'elusiveicons-webfont.ttf':
                               '207966b04c032d5b873fd595a211582e'}
                 ttf_hash = md5_hashes.get(ttf_filename, None)
