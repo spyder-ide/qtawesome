@@ -97,6 +97,15 @@ spin_button.setIcon(spin_icon)
   other fonts dynamically.
 - QtAwesome relies on the [QtPy](https://github.com/spyder-ide/qtpy.git)
   project as a compatibility layer on the top ot PyQt or PySide.
+  
+### Know problems
+
+- If you try build your app with ***pyinstaller*** where used ***qtawesome*** on linux you have error:
+```bash
+qtawesome.iconic_font.FontError
+```
+fixit: https://github.com/spyder-ide/qtawesome/issues/78
+
 
 ## License
 
