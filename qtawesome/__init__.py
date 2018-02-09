@@ -32,9 +32,9 @@ def _instance():
     """
     if _resource['iconic'] is None:
         _resource['iconic'] = IconicFont(
-            ('fa', 'Font Awesome 5 Free-Regular-400.otf', 'Font Awesome 5 Common Charmap.json'),
-            ('fa', 'Font Awesome 5 Free-Solid-900.otf', 'Font Awesome 5 Common Charmap.json'),
-            ('fa', 'Font Awesome 5 Free-Brands-400.otf', 'Font Awesome 5 Common Charmap.json'),
+            ('far', 'Font Awesome 5 Free-Regular-400.otf', 'Font Awesome 5 Common Charmap.json'),
+            ('fas', 'Font Awesome 5 Free-Solid-900.otf', 'Font Awesome 5 Common Charmap.json'),
+            ('fab', 'Font Awesome 5 Brands-Regular-400.otf', 'Font Awesome 5 Common Charmap.json'),
             ('ei', 'elusiveicons-webfont.ttf', 'elusiveicons-webfont-charmap.json')
         )
     return _resource['iconic']
