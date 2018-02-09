@@ -32,7 +32,9 @@ def _instance():
     """
     if _resource['iconic'] is None:
         _resource['iconic'] = IconicFont(
-            ('fa', 'fontawesome-webfont.ttf', 'fontawesome-webfont-charmap.json'),
+            ('fa', 'Font Awesome 5 Free-Regular-400.otf', 'Font Awesome 5 Common Charmap.json'),
+            ('fa', 'Font Awesome 5 Free-Solid-900.otf', 'Font Awesome 5 Common Charmap.json'),
+            ('fa', 'Font Awesome 5 Free-Brands-400.otf', 'Font Awesome 5 Common Charmap.json'),
             ('ei', 'elusiveicons-webfont.ttf', 'elusiveicons-webfont-charmap.json')
         )
     return _resource['iconic']
@@ -42,9 +44,9 @@ def icon(*names, **kwargs):
     """
     Return a QIcon object corresponding to the provided icon name(s).
 
-    This function is the main interface of qtawesome. 
+    This function is the main interface of qtawesome.
 
-    It can be used to create a QIcon instance from a single glyph 
+    It can be used to create a QIcon instance from a single glyph
     or from a list of glyphs that are displayed on the top of each other.
     Such icon stacks are generally used to combine multiple glyphs to make
     more complex icons.
@@ -84,7 +86,7 @@ def icon(*names, **kwargs):
           The user is interacting with the icon, for example, moving the mouse
           over it or clicking it.
         - ``Selected``: The item represented by the icon is selected.
- 
+
     The glyph for the Normal mode is the one specified with the main positional
     argument.
 
@@ -95,7 +97,7 @@ def icon(*names, **kwargs):
      - ``offset``: tuple (x, y) corresponding to the horizontal and vertical
        offsets for the glyph, specified as a proportion of the icon size.
      - ``animation``: animation object for the icon.
-     - ``scale_factor``: multiplicative scale factor to be used for the glyph. 
+     - ``scale_factor``: multiplicative scale factor to be used for the glyph.
 
     The following options apply to the different modes of the icon
 
