@@ -9,7 +9,6 @@ from six import unichr
 
 # Local imports
 import qtawesome as qta
-from update.shims import update_fa_name
 
 
 class AwesomeExample(QtWidgets.QDialog):
@@ -28,7 +27,8 @@ class AwesomeExample(QtWidgets.QDialog):
         # Styling
         styling_icon = qta.icon('fas.music',
                                 # some names need updating
-                                active=update_fa_name('fa.legal'),
+                                # active=update_fa_name('fa.legal'),
+                                active='fas.gavel',
                                 color='blue',
                                 color_active='orange')
         music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
