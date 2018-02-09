@@ -27,11 +27,9 @@ from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
 from qtpy.QtWidgets import QApplication
 from six import unichr
 
-
 # Linux packagers, please set this to True if you want to make qtawesome
 # use system fonts
 SYSTEM_FONTS = False
-
 
 _default_options = {
     'color': QColor(50, 50, 50),
@@ -53,7 +51,7 @@ def set_global_defaults(**kwargs):
         'color_on_selected', 'color_on_active', 'color_on_disabled',
         'color_off_selected', 'color_off_active', 'color_off_disabled',
         'animation', 'offset', 'scale_factor',
-        ]
+    ]
 
     for kw in kwargs:
         if kw in valid_options:
@@ -64,7 +62,6 @@ def set_global_defaults(**kwargs):
 
 
 class CharIconPainter:
-
     """Char icon painter."""
 
     def paint(self, iconic, painter, rect, mode, state, options):
@@ -86,7 +83,7 @@ class CharIconPainter:
                 QIcon.Active: (options['color_on_active'],
                                options['on_active']),
                 QIcon.Selected: (options['color_on_selected'],
-                                 options['on_selected']) 
+                                 options['on_selected'])
             },
 
             QIcon.Off: {
@@ -96,7 +93,7 @@ class CharIconPainter:
                 QIcon.Active: (options['color_off_active'],
                                options['off_active']),
                 QIcon.Selected: (options['color_off_selected'],
-                                 options['off_selected']) 
+                                 options['off_selected'])
             }
         }
 
@@ -134,7 +131,6 @@ class FontError(Exception):
 
 
 class CharIconEngine(QIconEngine):
-
     """Specialization of QIconEngine used to draw font-based icons."""
 
     def __init__(self, iconic, painter, options):
@@ -155,7 +151,6 @@ class CharIconEngine(QIconEngine):
 
 
 class IconicFont(QObject):
-
     """Main class for managing iconic fonts."""
 
     def __init__(self, *args):
@@ -179,8 +174,8 @@ class IconicFont(QObject):
         for fargs in args:
             self.load_font(*fargs)
 
-    def load_font(self, prefix, ttf_filename, charmap_filename, directory=None):
-        """Loads a font file and the associated charmap.
+    def load_font(self, prefix, font_file, charmap_file, directory=None):
+        """Load a font file and the associated charmap.
 
         If ``directory`` is None, the files will be looked for in ``./fonts/``.
 
@@ -188,14 +183,13 @@ class IconicFont(QObject):
         ----------
         prefix: str
             Prefix string to be used when accessing a given font set
-        ttf_filename: str
+        font_file: str
             Ttf font filename
-        charmap_filename: str
+        charmap_file: str
             Charmap filename
         directory: str or None, optional
             Directory for font and charmap files
         """
-
         def hook(obj):
             result = {}
             for key in obj:
@@ -209,9 +203,9 @@ class IconicFont(QObject):
         # Load font
         if QApplication.instance() is not None:
             id_ = QFontDatabase.addApplicationFont(os.path.join(directory,
-                                                                ttf_filename))
+                                                                font_file))
             loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
-            if(loadedFontFamilies):
+            if (loadedFontFamilies):
                 self.fontname[prefix] = loadedFontFamilies[0]
             else:
                 raise FontError(u"Font at '{0}' appears to be empty. "
@@ -220,28 +214,32 @@ class IconicFont(QObject):
                                 "en-us/kb/3053676 "
                                 "to know how to prevent Windows from blocking "
                                 "the fonts that come with QtAwesome.".format(
-                                        os.path.join(directory, ttf_filename)))
+                                    os.path.join(directory, font_file)))
 
-            with open(os.path.join(directory, charmap_filename), 'r') as codes:
+            with open(os.path.join(directory, charmap_file), 'r') as codes:
                 self.charmap[prefix] = json.load(codes, object_hook=hook)
 
             # Verify that vendorized fonts are not corrupt
             if not SYSTEM_FONTS:
-                md5_hashes = {'fontawesome-webfont.ttf':
-                              'b06871f281fee6b241d60582ae9369b9',
+                md5_hashes = {'Font Awesome 5 Brands-Regular-400.otf':
+                              'fa63e85727b1b8ad35b9390d81617e08',
+                              'Font Awesome 5 Free-Regular-400.otf':
+                              '57f731fe9728946eea37155e8ca0479a',
+                              'Font Awesome 5 Free-Solid-900.otf':
+                              '6a001f8bc3ace8d0fff495ebd123413e',
                               'elusiveicons-webfont.ttf':
                               '207966b04c032d5b873fd595a211582e'}
-                ttf_hash = md5_hashes.get(ttf_filename, None)
+                ttf_hash = md5_hashes.get(font_file, None)
                 if ttf_hash is not None:
                     hasher = hashlib.md5()
-                    with open(os.path.join(directory, ttf_filename),
+                    with open(os.path.join(directory, font_file),
                               'rb') as f:
                         content = f.read()
                         hasher.update(content)
                     ttf_calculated_hash_code = hasher.hexdigest()
                     if ttf_calculated_hash_code != ttf_hash:
                         raise FontError(u"Font is corrupt at: '{0}'".format(
-                                        os.path.join(directory, ttf_filename)))
+                            os.path.join(directory, font_file)))
 
     def icon(self, *names, **kwargs):
         """Return a QIcon object corresponding to the provided icon name."""
