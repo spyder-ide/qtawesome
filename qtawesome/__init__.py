@@ -20,7 +20,7 @@ from .iconic_font import IconicFont, set_global_defaults
 from .animation import Pulse, Spin
 from ._version import version_info, __version__
 
-_resource = { 'iconic': None }
+_resource = {'iconic': None}
 
 
 def _instance():
@@ -32,10 +32,14 @@ def _instance():
     """
     if _resource['iconic'] is None:
         _resource['iconic'] = IconicFont(
-            ('far', 'Font Awesome 5 Free-Regular-400.otf', 'Font Awesome 5 Common Charmap.json'),
-            ('fas', 'Font Awesome 5 Free-Solid-900.otf', 'Font Awesome 5 Common Charmap.json'),
-            ('fab', 'Font Awesome 5 Brands-Regular-400.otf', 'Font Awesome 5 Common Charmap.json'),
-            ('ei', 'elusiveicons-webfont.ttf', 'elusiveicons-webfont-charmap.json')
+            ('far', 'Font Awesome 5 Free-Regular-400.otf',
+             'Font Awesome 5 Common Charmap.json'),
+            ('fas', 'Font Awesome 5 Free-Solid-900.otf',
+             'Font Awesome 5 Common Charmap.json'),
+            ('fab', 'Font Awesome 5 Brands-Regular-400.otf',
+             'Font Awesome 5 Common Charmap.json'),
+            ('ei', 'elusiveicons-webfont.ttf',
+             'elusiveicons-webfont-charmap.json')
         )
     return _resource['iconic']
 
@@ -203,4 +207,3 @@ def set_defaults(**kwargs):
 
     """
     return set_global_defaults(**kwargs)
-
