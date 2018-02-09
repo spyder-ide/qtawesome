@@ -9,6 +9,7 @@ from six import unichr
 
 # Local imports
 import qtawesome as qta
+from update.shims import update_fa_name
 
 
 class AwesomeExample(QtWidgets.QDialog):
@@ -17,21 +18,23 @@ class AwesomeExample(QtWidgets.QDialog):
         super(AwesomeExample, self).__init__()
 
         # Get icons by name.
-        fa_icon = qta.icon('fa.flag')
+        # In general, in FA5 they are the same but with a new prefix:
+        fa_icon = qta.icon('fas.flag')
         fa_button = QtWidgets.QPushButton(fa_icon, 'Font Awesome!')
 
         asl_icon = qta.icon('ei.asl')
         elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 
         # Styling
-        styling_icon = qta.icon('fa.music',
-                                active='fa.legal',
+        styling_icon = qta.icon('fas.music',
+                                # some names need updating
+                                active=update_fa_name('fa.legal'),
                                 color='blue',
                                 color_active='orange')
         music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
 
         # Toggle
-        toggle_icon = qta.icon('fa.home', selected='fa.legal',
+        toggle_icon = qta.icon('fas.home', selected='fab.gavel',
                                color_off='black',
                                color_off_active='blue',
                                color_on='orange',
@@ -41,25 +44,25 @@ class AwesomeExample(QtWidgets.QDialog):
 
         # Render a label with this font
         label = QtWidgets.QLabel(unichr(0xf19c) + ' ' + 'Label')
-        label.setFont(qta.font('fa', 16))
+        label.setFont(qta.font('fas', 16))
 
         # Stack icons
-        camera_ban = qta.icon('fa.camera', 'fa.ban',
+        camera_ban = qta.icon('fas.camera', 'fas.ban',
                               options=[{'scale_factor': 0.5,
-                                        'active': 'fa.legal'},
+                                        'active': 'fab.gavel'},
                                        {'color': 'red', 'opacity': 0.7}])
         stack_button = QtWidgets.QPushButton(camera_ban, 'Stack')
         stack_button.setIconSize(QtCore.QSize(32, 32))
 
         # Spin icons
         spin_button = QtWidgets.QPushButton(' Spinning icon')
-        spin_icon = qta.icon('fa.spinner', color='red',
+        spin_icon = qta.icon('fas.spinner', color='red',
                              animation=qta.Spin(spin_button))
         spin_button.setIcon(spin_icon)
 
         # Pulse icons
         pulse_button = QtWidgets.QPushButton(' Pulsing icon')
-        pulse_icon = qta.icon('fa.spinner', color='green',
+        pulse_icon = qta.icon('fas.spinner', color='green',
                               animation=qta.Pulse(pulse_button))
         pulse_button.setIcon(pulse_icon)
 
@@ -68,13 +71,13 @@ class AwesomeExample(QtWidgets.QDialog):
         options = [{'scale_factor': 0.4,
                     'animation': qta.Spin(stack_spin_button)},
                    {'color': 'blue'}]
-        stack_spin_icon = qta.icon('ei.asl', 'fa.square-o',
+        stack_spin_icon = qta.icon('ei.asl', 'far.square',
                                    options=options)
         stack_spin_button.setIcon(stack_spin_icon)
         stack_spin_button.setIconSize(QtCore.QSize(32, 32))
 
         # Stack and offset icons
-        saveall = qta.icon('fa.save', 'fa.save',
+        saveall = qta.icon('fas.save', 'fas.save',
                            options=[{'scale_factor': 0.8,
                                      'offset': (0.2, 0.2),
                                      'color': 'gray'},
