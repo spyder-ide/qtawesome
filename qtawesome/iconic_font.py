@@ -179,7 +179,7 @@ class IconicFont(QObject):
         for fargs in args:
             self.load_font(*fargs)
 
-    def load_font(self, prefix, ttf_filename, charmap_filename, directory=None):
+    def load_font(self, prefix, font_filename, charmap_filename, directory=None):
         """Loads a font file and the associated charmap.
 
         If ``directory`` is None, the files will be looked for in ``./fonts/``.
@@ -188,7 +188,7 @@ class IconicFont(QObject):
         ----------
         prefix: str
             Prefix string to be used when accessing a given font set
-        ttf_filename: str
+        font_filename: str
             Ttf font filename
         charmap_filename: str
             Charmap filename
@@ -209,7 +209,7 @@ class IconicFont(QObject):
         # Load font
         if QApplication.instance() is not None:
             id_ = QFontDatabase.addApplicationFont(os.path.join(directory,
-                                                                ttf_filename))
+                                                                font_filename))
             loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
             if(loadedFontFamilies):
                 self.fontname[prefix] = loadedFontFamilies[0]
@@ -220,7 +220,7 @@ class IconicFont(QObject):
                                 "en-us/kb/3053676 "
                                 "to know how to prevent Windows from blocking "
                                 "the fonts that come with QtAwesome.".format(
-                                        os.path.join(directory, ttf_filename)))
+                                        os.path.join(directory, font_filename)))
 
             with open(os.path.join(directory, charmap_filename), 'r') as codes:
                 self.charmap[prefix] = json.load(codes, object_hook=hook)
@@ -231,17 +231,17 @@ class IconicFont(QObject):
                               'b06871f281fee6b241d60582ae9369b9',
                               'elusiveicons-webfont.ttf':
                               '207966b04c032d5b873fd595a211582e'}
-                ttf_hash = md5_hashes.get(ttf_filename, None)
+                ttf_hash = md5_hashes.get(font_filename, None)
                 if ttf_hash is not None:
                     hasher = hashlib.md5()
-                    with open(os.path.join(directory, ttf_filename),
+                    with open(os.path.join(directory, font_filename),
                               'rb') as f:
                         content = f.read()
                         hasher.update(content)
                     ttf_calculated_hash_code = hasher.hexdigest()
                     if ttf_calculated_hash_code != ttf_hash:
                         raise FontError(u"Font is corrupt at: '{0}'".format(
-                                        os.path.join(directory, ttf_filename)))
+                                        os.path.join(directory, font_filename)))
 
     def icon(self, *names, **kwargs):
         """Return a QIcon object corresponding to the provided icon name."""
