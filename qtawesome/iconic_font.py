@@ -21,7 +21,11 @@ import hashlib
 import warnings
 
 # Third party imports
-from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
+from qtpy.QtCore import QObject, QPoint, QRect, Qt
+try:
+    from qtpy.QtCore import qRound
+except:
+    pass
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap)
 from qtpy.QtWidgets import QApplication
@@ -109,7 +113,11 @@ class CharIconPainter:
         # The reason why the glyph size is smaller than the icon size is to
         # account for font bearing.
 
-        draw_size = 0.875 * qRound(rect.height() * options['scale_factor'])
+        try: 
+            draw_size = 0.875 * qRound(rect.height() * options['scale_factor'])
+        except:
+            draw_size = 0.875 * round(rect.height() * options['scale_factor'])
+
         prefix = options['prefix']
 
         # Animation setup hook
