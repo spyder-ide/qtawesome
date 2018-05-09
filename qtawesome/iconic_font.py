@@ -113,7 +113,7 @@ class CharIconPainter:
         # The reason why the glyph size is smaller than the icon size is to
         # account for font bearing.
 
-        try: 
+        try:
             draw_size = 0.875 * qRound(rect.height() * options['scale_factor'])
         except:
             draw_size = 0.875 * round(rect.height() * options['scale_factor'])
