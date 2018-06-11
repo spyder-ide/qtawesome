@@ -11,14 +11,18 @@
 [![CircleCI build status](https://circleci.com/gh/spyder-ide/qtawesome/tree/master.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtawesome/tree/master)
 [![Documentation Status](https://readthedocs.org/projects/qtawesome/badge/?version=latest)](http://qtawesome.readthedocs.org/en/latest/?badge=latest)
 
+*Copyright © 2015–2018 Spyder Project Contributors*
+
 
 ## Description
 
-QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons in PyQt
-and PySide applications.
+QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons
+in PyQt and PySide applications.
 
-It started as a Python port of the [QtAwesome](https://github.com/Gamecreature/qtawesome)
+It started as a Python port of the [QtAwesome](
+https://github.com/Gamecreature/qtawesome)
 C++ library by Rick Blommers.
+
 
 ## Installation
 
@@ -35,6 +39,7 @@ Using `conda`:
 ```
 conda install qtawesome
 ```
+
 
 ## Examples
 
@@ -94,6 +99,7 @@ spin_button.setIcon(spin_icon)
 
 ![QtAwesome screenshot](qtawesome-screenshot.gif)
 
+
 ## Other features
 
 - QtAwesome comes bundled with Font Awesome and Elusive Icons, but it can also
@@ -102,6 +108,7 @@ spin_button.setIcon(spin_icon)
 - QtAwesome relies on the [QtPy](https://github.com/spyder-ide/qtpy.git)
   project as a compatibility layer on the top ot PyQt or PySide.
 
+
 ## License
 
 MIT License. Copyright 2015 - The Spyder development team.
@@ -109,15 +116,18 @@ See the [LICENSE](LICENSE) file for details.
 
 The Font Awesome and Elusive Icons fonts are licensed under the SIL Open Font License.
 
+
 ## Contributing
 
 Everyone is welcome to contribute!
+
 
 ## Backers
 
 Support us with a monthly donation and help us continue our activities.
 
 [![Backers](https://opencollective.com/spyder/backers.svg)](https://opencollective.com/spyder#support)
+
 
 ## Sponsors
 
