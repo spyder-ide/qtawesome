@@ -10,7 +10,7 @@ Use Font Awesome and Elusive Icons.
 .. code:: python
 
     # Get icons by name.
-    fa_icon = qta.icon('fa.flag')
+    fa_icon = qta.icon('fa5s.flag')
     fa_button = QtGui.QPushButton(fa_icon, 'Font Awesome!')
     asl_icon = qta.icon('ei.asl')
     elusive_button = QtGui.QPushButton(asl_icon, 'Elusive Icons!')
@@ -21,8 +21,8 @@ Apply some styling
 .. code:: python
 
     # Styling icons
-    styling_icon = qta.icon('fa.music',
-                            active='fa.legal',
+    styling_icon = qta.icon('fa5s.music',
+                            active='fa5s.balance-scale',
                             color='blue',
                             color_active='orange')
 
@@ -33,10 +33,10 @@ Stack multiple icons
 .. code:: python
 
     # Stacking icons
-    camera_ban = qta.icon('fa.camera', 'fa.ban',
+    camera_ban = qta.icon('fa5.camera', 'fa5s.ban',
                           options=[{
                               'scale_factor': 0.5,
-                              'active': 'fa.legal'
+                              'active': 'fa5s.balance-scale'
                           }, {
                               'color': 'red'
                           }])
@@ -49,7 +49,7 @@ Animations
 
     # Spining icons
     spin_button = QtGui.QPushButton(' Spinning icon')
-    spin_icon = qta.icon('fa.spinner', color='red',
+    spin_icon = qta.icon('fa5s.spinner', color='red',
                          animation=qta.Spin(spin_button))
     spin_button.setIcon(spin_icon)
 

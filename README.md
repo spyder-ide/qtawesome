@@ -51,7 +51,7 @@ import qtawesome as qta
 
 ```python
 # Get icons by name.
-fa_icon = qta.icon('fa.flag')
+fa_icon = qta.icon('fa5s.flag')
 fa_button = QtGui.QPushButton(fa_icon, 'Font Awesome!')
 
 asl_icon = qta.icon('ei.asl')
@@ -66,8 +66,8 @@ mdi_button = QtGui.QPushButton(apn_icon, 'Material Design Icons!')
 
 ```python
 # Styling icons
-styling_icon = qta.icon('fa.music',
-                        active='fa.legal',
+styling_icon = qta.icon('fa5s.music',
+                        active='fa5s.balance-scale',
                         color='blue',
                         color_active='orange')
 music_button = QtGui.QPushButton(styling_icon, 'Styling')
@@ -77,9 +77,9 @@ music_button = QtGui.QPushButton(styling_icon, 'Styling')
 
 ```python
 # Stacking icons
-camera_ban = qta.icon('fa.camera', 'fa.ban',
+camera_ban = qta.icon('fa5s.camera', 'fa5s.ban',
                       options=[{'scale_factor': 0.5,
-                                'active': 'fa.legal'},
+                                'active': 'fa5s.balance-scale'},
                                {'color': 'red'}])
 stack_button = QtGui.QPushButton(camera_ban, 'Stack')
 stack_button.setIconSize(QtCore.QSize(32, 32))
@@ -90,7 +90,7 @@ stack_button.setIconSize(QtCore.QSize(32, 32))
 ```python
 # Spining icons
 spin_button = QtGui.QPushButton(' Spinning icon')
-spin_icon = qta.icon('fa.spinner', color='red',
+spin_icon = qta.icon('fa5s.spinner', color='red',
                      animation=qta.Spin(spin_button))
 spin_button.setIcon(spin_icon)
 ```
