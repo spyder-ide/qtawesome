@@ -32,7 +32,18 @@ def _instance():
     """
     if _resource['iconic'] is None:
         _resource['iconic'] = IconicFont(
-            ('fa', 'fontawesome4.7-webfont.ttf', 'fontawesome4.7-webfont-charmap.json'),
+            ('fa',
+             'fontawesome4.7-webfont.ttf',
+             'fontawesome4.7-webfont-charmap.json'),
+            ('fa5',
+             'fontawesome5-regular-webfont.ttf',
+             'fontawesome5-regular-webfont-charmap.json'),
+            ('fa5s',
+             'fontawesome5-solid-webfont.ttf',
+             'fontawesome5-solid-webfont-charmap.json'),
+            ('fa5b',
+             'fontawesome5-brands-webfont.ttf',
+             'fontawesome5-brands-webfont-charmap.json'),
             ('ei', 'elusiveicons-webfont.ttf', 'elusiveicons-webfont-charmap.json'),
             ('mdi', 'materialdesignicons-webfont.ttf',
              'materialdesignicons-webfont-charmap.json')
@@ -65,8 +76,8 @@ def icon(*names, **kwargs):
 
         music_icon = qta.icon('fa.music', color='blue', color_active='orange')
 
-    When requesting multiple glyphs, the `options` keyword argument contains the
-    list of option dictionaries to be used for each glyph::
+    When requesting multiple glyphs, the `options` keyword argument contains
+    the list of option dictionaries to be used for each glyph::
 
         camera_ban = qta.icon('fa.camera', 'fa.ban', options=[{
                 'scale_factor': 0.5,
