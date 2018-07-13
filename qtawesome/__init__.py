@@ -32,7 +32,7 @@ def _instance():
     """
     if _resource['iconic'] is None:
         _resource['iconic'] = IconicFont(
-            ('fa', 'fontawesome-webfont.ttf', 'fontawesome-webfont-charmap.json'),
+            ('fa', 'fontawesome4.7-webfont.ttf', 'fontawesome4.7-webfont-charmap.json'),
             ('ei', 'elusiveicons-webfont.ttf', 'elusiveicons-webfont-charmap.json'),
             ('mdi', 'materialdesignicons-webfont.ttf',
              'materialdesignicons-webfont-charmap.json')
