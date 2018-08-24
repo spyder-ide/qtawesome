@@ -357,6 +357,8 @@ class IconicFont(QObject):
         """Return a QFont corresponding to the given prefix and size."""
         font = QFont(self.fontname[prefix])
         font.setPixelSize(size)
+        if prefix[-1] == 's':  # solid style
+            font.setStyleName('Solid')
         return font
 
     def set_custom_icon(self, name, painter):
