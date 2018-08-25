@@ -2,7 +2,7 @@
 
 export TRAVIS_OS_NAME="linux"
 export CONDA_DEPENDENCIES_FLAGS="--quiet"
-export CONDA_DEPENDENCIES="qtpy pyqt pytest pytest-cov"
+export CONDA_DEPENDENCIES="qtpy pyqt pytest pytest-cov six"
 export PIP_DEPENDENCIES="codecov"
 
 # Download and install miniconda and conda/pip dependencies
