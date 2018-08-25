@@ -9,10 +9,9 @@
 
 ## Build status
 
-[![Travis](https://travis-ci.org/spyder-ide/qtawesome.svg?branch=master)](https://travis-ci.org/spyder-ide/qtawesome)
 [![Appveyor](https://ci.appveyor.com/api/projects/status/un8vnw4628cl6qfu?svg=true)](https://ci.appveyor.com/project/spyder-ide/qtawesome)
 [![CircleCI](https://circleci.com/gh/spyder-ide/qtawesome/tree/master.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtawesome/tree/master)
-[![Scrutinizer](https://scrutinizer-ci.com/g/spyder-ide/qtawesome/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/spyder-ide/qtawesome/?branch=master)
+[![codecov](https://codecov.io/gh/spyder-ide/qtawesome/branch/master/graph/badge.svg)](https://codecov.io/gh/spyder-ide/qtawesome)
 
 ----
 
