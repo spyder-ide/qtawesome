@@ -63,7 +63,7 @@ conda install qtawesome
 import qtawesome as qta
 ```
 
-- Use Font Awesome and Elusive Icons.
+- Use Font Awesome, Elusive Icons or Material Design Icons.
 
 ```python
 # Get icons by name.
@@ -72,6 +72,10 @@ fa_button = QtGui.QPushButton(fa_icon, 'Font Awesome!')
 
 asl_icon = qta.icon('ei.asl')
 elusive_button = QtGui.QPushButton(asl_icon, 'Elusive Icons!')
+
+apn_icon = qta.icon('mdi.access-point-network')
+mdi_button = QtGui.QPushButton(apn_icon, 'Material Design Icons!')
+
 ```
 
 - Apply some styling
