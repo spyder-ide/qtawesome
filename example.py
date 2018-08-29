@@ -23,6 +23,9 @@ class AwesomeExample(QtWidgets.QDialog):
         asl_icon = qta.icon('ei.asl')
         elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 
+        mdi_icon = qta.icon('mdi.access-point-network')
+        mdi_button = QtWidgets.QPushButton(mdi_icon, 'Material Icons!')
+
         # Styling
         styling_icon = qta.icon('fa5s.music',
                                 active='fa5s.balance-scale',
@@ -83,9 +86,9 @@ class AwesomeExample(QtWidgets.QDialog):
 
         # Layout
         vbox = QtWidgets.QVBoxLayout()
-        widgets = [fa_button, elusive_button, music_button, toggle_button,
-                   stack_button, saveall_button, spin_button, pulse_button,
-                   stack_spin_button, label]
+        widgets = [fa_button, elusive_button, mdi_button, music_button,
+                   toggle_button, stack_button, saveall_button, spin_button,
+                   pulse_button, stack_spin_button, label]
 
         for w in widgets:
             vbox.addWidget(w)
