@@ -1,45 +1,28 @@
 # QtAwesome
 
-## Project information
-
-[![Documentation Status](https://readthedocs.org/projects/qtawesome/badge/?version=latest)](http://qtawesome.readthedocs.org/en/latest/?badge=latest)
-[![Join the chat at https://gitter.im/spyder-ide/public](https://badges.gitter.im/spyder-ide/spyder.svg)](https://gitter.im/spyder-ide/public)
+[![license](https://img.shields.io/pypi/l/qtawesome.svg)](./LICENSE)
+[![pypi version](https://img.shields.io/pypi/v/qtawesome.svg)](https://pypi.org/project/qtawesome/)
+[![conda version](https://img.shields.io/conda/vn/conda-forge/qtawesome.svg)](https://www.anaconda.com/download/)
+[![download count](https://img.shields.io/conda/d/conda-forge/qtawesome.svg)](https://www.anaconda.com/download/)
 [![OpenCollective Backers](https://opencollective.com/spyder/backers/badge.svg?color=blue)](#backers)
-[![OpenCollective Sponsors](https://opencollective.com/spyder/sponsors/badge.svg?color=blue)](#sponsors)
+[![Join the chat at https://gitter.im/spyder-ide/public](https://badges.gitter.im/spyder-ide/spyder.svg)](https://gitter.im/spyder-ide/public)<br>
+[![PyPI status](https://img.shields.io/pypi/status/qtawesome.svg)](https://github.com/spyder-ide/qtawesome)
+[![Appveyor build status](https://ci.appveyor.com/api/projects/status/un8vnw4628cl6qfu?svg=true)](https://ci.appveyor.com/project/spyder-ide/qtawesome)
+[![CircleCI build status](https://circleci.com/gh/spyder-ide/qtawesome/tree/master.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtawesome/tree/master)
+[![Documentation Status](https://readthedocs.org/projects/qtawesome/badge/?version=latest)](http://qtawesome.readthedocs.org/en/latest/?badge=latest)
 
-## Build status
+*Copyright © 2015–2018 Spyder Project Contributors*
 
-[![Appveyor](https://ci.appveyor.com/api/projects/status/un8vnw4628cl6qfu?svg=true)](https://ci.appveyor.com/project/spyder-ide/qtawesome)
-[![CircleCI](https://circleci.com/gh/spyder-ide/qtawesome/tree/master.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtawesome/tree/master)
-[![codecov](https://codecov.io/gh/spyder-ide/qtawesome/branch/master/graph/badge.svg)](https://codecov.io/gh/spyder-ide/qtawesome)
 
-----
-
-## Important Announcement: Spyder is unfunded!
-
-Since mid November/2017, [Anaconda, Inc](https://www.anaconda.com/) has
-stopped funding Spyder development, after doing it for the past 18
-months. Because of that, development will focus from now on maintaining
-Spyder 3 at a much slower pace than before.
-
-If you want to contribute to maintain Spyder, please consider donating at
-
-https://opencollective.com/spyder
-
-We appreciate all the help you can provide us and can't thank you enough for
-supporting the work of Spyder devs and Spyder development.
-
-If you want to know more about this, please read this
-[page](https://github.com/spyder-ide/spyder/wiki/Anaconda-stopped-funding-Spyder).
-
-----
 ## Description
 
-QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons in PyQt
-and PySide applications.
+QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons
+in PyQt and PySide applications.
 
-It started as a Python port of the [QtAwesome](https://github.com/Gamecreature/qtawesome)
+It started as a Python port of the [QtAwesome](
+https://github.com/Gamecreature/qtawesome)
 C++ library by Rick Blommers.
+
 
 ## Installation
 
@@ -56,6 +39,7 @@ Using `conda`:
 ```
 conda install qtawesome
 ```
+
 
 ## Examples
 
@@ -115,6 +99,7 @@ spin_button.setIcon(spin_icon)
 
 ![QtAwesome screenshot](qtawesome-screenshot.gif)
 
+
 ## Other features
 
 - QtAwesome comes bundled with Font Awesome and Elusive Icons, but it can also
@@ -123,6 +108,7 @@ spin_button.setIcon(spin_icon)
 - QtAwesome relies on the [QtPy](https://github.com/spyder-ide/qtpy.git)
   project as a compatibility layer on the top ot PyQt or PySide.
 
+
 ## License
 
 MIT License. Copyright 2015 - The Spyder development team.
@@ -130,15 +116,18 @@ See the [LICENSE](LICENSE) file for details.
 
 The Font Awesome and Elusive Icons fonts are licensed under the SIL Open Font License.
 
+
 ## Contributing
 
 Everyone is welcome to contribute!
+
 
 ## Backers
 
 Support us with a monthly donation and help us continue our activities.
 
 [![Backers](https://opencollective.com/spyder/backers.svg)](https://opencollective.com/spyder#support)
+
 
 ## Sponsors
 
