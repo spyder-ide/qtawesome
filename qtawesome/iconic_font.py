@@ -230,11 +230,11 @@ class IconicFont(QObject):
                 md5_hashes = {'fontawesome4.7-webfont.ttf':
                               'b06871f281fee6b241d60582ae9369b9',
                               'fontawesome5-regular-webfont.ttf':
-                              '6534c603e0892488132ad57248ec69e2',
+                              '73fe7f1effbf382f499831a0a9f18626',
                               'fontawesome5-solid-webfont.ttf':
-                              '00ddaede094b83270cadbfc1a907e8ca',
+                              '0079a0ab6bec4da7d6e16f2a2e87cd71',
                               'fontawesome5-brands-webfont.ttf':
-                              'e0fc4e5c719b4dc10c97fc111d7374e1',
+                              '947b9537bc0fecc8130d48eb753495a1',
                               'elusiveicons-webfont.ttf':
                               '207966b04c032d5b873fd595a211582e',
                               'materialdesignicons-webfont.ttf':
