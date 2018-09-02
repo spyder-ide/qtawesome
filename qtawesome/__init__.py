@@ -71,6 +71,7 @@ def icon(*names, **kwargs):
      - The prefix corresponding to Font-Awesome 5.x (solid) is 'fa5s'
      - The prefix corresponding to Font-Awesome 5.x (brands) is 'fa5b'
      - The prefix corresponding to Elusive-Icons is 'ei'
+     - The prefix corresponding to Material-Design-Icons is 'mdi'
 
     When requesting a single glyph, options (such as color or positional offsets)
     can be passed as keyword arguments::
