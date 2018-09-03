@@ -41,7 +41,29 @@ conda install qtawesome
 ```
 
 
-## Examples
+## Usage
+
+### Supported Fonts
+
+QtAwesome identifies icons by their **prefix** and their **icon name**, separated by a *period* (`.`) character.
+
+The following prefixes are currently available to use:
+
+- [**FontAwesome**](https://fontawesome.com):
+
+  - FA 5.3.1 features 1,341 free icons in different styles:
+
+    - `fa5` prefix has [151 icons in the "**regular**" style.](https://fontawesome.com/icons?d=gallery&s=regular&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1&m=free)
+    - `fa5s` prefix has [810 icons in the "**solid**" style.](https://fontawesome.com/icons?d=gallery&s=solid&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1&m=free)
+    - `fa5b` prefix has [380 icons of various **brands**.](https://fontawesome.com/icons?d=gallery&s=brands&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1&m=free)
+
+  - `fa` is the legacy [FA 4.7 version with its 675 icons](https://fontawesome.com/v4.7.0/icons/) but **all** of them (*and more!*) are part of FA 5.x so you should probably use the newer version above.
+
+- `ei` prefix holds [**Elusive Icons** 2.0 with its 304 icons](http://elusiveicons.com/icons/) under the `ei` prefix.
+
+- `mdi` prefix holds [**Material Design Icons** 2.6.95 with its 304 icons.](https://cdn.materialdesignicons.com/2.6.95/)
+
+### Examples
 
 ```python
 import qtawesome as qta
