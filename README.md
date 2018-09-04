@@ -59,7 +59,7 @@ The following prefixes are currently available to use:
 
   - `fa` is the legacy [FA 4.7 version with its 675 icons](https://fontawesome.com/v4.7.0/icons/) but **all** of them (*and more!*) are part of FA 5.x so you should probably use the newer version above.
 
-- `ei` prefix holds [**Elusive Icons** 2.0 with its 304 icons](http://elusiveicons.com/icons/) under the `ei` prefix.
+- `ei` prefix holds [**Elusive Icons** 2.0 with its 304 icons](http://elusiveicons.com/icons/).
 
 - `mdi` prefix holds [**Material Design Icons** 2.6.95 with its 304 icons.](https://cdn.materialdesignicons.com/2.6.95/)
 
