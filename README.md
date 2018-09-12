@@ -142,7 +142,7 @@ spin_button.setIcon(spin_icon)
 MIT License. Copyright 2015 - The Spyder development team.
 See the [LICENSE](LICENSE) file for details.
 
-The Font Awesome and Elusive Icons fonts are licensed under the SIL Open Font License.
+The Font Awesome, Elusive Icons and Material Design Icons fonts are licensed under the SIL Open Font License.
 
 
 ## Contributing
