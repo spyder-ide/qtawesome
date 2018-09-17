@@ -32,7 +32,7 @@ It is a port to Python - PyQt / PySide of the QtAwesome C++ library by Rick Blom
 .. code-block:: python
 
     # Get icons by name.
-    fa_icon = qta.icon('fa.flag')
+    fa_icon = qta.icon('fa5s.flag')
     fa_button = QtGui.QPushButton(fa_icon, 'Font Awesome!')
 
     asl_icon = qta.icon('ei.asl')
