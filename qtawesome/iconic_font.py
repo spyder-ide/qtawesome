@@ -21,7 +21,7 @@ import hashlib
 import warnings
 
 # Third party imports
-from qtpy.QtCore import QObject, QPoint, QRect, qRound, Qt
+from qtpy.QtCore import QObject, QPoint, QRect, Qt
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap)
 from qtpy.QtWidgets import QApplication
@@ -109,7 +109,7 @@ class CharIconPainter:
         # The reason why the glyph size is smaller than the icon size is to
         # account for font bearing.
 
-        draw_size = 0.875 * qRound(rect.height() * options['scale_factor'])
+        draw_size = 0.875 * round(rect.height() * options['scale_factor'])
         prefix = options['prefix']
 
         # Animation setup hook
@@ -227,8 +227,14 @@ class IconicFont(QObject):
 
             # Verify that vendorized fonts are not corrupt
             if not SYSTEM_FONTS:
-                md5_hashes = {'fontawesome-webfont.ttf':
+                md5_hashes = {'fontawesome4.7-webfont.ttf':
                               'b06871f281fee6b241d60582ae9369b9',
+                              'fontawesome5-regular-webfont.ttf':
+                              '73fe7f1effbf382f499831a0a9f18626',
+                              'fontawesome5-solid-webfont.ttf':
+                              '0079a0ab6bec4da7d6e16f2a2e87cd71',
+                              'fontawesome5-brands-webfont.ttf':
+                              '947b9537bc0fecc8130d48eb753495a1',
                               'elusiveicons-webfont.ttf':
                               '207966b04c032d5b873fd595a211582e',
                               'materialdesignicons-webfont.ttf':
@@ -351,6 +357,8 @@ class IconicFont(QObject):
         """Return a QFont corresponding to the given prefix and size."""
         font = QFont(self.fontname[prefix])
         font.setPixelSize(size)
+        if prefix[-1] == 's':  # solid style
+            font.setStyleName('Solid')
         return font
 
     def set_custom_icon(self, name, painter):
