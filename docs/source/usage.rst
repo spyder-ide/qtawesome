@@ -22,7 +22,7 @@ The following prefixes are currently available to use:
 
 -  ``ei`` prefix holds `Elusive Icons 2.0 with its 304 icons`_.
 
--  ``mdi`` prefix holds `Material Design Icons 2.6.95 with its 304
+-  ``mdi`` prefix holds `Material Design Icons 2.7.94 with its 2794
    icons.`_
 
 .. _FontAwesome: https://fontawesome.com
@@ -31,7 +31,7 @@ The following prefixes are currently available to use:
 .. _380 icons of various brands.: https://fontawesome.com/icons?d=gallery&s=brands&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1&m=free
 .. _FA 4.7 version with its 675 icons: https://fontawesome.com/v4.7.0/icons/
 .. _Elusive Icons 2.0 with its 304 icons: http://elusiveicons.com/icons/
-.. _Material Design Icons 2.6.95 with its 2695 icons.: https://cdn.materialdesignicons.com/2.6.95/
+.. _Material Design Icons 2.7.94 with its 2794 icons.: https://cdn.materialdesignicons.com/2.7.94/
 
 Examples
 ~~~~~~~~
