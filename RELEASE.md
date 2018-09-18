@@ -1,5 +1,11 @@
 To release a new version of qtawesome on PyPI:
 
+* Close Github milestone
+
+* git fetch upstream && git merge upstream/master
+
+* git clean -xfdi
+
 * Update Changelog
 
 * Update _version.py (set release version, remove 'dev')
