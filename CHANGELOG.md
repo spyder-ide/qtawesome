@@ -1,5 +1,23 @@
 # History of changes
 
+## Version 0.5.1 (2018-09-30)
+
+### Issues Closed
+
+* [Issue 97](https://github.com/spyder-ide/qtawesome/issues/97) - minus-circle not working ([PR 98](https://github.com/spyder-ide/qtawesome/pull/98))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 98](https://github.com/spyder-ide/qtawesome/pull/98) - PR: Rename FontAwesome5 fonts ([97](https://github.com/spyder-ide/qtawesome/issues/97))
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 0.5 (2018-09-18)
 
 ### New features
