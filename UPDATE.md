@@ -4,7 +4,7 @@ To update font-awesome or elusive icons, one must
 - regenerate the json charmap with the `icons.yml` file from the upstream
   repository:
 
-````Python
+```Python
 import yaml, json
 
 with open('icons.yml', 'r') as file:
@@ -25,7 +25,7 @@ To update material design icons, you must:
   - download ttf from https://github.com/Templarian/MaterialDesign-Webfont
   - regenerate the json charmap with the `materialdesignicons.css` file 
  
-````Python
+```Python
 import re
 import json
 
