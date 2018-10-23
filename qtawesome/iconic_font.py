@@ -238,7 +238,7 @@ class IconicFont(QObject):
                               'elusiveicons-webfont.ttf':
                               '207966b04c032d5b873fd595a211582e',
                               'materialdesignicons-webfont.ttf':
-                              '64b96825d49e070ea87c7100f2db3f46'}
+                              '023db9122f66b7d693bc52bcdf09e6b3'}
                 ttf_hash = md5_hashes.get(ttf_filename, None)
                 if ttf_hash is not None:
                     hasher = hashlib.md5()
