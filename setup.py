@@ -13,7 +13,7 @@ version_ns = {}
 with open(os.path.join(here, 'qtawesome', '_version.py')) as f:
     exec(f.read(), {}, version_ns)
 
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
     LONG_DESCRIPTION = f.read()
 
 setup(
