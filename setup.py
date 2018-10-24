@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import io
 try:
     from setuptools import setup
     from setuptools.command.install import install
@@ -13,37 +14,15 @@ version_ns = {}
 with open(os.path.join(here, 'qtawesome', '_version.py')) as f:
     exec(f.read(), {}, version_ns)
 
-LONG_DESCRIPTION = """
-.. image:: https://img.shields.io/pypi/v/QtAwesome.svg
-   :target: https://pypi.python.org/pypi/QtAwesome/
-   :alt: Latest PyPI version
-
-.. image:: https://img.shields.io/pypi/dm/QtAwesome.svg
-   :target: https://pypi.python.org/pypi/QtAwesome/
-   :alt: Number of PyPI downloads
-
-QtAwesome - Iconic Fonts in PyQt and PySide applications
-========================================================
-
-QtAwesome enables iconic fonts such as Font Awesome and Elusive Icons in PyQt and PySide applications.
-
-It is a port to Python - PyQt / PySide of the QtAwesome C++ library by Rick Blommers.
-
-.. code-block:: python
-
-    # Get icons by name.
-    fa_icon = qta.icon('fa5s.flag')
-    fa_button = QtGui.QPushButton(fa_icon, 'Font Awesome!')
-
-    asl_icon = qta.icon('ei.asl')
-    elusive_button = QtGui.QPushButton(asl_icon, 'Elusive Icons!')
-"""
+with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
+    LONG_DESCRIPTION = f.read()
 
 setup(
     name='QtAwesome',
     version=version_ns['__version__'],
     description='FontAwesome icons in PyQt and PySide applications',
     long_description=LONG_DESCRIPTION,
+    long_description_content_type='text/markdown',
     author='Sylvain Corlay',
     author_email='sylvain.corlay@gmail.com',
     license='MIT',
