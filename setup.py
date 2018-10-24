@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import io
 try:
     from setuptools import setup
     from setuptools.command.install import install
@@ -13,7 +14,7 @@ version_ns = {}
 with open(os.path.join(here, 'qtawesome', '_version.py')) as f:
     exec(f.read(), {}, version_ns)
 
-with open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
+with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
     LONG_DESCRIPTION = f.read()
 
 setup(
