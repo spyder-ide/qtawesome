@@ -1,5 +1,19 @@
 # History of changes
 
+## Version 0.5.2 (2018-10-28)
+
+### Pull Requests Merged
+
+* [PR 101](https://github.com/spyder-ide/qtawesome/pull/101) - PR: Generate PyPI long description from README.md
+* [PR 100](https://github.com/spyder-ide/qtawesome/pull/100) - PR: Add instruction to update MDI
+* [PR 99](https://github.com/spyder-ide/qtawesome/pull/99) - PR: Update MDI to 3.0.39
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
 ## Version 0.5.1 (2018-09-30)
 
 ### Issues Closed
