@@ -1,5 +1,23 @@
 # History of changes
 
+## Version 0.5.3 (2018-11-12)
+
+### Issues Closed
+
+* [Issue 103](https://github.com/spyder-ide/qtawesome/issues/103) - Pypi description is ugly
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 102](https://github.com/spyder-ide/qtawesome/pull/102) - PR: Update FontAwesome to 5.4.2
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 0.5.2 (2018-10-28)
 
 ### Pull Requests Merged
