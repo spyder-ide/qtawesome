@@ -3,9 +3,14 @@ import os
 import re
 import io
 import json
-import urllib2
 import hashlib
 import zipfile
+try:
+    # Python 2
+    from urllib2 import urlopen
+except ImportError:
+    # Python 3
+    from urllib.request import urlopen
 
 try:
     from setuptools import setup
@@ -82,7 +87,7 @@ class UpdateFA5Command(distutils.cmd.Command):
         # Otherwise, download it and make a file object in-memory:
         url = self.__release_url
         self.__print('Downloading from URL: %s' % url)
-        response = urllib2.urlopen(url)
+        response = urlopen(url)
         return io.BytesIO(response.read())
 
     @property
