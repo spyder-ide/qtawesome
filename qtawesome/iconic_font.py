@@ -35,9 +35,9 @@ SYSTEM_FONTS = False
 # MD5 Hashes for font files bundled with qtawesome:
 MD5_HASHES = {
     'fontawesome4.7-webfont.ttf': 'b06871f281fee6b241d60582ae9369b9',
-    'fontawesome5-regular-webfont.ttf': '0e2e26fb3527ae47f9eb1c217592b706',
-    'fontawesome5-solid-webfont.ttf': 'e143b57de78138e6d5963908afa7e393',
-    'fontawesome5-brands-webfont.ttf': 'dec02372212aab5a2e5294f1a11756ed',
+    'fontawesome5-regular-webfont.ttf': 'b48c48ea8457846a5695b139c377d3d1',
+    'fontawesome5-solid-webfont.ttf': '48f54f63d7711d0912a9a10205538fc4',
+    'fontawesome5-brands-webfont.ttf': 'b69de69a4ff8ca0abe96ec0b0c180c5b',
     'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
     'materialdesignicons-webfont.ttf': '023db9122f66b7d693bc52bcdf09e6b3',
 }
