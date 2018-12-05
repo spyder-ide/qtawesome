@@ -1,4 +1,17 @@
-To update font-awesome or elusive icons, one must
+# How to update font packs
+
+## FontAwesome
+
+To update _FontAwesome_ icons, one must:
+
+- run: python setup.py update_fa5
+- update version number, icon counts and URLs inside:
+  - README.md
+  - qtawesome/docs/source/usage.rst
+
+## Elusive Icons
+
+To update _Elusive Icons_, one must:
 
 - replace the ttf font file with the new version
 - regenerate the json charmap with the `icons.yml` file from the upstream repository:
@@ -20,7 +33,9 @@ with open('charmap.json', 'w') as file:
     json.dump(charmap, file, indent=4, sort_keys=True)
 ```
 
-To update material design icons, you must:
+## Material Design Icons
+
+To update _Material Design Icons_, you must:
 
 - download ttf from https://github.com/Templarian/MaterialDesign-Webfont
 - regenerate the json charmap with the `materialdesignicons.css` file.
