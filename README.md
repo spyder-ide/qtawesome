@@ -51,7 +51,7 @@ The following prefixes are currently available to use:
 
 - [**FontAwesome**](https://fontawesome.com):
 
-  - FA 5.5.0 features 1,409 free icons in different styles:
+  - FA 5.6.3 features 1,480 free icons in different styles:
 
     - `fa5` prefix has [151 icons in the "**regular**" style.](https://fontawesome.com/icons?d=gallery&s=regular&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.5.0,5.6.0,5.6.1,5.6.3&m=free)
     - `fa5s` prefix has [915 icons in the "**solid**" style.](https://fontawesome.com/icons?d=gallery&s=solid&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.5.0,5.6.0,5.6.1,5.6.3&m=free)
