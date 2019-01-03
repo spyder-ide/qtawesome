@@ -1,5 +1,19 @@
 # History of changes
 
+## Version 0.5.4 (2019-01-03)
+
+
+### Pull Requests Merged
+
+* [PR 105](https://github.com/spyder-ide/qtawesome/pull/105) - PR: Fix bad package dependency in docs/environment.yml
+* [PR 104](https://github.com/spyder-ide/qtawesome/pull/104) - PR: Update to FA 5.6.3 and new "update_fa5" setup.py subcommand
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 0.5.3 (2018-11-12)
 
 ### Issues Closed
