@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import io
+
 try:
     from setuptools import setup
     from setuptools.command.install import install
@@ -8,18 +9,22 @@ except ImportError:
     from distutils.core import setup
     from distutils.core.command.install import install
 
-here = os.path.abspath(os.path.dirname(__file__))
+# Code to add custom build commands comes from here:
+import setupbase
 
-version_ns = {}
-with open(os.path.join(here, 'qtawesome', '_version.py')) as f:
-    exec(f.read(), {}, version_ns)
+HERE = os.path.abspath(os.path.dirname(__file__))
 
-with io.open(os.path.join(here, 'README.md'), encoding='utf-8') as f:
+VERSION_NS = {}
+with open(os.path.join(HERE, 'qtawesome', '_version.py')) as f:
+    exec(f.read(), {}, VERSION_NS)
+
+with io.open(os.path.join(HERE, 'README.md'), encoding='utf-8') as f:
     LONG_DESCRIPTION = f.read()
+
 
 setup(
     name='QtAwesome',
-    version=version_ns['__version__'],
+    version=VERSION_NS['__version__'],
     description='FontAwesome icons in PyQt and PySide applications',
     long_description=LONG_DESCRIPTION,
     long_description_content_type='text/markdown',
@@ -39,5 +44,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',]
+        'Programming Language :: Python :: 3', ],
+    cmdclass={
+        'update_fa5': setupbase.UpdateFA5Command,
+    }
 )
