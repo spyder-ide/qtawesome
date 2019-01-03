@@ -1,5 +1,18 @@
 # History of changes
 
+## Version 0.5.5 (2019-01-03)
+
+
+### Pull Requests Merged
+
+* [PR 106](https://github.com/spyder-ide/qtawesome/pull/106) - PR: Add setupbase.py to our tarball
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 0.5.4 (2019-01-03)
 
 
