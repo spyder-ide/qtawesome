@@ -22,7 +22,10 @@ def test_segfault_import():
 
 def test_unique_font_family_name():
     """
-    Test that each font used by qtawesome has a unique name.
+    Test that each font used by qtawesome has a unique name. If this test
+    fails, this probably means that you need to rename the family name of
+    some fonts. Please see PR #98 for more details on why it is necessary and
+    on how to do this.
 
     Regression test for Issue #107
     """
