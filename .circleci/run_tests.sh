@@ -2,6 +2,7 @@
 
 export PATH="$HOME/miniconda/bin:$PATH"
 source activate test
+export PYTHONPATH=.
 
 python example.py
 
