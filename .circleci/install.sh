@@ -10,6 +10,7 @@ export PIP_DEPENDENCIES="codecov"
 echo -e "PYTHON = $PYTHON_VERSION \n============"
 git clone git://github.com/astropy/ci-helpers.git > /dev/null
 source ci-helpers/travis/setup_conda_$TRAVIS_OS_NAME.sh
+export PYTHONPATH=.
 export PATH="$HOME/miniconda/bin:$PATH"
 source activate test
 
