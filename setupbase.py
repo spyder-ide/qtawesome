@@ -1,10 +1,21 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 import os
 import re
 import io
+import sys
 import json
 import hashlib
 import zipfile
+
+try:
+    from fontTools import ttLib
+    # from fontTools.misc.py23 import tounicode, unicode
+except ImportError:
+    sys.exit(
+        "This special command requires the module 'fonttools': "
+        "https://github.com/fonttools/fonttools/")
+
 try:
     # Python 2
     from urllib2 import urlopen
@@ -18,12 +29,61 @@ import distutils.log
 HERE = os.path.abspath(os.path.dirname(__file__))
 
 
+def rename_font(font_path, font_name):
+    """
+    Font renaming code originally from:
+    https://github.com/chrissimpkins/fontname.py/blob/master/fontname.py
+    """
+    tt = ttLib.TTFont(font_path)
+    namerecord_list = tt["name"].names
+    variant = ""
+
+    # determine font variant for this file path from name record nameID 2
+    for record in namerecord_list:
+        if record.nameID == 2:
+            variant = (
+                record.toUnicode()
+            )  # cast to str type in Py 3, unicode type in Py 2
+            break
+
+    # test that a variant name was found in the OpenType tables of the font
+    if len(variant) == 0:
+        raise ValueError(
+            "Unable to detect the font variant from the OpenType name table in: %s" % font_path)
+
+    # used for the Postscript name in the name table (no spaces allowed)
+    postscript_font_name = font_name.replace(" ", "")
+    # font family name
+    nameID1_string = font_name
+    # full font name
+    nameID4_string = font_name + " " + variant
+    # Postscript name
+    # - no spaces allowed in family name or the PostScript suffix. should be dash delimited
+    nameID6_string = postscript_font_name + "-" + variant.replace(" ", "")
+
+    # modify the opentype table data in memory with updated values
+    for record in namerecord_list:
+        if record.nameID == 1:
+            record.string = nameID1_string
+        elif record.nameID == 4:
+            record.string = nameID4_string
+        elif record.nameID == 6:
+            record.string = nameID6_string
+
+    # write changes to the font file
+    try:
+        tt.save(font_path)
+    except:
+        raise RuntimeError(
+            "ERROR: unable to write new name to OpenType tables for: %s" % font_path)
+
+
 class UpdateFA5Command(distutils.cmd.Command):
     """A custom command to make updating FontAwesome 5.x easy!"""
     description = 'Try to update the FontAwesome 5.x data in the project.'
     user_options = [
-        ('fa-version=', None, 'FA version.'),
-        ('zip-path=', None, 'Read from local zip file path.'),
+        (str('fa-version='), None, str('FA version.')),
+        (str('zip-path='), None, str('Read from local zip file path.')),
     ]
 
     # Update these below if the FontAwesome changes their structure:
@@ -129,12 +189,23 @@ class UpdateFA5Command(distutils.cmd.Command):
                 json.dump(details, f, indent=4, sort_keys=True)
 
             # Dump a .ttf font file:
-            fontPath = self.__get_ttf_path(style)
+            font_path = self.__get_ttf_path(style)
             data = files[style]
-            hashes[style] = hashlib.md5(data).hexdigest()
-            self.__print('Dumping updated "%s" font: %s' % (style, fontPath))
-            with open(fontPath, 'w+') as f:
+            self.__print('Dumping updated "%s" font: %s' % (style, font_path))
+            with open(font_path, 'w+') as f:
                 f.write(data)
+
+            # Fix to prevent repeated font names:
+            if style in ('regular', 'solid'):
+                newName = str("Font Awesome 5 Free %s") % style.title()
+                self.__print('Renaming font to "%s" in: %s' % (newName, font_path))
+                rename_font(font_path, newName)
+                with open(font_path, 'rb') as f:
+                    data = f.read()
+                    files[style] = data
+
+            # Store hashes for later:
+            hashes[style] = hashlib.md5(data).hexdigest()
 
         # Now it's time to patch "iconic_font.py":
         iconic_path = self.ICONIC_FONT_PY_PATH
