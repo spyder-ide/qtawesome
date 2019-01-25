@@ -196,7 +196,7 @@ class UpdateFA5Command(distutils.cmd.Command):
             if style in ('regular', 'solid'):
                 new_name = str("Font Awesome 5 Free %s") % style.title()
                 self.__print('Renaming font to "%s" in: %s' % (new_name, font_path))
-                if ttlib is not None:
+                if ttLib is not None:
                     rename_font(font_path, new_name)
                 else:
                     sys.exit(
