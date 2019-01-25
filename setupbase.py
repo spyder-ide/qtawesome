@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals
 import os
 import re
 import io
@@ -79,8 +78,8 @@ class UpdateFA5Command(distutils.cmd.Command):
     """A custom command to make updating FontAwesome 5.x easy!"""
     description = 'Try to update the FontAwesome 5.x data in the project.'
     user_options = [
-        (str('fa-version='), None, str('FA version.')),
-        (str('zip-path='), None, str('Read from local zip file path.')),
+        ('fa-version=', None, 'FA version.'),
+        ('zip-path=', None, 'Read from local zip file path.'),
     ]
 
     # Update these below if the FontAwesome changes their structure:
