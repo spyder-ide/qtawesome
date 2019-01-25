@@ -3,7 +3,7 @@
 export TRAVIS_OS_NAME="linux"
 export CONDA_DEPENDENCIES_FLAGS="--quiet"
 export CONDA_DEPENDENCIES="qtpy pyqt pytest pytest-cov six"
-export PIP_DEPENDENCIES="codecov"
+export PIP_DEPENDENCIES="codecov pytest-qt"
 
 # Download and install miniconda and conda/pip dependencies
 # with astropy helpers

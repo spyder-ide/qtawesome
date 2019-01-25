@@ -13,6 +13,7 @@ environment:
       CMD_IN_ENV: "cmd /E:ON /V:ON /C .\\ci-helpers\\appveyor\\windows_sdk.cmd"
       PYTHON_ARCH: "64"
       CONDA_DEPENDENCIES: "qtpy pyqt pytest six"
+      PIP_DEPENDENCIES: "pytest-qt"
   matrix:
     # PyQt5
     - PYTHON_VERSION: "3.6"
