@@ -10,11 +10,8 @@ import zipfile
 
 try:
     from fontTools import ttLib
-    # from fontTools.misc.py23 import tounicode, unicode
 except ImportError:
-    sys.exit(
-        "This special command requires the module 'fonttools': "
-        "https://github.com/fonttools/fonttools/")
+    ttLib = None
 
 try:
     # Python 2
@@ -197,9 +194,16 @@ class UpdateFA5Command(distutils.cmd.Command):
 
             # Fix to prevent repeated font names:
             if style in ('regular', 'solid'):
-                newName = str("Font Awesome 5 Free %s") % style.title()
-                self.__print('Renaming font to "%s" in: %s' % (newName, font_path))
-                rename_font(font_path, newName)
+                new_name = str("Font Awesome 5 Free %s") % style.title()
+                self.__print('Renaming font to "%s" in: %s' % (new_name, font_path))
+                if ttlib is not None:
+                    rename_font(font_path, new_name)
+                else:
+                    sys.exit(
+                        "This special command requires the module 'fonttools': "
+                        "https://github.com/fonttools/fonttools/")
+
+                # Reread the data since we just edited the font file:
                 with open(font_path, 'rb') as f:
                     data = f.read()
                     files[style] = data
