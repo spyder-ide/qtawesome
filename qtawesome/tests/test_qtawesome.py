@@ -3,6 +3,7 @@ Tests for QtAwesome.
 """
 # Standard library imports
 import subprocess
+import collections
 
 # Test Library imports
 import pytest
@@ -30,13 +31,14 @@ def test_unique_font_family_name(qtbot):
     resource = qta._instance()
     assert isinstance(resource, IconicFont)
 
-    prefixes = list(resource.fontname.keys())
-    assert prefixes
-
-    fontnames = set(resource.fontname.values())
+    # Check that the fonts were loaded successfully.
+    fontnames = resource.fontname.values()
     assert fontnames
 
-    assert len(prefixes) == len(fontnames)
+    # Check that qtawesome does not load fonts with duplicate family names.
+    duplicates = [fontname for fontname, count in
+                  collections.Counter(fontnames).items() if count > 1]
+    assert not duplicates
 
 
 if __name__ == "__main__":
