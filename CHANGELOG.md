@@ -1,7 +1,26 @@
 # History of changes
 
-## Version 0.5.5 (2019-01-03)
+## Version 0.5.6 (2019-01-26)
 
+### Issues Closed
+
+* [Issue 107](https://github.com/spyder-ide/qtawesome/issues/107) - Some FontAwesome icons do not match ([PR 109](https://github.com/spyder-ide/qtawesome/pull/109))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 110](https://github.com/spyder-ide/qtawesome/pull/110) - PR: Update update_fa5 command to rename internal font names during update
+* [PR 109](https://github.com/spyder-ide/qtawesome/pull/109) - PR: Rename FA5 fonts to be unique ([107](https://github.com/spyder-ide/qtawesome/issues/107))
+* [PR 108](https://github.com/spyder-ide/qtawesome/pull/108) - PR: Add a test to ensure all fonts used by QtAwesome have a unique family name
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
+## Version 0.5.5 (2019-01-03)
 
 ### Pull Requests Merged
 
@@ -14,7 +33,6 @@ In this release 1 pull request was closed.
 
 
 ## Version 0.5.4 (2019-01-03)
-
 
 ### Pull Requests Merged
 
