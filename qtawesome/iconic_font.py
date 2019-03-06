@@ -162,6 +162,9 @@ class CharIconEngine(QIconEngine):
         self.paint(QPainter(pm), QRect(QPoint(0, 0), size), mode, state)
         return pm
 
+    def isNull(self):
+        return False
+
 
 class IconicFont(QObject):
 
