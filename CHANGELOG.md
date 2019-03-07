@@ -1,5 +1,23 @@
 # History of changes
 
+## Version 0.5.7 (2019-03-07)
+
+### Issues Closed
+
+* [Issue 113](https://github.com/spyder-ide/qtawesome/issues/113) - Corrupted icons with PyQt 5.12 ([PR 115](https://github.com/spyder-ide/qtawesome/pull/115))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 115](https://github.com/spyder-ide/qtawesome/pull/115) - PR: Keep icons alive in cache ([113](https://github.com/spyder-ide/qtawesome/issues/113))
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 0.5.6 (2019-01-26)
 
 ### Issues Closed
