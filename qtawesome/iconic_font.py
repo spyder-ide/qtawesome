@@ -185,6 +185,7 @@ class IconicFont(QObject):
         self.painters = {}
         self.fontname = {}
         self.charmap = {}
+        self.icon_cache = {}
         for fargs in args:
             self.load_font(*fargs)
 
@@ -250,29 +251,32 @@ class IconicFont(QObject):
 
     def icon(self, *names, **kwargs):
         """Return a QIcon object corresponding to the provided icon name."""
-        options_list = kwargs.pop('options', [{}] * len(names))
-        general_options = kwargs
+        cache_key = '{}{}'.format(names,kwargs)
+        if cache_key not in self.icon_cache:
+            options_list = kwargs.pop('options', [{}] * len(names))
+            general_options = kwargs
 
-        if len(options_list) != len(names):
-            error = '"options" must be a list of size {0}'.format(len(names))
-            raise Exception(error)
+            if len(options_list) != len(names):
+                error = '"options" must be a list of size {0}'.format(len(names))
+                raise Exception(error)
 
-        if QApplication.instance() is not None:
-            parsed_options = []
-            for i in range(len(options_list)):
-                specific_options = options_list[i]
-                parsed_options.append(self._parse_options(specific_options,
-                                                          general_options,
-                                                          names[i]))
+            if QApplication.instance() is not None:
+                parsed_options = []
+                for i in range(len(options_list)):
+                    specific_options = options_list[i]
+                    parsed_options.append(self._parse_options(specific_options,
+                                                              general_options,
+                                                              names[i]))
 
-            # Process high level API
-            api_options = parsed_options
+                # Process high level API
+                api_options = parsed_options
 
-            return self._icon_by_painter(self.painter, api_options)
-        else:
-            warnings.warn("You need to have a running "
-                          "QApplication to use QtAwesome!")
-            return QIcon()
+                self.icon_cache[cache_key] = self._icon_by_painter(self.painter, api_options)
+            else:
+                warnings.warn("You need to have a running "
+                              "QApplication to use QtAwesome!")
+                return QIcon()
+        return self.icon_cache[cache_key]
 
     def _parse_options(self, specific_options, general_options, name):
         options = dict(_default_options, **general_options)
