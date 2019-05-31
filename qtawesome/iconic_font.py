@@ -132,11 +132,13 @@ class CharIconPainter:
             rect.translate(options['offset'][0] * rect.width(),
                            options['offset'][1] * rect.height())
 
-        if 'rotated' in options:
+        if 'vflip' in options and options['vflip'] == True:
             x_center = rect.width() * 0.5
             y_center = rect.height() * 0.5
             painter.translate(x_center, y_center)
-            painter.rotate(options['rotated'])
+            transfrom = QTransform()
+            transfrom.scale(1,-1)
+            painter.setTransform(transfrom, True)
             painter.translate(-x_center, -y_center)
 
         if 'hflip' in options and options['hflip'] == True:
@@ -148,14 +150,13 @@ class CharIconPainter:
             painter.setTransform(transfrom, True)
             painter.translate(-x_center, -y_center)
 
-        elif 'vflip' in options and options['vflip'] == True:
+        if 'rotated' in options:
             x_center = rect.width() * 0.5
             y_center = rect.height() * 0.5
             painter.translate(x_center, y_center)
-            transfrom = QTransform()
-            transfrom.scale(1,-1)
-            painter.setTransform(transfrom, True)
+            painter.rotate(options['rotated'])
             painter.translate(-x_center, -y_center)
+
         painter.setOpacity(options.get('opacity', 1.0))
 
         painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, char)
