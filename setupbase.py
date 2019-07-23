@@ -171,13 +171,13 @@ class UpdateFA5Command(distutils.cmd.Command):
         data = json.loads(files['icons.json'])
 
         # Group icons by style, since not all icons exist for all styles:
-        for icon, info in data.items():
+        for icon, info in data.iteritems():
             for style in info['styles']:
                 icons.setdefault(str(style), {})
                 icons[str(style)][icon] = str(info['unicode'])
 
         # For every FA "style":
-        for style, details in icons.items():
+        for style, details in icons.iteritems():
             # Dump a .json charmap file:
             charmapPath = self.__get_charmap_path(style)
             self.__print('Dumping updated "%s" charmap: %s' % (style, charmapPath))
@@ -188,7 +188,7 @@ class UpdateFA5Command(distutils.cmd.Command):
             font_path = self.__get_ttf_path(style)
             data = files[style]
             self.__print('Dumping updated "%s" font: %s' % (style, font_path))
-            with open(font_path, 'wb+') as f:
+            with open(font_path, 'w+') as f:
                 f.write(data)
 
             # Fix to prevent repeated font names:
