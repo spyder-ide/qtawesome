@@ -1,5 +1,18 @@
 # History of changes
 
+## Version 0.5.8 (2019-07-23)
+
+
+### Pull Requests Merged
+
+* [PR 118](https://github.com/spyder-ide/qtawesome/pull/118) - PR: Remove Python 3.8 deprecation warnings
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 0.5.7 (2019-03-07)
 
 ### Issues Closed
