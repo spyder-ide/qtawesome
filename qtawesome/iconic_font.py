@@ -95,7 +95,7 @@ class CharIconPainter:
                 QIcon.Active: (options['color_on_active'],
                                options['on_active']),
                 QIcon.Selected: (options['color_on_selected'],
-                                 options['on_selected']) 
+                                 options['on_selected'])
             },
 
             QIcon.Off: {
@@ -105,7 +105,7 @@ class CharIconPainter:
                 QIcon.Active: (options['color_off_active'],
                                options['off_active']),
                 QIcon.Selected: (options['color_off_selected'],
-                                 options['off_selected']) 
+                                 options['off_selected'])
             }
         }
 
@@ -118,7 +118,7 @@ class CharIconPainter:
         # The reason why the glyph size is smaller than the icon size is to
         # account for font bearing.
 
-        draw_size = 0.875 * round(rect.height() * options['scale_factor'])
+        draw_size = round(0.875 * rect.height() * options['scale_factor'])
         prefix = options['prefix']
 
         # Animation setup hook
@@ -129,12 +129,12 @@ class CharIconPainter:
         painter.setFont(iconic.font(prefix, draw_size))
         if 'offset' in options:
             rect = QRect(rect)
-            rect.translate(options['offset'][0] * rect.width(),
-                           options['offset'][1] * rect.height())
+            rect.translate(round(options['offset'][0] * rect.width()),
+                           round(options['offset'][1] * rect.height()))
 
         painter.setOpacity(options.get('opacity', 1.0))
 
-        painter.drawText(rect, Qt.AlignCenter | Qt.AlignVCenter, char)
+        painter.drawText(rect, int(Qt.AlignCenter | Qt.AlignVCenter), char)
         painter.restore()
 
 
@@ -357,7 +357,7 @@ class IconicFont(QObject):
     def font(self, prefix, size):
         """Return a QFont corresponding to the given prefix and size."""
         font = QFont(self.fontname[prefix])
-        font.setPixelSize(size)
+        font.setPixelSize(round(size))
         if prefix[-1] == 's':  # solid style
             font.setStyleName('Solid')
         return font
