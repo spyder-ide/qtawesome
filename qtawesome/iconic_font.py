@@ -36,10 +36,10 @@ SYSTEM_FONTS = False
 MD5_HASHES = {
     'fontawesome4.7-webfont.ttf': 'b06871f281fee6b241d60582ae9369b9',
     'fontawesome5-regular-webfont.ttf': '6a745dc6a0871f350b0219f5a2678838',
-    'fontawesome5-solid-webfont.ttf': 'ab3b872bcb10de4ef62852b10e9ef103',
-    'fontawesome5-brands-webfont.ttf': 'd6ac6c968cff1abcbf5d548828b9f6c6',
+    'fontawesome5-solid-webfont.ttf': 'acf50f59802f20d8b45220eaae532a1c',
+    'fontawesome5-brands-webfont.ttf': 'ed2b8bf117160466ba6220a8f1da54a4',
     'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
-    'materialdesignicons-webfont.ttf': '023db9122f66b7d693bc52bcdf09e6b3',
+    'materialdesignicons-webfont.ttf': 'f558fb5cc12a31989a7e4048b4fba71a',
 }
 
 _default_options = {

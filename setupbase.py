@@ -216,7 +216,7 @@ class UpdateFA5Command(distutils.cmd.Command):
         with open(iconic_path, 'r') as iconic_file:
             contents = iconic_file.read()
         # We read it in full, then use regex substitution:
-        for style, md5 in hashes.items():
+        for style, md5 in hashes.iteritems():
             self.__print('New "%s" hash is: %s' % (style, md5))
             regex = r"('fontawesome5-%s-webfont.ttf':\s+)'(\w+)'" % style
             subst = r"\g<1>'" + md5 + "'"
