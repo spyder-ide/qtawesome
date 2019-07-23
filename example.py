@@ -26,6 +26,17 @@ class AwesomeExample(QtWidgets.QDialog):
         mdi_icon = qta.icon('mdi.access-point-network')
         mdi_button = QtWidgets.QPushButton(mdi_icon, 'Material Icons!')
 
+        # rotated
+        rot_icon = qta.icon('mdi.access-point-network', rotated=45)
+        rot_button = QtWidgets.QPushButton(rot_icon, 'Rotated Icons!')
+
+        # hflip
+        hflip_icon = qta.icon('mdi.account-alert', hflip=True)
+        hflip_button = QtWidgets.QPushButton(hflip_icon, 'Horizontally Flipped Icons!')
+
+        # vflip
+        vflip_icon = qta.icon('mdi.account-alert', vflip=True)
+        vflip_button = QtWidgets.QPushButton(vflip_icon, 'Vertically Flipped Icons!')
         # Styling
         styling_icon = qta.icon('fa5s.music',
                                 active='fa5s.balance-scale',
@@ -87,6 +98,7 @@ class AwesomeExample(QtWidgets.QDialog):
         # Layout
         vbox = QtWidgets.QVBoxLayout()
         widgets = [fa_button, elusive_button, mdi_button, music_button,
+                   rot_button, hflip_button, vflip_button,
                    toggle_button, stack_button, saveall_button, spin_button,
                    pulse_button, stack_spin_button, label]
 
