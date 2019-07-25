@@ -10,11 +10,11 @@ The following prefixes are currently available to use:
 
 -  `FontAwesome`_:
 
-   -  FA 5.6.3 features 1,480 free icons in different styles:
+   -  FA 5.9.0 features 1,534 free icons in different styles:
 
       -  ``fa5`` prefix has `151 icons in the "regular" style.`_
-      -  ``fa5s`` prefix has `915 icons in the "solid" style.`_
-      -  ``fa5b`` prefix has `414 icons of various brands.`_
+      -  ``fa5s`` prefix has `935 icons in the "solid" style.`_
+      -  ``fa5b`` prefix has `413 icons of various brands.`_
 
    -  ``fa`` is the legacy `FA 4.7 version with its 675 icons`_ but
       **all** of them (*and more!*) are part of FA 5.x so you should
