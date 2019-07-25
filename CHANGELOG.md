@@ -1,5 +1,29 @@
 # History of changes
 
+## Version 0.6.0 (2019-07-25)
+
+### New features
+
+* Add rotated, hflip, and vflip options
+
+### Issues Closed
+
+* [Issue 119](https://github.com/spyder-ide/qtawesome/issues/119) - Update FontAwesome and Material design icons ([PR 120](https://github.com/spyder-ide/qtawesome/pull/120))
+* [Issue 112](https://github.com/spyder-ide/qtawesome/issues/112) - Rotate icons by static angle i.e. 90, 180 etc ([PR 117](https://github.com/spyder-ide/qtawesome/pull/117))
+
+In this release 2 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 120](https://github.com/spyder-ide/qtawesome/pull/120) - PR: Update FontAwesome and Material design icons ([119](https://github.com/spyder-ide/qtawesome/issues/119))
+* [PR 117](https://github.com/spyder-ide/qtawesome/pull/117) - PR: Add rotated, hflip, and vflip options ([112](https://github.com/spyder-ide/qtawesome/issues/112))
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 0.5.8 (2019-07-23)
 
 
