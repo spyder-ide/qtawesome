@@ -240,9 +240,9 @@ class IconicFont(QObject):
                     if int(obj[key], 16) > 0xffff:
                         # ignoring unsupported code in Python 2.7 32bit Windows
                         # ValueError: unichr() arg not in range(0x10000) (narrow Python build)
-                        pass
+                        warnings.warn("Your Python version doesn't support character code {0}".format(obj[key]))
                     else:
-                        raise FontError(u'Failed to load characteur {0}:{1}'.format(key, obj[key]))
+                        raise FontError(u'Failed to load character {0}:{1}'.format(key, obj[key]))
             return result
 
         if directory is None:
