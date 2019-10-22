@@ -49,7 +49,7 @@ with open('css/materialdesignicons.css', 'r') as fp:
     rawcss = fp.read()
 
 charmap = {}
-pattern = '^\.mdi-(.+):before {\s*content: "(.+)";\s*}$'
+pattern = '^\.mdi-(.+)::before {\s*content: "(.+)";\s*}$'
 data = re.findall(pattern, rawcss, re.MULTILINE)
 for name, key in data:
     key = key.replace('\\F', '0xf').lower()

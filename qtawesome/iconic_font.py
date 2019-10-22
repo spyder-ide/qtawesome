@@ -39,7 +39,7 @@ MD5_HASHES = {
     'fontawesome5-solid-webfont.ttf': 'acf50f59802f20d8b45220eaae532a1c',
     'fontawesome5-brands-webfont.ttf': 'ed2b8bf117160466ba6220a8f1da54a4',
     'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
-    'materialdesignicons-webfont.ttf': 'f558fb5cc12a31989a7e4048b4fba71a',
+    'materialdesignicons-webfont.ttf': '3ac50b5b36eb2f11b000dce1792d0bb0',
 }
 
 _default_options = {
@@ -234,7 +234,18 @@ class IconicFont(QObject):
         def hook(obj):
             result = {}
             for key in obj:
-                result[key] = unichr(int(obj[key], 16))
+                try:
+                    result[key] = unichr(int(obj[key], 16))
+                except ValueError:
+                    if int(obj[key], 16) > 0xffff:
+                        # ignoring unsupported code in Python 2.7 32bit Windows
+                        # ValueError: unichr() arg not in range(0x10000)
+                        warnings.warn("Your Python version doesn't support "
+                                      "character {0}:{1}".format(key,
+                                                                 obj[key]))
+                    else:
+                        raise FontError(u'Failed to load character '
+                                        '{0}:{1}'.format(key, obj[key]))
             return result
 
         if directory is None:
