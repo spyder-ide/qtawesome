@@ -91,6 +91,16 @@ Examples
    spin_button = QtGui.QPushButton(' Spinning icon')
    spin_icon = qta.icon('fa5s.spinner', color='red',
 
+- Display Icon as a widget:
+
+.. code:: python
+
+   # Spining icon as a widget
+   spin_widget = qta.IconWidget()
+   spin_icon = qta.icon('mdi.loading', color='red',
+                        animation=qta.Spin(spin_widget))
+   spin_widget.setIcon(spin_icon)
+
 Screenshot
 ~~~~~~~~~~
 
