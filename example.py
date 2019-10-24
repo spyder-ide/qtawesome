@@ -57,6 +57,17 @@ class AwesomeExample(QtWidgets.QDialog):
         label = QtWidgets.QLabel(unichr(0xf19c) + ' ' + 'Label')
         label.setFont(qta.font('fa', 16))
 
+        iconwidget = qta.IconWidget()
+        spin_icon = qta.icon('mdi.loading', color='red',
+                             animation=qta.Spin(iconwidget))
+        iconwidget.setIcon(spin_icon)
+        iconwidget.setIconSize(QtCore.QSize(32, 32))
+        iconwidgetholder = QtWidgets.QWidget()
+        lo = QtWidgets.QHBoxLayout()
+        lo.addWidget(iconwidget)
+        lo.addWidget(QtWidgets.QLabel('IconWidget'))
+        iconwidgetholder.setLayout(lo)
+
         # Stack icons
         camera_ban = qta.icon('fa5s.camera', 'fa5s.ban',
                               options=[{'scale_factor': 0.5,
@@ -100,7 +111,7 @@ class AwesomeExample(QtWidgets.QDialog):
         widgets = [fa_button, elusive_button, mdi_button, music_button,
                    rot_button, hflip_button, vflip_button,
                    toggle_button, stack_button, saveall_button, spin_button,
-                   pulse_button, stack_spin_button, label]
+                   pulse_button, stack_spin_button, label, iconwidgetholder]
 
         for w in widgets:
             vbox.addWidget(w)
