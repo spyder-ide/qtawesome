@@ -39,13 +39,13 @@ with open('charmap.json', 'w') as file:
 To update _Material Design Icons_, you must:
 
 - download ttf from https://github.com/Templarian/MaterialDesign-Webfont
-- regenerate the json charmap with the `materialdesignicons.css` file.
+- regenerate the json charmap with the `materialdesignicons.css` file from https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/css/materialdesignicons.css
 
 ```Python
 import re
 import json
 
-with open('css/materialdesignicons.css', 'r') as fp:
+with open('materialdesignicons.css', 'r') as fp:
     rawcss = fp.read()
 
 charmap = {}
