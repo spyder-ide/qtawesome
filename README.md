@@ -74,19 +74,19 @@ import qtawesome as qta
 ```python
 # Get FontAwesome 5.x icons by name in various styles:
 fa5_icon = qta.icon('fa5.flag')
-fa5_button = QtGui.QPushButton(fa5_icon, 'Font Awesome! (regular)')
+fa5_button = QtWidgets.QPushButton(fa5_icon, 'Font Awesome! (regular)')
 fa5s_icon = qta.icon('fa5s.flag')
-fa5s_button = QtGui.QPushButton(fa5s_icon, 'Font Awesome! (solid)')
+fa5s_button = QtWidgets.QPushButton(fa5s_icon, 'Font Awesome! (solid)')
 fa5b_icon = qta.icon('fa5b.github')
-fa5b_button = QtGui.QPushButton(fa5b_icon, 'Font Awesome! (brands)')
+fa5b_button = QtWidgets.QPushButton(fa5b_icon, 'Font Awesome! (brands)')
 
 # or Elusive Icons:
 asl_icon = qta.icon('ei.asl')
-elusive_button = QtGui.QPushButton(asl_icon, 'Elusive Icons!')
+elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 
 # or Material Design Icons:
 apn_icon = qta.icon('mdi.access-point-network')
-mdi_button = QtGui.QPushButton(apn_icon, 'Material Design Icons!')
+mdi_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
 
 ```
 
@@ -98,7 +98,7 @@ styling_icon = qta.icon('fa5s.music',
                         active='fa5s.balance-scale',
                         color='blue',
                         color_active='orange')
-music_button = QtGui.QPushButton(styling_icon, 'Styling')
+music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
 ```
 
 - Stack multiple icons
@@ -109,7 +109,7 @@ camera_ban = qta.icon('fa5s.camera', 'fa5s.ban',
                       options=[{'scale_factor': 0.5,
                                 'active': 'fa5s.balance-scale'},
                                {'color': 'red'}])
-stack_button = QtGui.QPushButton(camera_ban, 'Stack')
+stack_button = QtWidgets.QPushButton(camera_ban, 'Stack')
 stack_button.setIconSize(QtCore.QSize(32, 32))
 ```
 
@@ -117,7 +117,7 @@ stack_button.setIconSize(QtCore.QSize(32, 32))
 
 ```python
 # Spining icons
-spin_button = QtGui.QPushButton(' Spinning icon')
+spin_button = QtWidgets.QPushButton(' Spinning icon')
 spin_icon = qta.icon('fa5s.spinner', color='red',
                      animation=qta.Spin(spin_button))
 spin_button.setIcon(spin_icon)
