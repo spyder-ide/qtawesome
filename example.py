@@ -67,6 +67,7 @@ class AwesomeExample(QtWidgets.QDialog):
         lo.addWidget(iconwidget)
         lo.addWidget(QtWidgets.QLabel('IconWidget'))
         iconwidgetholder.setLayout(lo)
+        iconwidget2 = qta.IconWidget('mdi.web', color='blue')
 
         # Stack icons
         camera_ban = qta.icon('fa5s.camera', 'fa5s.ban',
@@ -111,7 +112,7 @@ class AwesomeExample(QtWidgets.QDialog):
         widgets = [fa_button, elusive_button, mdi_button, music_button,
                    rot_button, hflip_button, vflip_button,
                    toggle_button, stack_button, saveall_button, spin_button,
-                   pulse_button, stack_spin_button, label, iconwidgetholder]
+                   pulse_button, stack_spin_button, label, iconwidgetholder, iconwidget2]
 
         for w in widgets:
             vbox.addWidget(w)
