@@ -245,4 +245,4 @@ class IconWidget(QtWidgets.QLabel):
     def update(self, *args, **kwargs):
         if self._icon:
             self.setPixmap(self._icon.pixmap(self._size))
-        return super().update(*args, **kwargs)
+        return super(IconWidget, self).update(*args, **kwargs)
