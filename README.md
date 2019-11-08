@@ -132,7 +132,7 @@ spin_icon = qta.icon('mdi.loading', color='red',
                      animation=qta.Spin(spin_widget))
 spin_widget.setIcon(spin_icon)
 
-# simple widget
+# Simple icon widget
 simple_widget = qta.IconWidget('mdi.web', color='blue')
 ```
 
