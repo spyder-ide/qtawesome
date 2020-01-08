@@ -11,7 +11,7 @@
 [![CircleCI build status](https://circleci.com/gh/spyder-ide/qtawesome/tree/master.svg?style=shield)](https://circleci.com/gh/spyder-ide/qtawesome/tree/master)
 [![Documentation Status](https://readthedocs.org/projects/qtawesome/badge/?version=latest)](http://qtawesome.readthedocs.org/en/latest/?badge=latest)
 
-*Copyright © 2015–2018 Spyder Project Contributors*
+*Copyright © 2015–2020 Spyder Project Contributors*
 
 
 ## Description
@@ -26,18 +26,16 @@ C++ library by Rick Blommers.
 
 ## Installation
 
-Using `pip`:
-
-Make sure you have [pip installed](https://pip.readthedocs.org/en/stable/installing/) and run:
-
-```
-pip install qtawesome
-```
-
 Using `conda`:
 
 ```
 conda install qtawesome
+```
+
+or using `pip` (only if you don't have conda installed):
+
+```
+pip install qtawesome
 ```
 
 
@@ -145,20 +143,12 @@ See the [LICENSE](LICENSE) file for details.
 The Font Awesome, Elusive Icons and Material Design Icons fonts are licensed under the SIL Open Font License.
 
 
-## Contributing
-
-Everyone is welcome to contribute!
-
-
-## Backers
-
-Support us with a monthly donation and help us continue our activities.
-
-[![Backers](https://opencollective.com/spyder/backers.svg)](https://opencollective.com/spyder#support)
-
-
 ## Sponsors
 
-Become a sponsor to get your logo on our README on Github.
+Spyder and its subprojects are funded thanks to the generous support of
+
+[![Quansight](https://static.wixstatic.com/media/095d2c_2508c560e87d436ea00357abc404cf1d~mv2.png/v1/crop/x_0,y_9,w_915,h_329/fill/w_380,h_128,al_c,usm_0.66_1.00_0.01/095d2c_2508c560e87d436ea00357abc404cf1d~mv2.png)](https://www.quansight.com/)[![Numfocus](https://i2.wp.com/numfocus.org/wp-content/uploads/2017/07/NumFocus_LRG.png?fit=320%2C148&ssl=1)](https://numfocus.org/)
+
+and the donations we have received from our users around the world through [Open Collective](https://opencollective.com/spyder/):
 
 [![Sponsors](https://opencollective.com/spyder/sponsors.svg)](https://opencollective.com/spyder#support)
