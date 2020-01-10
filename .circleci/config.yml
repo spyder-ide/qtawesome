@@ -32,6 +32,16 @@ jobs:
     environment:
       - PYTHON_VERSION: "3.6"
 
+  python3.7:
+    <<: *main
+    environment:
+      - PYTHON_VERSION: "3.7"
+
+  python3.8:
+    <<: *main
+    environment:
+      - PYTHON_VERSION: "3.8"
+
 workflows:
   version: 2
   build_and_test:
@@ -39,3 +49,5 @@ workflows:
       - python2.7
       - python3.5
       - python3.6
+      - python3.7
+      - python3.8
