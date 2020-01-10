@@ -230,7 +230,7 @@ class IconWidget(QtWidgets.QLabel):
     it supports setIcon() and setIconSize()
     '''
     def __init__(self, *names, **kwargs):
-        super(IconWidget, self).__init__()
+        super(IconWidget, self).__init__(parent=kwargs.get('parent'))
         self._icon = None
         self._size = QtCore.QSize(16, 16)
         self.setIcon(icon(*names, **kwargs))
