@@ -95,7 +95,7 @@ Examples
 
 .. code:: python
 
-   # Spining icon as a widget
+   # Spining icon widget
    spin_widget = qta.IconWidget()
    spin_icon = qta.icon('mdi.loading', color='red',
                         animation=qta.Spin(spin_widget))

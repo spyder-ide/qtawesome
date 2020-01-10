@@ -126,7 +126,7 @@ spin_button.setIcon(spin_icon)
 - Display Icon as a widget
 
 ```python
-# Spining icon as a widget
+# Spining icon widget
 spin_widget = qta.IconWidget()
 spin_icon = qta.icon('mdi.loading', color='red',
                      animation=qta.Spin(spin_widget))
