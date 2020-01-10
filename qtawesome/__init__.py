@@ -236,10 +236,26 @@ class IconWidget(QtWidgets.QLabel):
         self.setIcon(icon(*names, **kwargs))
 
     def setIcon(self, _icon):
+        '''
+        set a new qta.icon()
+
+        Parameters
+        ----------
+        _icon: qta.icon
+            icon to set
+        '''
         self._icon = _icon
         self.setPixmap(_icon.pixmap(self._size))
 
     def setIconSize(self, size):
+        '''
+        set icon size
+
+        Parameters
+        ----------
+        size: QtCore.QSize
+            size of the icon
+        '''
         self._size = size
 
     def update(self, *args, **kwargs):
