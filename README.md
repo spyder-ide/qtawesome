@@ -61,7 +61,7 @@ The following prefixes are currently available to use:
 
 - `ei` prefix holds [**Elusive Icons** 2.0 with its 304 icons](http://elusiveicons.com/icons/).
 
-- `mdi` prefix holds [**Material Design Icons** 4.7.95 with its 4795 icons.](https://cdn.materialdesignicons.com/4.7.95/)
+- `mdi` prefix holds [**Material Design Icons** 4.8.95 with its 4895 icons.](https://cdn.materialdesignicons.com/4.8.95/)
 
 ### Examples
 

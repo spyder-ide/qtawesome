@@ -39,7 +39,7 @@ MD5_HASHES = {
     'fontawesome5-solid-webfont.ttf': 'acf50f59802f20d8b45220eaae532a1c',
     'fontawesome5-brands-webfont.ttf': 'ed2b8bf117160466ba6220a8f1da54a4',
     'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
-    'materialdesignicons-webfont.ttf': '1618c77b6c5c11926819a8868a083031',
+    'materialdesignicons-webfont.ttf': '2abd86f90b3fd9d18d950195282cd8d5',
 }
 
 _default_options = {
