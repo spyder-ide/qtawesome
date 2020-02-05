@@ -10,7 +10,7 @@ To release a new version of qtawesome on PyPI:
 
 * Update _version.py (set release version, remove 'dev')
 
-* git add and git commit
+* git add and git commit with "Release x.x.x"
 
 * python setup.py sdist
 
@@ -18,12 +18,12 @@ To release a new version of qtawesome on PyPI:
 
 * twine upload dist/*
 
-* git tag -a vX.X.X -m 'comment'
+* git tag -a vX.X.X -m 'Release x.x.x'
 
 * Update _version.py (add 'dev0' and increment minor)
 
-* git add and git commit
+* git add and git commit with "Back to work"
 
-* git push
+* git push upstream master
 
-* git push --tags
+* git push upstream --tags
