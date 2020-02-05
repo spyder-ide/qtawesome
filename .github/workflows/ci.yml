@@ -1,0 +1,45 @@
+name: Run tests
+
+on:
+  # This avoids having duplicate builds for a pull request
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build:
+    name: Py${{ matrix.PYTHON_VERSION }}
+    runs-on: ubuntu-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['3.5', '3.6', '3.7']
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Cache pip
+        uses: actions/cache@v1
+        with:
+          path: ~\AppData\Local\pip\Cache
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements/*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: test
+           auto-update-conda: true
+           auto-activate-base: true
+           python-version: ${{ matrix.PYTHON_VERSION }} 
+      - name: Install Dependencies
+        shell: bash -l {0}
+        run: conda install codecov pyqt pytest pytest-cov pytest-qt qtpy six
+      - name: Run tests
+        shell: bash -l {0}
+        run: pytest -x -vv --cov=qtawesome --cov-report=term-missing qtawesome
