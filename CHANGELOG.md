@@ -1,5 +1,21 @@
 # History of changes
 
+## Version 0.6.1 (2020-01-08)
+
+### Pull Requests Merged
+
+* [PR 130](https://github.com/spyder-ide/qtawesome/pull/130) - PR: Improve sponsors section in readme
+* [PR 128](https://github.com/spyder-ide/qtawesome/pull/128) - PR: Replace QtGui by QtWidgets in docs
+* [PR 126](https://github.com/spyder-ide/qtawesome/pull/126) - PR: Update MDI to 4.5.95
+* [PR 122](https://github.com/spyder-ide/qtawesome/pull/122) - PR: Update MDI to 4.4.95
+* [PR 121](https://github.com/spyder-ide/qtawesome/pull/121) - PR: Update number of icons in Readme and docs
+
+In this release 5 pull requests were closed.
+
+
+----
+
+
 ## Version 0.6.0 (2019-07-25)
 
 ### New features
@@ -25,7 +41,6 @@ In this release 2 pull requests were closed.
 
 
 ## Version 0.5.8 (2019-07-23)
-
 
 ### Pull Requests Merged
 

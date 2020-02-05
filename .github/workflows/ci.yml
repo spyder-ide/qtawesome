@@ -1,0 +1,150 @@
+name: Tests
+
+on:
+  # This avoids having duplicate builds for a pull request
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  smoke:
+    name: Linux smoke test Py${{ matrix.PYTHON_VERSION }}
+    runs-on: ubuntu-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['2.7', '3.5']
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Install System Packages
+        run: | 
+          sudo apt-get update
+          sudo apt-get install libegl1-mesa
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: test
+           auto-update-conda: true
+           auto-activate-base: true
+           python-version: ${{ matrix.PYTHON_VERSION }} 
+      - name: Install Dependencies
+        shell: bash -l {0}
+        run: conda install codecov pyqt pytest pytest-cov pytest-qt qtpy six -c spyder-ide
+      - name: Install Package
+        shell: bash -l {0}
+        run: python setup.py develop
+      - name: Run tests
+        shell: bash -l {0}
+        run: |
+          xvfb-run --auto-servernum python example.py
+          xvfb-run --auto-servernum pytest -x -vv --cov=qtawesome --cov-report=term-missing qtawesome
+
+  linux:
+    name: Linux Py${{ matrix.PYTHON_VERSION }}
+    needs: smoke
+    runs-on: ubuntu-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['3.8']
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Install System Packages
+        run: | 
+          sudo apt-get update
+          sudo apt-get install libegl1-mesa
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: test
+           auto-update-conda: true
+           auto-activate-base: true
+           python-version: ${{ matrix.PYTHON_VERSION }} 
+      - name: Install Dependencies
+        shell: bash -l {0}
+        run: conda install codecov pyqt pytest pytest-cov pytest-qt qtpy six -c spyder-ide
+      - name: Install Package
+        shell: bash -l {0}
+        run: python setup.py develop
+      - name: Run tests
+        shell: bash -l {0}
+        run: |
+          xvfb-run --auto-servernum python example.py
+          xvfb-run --auto-servernum pytest -x -vv --cov=qtawesome --cov-report=term-missing qtawesome
+      - name: Upload coverage to Codecov  
+        shell: bash -l {0}
+        run: codecov -t ed8563f8-ec80-484d-83eb-4233d7a083d2
+
+  windows:
+    name: Windows Py${{ matrix.PYTHON_VERSION }}
+    needs: smoke
+    runs-on: windows-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['3.5', '3.8']
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: test
+           auto-update-conda: true
+           auto-activate-base: true
+           python-version: ${{ matrix.PYTHON_VERSION }} 
+      - name: Install Dependencies
+        run: conda install codecov pyqt pytest pytest-cov pytest-qt qtpy six -c spyder-ide
+      - name: Install Package
+        run: python setup.py develop
+      - name: Run tests
+        run: |
+          python example.py
+          pytest -x -vv --cov=qtawesome --cov-report=term-missing qtawesome
+
+  macos:
+    name: Mac Py${{ matrix.PYTHON_VERSION }}
+    needs: smoke
+    runs-on: macos-latest
+    env:
+      CI: True
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        PYTHON_VERSION: ['2.7', '3.5', '3.8']
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1.2.0
+      - name: Install Conda
+        uses: goanpeca/setup-miniconda@v1
+        with:
+           activate-environment: test
+           auto-update-conda: true
+           auto-activate-base: true
+           python-version: ${{ matrix.PYTHON_VERSION }} 
+      - name: Install Dependencies
+        shell: bash -l {0}
+        run: conda install codecov pyqt pytest pytest-cov pytest-qt qtpy six -c spyder-ide
+      - name: Install Package
+        shell: bash -l {0}
+        run: python setup.py develop
+      - name: Run tests
+        shell: bash -l {0}
+        run: |
+          python example.py
+          pytest -x -vv --cov=qtawesome --cov-report=term-missing qtawesome
