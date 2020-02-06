@@ -41,12 +41,38 @@ To update _Material Design Icons_, you must:
 - download ttf from <https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/fonts/materialdesignicons-webfont.ttf>
 - regenerate the json charmap with the `materialdesignicons.css` file from <https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/css/materialdesignicons.css>
 
+The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update iconic_font.py)
+
 ```Python
 import re
 import json
+import urllib.request
+import hashlib
 
-with open('materialdesignicons.css', 'r') as fp:
-    rawcss = fp.read()
+TTF_URL = 'https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/fonts/materialdesignicons-webfont.ttf'
+CSS_URL = 'https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/css/materialdesignicons.css'
+
+with open('materialdesignicons-webfont.ttf', 'wb') as fp:
+    req = urllib.request.urlopen(TTF_URL)
+    if req.status != 200:
+        raise Exception('Failed to download TTF')
+    fp.write(req.read())
+    req.close()
+
+hasher = hashlib.md5()
+with open('materialdesignicons-webfont.ttf', 'rb') as f:
+    content = f.read()
+    hasher.update(content)
+
+ttf_calculated_hash_code = hasher.hexdigest()
+print('MD5 :', ttf_calculated_hash_code)
+
+req = urllib.request.urlopen(CSS_URL)
+if req.status != 200:
+    raise Exception('Failed to download CSS Charmap')
+
+rawcss = req.read().decode()
+req.close()
 
 charmap = {}
 pattern = '^\.mdi-(.+)::before {\s*content: "(.+)";\s*}$'
@@ -59,4 +85,5 @@ for name, key in data:
 
 with open('materialdesignicons-webfont-charmap.json', 'w') as fp:
     json.dump(charmap, fp, indent=4, sort_keys=True)
+
 ```
