@@ -47,5 +47,8 @@ setup(
         'Programming Language :: Python :: 3', ],
     cmdclass={
         'update_fa5': setupbase.UpdateFA5Command,
+    },
+    entry_points={
+        'console_scripts': ['qta-browser=qtawesome.icon_browser:run'],
     }
 )

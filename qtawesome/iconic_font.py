@@ -15,18 +15,17 @@ methods returning instances of ``QIcon``.
 
 # Standard library imports
 from __future__ import print_function
+import hashlib
 import json
 import os
-import hashlib
 import warnings
 
 # Third party imports
-from qtpy.QtCore import QObject, QPoint, QRect, Qt
+from six import unichr
+from qtpy.QtCore import QByteArray, QObject, QPoint, QRect, Qt
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap, QTransform)
 from qtpy.QtWidgets import QApplication
-from six import unichr
-
 
 # Linux packagers, please set this to True if you want to make qtawesome
 # use system fonts
@@ -39,7 +38,7 @@ MD5_HASHES = {
     'fontawesome5-solid-webfont.ttf': 'acf50f59802f20d8b45220eaae532a1c',
     'fontawesome5-brands-webfont.ttf': 'ed2b8bf117160466ba6220a8f1da54a4',
     'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
-    'materialdesignicons-webfont.ttf': '3ac50b5b36eb2f11b000dce1792d0bb0',
+    'materialdesignicons-webfont.ttf': 'f51112347be6b44f9ef46151a971430d',
 }
 
 _default_options = {
@@ -254,10 +253,13 @@ class IconicFont(QObject):
 
         # Load font
         if QApplication.instance() is not None:
-            id_ = QFontDatabase.addApplicationFont(os.path.join(directory,
-                                                                ttf_filename))
+            with open(os.path.join(directory, ttf_filename), 'rb') as font_data:
+                id_ = QFontDatabase.addApplicationFontFromData(QByteArray(font_data.read()))
+            font_data.close()
+
             loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
-            if(loadedFontFamilies):
+
+            if loadedFontFamilies:
                 self.fontname[prefix] = loadedFontFamilies[0]
             else:
                 raise FontError(u"Font at '{0}' appears to be empty. "

@@ -22,3 +22,6 @@ parsers:
       macro: no
    
 comment: false
+
+ignore:
+  - "qtawesome/icon_browser.py"
