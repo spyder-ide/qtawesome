@@ -1,6 +1,6 @@
 include qtawesome/fonts/*
 recursive-include docs *
 exclude docs/*.yml
-include CHANGELOG.md LICENSE README.md
+include CHANGELOG.md LICENSE.txt README.md
 include example.py setupbase.py
 recursive-include qtawesome/tests *
