@@ -15,18 +15,17 @@ methods returning instances of ``QIcon``.
 
 # Standard library imports
 from __future__ import print_function
+import hashlib
 import json
 import os
-import hashlib
 import warnings
 
 # Third party imports
-from qtpy.QtCore import QObject, QPoint, QRect, Qt
+from six import unichr
+from qtpy.QtCore import QByteArray, QObject, QPoint, QRect, Qt
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap, QTransform)
 from qtpy.QtWidgets import QApplication
-from six import unichr
-
 
 # Linux packagers, please set this to True if you want to make qtawesome
 # use system fonts
@@ -254,10 +253,13 @@ class IconicFont(QObject):
 
         # Load font
         if QApplication.instance() is not None:
-            id_ = QFontDatabase.addApplicationFont(os.path.join(directory,
-                                                                ttf_filename))
+            with open(os.path.join(directory, ttf_filename), 'rb') as font_data:
+                id_ = QFontDatabase.addApplicationFontFromData(QByteArray(font_data.read()))
+            font_data.close()
+
             loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
-            if(loadedFontFamilies):
+
+            if loadedFontFamilies:
                 self.fontname[prefix] = loadedFontFamilies[0]
             else:
                 raise FontError(u"Font at '{0}' appears to be empty. "
