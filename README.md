@@ -58,7 +58,7 @@ The following prefixes are currently available to use:
 
 - `ei` prefix holds [**Elusive Icons** 2.0 with its 304 icons](http://elusiveicons.com/icons/).
 
-- `mdi` prefix holds [**Material Design Icons** 4.4.95 with its 4495 icons.](https://cdn.materialdesignicons.com/4.4.95/)
+- `mdi` prefix holds [**Material Design Icons** 4.9.95 with its 4995 icons.](https://cdn.materialdesignicons.com/4.9.95/)
 
 ### Examples
 
@@ -145,6 +145,16 @@ simple_widget = qta.IconWidget('mdi.web', color='blue')
   function allows to load other fonts dynamically.
 - QtAwesome relies on the [QtPy](https://github.com/spyder-ide/qtpy.git)
   project as a compatibility layer on the top ot PyQt or PySide.
+
+### Icon Browser
+
+QtAwesome ships with a browser that displays all the available icons.  You can
+use this to search for an icon that suits your requirements and then copy the
+name that should be used to create that icon!
+
+Once installed, run `qta-browser` from a shell to start the browser.
+
+![QtAwesomeIconbrowser](qtawesome-browser.png)
 
 
 ## License
