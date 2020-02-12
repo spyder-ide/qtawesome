@@ -225,7 +225,7 @@ def set_defaults(**kwargs):
 
 
 class IconWidget(QtWidgets.QLabel):
-    '''
+    """
     IconWidget gives the ability to display an icon as a widget
 
     if supports the same arguments as icon()
@@ -235,7 +235,8 @@ class IconWidget(QtWidgets.QLabel):
                                 color_active='orange')
 
     it also have setIcon() and setIconSize() functions
-    '''
+    """
+
     def __init__(self, *names, **kwargs):
         super(IconWidget, self).__init__(parent=kwargs.get('parent'))
         self._icon = None
@@ -243,26 +244,26 @@ class IconWidget(QtWidgets.QLabel):
         self.setIcon(icon(*names, **kwargs))
 
     def setIcon(self, _icon):
-        '''
+        """
         set a new icon()
 
         Parameters
         ----------
         _icon: qtawesome.icon
             icon to set
-        '''
+        """
         self._icon = _icon
         self.setPixmap(_icon.pixmap(self._size))
 
     def setIconSize(self, size):
-        '''
+        """
         set icon size
 
         Parameters
         ----------
         size: QtCore.QSize
             size of the icon
-        '''
+        """
         self._size = size
 
     def update(self, *args, **kwargs):
