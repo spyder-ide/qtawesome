@@ -1,5 +1,35 @@
 # History of changes
 
+## Version 0.7.0 (2020-02-12)
+
+### New features
+
+* Update Material design icons to 4.9.95
+* Add IconWidget class to display icons as widgets
+* Add an icon browser
+
+### Issues Closed
+
+* [Issue 125](https://github.com/spyder-ide/qtawesome/issues/125) - addApplicationFont Locks fonts from reading  ([PR 138](https://github.com/spyder-ide/qtawesome/pull/138))
+* [Issue 45](https://github.com/spyder-ide/qtawesome/issues/45) - Documentation does not reflect the new "State (On, Off)" ([PR 137](https://github.com/spyder-ide/qtawesome/pull/137))
+
+In this release 2 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 138](https://github.com/spyder-ide/qtawesome/pull/138) - PR: Fix file lock ([125](https://github.com/spyder-ide/qtawesome/issues/125))
+* [PR 137](https://github.com/spyder-ide/qtawesome/pull/137) - PR: Update documentation and images ([45](https://github.com/spyder-ide/qtawesome/issues/45))
+* [PR 135](https://github.com/spyder-ide/qtawesome/pull/135) - PR: Use Github as the only CI provider
+* [PR 131](https://github.com/spyder-ide/qtawesome/pull/131) - PR: Update MDI to 4.9.95
+* [PR 127](https://github.com/spyder-ide/qtawesome/pull/127) - PR: Add IconWidget to display icon as widget
+* [PR 123](https://github.com/spyder-ide/qtawesome/pull/123) - PR: Add an icon browser
+
+In this release 6 pull requests were closed.
+
+
+----
+
+
 ## Version 0.6.1 (2020-01-08)
 
 ### Pull Requests Merged
