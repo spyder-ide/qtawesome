@@ -19,6 +19,7 @@ Font-Awesome and other iconic fonts for PyQt / PySide applications.
 from .iconic_font import IconicFont, set_global_defaults
 from .animation import Pulse, Spin
 from ._version import version_info, __version__
+from qtpy import QtWidgets, QtCore
 
 _resource = { 'iconic': None }
 
@@ -222,3 +223,50 @@ def set_defaults(**kwargs):
     """
     return set_global_defaults(**kwargs)
 
+
+class IconWidget(QtWidgets.QLabel):
+    """
+    IconWidget gives the ability to display an icon as a widget
+
+    if supports the same arguments as icon()
+    for example
+    music_icon = qta.IconWidget('fa5s.music',
+                                color='blue',
+                                color_active='orange')
+
+    it also have setIcon() and setIconSize() functions
+    """
+
+    def __init__(self, *names, **kwargs):
+        super(IconWidget, self).__init__(parent=kwargs.get('parent'))
+        self._icon = None
+        self._size = QtCore.QSize(16, 16)
+        self.setIcon(icon(*names, **kwargs))
+
+    def setIcon(self, _icon):
+        """
+        set a new icon()
+
+        Parameters
+        ----------
+        _icon: qtawesome.icon
+            icon to set
+        """
+        self._icon = _icon
+        self.setPixmap(_icon.pixmap(self._size))
+
+    def setIconSize(self, size):
+        """
+        set icon size
+
+        Parameters
+        ----------
+        size: QtCore.QSize
+            size of the icon
+        """
+        self._size = size
+
+    def update(self, *args, **kwargs):
+        if self._icon:
+            self.setPixmap(self._icon.pixmap(self._size))
+        return super(IconWidget, self).update(*args, **kwargs)
