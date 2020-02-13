@@ -6,5 +6,5 @@ qtawesome: Iconic Fonts for PyQt
 
    introduction
    usage
-   icon browser
+   icon_browser
    api_documentation
