@@ -5,7 +5,6 @@ import sys
 
 # Third party imports
 from qtpy import QtCore, QtWidgets
-from six import unichr
 
 # Local imports
 import qtawesome as qta
@@ -14,7 +13,7 @@ import qtawesome as qta
 class AwesomeExample(QtWidgets.QDialog):
 
     def __init__(self):
-        super(AwesomeExample, self).__init__()
+        super().__init__()
 
         # Get FontAwesome 5.x icons by name in various styles by name
         fa5_icon = qta.icon('fa5.flag')
@@ -113,7 +112,7 @@ class AwesomeExample(QtWidgets.QDialog):
         stack_spin_button.setIconSize(QtCore.QSize(32, 32))
 
         # Render a label with this font
-        label = QtWidgets.QLabel(unichr(0xf19c) + ' ' + 'Label')
+        label = QtWidgets.QLabel(chr(0xf19c) + ' ' + 'Label')
         label.setFont(qta.font('fa', 16))
 
         # Layout

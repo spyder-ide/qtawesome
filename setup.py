@@ -34,7 +34,7 @@ setup(
     url='https://github.com/spyder-ide/qtawesome',
     keywords=['PyQt', 'PySide', 'Icons', 'Font Awesome', 'Fonts'],
     packages=['qtawesome'],
-    install_requires=['qtpy', 'six'],
+    install_requires=['qtpy'],
     include_package_data=True,
     platforms=['OS-independent'],
     classifiers=[
@@ -42,9 +42,11 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: User Interfaces',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3', ],
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+    ],
     cmdclass={
         'update_fa5': setupbase.UpdateFA5Command,
     },

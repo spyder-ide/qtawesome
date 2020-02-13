@@ -2,9 +2,11 @@
 Tests for QtAwesome Icon Browser.
 """
 
-import pytest
+# Third party imports
 from qtpy import QtCore, QtWidgets
+import pytest
 
+# Local imports
 from qtawesome.icon_browser import IconBrowser
 
 
