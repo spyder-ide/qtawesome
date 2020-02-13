@@ -9,8 +9,8 @@ import collections
 import pytest
 
 # Local imports
-import qtawesome as qta
 from qtawesome.iconic_font import IconicFont
+import qtawesome as qta
 
 
 def test_segfault_import():

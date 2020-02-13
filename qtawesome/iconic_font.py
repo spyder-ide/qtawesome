@@ -21,7 +21,6 @@ import os
 import warnings
 
 # Third party imports
-from six import unichr
 from qtpy.QtCore import QByteArray, QObject, QPoint, QRect, Qt
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap, QTransform)
@@ -171,7 +170,7 @@ class CharIconEngine(QIconEngine):
     """Specialization of QIconEngine used to draw font-based icons."""
 
     def __init__(self, iconic, painter, options):
-        super(CharIconEngine, self).__init__()
+        super().__init__()
         self.iconic = iconic
         self.painter = painter
         self.options = options
@@ -204,7 +203,7 @@ class IconicFont(QObject):
             - Optionally, the directory containing these files. When not
               provided, the files will be looked for in ``./fonts/``.
         """
-        super(IconicFont, self).__init__()
+        super().__init__()
         self.painter = CharIconPainter()
         self.painters = {}
         self.fontname = {}
@@ -234,11 +233,11 @@ class IconicFont(QObject):
             result = {}
             for key in obj:
                 try:
-                    result[key] = unichr(int(obj[key], 16))
+                    result[key] = chr(int(obj[key], 16))
                 except ValueError:
                     if int(obj[key], 16) > 0xffff:
                         # ignoring unsupported code in Python 2.7 32bit Windows
-                        # ValueError: unichr() arg not in range(0x10000)
+                        # ValueError: chr() arg not in range(0x10000)
                         warnings.warn("Your Python version doesn't support "
                                       "character {0}:{1}".format(key,
                                                                  obj[key]))

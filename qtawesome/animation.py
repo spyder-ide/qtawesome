@@ -38,4 +38,4 @@ class Spin:
 class Pulse(Spin):
 
     def __init__(self, parent_widget):
-        Spin.__init__(self, parent_widget, interval=300, step=45)
+        super().__init__(parent_widget, interval=300, step=45)

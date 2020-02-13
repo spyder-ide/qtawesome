@@ -21,7 +21,7 @@ class IconBrowser(QtWidgets.QMainWindow):
     """
 
     def __init__(self):
-        super(IconBrowser, self).__init__()
+        super().__init__()
         self.setMinimumSize(400, 300)
         self.setWindowTitle('QtAwesome Icon Browser')
 
@@ -149,7 +149,7 @@ class IconListView(QtWidgets.QListView):
     """
 
     def __init__(self, parent=None):
-        super(IconListView, self).__init__(parent)
+        super().__init__(parent)
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
 
     def resizeEvent(self, event):
@@ -170,13 +170,13 @@ class IconListView(QtWidgets.QListView):
         self.setGridSize(QtCore.QSize(tileWidth, tileWidth))
         self.setIconSize(QtCore.QSize(iconWidth, iconWidth))
 
-        return super(IconListView, self).resizeEvent(event)
+        return super().resizeEvent(event)
 
 
 class IconModel(QtCore.QStringListModel):
 
     def __init__(self, iconColor):
-        super(IconModel, self).__init__()
+        super().__init__()
         self._iconColor = iconColor
 
     def flags(self, index):
@@ -198,7 +198,7 @@ class IconModel(QtCore.QStringListModel):
         if role == QtCore.Qt.DecorationRole:
             iconString = self.data(index, role=QtCore.Qt.DisplayRole)
             return qtawesome.icon(iconString, color=self._iconColor)
-        return super(IconModel, self).data(index, role)
+        return super().data(index, role)
 
 
 def run():

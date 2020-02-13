@@ -16,11 +16,15 @@ Font-Awesome and other iconic fonts for PyQt / PySide applications.
    set_defaults
 """
 
-from .iconic_font import IconicFont, set_global_defaults
-from .animation import Pulse, Spin
-from ._version import version_info, __version__
-from qtpy import QtWidgets, QtCore
+# Third party imports
+from qtpy import QtCore, QtWidgets
 
+# Local imports
+from ._version import __version__, version_info
+from .animation import Pulse, Spin
+from .iconic_font import IconicFont, set_global_defaults
+
+# Constants
 _resource = { 'iconic': None }
 
 
@@ -238,7 +242,7 @@ class IconWidget(QtWidgets.QLabel):
     """
 
     def __init__(self, *names, **kwargs):
-        super(IconWidget, self).__init__(parent=kwargs.get('parent'))
+        super().__init__(parent=kwargs.get('parent'))
         self._icon = None
         self._size = QtCore.QSize(16, 16)
         self.setIcon(icon(*names, **kwargs))
@@ -269,4 +273,4 @@ class IconWidget(QtWidgets.QLabel):
     def update(self, *args, **kwargs):
         if self._icon:
             self.setPixmap(self._icon.pixmap(self._size))
-        return super(IconWidget, self).update(*args, **kwargs)
+        return super().update(*args, **kwargs)
