@@ -1,5 +1,23 @@
 # History of changes
 
+## Version 0.7.1 (2020-04-15)
+
+### Issues Closed
+
+* [Issue 140](https://github.com/spyder-ide/qtawesome/issues/140) - QtAwesome is issuing "UserWarning: Your Python version doesn't support character ... " in Python 2 ([PR 141](https://github.com/spyder-ide/qtawesome/pull/141) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 141](https://github.com/spyder-ide/qtawesome/pull/141) - PR: Remove warning for Python 2.7, by [@dalthviz](https://github.com/dalthviz) ([140](https://github.com/spyder-ide/qtawesome/issues/140))
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 0.7.0 (2020-02-12)
 
 ### New features
