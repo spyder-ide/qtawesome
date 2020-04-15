@@ -1,12 +1,12 @@
 To release a new version of qtawesome on PyPI:
 
-* Close Github milestone
+* Close Zenhub milestone
 
 * git fetch upstream && git merge upstream/master
 
 * git clean -xfdi
 
-* Update Changelog
+* Update Changelog with `loghub spyder-ide/qtawesome -zr "qtawesome vX.X.X"`
 
 * Update _version.py (set release version, remove 'dev')
 
