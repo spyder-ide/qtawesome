@@ -238,9 +238,7 @@ class IconicFont(QObject):
                     if int(obj[key], 16) > 0xffff:
                         # ignoring unsupported code in Python 2.7 32bit Windows
                         # ValueError: chr() arg not in range(0x10000)
-                        warnings.warn("Your Python version doesn't support "
-                                      "character {0}:{1}".format(key,
-                                                                 obj[key]))
+                        pass
                     else:
                         raise FontError(u'Failed to load character '
                                         '{0}:{1}'.format(key, obj[key]))
