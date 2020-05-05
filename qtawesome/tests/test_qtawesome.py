@@ -3,6 +3,7 @@ Tests for QtAwesome.
 """
 # Standard library imports
 import subprocess
+import sys
 import collections
 
 # Test Library imports
@@ -14,7 +15,7 @@ import qtawesome as qta
 
 
 def test_segfault_import():
-    output_number = subprocess.call('python -c "import qtawesome '
+    output_number = subprocess.call(sys.executable + ' -c "import qtawesome '
                                     '; qtawesome.icon()"', shell=True)
     assert output_number == 0
 
