@@ -1,5 +1,18 @@
 # History of changes
 
+## Version 0.7.2 (2020-05-05)
+
+### Pull Requests Merged
+
+* [PR 145](https://github.com/spyder-ide/qtawesome/pull/145) - PR: Update release instructions for the 0.x branch, by [@ccordoba12](https://github.com/ccordoba12)
+* [PR 143](https://github.com/spyder-ide/qtawesome/pull/143) - PR: Do not call python directly in tests, by [@scarabeusiv](https://github.com/scarabeusiv)
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 0.7.1 (2020-04-15)
 
 ### Issues Closed
