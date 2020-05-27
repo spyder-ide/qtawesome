@@ -22,7 +22,7 @@ class Spin:
     def setup(self, icon_painter, painter, rect):
 
         if self.parent_widget not in self.info:
-            timer = QTimer()
+            timer = QTimer(self.parent_widget)
             timer.timeout.connect(self._update)
             self.info[self.parent_widget] = [timer, 0, self.step]
             timer.start(self.interval)
