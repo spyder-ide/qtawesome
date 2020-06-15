@@ -107,7 +107,7 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         group = self._comboBox.currentText()
         if group != ALL_COLLECTIONS:
-            reString += "^%s\." % group
+            reString += r"^%s\." % group
 
         searchTerm = self._lineEdit.text()
         if searchTerm:
