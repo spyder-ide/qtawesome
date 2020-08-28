@@ -51,7 +51,8 @@ def _instance():
              'fontawesome5-brands-webfont-charmap.json'),
             ('ei', 'elusiveicons-webfont.ttf', 'elusiveicons-webfont-charmap.json'),
             ('mdi', 'materialdesignicons-webfont.ttf',
-             'materialdesignicons-webfont-charmap.json')
+             'materialdesignicons-webfont-charmap.json'),
+            ('msc', 'codicon.ttf', 'codicon.json'),
         )
     return _resource['iconic']
 
