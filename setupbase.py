@@ -3,9 +3,12 @@ import os
 import re
 import io
 import sys
+import csv
 import json
+import shutil
 import hashlib
 import zipfile
+import tempfile
 
 try:
     from fontTools import ttLib
@@ -23,6 +26,7 @@ import distutils.cmd
 import distutils.log
 
 HERE = os.path.abspath(os.path.dirname(__file__))
+ICONIC_FONT_PY_PATH = os.path.join(HERE, 'qtawesome', 'iconic_font.py')
 
 
 def rename_font(font_path, font_name):
@@ -86,7 +90,6 @@ class UpdateFA5Command(distutils.cmd.Command):
     FA_STYLES = ('regular', 'solid', 'brands')
     CHARMAP_PATH_TEMPLATE = os.path.join(HERE, 'qtawesome', 'fonts', 'fontawesome5-{style}-webfont-charmap.json')
     TTF_PATH_TEMPLATE = os.path.join(HERE, 'qtawesome', 'fonts', 'fontawesome5-{style}-webfont.ttf')
-    ICONIC_FONT_PY_PATH = os.path.join(HERE, 'qtawesome', 'iconic_font.py')
     URL_TEMPLATE = 'https://github.com/FortAwesome/Font-Awesome/' \
         'releases/download/{version}/fontawesome-free-{version}-web.zip'
 
@@ -211,7 +214,7 @@ class UpdateFA5Command(distutils.cmd.Command):
             hashes[style] = hashlib.md5(data).hexdigest()
 
         # Now it's time to patch "iconic_font.py":
-        iconic_path = self.ICONIC_FONT_PY_PATH
+        iconic_path = ICONIC_FONT_PY_PATH
         self.__print('Patching new MD5 hashes in: %s' % iconic_path)
         with open(iconic_path, 'r') as iconic_file:
             contents = iconic_file.read()
@@ -224,6 +227,87 @@ class UpdateFA5Command(distutils.cmd.Command):
         # and finally overwrite with the modified file:
         self.__print('Dumping updated file: %s' % iconic_path)
         with open(iconic_path, 'w') as iconic_file:
+            iconic_file.write(contents)
+
+        self.__print(
+            '\nFinished!\n'
+            'Please check the git diff to make sure everything went okay.\n'
+            'You should also edit README.md and '
+            'qtawesome/docs/source/usage.rst to reflect the changes.')
+
+
+class UpdateCodiconCommand(distutils.cmd.Command):
+    """A custom command to make updating Microsoft's Codicons easy!"""
+    description = 'Try to update the Codicon font data in the project.'
+    user_options = []
+
+    CHARMAP_PATH = os.path.join(HERE, 'qtawesome', 'fonts', 'codicon.json')
+    TTF_PATH = os.path.join(HERE, 'qtawesome', 'fonts', 'codicon.ttf')
+    DOWNLOAD_URL_TTF = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/master/dist/codicon.ttf'
+    DOWNLOAD_URL_CSV = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/master/dist/codicon.csv'
+    # At the time of writing this comment, vscode-codicons repo does not use git tags, but you can get the version from package.json:
+    DOWNLOAD_URL_JSON = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/master/package.json'
+
+    def initialize_options(self):
+        """Required by distutils."""
+
+    def finalize_options(self):
+        """Required by distutils."""
+
+    def __print(self, msg):
+        """Shortcut for printing with the distutils logger."""
+        self.announce(msg, level=distutils.log.INFO)
+
+    def run(self):
+        """Run command."""
+
+        # Download .csv to a temporary path:
+        package_json = urlopen(self.DOWNLOAD_URL_JSON)
+        package_info = json.load(package_json)
+        package_version = package_info['version']
+        self.__print('Will download codicons version: %s' % package_version)
+
+        # Download .csv to a temporary path:
+        with tempfile.NamedTemporaryFile(mode='wb+', suffix='.csv', prefix='codicon', delete=False) as tempCSV:
+            self.__print('Downloading: %s' % self.DOWNLOAD_URL_CSV)
+            response = urlopen(self.DOWNLOAD_URL_CSV)
+            shutil.copyfileobj(response, tempCSV)
+
+        # Interpret the codicon.csv file:
+        charmap = {}
+        with open(tempCSV.name, 'r') as tempCSV:
+            reader = csv.DictReader(tempCSV)
+            for row in reader:
+                code = "0x" + row['unicode'].lower()
+                charmap[row['short_name']] = code
+        self.__print('Identified %s icons in the CSV.' % len(charmap))
+
+        # Remove temp file:
+        os.remove(tempCSV.name)
+
+        # Dump a .json charmap file the way we like it:
+        self.__print('Dumping updated charmap: %s' % self.CHARMAP_PATH)
+        with open(self.CHARMAP_PATH, 'w+') as f:
+            json.dump(charmap, f, indent=4, sort_keys=True)
+
+        # Dump a .ttf font file:
+        with open(self.TTF_PATH, 'wb+') as ttfFile:
+            self.__print('Downloading %s --> %s' % (self.DOWNLOAD_URL_TTF, self.TTF_PATH))
+            response = urlopen(self.DOWNLOAD_URL_TTF)
+            data = response.read()
+            ttfFile.write(data)
+            md5 = hashlib.md5(data).hexdigest()
+            self.__print('New hash is: %s' % md5)
+
+        # Now it's time to patch "iconic_font.py":
+        self.__print('Patching new MD5 hashes in: %s' % ICONIC_FONT_PY_PATH)
+        with open(ICONIC_FONT_PY_PATH, 'r') as iconic_file:
+            contents = iconic_file.read()
+        regex = r"('codicon.ttf':\s+)'(\w+)'"
+        subst = r"\g<1>'" + md5 + "'"
+        contents = re.sub(regex, subst, contents, 1)
+        self.__print('Dumping updated file: %s' % ICONIC_FONT_PY_PATH)
+        with open(ICONIC_FONT_PY_PATH, 'w') as iconic_file:
             iconic_file.write(contents)
 
         self.__print(
