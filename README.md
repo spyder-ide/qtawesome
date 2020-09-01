@@ -68,7 +68,7 @@ The following prefixes are currently available to use:
 import qtawesome as qta
 ```
 
-- Use Font Awesome, Elusive Icons or Material Design Icons.
+- Use Font Awesome, Elusive Icons, Material Design Icons or Microsoft's Codicons.
 
 ```python
 # Get FontAwesome 5.x icons by name in various styles:
@@ -86,6 +86,10 @@ elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 # or Material Design Icons:
 apn_icon = qta.icon('mdi.access-point-network')
 mdi_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
+
+# or Microsoft's Codicons:
+squirrel_icon = qta.icon('msc.squirrel')
+msc_button = QtWidgets.QPushButton(squirrel_icon, 'Codicons!')
 
 ```
 

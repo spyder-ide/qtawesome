@@ -65,6 +65,10 @@ Examples
    apn_icon = qta.icon('mdi.access-point-network')
    mdi_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
 
+   # Get Microsoft Codicons icons by name
+   squirrel_icon = qta.icon('msc.squirrel')
+   msc_button = QtWidgets.QPushButton(squirrel_icon, 'Codicons!')
+
 -  Apply some transformations:
 
 .. code:: python
