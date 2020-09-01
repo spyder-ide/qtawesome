@@ -12,12 +12,7 @@ try:
 except ImportError:
     ttLib = None
 
-try:
-    # Python 2
-    from urllib2 import urlopen
-except ImportError:
-    # Python 3
-    from urllib.request import urlopen
+from urllib.request import urlopen
 
 import distutils.cmd
 import distutils.log
@@ -37,9 +32,7 @@ def rename_font(font_path, font_name):
     # determine font variant for this file path from name record nameID 2
     for record in namerecord_list:
         if record.nameID == 2:
-            variant = (
-                record.toUnicode()
-            )  # cast to str type in Py 3, unicode type in Py 2
+            variant = str(record)
             break
 
     # test that a variant name was found in the OpenType tables of the font
@@ -47,31 +40,34 @@ def rename_font(font_path, font_name):
         raise ValueError(
             "Unable to detect the font variant from the OpenType name table in: %s" % font_path)
 
-    # used for the Postscript name in the name table (no spaces allowed)
-    postscript_font_name = font_name.replace(" ", "")
-    # font family name
-    nameID1_string = font_name
-    # full font name
-    nameID4_string = font_name + " " + variant
-    # Postscript name
-    # - no spaces allowed in family name or the PostScript suffix. should be dash delimited
-    nameID6_string = postscript_font_name + "-" + variant.replace(" ", "")
+    # Here are some sample name records to give you an idea of the name tables:
+    # ID 0: 'Copyright (c) Font Awesome'
+    # ID 1: 'Font Awesome 5 Free Regular'
+    # ID 2: 'Regular'
+    # ID 3: 'Font Awesome 5 Free Regular-5.14.0'
+    # ID 4: 'Font Awesome 5 Free Regular'
+    # ID 5: '331.264 (Font Awesome version: 5.14.0)'
+    # ID 6: 'FontAwesome5Free-Regular'
+    # ID 10: "The web's most popular icon set and toolkit."
+    # ID 11: 'https://fontawesome.com'
+    # ID 16: 'Font Awesome 5 Free'
+    # ID 17: 'Regular'
+    # ID 18: 'Font Awesome 5 Free Regular'
+    # ID 21: 'Font Awesome 5 Free'
+    # ID 22: 'Regular'
 
     # modify the opentype table data in memory with updated values
     for record in namerecord_list:
-        if record.nameID == 1:
-            record.string = nameID1_string
-        elif record.nameID == 4:
-            record.string = nameID4_string
-        elif record.nameID == 6:
-            record.string = nameID6_string
+        if record.nameID in (1, 4, 16, 21):
+            print(f"Renaming font name record at ID {record.nameID}: {record.string} --> {font_name}")
+            record.string = font_name
 
     # write changes to the font file
     try:
         tt.save(font_path)
     except:
         raise RuntimeError(
-            "ERROR: unable to write new name to OpenType tables for: %s" % font_path)
+            f"ERROR: unable to write new name to OpenType tables for: {font_path}")
 
 
 class UpdateFA5Command(distutils.cmd.Command):
@@ -171,13 +167,13 @@ class UpdateFA5Command(distutils.cmd.Command):
         data = json.loads(files['icons.json'])
 
         # Group icons by style, since not all icons exist for all styles:
-        for icon, info in data.iteritems():
+        for icon, info in data.items():
             for style in info['styles']:
                 icons.setdefault(str(style), {})
                 icons[str(style)][icon] = str(info['unicode'])
 
         # For every FA "style":
-        for style, details in icons.iteritems():
+        for style, details in icons.items():
             # Dump a .json charmap file:
             charmapPath = self.__get_charmap_path(style)
             self.__print('Dumping updated "%s" charmap: %s' % (style, charmapPath))
@@ -188,7 +184,7 @@ class UpdateFA5Command(distutils.cmd.Command):
             font_path = self.__get_ttf_path(style)
             data = files[style]
             self.__print('Dumping updated "%s" font: %s' % (style, font_path))
-            with open(font_path, 'w+') as f:
+            with open(font_path, 'wb+') as f:
                 f.write(data)
 
             # Fix to prevent repeated font names:
@@ -216,7 +212,7 @@ class UpdateFA5Command(distutils.cmd.Command):
         with open(iconic_path, 'r') as iconic_file:
             contents = iconic_file.read()
         # We read it in full, then use regex substitution:
-        for style, md5 in hashes.iteritems():
+        for style, md5 in hashes.items():
             self.__print('New "%s" hash is: %s' % (style, md5))
             regex = r"('fontawesome5-%s-webfont.ttf':\s+)'(\w+)'" % style
             subst = r"\g<1>'" + md5 + "'"
