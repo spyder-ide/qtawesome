@@ -12,9 +12,9 @@ The following prefixes are currently available to use:
 
    -  FA 5.9.0 features 1,534 free icons in different styles:
 
-      -  ``fa5`` prefix has `151 icons in the "regular" style.`_
-      -  ``fa5s`` prefix has `935 icons in the "solid" style.`_
-      -  ``fa5b`` prefix has `413 icons of various brands.`_
+      -  ``fa5`` prefix has `152 icons in the "regular" style.`_
+      -  ``fa5s`` prefix has `1000 icons in the "solid" style.`_
+      -  ``fa5b`` prefix has `449 icons of various brands.`_
 
    -  ``fa`` is the legacy `FA 4.7 version with its 675 icons`_ but
       **all** of them (*and more!*) are part of FA 5.x so you should
@@ -26,9 +26,9 @@ The following prefixes are currently available to use:
    icons.`_
 
 .. _FontAwesome: https://fontawesome.com
-.. _151 icons in the "regular" style.: https://fontawesome.com/icons?d=gallery&s=regular&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.5.0,5.6.0,5.6.1,5.6.3&m=free
-.. _915 icons in the "solid" style.: https://fontawesome.com/icons?d=gallery&s=solid&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.5.0,5.6.0,5.6.1,5.6.3&m=free
-.. _414 icons of various brands.: https://fontawesome.com/icons?d=gallery&s=brands&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.5.0,5.6.0,5.6.1,5.6.3&m=free
+.. _152 icons in the "regular" style.: https://fontawesome.com/icons?d=gallery&s=regular&m=free
+.. _1000 icons in the "solid" style.: https://fontawesome.com/icons?d=gallery&s=solid&m=free
+.. _449 icons of various brands.: https://fontawesome.com/icons?d=gallery&s=brands&m=free
 .. _FA 4.7 version with its 675 icons: https://fontawesome.com/v4.7.0/icons/
 .. _Elusive Icons 2.0 with its 304 icons: http://elusiveicons.com/icons/
 .. _Material Design Icons 4.9.95 with its 4995 icons.: https://cdn.materialdesignicons.com/4.9.95/
