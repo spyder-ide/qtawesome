@@ -1,5 +1,24 @@
 # History of changes
 
+## Version 0.7.3 (2020-09-21)
+
+### Issues Closed
+
+* [Issue 147](https://github.com/spyder-ide/qtawesome/issues/147) - Deprecation warning due to invalid escape sequences  ([PR 148](https://github.com/spyder-ide/qtawesome/pull/148) by [@tirkarthi](https://github.com/tirkarthi))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 154](https://github.com/spyder-ide/qtawesome/pull/154) - PR: Update RELEASE.md, by [@dalthviz](https://github.com/dalthviz)
+* [PR 148](https://github.com/spyder-ide/qtawesome/pull/148) - PR: Fix deprecation warnings due to invalid escape sequences., by [@tirkarthi](https://github.com/tirkarthi) ([147](https://github.com/spyder-ide/qtawesome/issues/147))
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 0.7.2 (2020-05-05)
 
 ### Pull Requests Merged
