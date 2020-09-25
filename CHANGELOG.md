@@ -1,5 +1,29 @@
 # History of changes
 
+## Version 1.0.0 (2020-09-25)
+
+### New features
+
+* Update Material design icons to 5.4.55
+* Drop Python 2 support
+
+### Issues Closed
+
+* [Issue 136](https://github.com/spyder-ide/qtawesome/issues/136) - Deprecate Python 2 in our CI ([PR 139](https://github.com/spyder-ide/qtawesome/pull/139) by [@goanpeca](https://github.com/goanpeca))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 150](https://github.com/spyder-ide/qtawesome/pull/150) - PR: Update mdi to 5.4.55, by [@doudz](https://github.com/doudz)
+* [PR 139](https://github.com/spyder-ide/qtawesome/pull/139) - PR: Support only Python 3, by [@goanpeca](https://github.com/goanpeca) ([136](https://github.com/spyder-ide/qtawesome/issues/136))
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 0.7.3 (2020-09-21)
 
 ### Issues Closed
