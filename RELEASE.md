@@ -1,6 +1,6 @@
 To release a new version of qtawesome on PyPI:
 
-* git fetch upstream && git merge upstream/master
+* git fetch upstream && git checkout master && git merge upstream/master
 
 * git clean -xfdi
 
@@ -28,12 +28,6 @@ To release a new version of qtawesome on PyPI:
 
 * git add and git commit with "Back to work"
 
-* git checkout master
-
-* git merge 0.x and git commit with "Merge from 0.x: Release x.x.x"
-
 * git push upstream master
-
-* git push upstream 0.x
 
 * git push upstream --tags
