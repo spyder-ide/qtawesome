@@ -1,5 +1,17 @@
 # History of changes
 
+## Version 1.0.1 (2020-09-29)
+
+### Pull Requests Merged
+
+* [PR 155](https://github.com/spyder-ide/qtawesome/pull/155) - PR: Add entries to the mdi charmap to be supported by Spyder <=4.1.5, by [@dalthviz](https://github.com/dalthviz)
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 1.0.0 (2020-09-25)
 
 ### New features
