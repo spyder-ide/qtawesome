@@ -56,6 +56,11 @@ def _instance():
     return _resource['iconic']
 
 
+def resetCache():
+    if _resource['iconic'] is not None:
+        _resource['iconic'].icon_cache = {}
+
+
 def icon(*names, **kwargs):
     """
     Return a QIcon object corresponding to the provided icon name(s).

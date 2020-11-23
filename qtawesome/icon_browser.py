@@ -4,6 +4,7 @@ import sys
 from qtpy import QtCore, QtGui, QtWidgets
 
 import qtawesome
+from styles import dark, light
 
 
 # TODO: Set icon colour and copy code with color kwarg
@@ -38,7 +39,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._filterTimer.setInterval(AUTO_SEARCH_TIMEOUT)
         self._filterTimer.timeout.connect(self._updateFilter)
 
-        model = IconModel(self.palette().color(QtGui.QPalette.Text))
+        model = IconModel()
         model.setStringList(sorted(iconNames))
 
         self._proxyModel = QtCore.QSortFilterProxyModel()
@@ -66,6 +67,10 @@ class IconBrowser(QtWidgets.QMainWindow):
         lyt.setContentsMargins(0, 0, 0, 0)
         lyt.addWidget(self._comboBox)
         lyt.addWidget(self._lineEdit)
+        self._combo_style = QtWidgets.QComboBox(self)
+        self._combo_style.addItems(['Dark', 'Light'])
+        self._combo_style.currentTextChanged.connect(self._updateStyle)
+        lyt.addWidget(self._combo_style)
 
         searchBarFrame = QtWidgets.QFrame(self)
         searchBarFrame.setLayout(lyt)
@@ -97,6 +102,15 @@ class IconBrowser(QtWidgets.QMainWindow):
         centerPoint = desktop.screenGeometry(screen).center()
         geo.moveCenter(centerPoint)
         self.setGeometry(geo)
+
+    def _updateStyle(self, text: str):
+        _app = QtWidgets.QApplication.instance()
+        if text == 'Dark':
+            qtawesome.resetCache()
+            dark(_app)
+        else:
+            qtawesome.resetCache()
+            light(_app)
 
     def _updateFilter(self):
         """
@@ -175,9 +189,8 @@ class IconListView(QtWidgets.QListView):
 
 class IconModel(QtCore.QStringListModel):
 
-    def __init__(self, iconColor):
+    def __init__(self):
         super().__init__()
-        self._iconColor = iconColor
 
     def flags(self, index):
         return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
@@ -197,7 +210,7 @@ class IconModel(QtCore.QStringListModel):
         """
         if role == QtCore.Qt.DecorationRole:
             iconString = self.data(index, role=QtCore.Qt.DisplayRole)
-            return qtawesome.icon(iconString, color=self._iconColor)
+            return qtawesome.icon(iconString)
         return super().data(index, role)
 
 
@@ -205,9 +218,16 @@ def run():
     """
     Start the IconBrowser and block until the process exits.
     """
+    from styles import dark
     app = QtWidgets.QApplication([])
+    dark(app)
 
     browser = IconBrowser()
     browser.show()
 
     sys.exit(app.exec_())
+
+
+if __name__ == '__main__':
+    run()
+
