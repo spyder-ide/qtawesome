@@ -19,3 +19,5 @@ _templates/
 
 # OS X
 .DS_Store
+/venv/
+/.idea/

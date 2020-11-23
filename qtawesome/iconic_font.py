@@ -23,7 +23,7 @@ import warnings
 # Third party imports
 from qtpy.QtCore import QByteArray, QObject, QPoint, QRect, Qt
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
-                        QPainter, QPixmap, QTransform)
+                        QPainter, QPixmap, QTransform, QPalette)
 from qtpy.QtWidgets import QApplication
 
 # Linux packagers, please set this to True if you want to make qtawesome
@@ -42,9 +42,26 @@ MD5_HASHES = {
     'remixicon.ttf': '888e61f04316f10bddfff7bee10c6dd0',
 }
 
+
+def text_color():
+    try:
+        palette = QApplication.instance().palette()
+        return palette.color(QPalette.Active, QPalette.Text)
+    except AttributeError:
+        return QColor(50, 50, 50)
+
+
+def text_color_disabled():
+    try:
+        palette = QApplication.instance().palette()
+        return palette.color(QPalette.Disabled, QPalette.Text)
+    except AttributeError:
+        return QColor(150, 150, 150)
+
+
 _default_options = {
-    'color': QColor(50, 50, 50),
-    'color_disabled': QColor(150, 150, 150),
+    'color': text_color,
+    'color_disabled': text_color_disabled,
     'opacity': 1.0,
     'scale_factor': 1.0,
 }
@@ -302,6 +319,7 @@ class IconicFont(QObject):
         """Return a QIcon object corresponding to the provided icon name."""
         cache_key = '{}{}'.format(names,kwargs)
         if cache_key not in self.icon_cache:
+            print('not in there')
             options_list = kwargs.pop('options', [{}] * len(names))
             general_options = kwargs
 
@@ -328,7 +346,9 @@ class IconicFont(QObject):
         return self.icon_cache[cache_key]
 
     def _parse_options(self, specific_options, general_options, name):
-        options = dict(_default_options, **general_options)
+        live_dict = {k: v() if callable(v) else v for k, v in _default_options.items()}
+
+        options = dict(live_dict, **general_options)
         options.update(specific_options)
 
         # Handle icons for modes (Active, Disabled, Selected, Normal)
