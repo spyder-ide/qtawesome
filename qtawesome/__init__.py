@@ -35,7 +35,7 @@ def has_valid_font_ids(inst):
     in both cases it is possible that font is not available.
     """
     # Check stored font ids are still available
-    for font_id in inst.fontid.values():
+    for font_id in inst.fontids.values():
         font_families = QtGui.QFontDatabase.applicationFontFamilies(
             font_id
         )
