@@ -207,6 +207,7 @@ class IconicFont(QObject):
         self.painter = CharIconPainter()
         self.painters = {}
         self.fontname = {}
+        self.fontids = {}
         self.charmap = {}
         self.icon_cache = {}
         for fargs in args:
@@ -257,6 +258,7 @@ class IconicFont(QObject):
             loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
 
             if loadedFontFamilies:
+                self.fontids[prefix] = id_
                 self.fontname[prefix] = loadedFontFamilies[0]
             else:
                 raise FontError(u"Font at '{0}' appears to be empty. "
