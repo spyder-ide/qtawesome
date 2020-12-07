@@ -51,6 +51,13 @@ def _instance():
     Functions ``icon``, ``load_font``, ``charmap``, ``font`` and
     ``set_defaults`` all rebind to methods of the singleton instance of IconicFont.
     """
+    if (
+        _resource['iconic'] is not None
+        and not has_valid_font_ids(_resource['iconic'])
+    ):
+        # Reset cached instance
+        _resource['iconic'] = None
+
     if _resource['iconic'] is None:
         _resource['iconic'] = IconicFont(
             ('fa',
