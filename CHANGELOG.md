@@ -1,5 +1,24 @@
 # History of changes
 
+## Version 1.0.2 (2020-12-08)
+
+### Issues Closed
+
+* [Issue 159](https://github.com/spyder-ide/qtawesome/issues/159) - Release 1.0.2
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 160](https://github.com/spyder-ide/qtawesome/pull/160) - PR: Perform a font id validation, by [@iLLiCiTiT](https://github.com/iLLiCiTiT)
+* [PR 158](https://github.com/spyder-ide/qtawesome/pull/158) - PR: Add python_requires to setup.py, by [@ccordoba12](https://github.com/ccordoba12)
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 1.0.1 (2020-09-29)
 
 ### Pull Requests Merged
