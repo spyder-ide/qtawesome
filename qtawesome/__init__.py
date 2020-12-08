@@ -17,7 +17,7 @@ Font-Awesome and other iconic fonts for PyQt / PySide applications.
 """
 
 # Third party imports
-from qtpy import QtCore, QtWidgets
+from qtpy import QtCore, QtWidgets, QtGui
 
 # Local imports
 from ._version import __version__, version_info
@@ -28,6 +28,22 @@ from .iconic_font import IconicFont, set_global_defaults
 _resource = { 'iconic': None }
 
 
+def has_valid_font_ids(inst):
+    """Validate instance's font ids are loaded to QFontDatabase.
+
+    It is possible that QFontDatabase was reset or QApplication was recreated
+    in both cases it is possible that font is not available.
+    """
+    # Check stored font ids are still available
+    for font_id in inst.fontids.values():
+        font_families = QtGui.QFontDatabase.applicationFontFamilies(
+            font_id
+        )
+        if not font_families:
+            return False
+    return True
+
+
 def _instance():
     """
     Return the singleton instance of IconicFont.
@@ -35,6 +51,13 @@ def _instance():
     Functions ``icon``, ``load_font``, ``charmap``, ``font`` and
     ``set_defaults`` all rebind to methods of the singleton instance of IconicFont.
     """
+    if (
+        _resource['iconic'] is not None
+        and not has_valid_font_ids(_resource['iconic'])
+    ):
+        # Reset cached instance
+        _resource['iconic'] = None
+
     if _resource['iconic'] is None:
         _resource['iconic'] = IconicFont(
             ('fa',
