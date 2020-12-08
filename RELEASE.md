@@ -22,6 +22,8 @@ To release a new version of qtawesome on PyPI:
 
 * python setup.py bdist_wheel
 
+* twine check dist/*
+
 * twine upload dist/*
 
 * git tag -a vX.X.X -m 'Release x.x.x'
