@@ -166,6 +166,8 @@ class IconListView(QtWidgets.QListView):
         # being wrapped. Without this, the view can flicker during resize
         tileWidth = width / VIEW_COLUMNS
         iconWidth = int(tileWidth * 0.8)
+        # tileWidth needs to be an integer for setGridSize
+        tileWidth = int(tileWidth)
 
         self.setGridSize(QtCore.QSize(tileWidth, tileWidth))
         self.setIconSize(QtCore.QSize(iconWidth, iconWidth))
