@@ -1,5 +1,24 @@
 # History of changes
 
+## Version 1.0.3 (2021-06-22)
+
+### Issues Closed
+
+* [Issue 162](https://github.com/spyder-ide/qtawesome/issues/162) - Implicit integer conversion is deprecated
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 163](https://github.com/spyder-ide/qtawesome/pull/163) - PR: Cast tileWidth to an integer (closes #162), by [@juliangilbey](https://github.com/juliangilbey)
+* [PR 146](https://github.com/spyder-ide/qtawesome/pull/146) - PR: Timer should belong to parent widget, by [@listyque](https://github.com/listyque)
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 1.0.2 (2020-12-08)
 
 ### Issues Closed
