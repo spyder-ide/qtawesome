@@ -98,6 +98,16 @@ styling_icon = qta.icon('fa5s.music',
 music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
 ```
 
+- Set alpha in colors
+
+```python
+# Setting an alpha of 120 to the color of this icon. Alpha must be a number
+# between 0 and 255.
+icon_with_alpha = qta.icon('mdi.heart',
+                           color=('red', 120))
+heart_button = QtWidgets.QPushButton(icon_with_alpha, 'Setting alpha')
+```
+
 - Stack multiple icons
 
 ```python
