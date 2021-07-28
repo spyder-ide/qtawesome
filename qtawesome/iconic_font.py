@@ -108,8 +108,18 @@ class CharIconPainter:
         }
 
         color, char = color_options[state][mode]
+        alpha = None
 
-        painter.setPen(QColor(color))
+        # If color comes as a tuple, it means we need to set alpha on it.
+        if isinstance(color, tuple):
+            alpha = color[1]
+            color = color[0]
+
+        qcolor = QColor(color)
+        if alpha:
+            qcolor.setAlpha(alpha)
+
+        painter.setPen(qcolor)
 
         # A 16 pixel-high icon yields a font size of 14, which is pixel perfect
         # for font-awesome. 16 * 0.875 = 14

@@ -52,6 +52,11 @@ class AwesomeExample(QtWidgets.QDialog):
                                 color_active='orange')
         music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
 
+        # Setting an alpha of 165 to the color of this icon. Alpha must be a number
+        # between 0 and 255.
+        icon_with_alpha = qta.icon('mdi.heart', color=('red', 120))
+        heart_button = QtWidgets.QPushButton(icon_with_alpha, 'Setting alpha')
+
         # Toggle
         toggle_icon = qta.icon('fa5s.home', selected='fa5s.balance-scale',
                                color_off='black',
@@ -124,6 +129,7 @@ class AwesomeExample(QtWidgets.QDialog):
             elusive_button, 
             mdi_button,
             music_button,
+            heart_button,
             rot_button,
             hflip_button,
             vflip_button,
