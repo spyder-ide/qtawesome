@@ -174,6 +174,10 @@ See the [LICENSE](LICENSE) file for details.
 
 The Font Awesome, Elusive Icons and Material Design Icons fonts are licensed under the SIL Open Font License.
 
+The Phosphor is licensed under the MIT License.
+
+The Remix Icon is licensed under the Apache License Version 2.0.
+
 
 ## Sponsors
 
