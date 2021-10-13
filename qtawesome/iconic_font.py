@@ -405,7 +405,8 @@ class IconicFont(QObject):
 
     def font(self, prefix, size):
         """Return a QFont corresponding to the given prefix and size."""
-        font = QFont(self.fontname[prefix])
+        font = QFont()
+        font.setFamily(self.fontname[prefix])
         font.setPixelSize(round(size))
         if prefix[-1] == 's':  # solid style
             font.setStyleName('Solid')
