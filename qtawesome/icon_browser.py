@@ -92,9 +92,17 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._lineEdit.setFocus()
 
         geo = self.geometry()
-        desktop = QtWidgets.QApplication.desktop()
-        screen = desktop.screenNumber(desktop.cursor().pos())
-        centerPoint = desktop.screenGeometry(screen).center()
+
+        # QApplication.desktop() has been removed in Qt 6.
+        # Instead, QGuiApplication.screenAt is supported in Qt 5.10 or later.
+        try:
+            desktop = QtWidgets.QApplication.desktop()
+            screen = desktop.screenNumber(desktop.cursor().pos())
+            centerPoint = desktop.screenGeometry(screen).center()
+        except:
+            screen = QtGui.QGuiApplication.screenAt(QtGui.QCursor.pos())
+            centerPoint = screen.geometry().center()
+
         geo.moveCenter(centerPoint)
         self.setGeometry(geo)
 
@@ -113,7 +121,13 @@ class IconBrowser(QtWidgets.QMainWindow):
         if searchTerm:
             reString += ".*%s.*$" % searchTerm
 
-        self._proxyModel.setFilterRegExp(reString)
+        # QSortFilterProxyModel.setFilterRegExp has been removed in Qt 6.
+        # Instead, QSortFilterProxyModel.setFilterRegularExpression is
+        # supported in Qt 5.12 or later.
+        try:
+            self._proxyModel.setFilterRegExp(reString)
+        except:
+            self._proxyModel.setFilterRegularExpression(reString)
 
     def _triggerDelayedUpdate(self):
         """
