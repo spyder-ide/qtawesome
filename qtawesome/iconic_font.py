@@ -37,7 +37,9 @@ MD5_HASHES = {
     'fontawesome5-solid-webfont.ttf': 'acf50f59802f20d8b45220eaae532a1c',
     'fontawesome5-brands-webfont.ttf': 'ed2b8bf117160466ba6220a8f1da54a4',
     'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
-    'materialdesignicons-webfont.ttf': 'f51112347be6b44f9ef46151a971430d',
+    'materialdesignicons-webfont.ttf': 'b0fd91bb29dcb296a9a37f8bda0a2d85',
+    'phosphor.ttf': '5b8dc57388b2d86243566b996cc3a789',
+    'remixicon.ttf': '888e61f04316f10bddfff7bee10c6dd0',
     'codicon.ttf': 'ca2f9e22cee3a59156b3eded74d87784',
 }
 
@@ -109,8 +111,18 @@ class CharIconPainter:
         }
 
         color, char = color_options[state][mode]
+        alpha = None
 
-        painter.setPen(QColor(color))
+        # If color comes as a tuple, it means we need to set alpha on it.
+        if isinstance(color, tuple):
+            alpha = color[1]
+            color = color[0]
+
+        qcolor = QColor(color)
+        if alpha:
+            qcolor.setAlpha(alpha)
+
+        painter.setPen(qcolor)
 
         # A 16 pixel-high icon yields a font size of 14, which is pixel perfect
         # for font-awesome. 16 * 0.875 = 14
@@ -208,6 +220,7 @@ class IconicFont(QObject):
         self.painter = CharIconPainter()
         self.painters = {}
         self.fontname = {}
+        self.fontids = {}
         self.charmap = {}
         self.icon_cache = {}
         for fargs in args:
@@ -258,6 +271,7 @@ class IconicFont(QObject):
             loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
 
             if loadedFontFamilies:
+                self.fontids[prefix] = id_
                 self.fontname[prefix] = loadedFontFamilies[0]
             else:
                 raise FontError(u"Font at '{0}' appears to be empty. "

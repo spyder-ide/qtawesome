@@ -22,7 +22,7 @@ The following prefixes are currently available to use:
 
 -  ``ei`` prefix holds `Elusive Icons 2.0 with its 304 icons`_.
 
--  ``mdi`` prefix holds `Material Design Icons 4.9.95 with its 4995
+-  ``mdi`` prefix holds `Material Design Icons 5.4.55 with its 5555
    icons.`_
 
 -  ``msc`` prefix holds Microsoft's `Codicon Icons 0.0.7 with its 324 icons.`_
@@ -33,8 +33,8 @@ The following prefixes are currently available to use:
 .. _414 icons of various brands.: https://fontawesome.com/icons?d=gallery&s=brands&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.5.0,5.6.0,5.6.1,5.6.3&m=free
 .. _FA 4.7 version with its 675 icons: https://fontawesome.com/v4.7.0/icons/
 .. _Elusive Icons 2.0 with its 304 icons: http://elusiveicons.com/icons/
-.. _Material Design Icons 4.9.95 with its 4995 icons.: https://cdn.materialdesignicons.com/4.9.95/
-.. _Codicon Icons 0.0.7 with its 324 icons.: https://github.com/microsoft/vscode-codicons
+.. _Material Design Icons 5.4.55 with its 5555 icons.: https://cdn.materialdesignicons.com/5.4.55/
+.. _Codicon Icons 0.0.25 with its 385 icons.: https://github.com/microsoft/vscode-codicons
 
 Examples
 ~~~~~~~~
@@ -95,6 +95,16 @@ Examples
                            color='blue',
                            color_active='orange')
    music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
+
+- Set alpha in colors
+
+.. code:: python
+
+   # Setting an alpha of 120 to the color of this icon. Alpha must be a number
+   # between 0 and 255.
+   icon_with_alpha = qta.icon('mdi.heart',
+                              color=('red', 120))
+   heart_button = QtWidgets.QPushButton(icon_with_alpha, 'Setting alpha')
 
 -  Apply toggling state styling:
 

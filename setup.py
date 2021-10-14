@@ -36,6 +36,7 @@ setup(
     packages=['qtawesome'],
     install_requires=['qtpy'],
     include_package_data=True,
+    python_requires='>=3.6',
     platforms=['OS-independent'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -46,6 +47,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
     cmdclass={
         'update_fa5': setupbase.UpdateFA5Command,

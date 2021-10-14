@@ -1,5 +1,98 @@
 # History of changes
 
+## Version 1.0.3 (2021-06-22)
+
+### Issues Closed
+
+* [Issue 162](https://github.com/spyder-ide/qtawesome/issues/162) - Implicit integer conversion is deprecated
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 163](https://github.com/spyder-ide/qtawesome/pull/163) - PR: Cast tileWidth to an integer (closes #162), by [@juliangilbey](https://github.com/juliangilbey)
+* [PR 146](https://github.com/spyder-ide/qtawesome/pull/146) - PR: Timer should belong to parent widget, by [@listyque](https://github.com/listyque)
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
+## Version 1.0.2 (2020-12-08)
+
+### Issues Closed
+
+* [Issue 159](https://github.com/spyder-ide/qtawesome/issues/159) - Release 1.0.2
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 160](https://github.com/spyder-ide/qtawesome/pull/160) - PR: Perform a font id validation, by [@iLLiCiTiT](https://github.com/iLLiCiTiT)
+* [PR 158](https://github.com/spyder-ide/qtawesome/pull/158) - PR: Add python_requires to setup.py, by [@ccordoba12](https://github.com/ccordoba12)
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
+## Version 1.0.1 (2020-09-29)
+
+### Pull Requests Merged
+
+* [PR 155](https://github.com/spyder-ide/qtawesome/pull/155) - PR: Add entries to the mdi charmap to be supported by Spyder <=4.1.5, by [@dalthviz](https://github.com/dalthviz)
+
+In this release 1 pull request was closed.
+
+
+----
+
+
+## Version 1.0.0 (2020-09-25)
+
+### New features
+
+* Update Material design icons to 5.4.55
+* Drop Python 2 support
+
+### Issues Closed
+
+* [Issue 136](https://github.com/spyder-ide/qtawesome/issues/136) - Deprecate Python 2 in our CI ([PR 139](https://github.com/spyder-ide/qtawesome/pull/139) by [@goanpeca](https://github.com/goanpeca))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 150](https://github.com/spyder-ide/qtawesome/pull/150) - PR: Update mdi to 5.4.55, by [@doudz](https://github.com/doudz)
+* [PR 139](https://github.com/spyder-ide/qtawesome/pull/139) - PR: Support only Python 3, by [@goanpeca](https://github.com/goanpeca) ([136](https://github.com/spyder-ide/qtawesome/issues/136))
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
+## Version 0.7.3 (2020-09-21)
+
+### Issues Closed
+
+* [Issue 147](https://github.com/spyder-ide/qtawesome/issues/147) - Deprecation warning due to invalid escape sequences  ([PR 148](https://github.com/spyder-ide/qtawesome/pull/148) by [@tirkarthi](https://github.com/tirkarthi))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 154](https://github.com/spyder-ide/qtawesome/pull/154) - PR: Update RELEASE.md, by [@dalthviz](https://github.com/dalthviz)
+* [PR 148](https://github.com/spyder-ide/qtawesome/pull/148) - PR: Fix deprecation warnings due to invalid escape sequences., by [@tirkarthi](https://github.com/tirkarthi) ([147](https://github.com/spyder-ide/qtawesome/issues/147))
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 0.7.2 (2020-05-05)
 
 ### Pull Requests Merged

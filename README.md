@@ -58,7 +58,7 @@ The following prefixes are currently available to use:
 
 - `ei` prefix holds [**Elusive Icons** 2.0 with its 304 icons](http://elusiveicons.com/icons/).
 
-- `mdi` prefix holds [**Material Design Icons** 4.9.95 with its 4995 icons.](https://cdn.materialdesignicons.com/4.9.95/)
+- `mdi` prefix holds [**Material Design Icons** 5.4.55 with its 5555 icons.](https://cdn.materialdesignicons.com/5.4.55/)
 
 - `msc` prefix holds [**Codicon Icons** 0.0.7 with its 324 icons.](https://github.com/microsoft/vscode-codicons)
 
@@ -102,6 +102,16 @@ styling_icon = qta.icon('fa5s.music',
                         color='blue',
                         color_active='orange')
 music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
+```
+
+- Set alpha in colors
+
+```python
+# Setting an alpha of 120 to the color of this icon. Alpha must be a number
+# between 0 and 255.
+icon_with_alpha = qta.icon('mdi.heart',
+                           color=('red', 120))
+heart_button = QtWidgets.QPushButton(icon_with_alpha, 'Setting alpha')
 ```
 
 - Stack multiple icons
@@ -169,6 +179,10 @@ MIT License. Copyright 2015 - The Spyder development team.
 See the [LICENSE](LICENSE) file for details.
 
 The Font Awesome, Elusive Icons and Material Design Icons fonts are licensed under the [SIL Open Font License](https://en.wikipedia.org/wiki/SIL_Open_Font_License).
+
+The Phosphor font is licensed under the MIT License.
+
+The Remix Icon font is licensed under the Apache License Version 2.0.
 
 Microsoft's Codicons are licensed under a [Creative Commons Attribution 4.0 International Public License](https://github.com/microsoft/vscode-codicons/blob/master/LICENSE).
 

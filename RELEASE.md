@@ -1,18 +1,18 @@
 To release a new version of qtawesome on PyPI:
 
-* Close Zenhub milestone
+* git fetch upstream && git checkout master && git merge upstream/master
 
-* git fetch upstream && git merge upstream/master
+* Close the current milestone on Github
 
 * git clean -xfdi
 
-* Update Changelog with
+* Update CHANGELOG.md with
 
-      loghub spyder-ide/qtawesome -zr "qtawesome vX.X.X"
+      loghub spyder-ide/qtawesome -m vX.X.X
 
 * Update `_version.py` (set release version, remove 'dev0')
 
-* git add and git commit with "Release x.x.x"
+* git add and git commit -m "Release x.x.x"
 
 * Update the most important release packages with
 
@@ -22,6 +22,8 @@ To release a new version of qtawesome on PyPI:
 
 * python setup.py bdist_wheel
 
+* twine check dist/*
+
 * twine upload dist/*
 
 * git tag -a vX.X.X -m 'Release x.x.x'
@@ -30,12 +32,6 @@ To release a new version of qtawesome on PyPI:
 
 * git add and git commit with "Back to work"
 
-* git checkout master
-
-* git merge 0.x and git commit with "Merge from 0.x: Release x.x.x"
-
 * git push upstream master
-
-* git push upstream 0.x
 
 * git push upstream --tags
