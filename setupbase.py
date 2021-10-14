@@ -275,7 +275,7 @@ class UpdateCodiconCommand(distutils.cmd.Command):
 
         # Interpret the codicon.csv file:
         charmap = {}
-        with open(tempCSV.name, 'r') as tempCSV:
+        with open(tempCSV.name, 'r', encoding='utf-8') as tempCSV:
             reader = csv.DictReader(tempCSV)
             for row in reader:
                 code = "0x" + row['unicode'].lower()
