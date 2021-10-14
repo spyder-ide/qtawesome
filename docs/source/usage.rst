@@ -25,7 +25,7 @@ The following prefixes are currently available to use:
 -  ``mdi`` prefix holds `Material Design Icons 5.4.55 with its 5555
    icons.`_
 
--  ``msc`` prefix holds Microsoft's `Codicon Icons 0.0.7 with its 324 icons.`_
+-  ``msc`` prefix holds Microsoft's `Codicon Icons 0.0.25 with its 385 icons.`_
 
 .. _FontAwesome: https://fontawesome.com
 .. _151 icons in the "regular" style.: https://fontawesome.com/icons?d=gallery&s=regular&v=5.0.0,5.0.1,5.0.2,5.0.3,5.0.4,5.0.5,5.0.6,5.0.7,5.0.8,5.0.9,5.0.10,5.0.11,5.0.12,5.0.13,5.1.0,5.1.1,5.2.0,5.3.0,5.3.1,5.4.0,5.4.1,5.4.2,5.5.0,5.6.0,5.6.1,5.6.3&m=free
