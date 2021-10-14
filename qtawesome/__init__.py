@@ -76,7 +76,7 @@ def _instance():
             ('mdi', 'materialdesignicons-webfont.ttf',
              'materialdesignicons-webfont-charmap.json'),
             ('ph', 'phosphor.ttf', 'phosphor-charmap.json'),
-            ('ri', 'remixicon.ttf', 'remixicon-charmap.json')
+            ('ri', 'remixicon.ttf', 'remixicon-charmap.json'),
             ('msc', 'codicon.ttf', 'codicon.json'),
         )
     return _resource['iconic']
