@@ -99,7 +99,7 @@ class IconBrowser(QtWidgets.QMainWindow):
             desktop = QtWidgets.QApplication.desktop()
             screen = desktop.screenNumber(desktop.cursor().pos())
             centerPoint = desktop.screenGeometry(screen).center()
-        except:
+        except AttributeError:
             screen = QtGui.QGuiApplication.screenAt(QtGui.QCursor.pos())
             centerPoint = screen.geometry().center()
 
@@ -126,7 +126,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         # supported in Qt 5.12 or later.
         try:
             self._proxyModel.setFilterRegExp(reString)
-        except:
+        except AttributeError:
             self._proxyModel.setFilterRegularExpression(reString)
 
     def _triggerDelayedUpdate(self):
