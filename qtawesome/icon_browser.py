@@ -94,7 +94,8 @@ class IconBrowser(QtWidgets.QMainWindow):
         geo = self.geometry()
 
         # QApplication.desktop() has been removed in Qt 6.
-        # Instead, QGuiApplication.screenAt is supported in Qt 5.10 or later.
+        # Instead, QGuiApplication.screenAt(QPoint) is supported
+        # in Qt 5.10 or later.
         try:
             desktop = QtWidgets.QApplication.desktop()
             screen = desktop.screenNumber(desktop.cursor().pos())
