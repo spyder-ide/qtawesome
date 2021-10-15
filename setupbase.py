@@ -241,7 +241,7 @@ class UpdateCodiconCommand(distutils.cmd.Command):
     description = 'Try to update the Codicon font data in the project.'
     user_options = []
 
-    CHARMAP_PATH = os.path.join(HERE, 'qtawesome', 'fonts', 'codicon.json')
+    CHARMAP_PATH = os.path.join(HERE, 'qtawesome', 'fonts', 'codicon-charmap.json')
     TTF_PATH = os.path.join(HERE, 'qtawesome', 'fonts', 'codicon.ttf')
     DOWNLOAD_URL_TTF = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/master/dist/codicon.ttf'
     DOWNLOAD_URL_CSV = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/master/dist/codicon.csv'
