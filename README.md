@@ -60,7 +60,7 @@ The following prefixes are currently available to use:
 
 - `mdi` prefix holds [**Material Design Icons** 5.4.55 with its 5555 icons.](https://cdn.materialdesignicons.com/5.4.55/)
 
-- `msc` prefix holds [**Codicon Icons** 0.0.7 with its 324 icons.](https://github.com/microsoft/vscode-codicons)
+- `msc` prefix holds [**Codicon Icons** 0.0.25 with its 385 icons.](https://github.com/microsoft/vscode-codicons)
 
 ### Examples
 
