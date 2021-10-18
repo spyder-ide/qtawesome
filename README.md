@@ -60,13 +60,15 @@ The following prefixes are currently available to use:
 
 - `mdi` prefix holds [**Material Design Icons** 5.4.55 with its 5555 icons.](https://cdn.materialdesignicons.com/5.4.55/)
 
+- `msc` prefix holds [**Codicon Icons** 0.0.25 with its 385 icons.](https://github.com/microsoft/vscode-codicons)
+
 ### Examples
 
 ```python
 import qtawesome as qta
 ```
 
-- Use Font Awesome, Elusive Icons or Material Design Icons.
+- Use Font Awesome, Elusive Icons, Material Design Icons or Microsoft's Codicons.
 
 ```python
 # Get FontAwesome 5.x icons by name in various styles:
@@ -84,6 +86,10 @@ elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 # or Material Design Icons:
 apn_icon = qta.icon('mdi.access-point-network')
 mdi_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
+
+# or Microsoft's Codicons:
+squirrel_icon = qta.icon('msc.squirrel')
+msc_button = QtWidgets.QPushButton(squirrel_icon, 'Codicons!')
 
 ```
 
@@ -172,12 +178,13 @@ Once installed, run `qta-browser` from a shell to start the browser.
 MIT License. Copyright 2015 - The Spyder development team.
 See the [LICENSE](LICENSE) file for details.
 
-The Font Awesome, Elusive Icons and Material Design Icons fonts are licensed under the SIL Open Font License.
+The Font Awesome, Elusive Icons and Material Design Icons fonts are licensed under the [SIL Open Font License](https://en.wikipedia.org/wiki/SIL_Open_Font_License).
 
 The Phosphor font is licensed under the MIT License.
 
 The Remix Icon font is licensed under the Apache License Version 2.0.
 
+Microsoft's Codicons are licensed under a [Creative Commons Attribution 4.0 International Public License](https://github.com/microsoft/vscode-codicons/blob/master/LICENSE).
 
 ## Sponsors
 

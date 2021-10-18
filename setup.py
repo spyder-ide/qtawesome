@@ -51,6 +51,7 @@ setup(
     ],
     cmdclass={
         'update_fa5': setupbase.UpdateFA5Command,
+        'update_msc': setupbase.UpdateCodiconCommand,
     },
     entry_points={
         'console_scripts': ['qta-browser=qtawesome.icon_browser:run'],
