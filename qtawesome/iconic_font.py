@@ -38,6 +38,7 @@ MD5_HASHES = {
     'fontawesome5-brands-webfont.ttf': 'ed2b8bf117160466ba6220a8f1da54a4',
     'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
     'materialdesignicons-webfont.ttf': '174c02fc4609e8fc4389f5d21f16a296',
+    'materialdesignicons6-webfont.ttf': '9a2f455e7cbce011368aee95d292613b',
     'phosphor.ttf': '5b8dc57388b2d86243566b996cc3a789',
     'remixicon.ttf': '888e61f04316f10bddfff7bee10c6dd0',
     'codicon.ttf': 'ca2f9e22cee3a59156b3eded74d87784',

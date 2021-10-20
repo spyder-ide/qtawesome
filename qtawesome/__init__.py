@@ -75,6 +75,8 @@ def _instance():
             ('ei', 'elusiveicons-webfont.ttf', 'elusiveicons-webfont-charmap.json'),
             ('mdi', 'materialdesignicons-webfont.ttf',
              'materialdesignicons-webfont-charmap.json'),
+            ('mdi6', 'materialdesignicons6-webfont.ttf',
+             'materialdesignicons6-webfont-charmap.json'),
             ('ph', 'phosphor.ttf', 'phosphor-charmap.json'),
             ('ri', 'remixicon.ttf', 'remixicon-charmap.json'),
             ('msc', 'codicon.ttf', 'codicon-charmap.json'),
@@ -102,7 +104,8 @@ def icon(*names, **kwargs):
      - The prefix corresponding to Font-Awesome 5.x (solid) is 'fa5s'
      - The prefix corresponding to Font-Awesome 5.x (brands) is 'fa5b'
      - The prefix corresponding to Elusive-Icons is 'ei'
-     - The prefix corresponding to Material-Design-Icons is 'mdi'
+     - The prefix corresponding to Material-Design-Icons 5.x is 'mdi'
+     - The prefix corresponding to Material-Design-Icons 6.x is 'mdi6'
 
     When requesting a single glyph, options (such as color or positional offsets)
     can be passed as keyword arguments::

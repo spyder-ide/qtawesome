@@ -58,7 +58,11 @@ The following prefixes are currently available to use:
 
 - `ei` prefix holds [**Elusive Icons** 2.0 with its 304 icons](http://elusiveicons.com/icons/).
 
-- `mdi` prefix holds [**Material Design Icons** 5.9.55 with its 5955 icons.](https://cdn.materialdesignicons.com/5.9.55/)
+- [**Material Design Icons**](https://cdn.materialdesignicons.com)
+
+  - `mdi6` prefix holds [**Material Design Icons** 6.3.95 with its 6395 icons.](https://cdn.materialdesignicons.com/6.3.95/)
+
+  - `mdi` prefix holds [**Material Design Icons** 5.9.55 with its 5955 icons.](https://cdn.materialdesignicons.com/5.9.55/)
 
 - `msc` prefix holds [**Codicon Icons** 0.0.25 with its 385 icons.](https://github.com/microsoft/vscode-codicons)
 
@@ -84,8 +88,8 @@ asl_icon = qta.icon('ei.asl')
 elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 
 # or Material Design Icons:
-apn_icon = qta.icon('mdi.access-point-network')
-mdi_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
+apn_icon = qta.icon('mdi6.access-point-network')
+mdi6_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
 
 # or Microsoft's Codicons:
 squirrel_icon = qta.icon('msc.squirrel')

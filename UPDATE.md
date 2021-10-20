@@ -36,7 +36,7 @@ with open('charmap.json', 'w') as file:
 
 ## Material Design Icons
 
-To update _Material Design Icons_, you must:
+To update _Material Design Icons 6.x_, you must:
 
 - download ttf from <https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/fonts/materialdesignicons-webfont.ttf>
 - regenerate the json charmap with the `materialdesignicons.css` file from <https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/css/materialdesignicons.css>
@@ -52,7 +52,7 @@ import hashlib
 TTF_URL = 'https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/fonts/materialdesignicons-webfont.ttf'
 CSS_URL = 'https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/css/materialdesignicons.css'
 
-with open('materialdesignicons-webfont.ttf', 'wb') as fp:
+with open('materialdesignicons6-webfont.ttf', 'wb') as fp:
     req = urllib.request.urlopen(TTF_URL)
     if req.status != 200:
         raise Exception('Failed to download TTF')
@@ -60,7 +60,7 @@ with open('materialdesignicons-webfont.ttf', 'wb') as fp:
     req.close()
 
 hasher = hashlib.md5()
-with open('materialdesignicons-webfont.ttf', 'rb') as f:
+with open('materialdesignicons6-webfont.ttf', 'rb') as f:
     content = f.read()
     hasher.update(content)
 
@@ -83,7 +83,7 @@ for name, key in data:
     name = name.lower()
     charmap[name] = key
 
-with open('materialdesignicons-webfont-charmap.json', 'w') as fp:
+with open('materialdesignicons6-webfont-charmap.json', 'w') as fp:
     json.dump(charmap, fp, indent=4, sort_keys=True)
 
 ```
