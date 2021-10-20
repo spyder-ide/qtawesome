@@ -58,7 +58,11 @@ The following prefixes are currently available to use:
 
 - `ei` prefix holds [**Elusive Icons** 2.0 with its 304 icons](http://elusiveicons.com/icons/).
 
-- `mdi` prefix holds [**Material Design Icons** 5.4.55 with its 5555 icons.](https://cdn.materialdesignicons.com/5.4.55/)
+- [**Material Design Icons**](https://cdn.materialdesignicons.com)
+
+  - `mdi6` prefix holds [**Material Design Icons** 6.3.95 with its 6395 icons.](https://cdn.materialdesignicons.com/6.3.95/)
+
+  - `mdi` prefix holds [**Material Design Icons** 5.9.55 with its 5955 icons.](https://cdn.materialdesignicons.com/5.9.55/)
 
 - `msc` prefix holds [**Codicon Icons** 0.0.25 with its 385 icons.](https://github.com/microsoft/vscode-codicons)
 
@@ -84,8 +88,8 @@ asl_icon = qta.icon('ei.asl')
 elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 
 # or Material Design Icons:
-apn_icon = qta.icon('mdi.access-point-network')
-mdi_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
+apn_icon = qta.icon('mdi6.access-point-network')
+mdi6_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
 
 # or Microsoft's Codicons:
 squirrel_icon = qta.icon('msc.squirrel')
@@ -178,11 +182,11 @@ Once installed, run `qta-browser` from a shell to start the browser.
 MIT License. Copyright 2015 - The Spyder development team.
 See the [LICENSE](LICENSE) file for details.
 
-The Font Awesome, Elusive Icons and Material Design Icons fonts are licensed under the [SIL Open Font License](https://en.wikipedia.org/wiki/SIL_Open_Font_License).
+The Font Awesome and Elusive Icons fonts are licensed under the [SIL Open Font License](https://en.wikipedia.org/wiki/SIL_Open_Font_License).
 
 The Phosphor font is licensed under the MIT License.
 
-The Remix Icon font is licensed under the Apache License Version 2.0.
+The Material Design Icons and Remix Icon fonts are licensed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
 Microsoft's Codicons are licensed under a [Creative Commons Attribution 4.0 International Public License](https://github.com/microsoft/vscode-codicons/blob/master/LICENSE).
 

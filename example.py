@@ -30,8 +30,8 @@ class AwesomeExample(QtWidgets.QDialog):
         elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 
         # Get Material Design icons by name
-        apn_icon = qta.icon('mdi.access-point-network')
-        mdi_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
+        apn_icon = qta.icon('mdi6.access-point-network')
+        mdi6_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
 
         # Rotated
         rot_icon = qta.icon('mdi.access-point-network', rotated=45)
@@ -127,7 +127,7 @@ class AwesomeExample(QtWidgets.QDialog):
             fa5s_button,
             fa5b_button,
             elusive_button, 
-            mdi_button,
+            mdi6_button,
             music_button,
             heart_button,
             rot_button,

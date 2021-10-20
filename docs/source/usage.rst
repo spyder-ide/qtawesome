@@ -22,8 +22,11 @@ The following prefixes are currently available to use:
 
 -  ``ei`` prefix holds `Elusive Icons 2.0 with its 304 icons`_.
 
--  ``mdi`` prefix holds `Material Design Icons 5.4.55 with its 5555
-   icons.`_
+-  `Material Design Icons`_:
+
+   -  ``mdi6`` prefix holds `Material Design Icons 6.3.95 with its 6395 icons.`_
+
+   -  ``mdi`` prefix holds `Material Design Icons 5.9.55 with its 5955 icons.`_
 
 -  ``msc`` prefix holds Microsoft's `Codicon Icons 0.0.25 with its 385 icons.`_
 
@@ -33,7 +36,9 @@ The following prefixes are currently available to use:
 .. _449 icons of various brands.: https://fontawesome.com/icons?d=gallery&s=brands&m=free
 .. _FA 4.7 version with its 675 icons: https://fontawesome.com/v4.7.0/icons/
 .. _Elusive Icons 2.0 with its 304 icons: http://elusiveicons.com/icons/
-.. _Material Design Icons 5.4.55 with its 5555 icons.: https://cdn.materialdesignicons.com/5.4.55/
+.. _Material Design Icons: https://cdn.materialdesignicons.com/
+.. _Material Design Icons 6.3.95 with its 6395 icons.: https://cdn.materialdesignicons.com/6.3.95/
+.. _Material Design Icons 5.9.55 with its 5955 icons.: https://cdn.materialdesignicons.com/5.9.55/
 .. _Codicon Icons 0.0.25 with its 385 icons.: https://github.com/microsoft/vscode-codicons
 
 Examples
@@ -61,9 +66,9 @@ Examples
    asl_icon = qta.icon('ei.asl')
    elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 
-   # Get Material Design icons by name
-   apn_icon = qta.icon('mdi.access-point-network')
-   mdi_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
+   # Get Material Design icons 6.x by name
+   apn_icon = qta.icon('mdi6.access-point-network')
+   mdi6_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
 
    # Get Microsoft Codicons icons by name
    squirrel_icon = qta.icon('msc.squirrel')
