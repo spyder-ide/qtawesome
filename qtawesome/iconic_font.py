@@ -319,7 +319,6 @@ class IconicFont(QObject):
         """Return a QIcon object corresponding to the provided icon name."""
         cache_key = '{}{}'.format(names,kwargs)
         if cache_key not in self.icon_cache:
-            print('not in there')
             options_list = kwargs.pop('options', [{}] * len(names))
             general_options = kwargs
 

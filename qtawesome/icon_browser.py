@@ -4,7 +4,6 @@ import sys
 from qtpy import QtCore, QtGui, QtWidgets
 
 import qtawesome
-from styles import dark, light
 
 
 # TODO: Set icon colour and copy code with color kwarg
@@ -107,10 +106,10 @@ class IconBrowser(QtWidgets.QMainWindow):
         _app = QtWidgets.QApplication.instance()
         if text == 'Dark':
             qtawesome.resetCache()
-            dark(_app)
+            qtawesome.dark(_app)
         else:
             qtawesome.resetCache()
-            light(_app)
+            qtawesome.light(_app)
 
     def _updateFilter(self):
         """
@@ -220,9 +219,8 @@ def run():
     """
     Start the IconBrowser and block until the process exits.
     """
-    from styles import dark
     app = QtWidgets.QApplication([])
-    dark(app)
+    qtawesome.dark(app)
 
     browser = IconBrowser()
     browser.show()
@@ -232,4 +230,3 @@ def run():
 
 if __name__ == '__main__':
     run()
-

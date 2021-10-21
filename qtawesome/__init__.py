@@ -23,6 +23,7 @@ from qtpy import QtCore, QtWidgets, QtGui
 from ._version import __version__, version_info
 from .animation import Pulse, Spin
 from .iconic_font import IconicFont, set_global_defaults
+from .styles import dark, light
 
 # Constants
 _resource = { 'iconic': None }
