@@ -82,7 +82,7 @@ def _instance():
     return _resource['iconic']
 
 
-def resetCache():
+def reset_cache():
     if _resource['iconic'] is not None:
         _resource['iconic'].icon_cache = {}
 

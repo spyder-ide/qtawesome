@@ -29,13 +29,14 @@ from qtpy.QtCore import Qt
 
 
 def dark(app):
-    """ Apply Dark Theme to the Qt application instance.
+    """
+    Apply dark theme to the Qt application instance.
 
-        Args:
-            app (QApplication): QApplication instance.
+    Args:
+        app (QApplication): QApplication instance.
     """
 
-    darkPalette = QPalette()
+    dark_palette = QPalette()
 
     # base
     darkPalette.setColor(QPalette.WindowText, QColor(180, 180, 180))
@@ -76,13 +77,14 @@ def dark(app):
 
 
 def light(app):
-    """ Apply Light Theme to the Qt application instance.
+    """
+    Apply light theme to the Qt application instance.
 
-        Args:
-            app (QApplication): QApplication instance.
+    Args:
+        app (QApplication): QApplication instance.
     """
 
-    lightPalette = QPalette()
+    light_palette = QPalette()
 
     # base
     lightPalette.setColor(QPalette.WindowText, QColor(0, 0, 0))

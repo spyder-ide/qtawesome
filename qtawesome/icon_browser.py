@@ -105,10 +105,10 @@ class IconBrowser(QtWidgets.QMainWindow):
     def _updateStyle(self, text: str):
         _app = QtWidgets.QApplication.instance()
         if text == 'Dark':
-            qtawesome.resetCache()
+            qtawesome.reset_cache()
             qtawesome.dark(_app)
         else:
-            qtawesome.resetCache()
+            qtawesome.reset_cache()
             qtawesome.light(_app)
 
     def _updateFilter(self):
