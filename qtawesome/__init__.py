@@ -23,6 +23,7 @@ from qtpy import QtCore, QtWidgets, QtGui
 from ._version import __version__, version_info
 from .animation import Pulse, Spin
 from .iconic_font import IconicFont, set_global_defaults
+from .styles import dark, light
 
 # Constants
 _resource = { 'iconic': None }
@@ -82,6 +83,11 @@ def _instance():
             ('msc', 'codicon.ttf', 'codicon-charmap.json'),
         )
     return _resource['iconic']
+
+
+def reset_cache():
+    if _resource['iconic'] is not None:
+        _resource['iconic'].icon_cache = {}
 
 
 def icon(*names, **kwargs):

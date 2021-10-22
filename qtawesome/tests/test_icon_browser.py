@@ -7,12 +7,13 @@ from qtpy import QtCore, QtWidgets
 import pytest
 
 # Local imports
-from qtawesome.icon_browser import IconBrowser
+from qtawesome.icon_browser import IconBrowser, DEFAULT_DARK_PALETTE
 
 
 @pytest.fixture
 def browser(qtbot):
     browser = IconBrowser()
+    browser._updateStyle(DEFAULT_DARK_PALETTE)
     qtbot.add_widget(browser)
     browser.show()
     return browser
