@@ -25,7 +25,6 @@ SOFTWARE.
 """
 
 from qtpy.QtGui import QPalette, QColor
-from qtpy.QtCore import Qt
 
 
 def dark(app):
@@ -39,39 +38,39 @@ def dark(app):
     dark_palette = QPalette()
 
     # base
-    darkPalette.setColor(QPalette.WindowText, QColor(180, 180, 180))
-    darkPalette.setColor(QPalette.Button, QColor(53, 53, 53))
-    darkPalette.setColor(QPalette.Light, QColor(180, 180, 180))
-    darkPalette.setColor(QPalette.Midlight, QColor(90, 90, 90))
-    darkPalette.setColor(QPalette.Dark, QColor(35, 35, 35))
-    darkPalette.setColor(QPalette.Text, QColor(180, 180, 180))
-    darkPalette.setColor(QPalette.BrightText, QColor(180, 180, 180))
-    darkPalette.setColor(QPalette.ButtonText, QColor(180, 180, 180))
-    darkPalette.setColor(QPalette.Base, QColor(42, 42, 42))
-    darkPalette.setColor(QPalette.Window, QColor(53, 53, 53))
-    darkPalette.setColor(QPalette.Shadow, QColor(20, 20, 20))
-    darkPalette.setColor(QPalette.Highlight, QColor(42, 130, 218))
-    darkPalette.setColor(QPalette.HighlightedText, QColor(180, 180, 180))
-    darkPalette.setColor(QPalette.Link, QColor(56, 252, 196))
-    darkPalette.setColor(QPalette.AlternateBase, QColor(66, 66, 66))
-    darkPalette.setColor(QPalette.ToolTipBase, QColor(53, 53, 53))
-    darkPalette.setColor(QPalette.ToolTipText, QColor(180, 180, 180))
-    darkPalette.setColor(QPalette.LinkVisited, QColor(80, 80, 80))
+    dark_palette.setColor(QPalette.WindowText, QColor(180, 180, 180))
+    dark_palette.setColor(QPalette.Button, QColor(53, 53, 53))
+    dark_palette.setColor(QPalette.Light, QColor(180, 180, 180))
+    dark_palette.setColor(QPalette.Midlight, QColor(90, 90, 90))
+    dark_palette.setColor(QPalette.Dark, QColor(35, 35, 35))
+    dark_palette.setColor(QPalette.Text, QColor(180, 180, 180))
+    dark_palette.setColor(QPalette.BrightText, QColor(180, 180, 180))
+    dark_palette.setColor(QPalette.ButtonText, QColor(180, 180, 180))
+    dark_palette.setColor(QPalette.Base, QColor(42, 42, 42))
+    dark_palette.setColor(QPalette.Window, QColor(53, 53, 53))
+    dark_palette.setColor(QPalette.Shadow, QColor(20, 20, 20))
+    dark_palette.setColor(QPalette.Highlight, QColor(42, 130, 218))
+    dark_palette.setColor(QPalette.HighlightedText, QColor(180, 180, 180))
+    dark_palette.setColor(QPalette.Link, QColor(56, 252, 196))
+    dark_palette.setColor(QPalette.AlternateBase, QColor(66, 66, 66))
+    dark_palette.setColor(QPalette.ToolTipBase, QColor(53, 53, 53))
+    dark_palette.setColor(QPalette.ToolTipText, QColor(180, 180, 180))
+    dark_palette.setColor(QPalette.LinkVisited, QColor(80, 80, 80))
 
     # disabled
-    darkPalette.setColor(QPalette.Disabled, QPalette.WindowText,
+    dark_palette.setColor(QPalette.Disabled, QPalette.WindowText,
                          QColor(127, 127, 127))
-    darkPalette.setColor(QPalette.Disabled, QPalette.Text,
+    dark_palette.setColor(QPalette.Disabled, QPalette.Text,
                          QColor(127, 127, 127))
-    darkPalette.setColor(QPalette.Disabled, QPalette.ButtonText,
+    dark_palette.setColor(QPalette.Disabled, QPalette.ButtonText,
                          QColor(127, 127, 127))
-    darkPalette.setColor(QPalette.Disabled, QPalette.Highlight,
+    dark_palette.setColor(QPalette.Disabled, QPalette.Highlight,
                          QColor(80, 80, 80))
-    darkPalette.setColor(QPalette.Disabled, QPalette.HighlightedText,
+    dark_palette.setColor(QPalette.Disabled, QPalette.HighlightedText,
                          QColor(127, 127, 127))
 
     app.style().unpolish(app)
-    app.setPalette(darkPalette)
+    app.setPalette(dark_palette)
 
     app.setStyle('Fusion')
 
@@ -87,38 +86,38 @@ def light(app):
     light_palette = QPalette()
 
     # base
-    lightPalette.setColor(QPalette.WindowText, QColor(0, 0, 0))
-    lightPalette.setColor(QPalette.Button, QColor(240, 240, 240))
-    lightPalette.setColor(QPalette.Light, QColor(180, 180, 180))
-    lightPalette.setColor(QPalette.Midlight, QColor(200, 200, 200))
-    lightPalette.setColor(QPalette.Dark, QColor(225, 225, 225))
-    lightPalette.setColor(QPalette.Text, QColor(0, 0, 0))
-    lightPalette.setColor(QPalette.BrightText, QColor(0, 0, 0))
-    lightPalette.setColor(QPalette.ButtonText, QColor(0, 0, 0))
-    lightPalette.setColor(QPalette.Base, QColor(237, 237, 237))
-    lightPalette.setColor(QPalette.Window, QColor(240, 240, 240))
-    lightPalette.setColor(QPalette.Shadow, QColor(20, 20, 20))
-    lightPalette.setColor(QPalette.Highlight, QColor(76, 163, 224))
-    lightPalette.setColor(QPalette.HighlightedText, QColor(0, 0, 0))
-    lightPalette.setColor(QPalette.Link, QColor(0, 162, 232))
-    lightPalette.setColor(QPalette.AlternateBase, QColor(225, 225, 225))
-    lightPalette.setColor(QPalette.ToolTipBase, QColor(240, 240, 240))
-    lightPalette.setColor(QPalette.ToolTipText, QColor(0, 0, 0))
-    lightPalette.setColor(QPalette.LinkVisited, QColor(222, 222, 222))
+    light_palette.setColor(QPalette.WindowText, QColor(0, 0, 0))
+    light_palette.setColor(QPalette.Button, QColor(240, 240, 240))
+    light_palette.setColor(QPalette.Light, QColor(180, 180, 180))
+    light_palette.setColor(QPalette.Midlight, QColor(200, 200, 200))
+    light_palette.setColor(QPalette.Dark, QColor(225, 225, 225))
+    light_palette.setColor(QPalette.Text, QColor(0, 0, 0))
+    light_palette.setColor(QPalette.BrightText, QColor(0, 0, 0))
+    light_palette.setColor(QPalette.ButtonText, QColor(0, 0, 0))
+    light_palette.setColor(QPalette.Base, QColor(237, 237, 237))
+    light_palette.setColor(QPalette.Window, QColor(240, 240, 240))
+    light_palette.setColor(QPalette.Shadow, QColor(20, 20, 20))
+    light_palette.setColor(QPalette.Highlight, QColor(76, 163, 224))
+    light_palette.setColor(QPalette.HighlightedText, QColor(0, 0, 0))
+    light_palette.setColor(QPalette.Link, QColor(0, 162, 232))
+    light_palette.setColor(QPalette.AlternateBase, QColor(225, 225, 225))
+    light_palette.setColor(QPalette.ToolTipBase, QColor(240, 240, 240))
+    light_palette.setColor(QPalette.ToolTipText, QColor(0, 0, 0))
+    light_palette.setColor(QPalette.LinkVisited, QColor(222, 222, 222))
 
     # disabled
-    lightPalette.setColor(QPalette.Disabled, QPalette.WindowText,
+    light_palette.setColor(QPalette.Disabled, QPalette.WindowText,
                           QColor(115, 115, 115))
-    lightPalette.setColor(QPalette.Disabled, QPalette.Text,
+    light_palette.setColor(QPalette.Disabled, QPalette.Text,
                           QColor(115, 115, 115))
-    lightPalette.setColor(QPalette.Disabled, QPalette.ButtonText,
+    light_palette.setColor(QPalette.Disabled, QPalette.ButtonText,
                           QColor(115, 115, 115))
-    lightPalette.setColor(QPalette.Disabled, QPalette.Highlight,
+    light_palette.setColor(QPalette.Disabled, QPalette.Highlight,
                           QColor(190, 190, 190))
-    lightPalette.setColor(QPalette.Disabled, QPalette.HighlightedText,
+    light_palette.setColor(QPalette.Disabled, QPalette.HighlightedText,
                           QColor(115, 115, 115))
 
     app.style().unpolish(app)
-    app.setPalette(lightPalette)
+    app.setPalette(light_palette)
 
     app.setStyle('Fusion')

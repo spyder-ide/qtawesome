@@ -11,6 +11,8 @@ import qtawesome
 VIEW_COLUMNS = 5
 AUTO_SEARCH_TIMEOUT = 500
 ALL_COLLECTIONS = 'All'
+DEFAULT_DARK_PALETTE = 'Dark'
+DEFAULT_LIGHT_PALETTE = 'Light'
 
 
 class IconBrowser(QtWidgets.QMainWindow):
@@ -67,7 +69,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         lyt.addWidget(self._comboBox)
         lyt.addWidget(self._lineEdit)
         self._combo_style = QtWidgets.QComboBox(self)
-        self._combo_style.addItems(['Dark', 'Light'])
+        self._combo_style.addItems([DEFAULT_DARK_PALETTE, DEFAULT_LIGHT_PALETTE])
         self._combo_style.currentTextChanged.connect(self._updateStyle)
         lyt.addWidget(self._combo_style)
 
@@ -104,7 +106,7 @@ class IconBrowser(QtWidgets.QMainWindow):
 
     def _updateStyle(self, text: str):
         _app = QtWidgets.QApplication.instance()
-        if text == 'Dark':
+        if text == DEFAULT_DARK_PALETTE:
             qtawesome.reset_cache()
             qtawesome.dark(_app)
         else:
