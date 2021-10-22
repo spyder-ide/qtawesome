@@ -45,17 +45,17 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         self._proxyModel = QtCore.QSortFilterProxyModel()
         self._proxyModel.setSourceModel(model)
-        self._proxyModel.setFilterCaseSensitivity(QtCore.Qt.CaseInsensitive)
+        self._proxyModel.setFilterCaseSensitivity(QtCore.Qt.CaseSensitivity.CaseInsensitive)
 
         self._listView = IconListView(self)
         self._listView.setUniformItemSizes(True)
-        self._listView.setViewMode(QtWidgets.QListView.IconMode)
+        self._listView.setViewMode(QtWidgets.QListView.ViewMode.IconMode)
         self._listView.setModel(self._proxyModel)
-        self._listView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self._listView.setContextMenuPolicy(QtCore.Qt.ContextMenuPolicy.CustomContextMenu)
         self._listView.doubleClicked.connect(self._copyIconText)
 
         self._lineEdit = QtWidgets.QLineEdit(self)
-        self._lineEdit.setAlignment(QtCore.Qt.AlignCenter)
+        self._lineEdit.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self._lineEdit.textChanged.connect(self._triggerDelayedUpdate)
         self._lineEdit.returnPressed.connect(self._triggerImmediateUpdate)
 
@@ -90,7 +90,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         self.setCentralWidget(frame)
 
         QtWidgets.QShortcut(
-            QtGui.QKeySequence(QtCore.Qt.Key_Return),
+            QtGui.QKeySequence(QtCore.Qt.Key.Key_Return),
             self,
             self._copyIconText,
         )
@@ -180,7 +180,7 @@ class IconListView(QtWidgets.QListView):
 
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
 
     def resizeEvent(self, event):
         """
@@ -211,7 +211,7 @@ class IconModel(QtCore.QStringListModel):
         super().__init__()
 
     def flags(self, index):
-        return QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
+        return QtCore.Qt.ItemFlag.ItemIsEnabled | QtCore.Qt.ItemFlag.ItemIsSelectable
 
     def data(self, index, role):
         """
@@ -226,8 +226,8 @@ class IconModel(QtCore.QStringListModel):
         -------
         Any
         """
-        if role == QtCore.Qt.DecorationRole:
-            iconString = self.data(index, role=QtCore.Qt.DisplayRole)
+        if role == QtCore.Qt.ItemDataRole.DecorationRole:
+            iconString = self.data(index, role=QtCore.Qt.ItemDataRole.DisplayRole)
             return qtawesome.icon(iconString)
         return super().data(index, role)
 
