@@ -28,7 +28,11 @@ The following prefixes are currently available to use:
 
    -  ``mdi`` prefix holds `Material Design Icons 5.9.55 with its 5955 icons.`_
 
--  ``msc`` prefix holds Microsoft's `Codicon Icons 0.0.25 with its 385 icons.`_
+- ``ph`` prefix holds `Phosphor 1.3.0 with its 4470 icons (894 icons * 5 weights: Thin, Light, Regular, Bold and Fill).`_
+
+- ``ri`` prefix holds `Remix Icon 2.5.0 with its 2271 icons.`_
+
+-  ``msc`` prefix holds Microsoft's `Codicons 0.0.25 with its 385 icons.`_
 
 .. _FontAwesome: https://fontawesome.com
 .. _152 icons in the "regular" style.: https://fontawesome.com/icons?d=gallery&s=regular&m=free
@@ -39,7 +43,9 @@ The following prefixes are currently available to use:
 .. _Material Design Icons: https://cdn.materialdesignicons.com/
 .. _Material Design Icons 6.3.95 with its 6395 icons.: https://cdn.materialdesignicons.com/6.3.95/
 .. _Material Design Icons 5.9.55 with its 5955 icons.: https://cdn.materialdesignicons.com/5.9.55/
-.. _Codicon Icons 0.0.25 with its 385 icons.: https://github.com/microsoft/vscode-codicons
+.. _Phosphor 1.3.0 with its 4470 icons (894 icons * 5 weights\: Thin, Light, Regular, Bold and Fill).: https://github.com/phosphor-icons/phosphor-icons
+.. _Remix Icon 2.5.0 with its 2271 icons.: https://github.com/Remix-Design/RemixIcon
+.. _Codicons 0.0.25 with its 385 icons.: https://github.com/microsoft/vscode-codicons
 
 Examples
 ~~~~~~~~
@@ -48,7 +54,7 @@ Examples
 
    import qtawesome as qta
 
--  Use Font Awesome, Elusive Icons or Material Design Icons:
+-  Use Font Awesome, Elusive Icons, Material Design Icons, Phosphor, Remix Icon or Microsoft's Codicons:
 
 .. code:: python
 
@@ -70,7 +76,15 @@ Examples
    apn_icon = qta.icon('mdi6.access-point-network')
    mdi6_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
 
-   # Get Microsoft Codicons icons by name
+   # Get Phosphor by name
+   mic_icon = qta.icon('ph.microphone-fill')
+   ph_button = QtWidgets.QPushButton(mic_icon, 'Phosphor!')
+
+   # Get Remix Icon by name
+   truck_icon = qta.icon('ri.truck-fill')
+   ri_button = QtWidgets.QPushButton(truck_icon, 'Remix Icon!')
+
+   # Get Microsoft's Codicons by name
    squirrel_icon = qta.icon('msc.squirrel')
    msc_button = QtWidgets.QPushButton(squirrel_icon, 'Codicons!')
 
@@ -187,7 +201,7 @@ Examples
    spin_icon = qta.icon('mdi.loading', color='red',
                         animation=qta.Spin(spin_widget))
    spin_widget.setIcon(spin_icon)
-   
+
    # simple widget
    simple_widget = qta.IconWidget('mdi.web', color='blue')
 

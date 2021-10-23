@@ -33,6 +33,18 @@ class AwesomeExample(QtWidgets.QDialog):
         apn_icon = qta.icon('mdi6.access-point-network')
         mdi6_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
 
+        # Get Phosphor by name
+        mic_icon = qta.icon('ph.microphone-fill')
+        ph_button = QtWidgets.QPushButton(mic_icon, 'Phosphor!')
+
+        # Get Remix Icon by name
+        truck_icon = qta.icon('ri.truck-fill')
+        ri_button = QtWidgets.QPushButton(truck_icon, 'Remix Icon!')
+
+        # Get Microsoft's Codicons by name
+        squirrel_icon = qta.icon('msc.squirrel')
+        msc_button = QtWidgets.QPushButton(squirrel_icon, 'Codicons!')
+
         # Rotated
         rot_icon = qta.icon('mdi.access-point-network', rotated=45)
         rot_button = QtWidgets.QPushButton(rot_icon, 'Rotated Icons!')
@@ -126,8 +138,11 @@ class AwesomeExample(QtWidgets.QDialog):
             fa5_button,
             fa5s_button,
             fa5b_button,
-            elusive_button, 
+            elusive_button,
             mdi6_button,
+            ph_button,
+            ri_button,
+            msc_button,
             music_button,
             heart_button,
             rot_button,
