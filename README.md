@@ -64,7 +64,11 @@ The following prefixes are currently available to use:
 
   - `mdi` prefix holds [**Material Design Icons** 5.9.55 with its 5955 icons.](https://cdn.materialdesignicons.com/5.9.55/)
 
-- `msc` prefix holds [**Codicon Icons** 0.0.25 with its 385 icons.](https://github.com/microsoft/vscode-codicons)
+- `ph` prefix holds [**Phosphor** 1.3.0 with its 4470 icons (894 icons * 5 weights: Thin, Light, Regular, Bold and Fill).](https://github.com/phosphor-icons/phosphor-icons)
+
+- `ri` prefix holds [**Remix Icon** 2.5.0 with its 2271 icons.](https://github.com/Remix-Design/RemixIcon)
+
+- `msc` prefix holds Microsoft's [**Codicons** 0.0.25 with its 385 icons.](https://github.com/microsoft/vscode-codicons)
 
 ### Examples
 
@@ -72,7 +76,7 @@ The following prefixes are currently available to use:
 import qtawesome as qta
 ```
 
-- Use Font Awesome, Elusive Icons, Material Design Icons or Microsoft's Codicons.
+- Use Font Awesome, Elusive Icons, Material Design Icons, Phosphor, Remix Icon or Microsoft's Codicons.
 
 ```python
 # Get FontAwesome 5.x icons by name in various styles:
@@ -90,6 +94,14 @@ elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
 # or Material Design Icons:
 apn_icon = qta.icon('mdi6.access-point-network')
 mdi6_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
+
+# or Phosphor:
+mic_icon = qta.icon('ph.microphone-fill')
+ph_button = QtWidgets.QPushButton(mic_icon, 'Phosphor!')
+
+# or Remix Icon:
+truck_icon = qta.icon('ri.truck-fill')
+ri_button = QtWidgets.QPushButton(truck_icon, 'Remix Icon!')
 
 # or Microsoft's Codicons:
 squirrel_icon = qta.icon('msc.squirrel')
@@ -160,8 +172,9 @@ simple_widget = qta.IconWidget('mdi.web', color='blue')
 
 ## Other features
 
-- QtAwesome comes bundled with _Font Awesome_, _Elusive Icons_ and _Material Design_
-  _Icons_ but it can also be used with other iconic fonts. The `load_font`
+- QtAwesome comes bundled with _Font Awesome_, _Elusive Icons_, _Material Design_
+  _Icons_, _Phosphor_, _Remix Icon_ and Microsoft's _Codicons_
+  but it can also be used with other iconic fonts. The `load_font`
   function allows to load other fonts dynamically.
 - QtAwesome relies on the [QtPy](https://github.com/spyder-ide/qtpy.git)
   project as a compatibility layer on the top ot PyQt or PySide.
@@ -182,11 +195,13 @@ Once installed, run `qta-browser` from a shell to start the browser.
 MIT License. Copyright 2015 - The Spyder development team.
 See the [LICENSE](LICENSE) file for details.
 
-The Font Awesome and Elusive Icons fonts are licensed under the [SIL Open Font License](https://en.wikipedia.org/wiki/SIL_Open_Font_License).
+The [Font Awesome](https://github.com/FortAwesome/Font-Awesome/blob/master/LICENSE.txt) and [Elusive Icons](http://elusiveicons.com/license/) fonts are licensed under the [SIL Open Font License](http://scripts.sil.org/OFL).
 
-The Phosphor font is licensed under the MIT License.
+The Phosphor font is licensed under the [MIT License](https://github.com/phosphor-icons/phosphor-icons/blob/master/LICENSE).
 
-The Material Design Icons and Remix Icon fonts are licensed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+The [Material Design Icons](https://github.com/Templarian/MaterialDesign/blob/master/LICENSE) font is licensed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+The Remix Icon font is licensed under the [Apache License Version 2.0](https://github.com/Remix-Design/remixicon/blob/master/License).
 
 Microsoft's Codicons are licensed under a [Creative Commons Attribution 4.0 International Public License](https://github.com/microsoft/vscode-codicons/blob/master/LICENSE).
 

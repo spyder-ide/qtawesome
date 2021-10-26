@@ -94,9 +94,9 @@ def icon(*names, **kwargs):
     """
     Return a QIcon object corresponding to the provided icon name(s).
 
-    This function is the main interface of qtawesome. 
+    This function is the main interface of qtawesome.
 
-    It can be used to create a QIcon instance from a single glyph 
+    It can be used to create a QIcon instance from a single glyph
     or from a list of glyphs that are displayed on the top of each other.
     Such icon stacks are generally used to combine multiple glyphs to make
     more complex icons.
@@ -112,6 +112,9 @@ def icon(*names, **kwargs):
      - The prefix corresponding to Elusive-Icons is 'ei'
      - The prefix corresponding to Material-Design-Icons 5.x is 'mdi'
      - The prefix corresponding to Material-Design-Icons 6.x is 'mdi6'
+     - The prefix corresponding to Phosphor is 'ph'
+     - The prefix corresponding to Remix-Icon is 'ri'
+     - The prefix corresponding to Microsoft's Codicons is 'msc'
 
     When requesting a single glyph, options (such as color or positional offsets)
     can be passed as keyword arguments::
@@ -144,7 +147,7 @@ def icon(*names, **kwargs):
           The user is interacting with the icon, for example, moving the mouse
           over it or clicking it.
         - ``Selected``: The item represented by the icon is selected.
- 
+
     The glyph for the Normal mode is the one specified with the main positional
     argument.
 
@@ -155,7 +158,7 @@ def icon(*names, **kwargs):
      - ``offset``: tuple (x, y) corresponding to the horizontal and vertical
        offsets for the glyph, specified as a proportion of the icon size.
      - ``animation``: animation object for the icon.
-     - ``scale_factor``: multiplicative scale factor to be used for the glyph. 
+     - ``scale_factor``: multiplicative scale factor to be used for the glyph.
 
     The following options apply to the different modes of the icon
 
