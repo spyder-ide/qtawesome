@@ -133,8 +133,8 @@ class AwesomeExample(QtWidgets.QDialog):
         label.setFont(qta.font('fa', 16))
 
         # Layout
-        vbox = QtWidgets.QVBoxLayout()
-        widgets = [
+        grid = QtWidgets.QGridLayout()
+        fonts_widgets = [
             fa5_button,
             fa5s_button,
             fa5b_button,
@@ -143,26 +143,41 @@ class AwesomeExample(QtWidgets.QDialog):
             ph_button,
             ri_button,
             msc_button,
+        ]
+        styled_widgets = [
             music_button,
             heart_button,
             rot_button,
             hflip_button,
             vflip_button,
-            toggle_button,
+            toggle_button
+        ]
+        animated_widgets = [
             stack_button,
             saveall_button,
             spin_button,
             pulse_button,
             stack_spin_button,
+        ]
+        other_widgets = [
             label,
             iconwidgetholder,
             iconwidget2
         ]
 
-        for w in widgets:
-            vbox.addWidget(w)
+        for idx, w in enumerate(fonts_widgets):
+            grid.addWidget(w, idx, 0)
 
-        self.setLayout(vbox)
+        for idx, w in enumerate(styled_widgets):
+            grid.addWidget(w, idx, 1)
+        
+        for idx, w in enumerate(animated_widgets):
+            grid.addWidget(w, idx + len(fonts_widgets), 0)
+        
+        for idx, w in enumerate(other_widgets):
+            grid.addWidget(w, idx + len(fonts_widgets) + len(animated_widgets), 0)
+
+        self.setLayout(grid)
         self.setWindowTitle('Awesome')
         self.show()
 
