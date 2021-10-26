@@ -195,11 +195,13 @@ Once installed, run `qta-browser` from a shell to start the browser.
 MIT License. Copyright 2015 - The Spyder development team.
 See the [LICENSE](LICENSE) file for details.
 
-The Font Awesome and Elusive Icons fonts are licensed under the [SIL Open Font License](https://en.wikipedia.org/wiki/SIL_Open_Font_License).
+The Font Awesome and Elusive Icons fonts are licensed under the [SIL Open Font License](http://scripts.sil.org/OFL).
 
-The Phosphor font is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+The Phosphor font is licensed under the [MIT License](https://raw.githubusercontent.com/phosphor-icons/phosphor-home/master/LICENSE).
 
-The Material Design Icons and Remix Icon fonts are licensed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+The Material Design Icons font is licensed under the [Apache License Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+
+The Remix Icon font is licensed under the [Apache License Version 2.0](https://github.com/Remix-Design/remixicon/blob/master/License).
 
 Microsoft's Codicons are licensed under a [Creative Commons Attribution 4.0 International Public License](https://github.com/microsoft/vscode-codicons/blob/master/LICENSE).
 
