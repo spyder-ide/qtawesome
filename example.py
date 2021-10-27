@@ -15,6 +15,10 @@ class AwesomeExample(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
 
+        # Label for supported fonts
+        supported_fonts_label = QtWidgets.QLabel('Supported Fonts')
+        supported_fonts_label.setAlignment(QtCore.Qt.AlignCenter)
+
         # Get FontAwesome 5.x icons by name in various styles by name
         fa5_icon = qta.icon('fa5.flag')
         fa5_button = QtWidgets.QPushButton(fa5_icon, 'Font Awesome! (regular)')
@@ -44,6 +48,10 @@ class AwesomeExample(QtWidgets.QDialog):
         # Get Microsoft's Codicons by name
         squirrel_icon = qta.icon('msc.squirrel')
         msc_button = QtWidgets.QPushButton(squirrel_icon, 'Codicons!')
+
+        # Label for style options and animations
+        styles_label = QtWidgets.QLabel('Styles')
+        styles_label.setAlignment(QtCore.Qt.AlignCenter)
 
         # Rotated
         rot_icon = qta.icon('mdi.access-point-network', rotated=45)
@@ -135,6 +143,7 @@ class AwesomeExample(QtWidgets.QDialog):
         # Layout
         grid = QtWidgets.QGridLayout()
         fonts_widgets = [
+            supported_fonts_label,
             fa5_button,
             fa5s_button,
             fa5b_button,
@@ -145,6 +154,7 @@ class AwesomeExample(QtWidgets.QDialog):
             msc_button,
         ]
         styled_widgets = [
+            styles_label,
             music_button,
             heart_button,
             rot_button,
@@ -153,10 +163,10 @@ class AwesomeExample(QtWidgets.QDialog):
             toggle_button
         ]
         animated_widgets = [
-            stack_button,
-            saveall_button,
             spin_button,
             pulse_button,
+            stack_button,
+            saveall_button,
             stack_spin_button,
         ]
         other_widgets = [
@@ -172,10 +182,10 @@ class AwesomeExample(QtWidgets.QDialog):
             grid.addWidget(w, idx, 1)
         
         for idx, w in enumerate(animated_widgets):
-            grid.addWidget(w, idx + len(fonts_widgets), 0)
+            grid.addWidget(w, idx + len(styled_widgets), 1)
         
         for idx, w in enumerate(other_widgets):
-            grid.addWidget(w, idx + len(fonts_widgets) + len(animated_widgets), 0)
+            grid.addWidget(w, idx + len(styled_widgets) + len(animated_widgets), 1)
 
         self.setLayout(grid)
         self.setWindowTitle('Awesome')
