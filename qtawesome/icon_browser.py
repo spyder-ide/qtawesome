@@ -53,6 +53,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._listView.setModel(self._proxyModel)
         self._listView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self._listView.doubleClicked.connect(self._copyIconText)
+        self._listView.selectionModel().selectionChanged.connect(self._updateNameField)
 
         self._lineEdit = QtWidgets.QLineEdit(self)
         self._lineEdit.setAlignment(QtCore.Qt.AlignCenter)
@@ -76,12 +77,17 @@ class IconBrowser(QtWidgets.QMainWindow):
         searchBarFrame = QtWidgets.QFrame(self)
         searchBarFrame.setLayout(lyt)
 
+        self._nameField = QtWidgets.QLineEdit(self)
+        self._nameField.setAlignment(QtCore.Qt.AlignCenter)
+        self._nameField.setReadOnly(True)
+
         self._copyButton = QtWidgets.QPushButton('Copy Name', self)
         self._copyButton.clicked.connect(self._copyIconText)
 
         lyt = QtWidgets.QVBoxLayout()
         lyt.addWidget(searchBarFrame)
         lyt.addWidget(self._listView)
+        lyt.addWidget(self._nameField)
         lyt.addWidget(self._copyButton)
 
         frame = QtWidgets.QFrame(self)
@@ -89,10 +95,22 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         self.setCentralWidget(frame)
 
+        self.setTabOrder(self._comboBox, self._lineEdit)
+        self.setTabOrder(self._lineEdit, self._combo_style)
+        self.setTabOrder(self._combo_style, self._listView)
+        self.setTabOrder(self._listView, self._nameField)
+        self.setTabOrder(self._nameField, self._copyButton)
+        self.setTabOrder(self._copyButton, self._comboBox)
+
         QtWidgets.QShortcut(
             QtGui.QKeySequence(QtCore.Qt.Key_Return),
             self,
             self._copyIconText,
+        )
+        QtWidgets.QShortcut(
+            QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_F),
+            self,
+            self._lineEdit.setFocus,
         )
 
         self._lineEdit.setFocus()
@@ -170,6 +188,16 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         clipboard = QtWidgets.QApplication.instance().clipboard()
         clipboard.setText(indexes[0].data())
+
+    def _updateNameField(self):
+        """
+        Update field to the name of the currently selected icon.
+        """
+        indexes = self._listView.selectedIndexes()
+        if not indexes:
+            self._nameField.setText("")
+        else:
+            self._nameField.setText(indexes[0].data())
 
 
 class IconListView(QtWidgets.QListView):
