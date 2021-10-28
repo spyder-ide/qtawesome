@@ -16,38 +16,38 @@ class AwesomeExample(QtWidgets.QDialog):
         super().__init__()
 
         # Label for supported fonts
-        supported_fonts_label = QtWidgets.QLabel('Supported Fonts')
+        supported_fonts_label = QtWidgets.QLabel('Supported fonts (prefix)')
         supported_fonts_label.setAlignment(QtCore.Qt.AlignCenter)
 
         # Get FontAwesome 5.x icons by name in various styles by name
         fa5_icon = qta.icon('fa5.flag')
-        fa5_button = QtWidgets.QPushButton(fa5_icon, 'Font Awesome! (regular)')
+        fa5_button = QtWidgets.QPushButton(fa5_icon, 'Font Awesome regular (fa5)')
 
         fa5s_icon = qta.icon('fa5s.flag')
-        fa5s_button = QtWidgets.QPushButton(fa5s_icon, 'Font Awesome! (solid)')
+        fa5s_button = QtWidgets.QPushButton(fa5s_icon, 'Font Awesome solid (fa5s)')
 
         fa5b_icon = qta.icon('fa5b.github')
-        fa5b_button = QtWidgets.QPushButton(fa5b_icon, 'Font Awesome! (brands)')
+        fa5b_button = QtWidgets.QPushButton(fa5b_icon, 'Font Awesome brands (fa5b)')
 
         # Get Elusive icons by name
         asl_icon = qta.icon('ei.asl')
-        elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons!')
+        elusive_button = QtWidgets.QPushButton(asl_icon, 'Elusive Icons (ei)')
 
         # Get Material Design icons by name
         apn_icon = qta.icon('mdi6.access-point-network')
-        mdi6_button = QtWidgets.QPushButton(apn_icon, 'Material Design Icons!')
+        mdi6_button = QtWidgets.QPushButton(apn_icon, 'Material Design (mdi, mdi6)')
 
         # Get Phosphor by name
         mic_icon = qta.icon('ph.microphone-fill')
-        ph_button = QtWidgets.QPushButton(mic_icon, 'Phosphor!')
+        ph_button = QtWidgets.QPushButton(mic_icon, 'Phosphor Icons (ph)')
 
         # Get Remix Icon by name
         truck_icon = qta.icon('ri.truck-fill')
-        ri_button = QtWidgets.QPushButton(truck_icon, 'Remix Icon!')
+        ri_button = QtWidgets.QPushButton(truck_icon, 'Remix Icons (ri)')
 
         # Get Microsoft's Codicons by name
         squirrel_icon = qta.icon('msc.squirrel')
-        msc_button = QtWidgets.QPushButton(squirrel_icon, 'Codicons!')
+        msc_button = QtWidgets.QPushButton(squirrel_icon, 'Codicons (msc)')
 
         # Label for style options and animations
         styles_label = QtWidgets.QLabel('Styles')
@@ -55,22 +55,22 @@ class AwesomeExample(QtWidgets.QDialog):
 
         # Rotated
         rot_icon = qta.icon('mdi.access-point-network', rotated=45)
-        rot_button = QtWidgets.QPushButton(rot_icon, 'Rotated Icons!')
+        rot_button = QtWidgets.QPushButton(rot_icon, 'Rotated Icons')
 
         # Horizontal flip
         hflip_icon = qta.icon('mdi.account-alert', hflip=True)
-        hflip_button = QtWidgets.QPushButton(hflip_icon, 'Horizontally Flipped Icons!')
+        hflip_button = QtWidgets.QPushButton(hflip_icon, 'Horizontally Flipped Icons')
 
         # Vertical flip
         vflip_icon = qta.icon('mdi.account-alert', vflip=True)
-        vflip_button = QtWidgets.QPushButton(vflip_icon, 'Vertically Flipped Icons!')
+        vflip_button = QtWidgets.QPushButton(vflip_icon, 'Vertically Flipped Icons')
 
         # Styling
         styling_icon = qta.icon('fa5s.music',
                                 active='fa5s.balance-scale',
                                 color='blue',
                                 color_active='orange')
-        music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
+        music_button = QtWidgets.QPushButton(styling_icon, 'Changing colors')
 
         # Setting an alpha of 165 to the color of this icon. Alpha must be a number
         # between 0 and 255.
@@ -189,6 +189,7 @@ class AwesomeExample(QtWidgets.QDialog):
 
         self.setLayout(grid)
         self.setWindowTitle('Awesome')
+        self.setMinimumWidth(520)
         self.show()
 
 
