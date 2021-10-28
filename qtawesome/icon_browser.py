@@ -95,6 +95,13 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         self.setCentralWidget(frame)
 
+        self.setTabOrder(self._comboBox, self._lineEdit)
+        self.setTabOrder(self._lineEdit, self._combo_style)
+        self.setTabOrder(self._combo_style, self._listView)
+        self.setTabOrder(self._listView, self._nameField)
+        self.setTabOrder(self._nameField, self._copyButton)
+        self.setTabOrder(self._copyButton, self._comboBox)
+
         QtWidgets.QShortcut(
             QtGui.QKeySequence(QtCore.Qt.Key_Return),
             self,
