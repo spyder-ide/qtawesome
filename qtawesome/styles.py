@@ -26,6 +26,10 @@ SOFTWARE.
 
 from qtpy.QtGui import QPalette, QColor
 
+# Constant to reference default themes
+DEFAULT_DARK_PALETTE = 'Dark'
+DEFAULT_LIGHT_PALETTE = 'Light'
+
 
 def dark(app):
     """
