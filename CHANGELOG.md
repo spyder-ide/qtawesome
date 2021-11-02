@@ -1,5 +1,45 @@
 # History of changes
 
+## Version 1.1.0 (2021-11-02)
+
+### New features
+
+* Update FontAwesome 5 to 5.14.0
+* Update Material design icons 5 to 5.9.55 (`mdi` prefix)
+* Add support for Material design icons 6 starting with 6.3.95 (`mdi6` prefix)
+* Add support for Phosphor icons starting with 1.3.0 (`ph` prefix)
+* Add support for Remix icons staring with 2.5.0 (`ri` prefix)
+* Add support for Microsoft's Codicons starting with 0.0.25 (`msc` prefix)
+* Add support for alpha setting in colors
+* Improvements to the icon browser: Preview icons with an example dark/light theme, add shortcut to focus search field (`Ctrl + F`), and display current selected icon name without any ellipsis
+
+### Issues Closed
+
+* [Issue 172](https://github.com/spyder-ide/qtawesome/issues/172) - Update missing references for new/updated icon sets and example image
+* [Issue 170](https://github.com/spyder-ide/qtawesome/issues/170) - qta-browser with PySide6 ([PR 171](https://github.com/spyder-ide/qtawesome/pull/171) by [@kumattau](https://github.com/kumattau))
+* [Issue 156](https://github.com/spyder-ide/qtawesome/issues/156) - Refresh defaults for toggling light dark themes ([PR 176](https://github.com/spyder-ide/qtawesome/pull/176) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 3 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 182](https://github.com/spyder-ide/qtawesome/pull/182) - PR: [qta-browser] display selected icon name, Ctrl+F to search icons and tab stops in order of widget appearance, by [@kumattau](https://github.com/kumattau)
+* [PR 181](https://github.com/spyder-ide/qtawesome/pull/181) - PR: Update images and example code layout, by [@dalthviz](https://github.com/dalthviz)
+* [PR 177](https://github.com/spyder-ide/qtawesome/pull/177) - PR: Update author information and add maintainer one, by [@ccordoba12](https://github.com/ccordoba12)
+* [PR 176](https://github.com/spyder-ide/qtawesome/pull/176) - PR: Default icon color to application palette, by [@dalthviz](https://github.com/dalthviz) ([156](https://github.com/spyder-ide/qtawesome/issues/156))
+* [PR 174](https://github.com/spyder-ide/qtawesome/pull/174) - PR: Update Material Design Icons to 5.9.55 and add support for new mayor version 6.x - 6.3.95, by [@kumattau](https://github.com/kumattau)
+* [PR 171](https://github.com/spyder-ide/qtawesome/pull/171) - PR: Add PySide6 support for qta-browser , by [@kumattau](https://github.com/kumattau) ([170](https://github.com/spyder-ide/qtawesome/issues/170))
+* [PR 169](https://github.com/spyder-ide/qtawesome/pull/169) - PR: Add Phosphor and Remix Icon support, by [@kumattau](https://github.com/kumattau)
+* [PR 166](https://github.com/spyder-ide/qtawesome/pull/166) - PR: Support alpha in colors, by [@ccordoba12](https://github.com/ccordoba12)
+* [PR 152](https://github.com/spyder-ide/qtawesome/pull/152) - PR: Add Microsoft's Codicons 0.0.25 font, by [@darkvertex](https://github.com/darkvertex)
+* [PR 151](https://github.com/spyder-ide/qtawesome/pull/151) - PR: Update FA to 5.14.0 + fix setupbase.py for Py3, by [@darkvertex](https://github.com/darkvertex)
+
+In this release 10 pull requests were closed.
+
+
+----
+
+
 ## Version 1.0.3 (2021-06-22)
 
 ### Issues Closed
