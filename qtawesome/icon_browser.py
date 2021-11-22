@@ -108,7 +108,7 @@ class IconBrowser(QtWidgets.QMainWindow):
             self._copyIconText,
         )
         QtWidgets.QShortcut(
-            QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_F),
+            QtGui.QKeySequence("Ctrl+F"),
             self,
             self._lineEdit.setFocus,
         )
