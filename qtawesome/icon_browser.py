@@ -121,12 +121,12 @@ class IconBrowser(QtWidgets.QMainWindow):
         # Instead, QGuiApplication.screenAt(QPoint) is supported
         # in Qt 5.10 or later.
         try:
+            screen = QtGui.QGuiApplication.screenAt(QtGui.QCursor.pos())
+            centerPoint = screen.geometry().center()
+        except AttributeError:
             desktop = QtWidgets.QApplication.desktop()
             screen = desktop.screenNumber(desktop.cursor().pos())
             centerPoint = desktop.screenGeometry(screen).center()
-        except AttributeError:
-            screen = QtGui.QGuiApplication.screenAt(QtGui.QCursor.pos())
-            centerPoint = screen.geometry().center()
 
         geo.moveCenter(centerPoint)
         self.setGeometry(geo)
@@ -159,9 +159,9 @@ class IconBrowser(QtWidgets.QMainWindow):
         # Instead, QSortFilterProxyModel.setFilterRegularExpression is
         # supported in Qt 5.12 or later.
         try:
-            self._proxyModel.setFilterRegExp(reString)
-        except AttributeError:
             self._proxyModel.setFilterRegularExpression(reString)
+        except AttributeError:
+            self._proxyModel.setFilterRegExp(reString)
 
     def _triggerDelayedUpdate(self):
         """
