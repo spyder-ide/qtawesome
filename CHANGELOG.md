@@ -1,5 +1,26 @@
 # History of changes
 
+## Version 1.1.1 (2021-11-29)
+
+### Issues Closed
+
+* [Issue 178](https://github.com/spyder-ide/qtawesome/issues/178) - Add deprecation warning for Font Awesome 4.x - 4.7 ([PR 185](https://github.com/spyder-ide/qtawesome/pull/185) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 186](https://github.com/spyder-ide/qtawesome/pull/186) - PR: Try calling newer Qt methods first before falling back to deprecated/removed ones, by [@kumattau](https://github.com/kumattau)
+* [PR 185](https://github.com/spyder-ide/qtawesome/pull/185) - PR: Add DeprecationWarning for FontAwesome 4.7 icon set, by [@dalthviz](https://github.com/dalthviz) ([178](https://github.com/spyder-ide/qtawesome/issues/178))
+* [PR 184](https://github.com/spyder-ide/qtawesome/pull/184) - PR: Update README docs badge, Copyright year and sponsors logo, by [@dalthviz](https://github.com/dalthviz)
+* [PR 183](https://github.com/spyder-ide/qtawesome/pull/183) - PR: Change to "Ctrl+F" because PyQt6 doesn't support Modifier + Key, by [@kumattau](https://github.com/kumattau)
+
+In this release 4 pull requests were closed.
+
+
+----
+
+
 ## Version 1.1.0 (2021-11-02)
 
 ### New features
