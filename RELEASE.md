@@ -12,7 +12,7 @@ In order to do a release, you need to have:
       conda activate release
       pip install -U pip setuptools twine wheel loghub
 
-* Cloned repository (usually your fork with an `upstream` remote pointing to the project original repo)
+* A clone of this repository (usually your fork with an `upstream` remote pointing to the project original repo)
 
 * The corresponding credentials (PyPI, GitHub, etc).
 
