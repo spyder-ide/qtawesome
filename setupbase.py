@@ -29,7 +29,7 @@ def rename_font(font_path, font_name):
     Font renaming code originally from:
     https://github.com/chrissimpkins/fontname.py/blob/master/fontname.py
     """
-    tt = ttLib.TTFont(font_path)
+    tt = ttLib.TTFont(font_path, recalcBBoxes=False, recalcTimestamp=False)
     namerecord_list = tt["name"].names
     variant = ""
 
@@ -68,7 +68,7 @@ def rename_font(font_path, font_name):
 
     # write changes to the font file
     try:
-        tt.save(font_path)
+        tt.save(font_path, reorderTables=False)
     except:
         raise RuntimeError(
             f"ERROR: unable to write new name to OpenType tables for: {font_path}")
