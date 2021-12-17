@@ -124,6 +124,7 @@ FONT_OPTS = argparse.ArgumentParser()
 FONT_OPTS.add_argument("--prefix", choices=FONT_CONF.keys(), required=True)
 FONT_OPTS.add_argument("--version")
 FONT_OPTS.add_argument("--cmaphex", choices=["asis", "no", "0x", "0X"], default="asis")
+FONT_OPTS.add_argument("--cmapfmt", choices=["asis", "lower", "upper"], default="asis")
 FONT_OPTS.add_argument("--nopatch", action="store_const", const=True)
 FONT_OPTS.add_argument("--compat", action="store_const", const=True)
 
@@ -167,6 +168,7 @@ class FontUpdater:
         self.cmap_loc = kwargs["cmap_loc"]
         self.nopatch = kwargs.get("nopatch", False)
         self.cmaphex = kwargs.get("cmaphex", "asis")
+        self.cmapfmt = kwargs.get("cmapfmt", "asis")
 
     def run(self):
         print("Update started")
@@ -213,8 +215,14 @@ class FontUpdater:
         with urlopen(self.cmap_url) as fp:
             cmap = self.parse_cmap(fp.read())
         assert len(cmap) > 0
-        for key, val in cmap.items():
-            if self.cmaphex != "asis":
+        if self.cmapfmt != "asis":
+            for key, val in cmap.items():
+                if self.cmapfmt == "upper":
+                    cmap[key] = val.upper()
+                elif self.cmapfmt == "lower":
+                    cmap[key] = val.lower()
+        if self.cmaphex != "asis":
+            for key, val in cmap.items():
                 cmap[key] = re.sub(r"^0x", "", val, re.IGNORECASE)
                 if self.cmaphex != "no":
                     cmap[key] = f"{self.cmaphex}{val}"
@@ -225,6 +233,7 @@ class FontUpdater:
         print("")
         print(f"Charmap Count : {len(cmap)}")
         print(f"Charmap Hex   : {self.cmaphex}")
+        print(f"Charmap Format: {self.cmapfmt}")
         print("")
 
     def store_font(self):
