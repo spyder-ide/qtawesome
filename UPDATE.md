@@ -41,7 +41,7 @@ To update _Material Design Icons 6.x_, you must:
 - download ttf from <https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/fonts/materialdesignicons-webfont.ttf>
 - regenerate the json charmap with the `materialdesignicons.css` file from <https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/css/materialdesignicons.css>
 
-The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update iconic_font.py)
+The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update \_\_init__.py)
 
 ```Python
 import re
@@ -95,7 +95,7 @@ To update _Phosphor_, you must:
 - download ttf from <https://raw.githubusercontent.com/phosphor-icons/phosphor-icons/master/src/font/phosphor.ttf>
 - regenerate the json charmap with the `phosphor.css` file from <https://raw.githubusercontent.com/phosphor-icons/phosphor-icons/master/src/css/phosphor.css>
 
-The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update iconic_font.py)
+The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update \_\_init__.py)
 
 ```Python
 import re
@@ -148,7 +148,7 @@ To update _Remix Icon_, you must:
 - download ttf from <https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/fonts/remixicon.ttf>
 - regenerate the json charmap with the `remixicon.css` file from <https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/fonts/remixicon.css>
 
-The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update iconic_font.py)
+The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update \_\_init__.py)
 
 ```Python
 import re

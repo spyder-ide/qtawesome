@@ -21,7 +21,7 @@ import distutils.cmd
 import distutils.log
 
 HERE = os.path.abspath(os.path.dirname(__file__))
-ICONIC_FONT_PY_PATH = os.path.join(HERE, 'qtawesome', 'iconic_font.py')
+INIT_PY_PATH = os.path.join(HERE, 'qtawesome', '__init__.py')
 
 
 def rename_font(font_path, font_name):
@@ -209,11 +209,11 @@ class UpdateFA5Command(distutils.cmd.Command):
             # Store hashes for later:
             hashes[style] = hashlib.md5(data).hexdigest()
 
-        # Now it's time to patch "iconic_font.py":
-        iconic_path = ICONIC_FONT_PY_PATH
-        self.__print('Patching new MD5 hashes in: %s' % iconic_path)
-        with open(iconic_path, 'r') as iconic_file:
-            contents = iconic_file.read()
+        # Now it's time to patch "__init__.py":
+        init_path = INIT_PY_PATH
+        self.__print('Patching new MD5 hashes in: %s' % init_path)
+        with open(init_path, 'r') as init_file:
+            contents = init_file.read()
         # We read it in full, then use regex substitution:
         for style, md5 in hashes.items():
             self.__print('New "%s" hash is: %s' % (style, md5))
@@ -221,9 +221,9 @@ class UpdateFA5Command(distutils.cmd.Command):
             subst = r"\g<1>'" + md5 + "'"
             contents = re.sub(regex, subst, contents, 1)
         # and finally overwrite with the modified file:
-        self.__print('Dumping updated file: %s' % iconic_path)
-        with open(iconic_path, 'w') as iconic_file:
-            iconic_file.write(contents)
+        self.__print('Dumping updated file: %s' % init_path)
+        with open(init_path, 'w') as init_file:
+            init_file.write(contents)
 
         self.__print(
             '\nFinished!\n'
@@ -295,16 +295,16 @@ class UpdateCodiconCommand(distutils.cmd.Command):
             md5 = hashlib.md5(data).hexdigest()
             self.__print('New hash is: %s' % md5)
 
-        # Now it's time to patch "iconic_font.py":
-        self.__print('Patching new MD5 hashes in: %s' % ICONIC_FONT_PY_PATH)
-        with open(ICONIC_FONT_PY_PATH, 'r') as iconic_file:
-            contents = iconic_file.read()
+        # Now it's time to patch "__init__.py":
+        self.__print('Patching new MD5 hashes in: %s' % INIT_PY_PATH)
+        with open(INIT_PY_PATH, 'r') as init_file:
+            contents = init_file.read()
         regex = r"('codicon.ttf':\s+)'(\w+)'"
         subst = r"\g<1>'" + md5 + "'"
         contents = re.sub(regex, subst, contents, 1)
-        self.__print('Dumping updated file: %s' % ICONIC_FONT_PY_PATH)
-        with open(ICONIC_FONT_PY_PATH, 'w') as iconic_file:
-            iconic_file.write(contents)
+        self.__print('Dumping updated file: %s' % INIT_PY_PATH)
+        with open(INIT_PY_PATH, 'w') as init_file:
+            init_file.write(contents)
 
         self.__print(
             '\nFinished!\n'
