@@ -192,7 +192,8 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
     """
     Loads a font file and the associated charmap.
 
-    If ``directory`` is None, the files will be looked for in ``./fonts/``.
+    If ``directory`` the files will be looked for in the qtawesome ``fonts``
+    directory.
 
     Parameters
     ----------
@@ -203,14 +204,31 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
     charmap_filename: str
         Character map filename
     directory: str or None, optional
-        Directory for font and charmap files
+        Directory path for font and charmap files
 
     Example
     -------
-    The spyder ide uses qtawesome and uses a custom font for spyder-specific
-    icons::
+    If you want to load a font ``myicon.tff`` with a ``myicon-charmap.json``
+    charmap added to the qtawesome ``fonts`` directory (usually located at
+    ``</path/to/lib/python>/site-packages/qtawesome/fonts/``) you can use::
 
-        qta.load_font('spyder', 'spyder.ttf', 'spyder-charmap.json')
+        qta.load_font(
+            'myicon',
+            'myicon.ttf',
+            'myicon-charmap.json'
+            )
+
+    However, if you want to load a font ``myicon.tff`` with a
+    ``myicon-charmap.json`` charmap located in a specific path outside the
+    qtawesome ``font`` directory like for example ``/path/to/myproject/fonts``
+    you can use::
+
+        qta.load_font(
+            'myicon',
+            'myicon.ttf',
+            'myicon-charmap.json',
+            directory='/path/to/myproject/fonts'
+            )
 
     """
     return _instance().load_font(prefix, ttf_filename, charmap_filename, directory)

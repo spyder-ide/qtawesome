@@ -232,7 +232,8 @@ class IconicFont(QObject):
             - The ttf font filename,
             - The json charmap filename,
             - Optionally, the directory containing these files. When not
-              provided, the files will be looked for in ``./fonts/``.
+              provided, the files will be looked for in the QtAwesome ``fonts``
+              directory.
         """
         super().__init__()
         self.painter = CharIconPainter()
@@ -247,7 +248,8 @@ class IconicFont(QObject):
     def load_font(self, prefix, ttf_filename, charmap_filename, directory=None):
         """Loads a font file and the associated charmap.
 
-        If ``directory`` is None, the files will be looked for in ``./fonts/``.
+        If ``directory`` is None, the files will be looked for in
+        the qtawesome ``fonts`` directory.
 
         Parameters
         ----------
@@ -258,7 +260,7 @@ class IconicFont(QObject):
         charmap_filename: str
             Charmap filename
         directory: str or None, optional
-            Directory for font and charmap files
+            Directory path for font and charmap files
         """
 
         def hook(obj):
