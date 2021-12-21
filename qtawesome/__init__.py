@@ -192,8 +192,8 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
     """
     Loads a font file and the associated charmap.
 
-    If ``directory`` the files will be looked for in the qtawesome ``fonts``
-    directory.
+    If ``directory`` is passed, the files will be looked for in the qtawesome
+    ``fonts`` directory.
 
     Parameters
     ----------
@@ -216,7 +216,7 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
             'myicon',
             'myicon.ttf',
             'myicon-charmap.json'
-            )
+        )
 
     However, if you want to load a font ``myicon.tff`` with a
     ``myicon-charmap.json`` charmap located in a specific path outside the
@@ -228,7 +228,7 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
             'myicon.ttf',
             'myicon-charmap.json',
             directory='/path/to/myproject/fonts'
-            )
+        )
 
     """
     return _instance().load_font(prefix, ttf_filename, charmap_filename, directory)
