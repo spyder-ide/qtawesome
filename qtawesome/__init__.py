@@ -16,17 +16,69 @@ Font-Awesome and other iconic fonts for PyQt / PySide applications.
    set_defaults
 """
 
+import hashlib
+import os
+
 # Third party imports
 from qtpy import QtCore, QtWidgets, QtGui
 
 # Local imports
 from ._version import __version__, version_info
 from .animation import Pulse, Spin
-from .iconic_font import IconicFont, set_global_defaults
+from .iconic_font import IconicFont, set_global_defaults, FontError
+from .iconic_font import SYSTEM_FONTS as _SYSTEM_FONTS
 from .styles import dark, light
 
 # Constants
 _resource = { 'iconic': None }
+
+_BUNDLED_FONTS = (
+    ('fa',
+        'fontawesome4.7-webfont.ttf',
+        'fontawesome4.7-webfont-charmap.json'),
+    ('fa5',
+        'fontawesome5-regular-webfont.ttf',
+        'fontawesome5-regular-webfont-charmap.json'),
+    ('fa5s',
+        'fontawesome5-solid-webfont.ttf',
+        'fontawesome5-solid-webfont-charmap.json'),
+    ('fa5b',
+        'fontawesome5-brands-webfont.ttf',
+        'fontawesome5-brands-webfont-charmap.json'),
+    ('ei',
+        'elusiveicons-webfont.ttf',
+        'elusiveicons-webfont-charmap.json'),
+    ('mdi',
+        'materialdesignicons5-webfont.ttf',
+        'materialdesignicons5-webfont-charmap.json'),
+    ('mdi6',
+        'materialdesignicons6-webfont.ttf',
+        'materialdesignicons6-webfont-charmap.json'),
+    ('ph',
+        'phosphor.ttf',
+        'phosphor-charmap.json'),
+    ('ri',
+        'remixicon.ttf',
+        'remixicon-charmap.json'),
+    ('msc',
+        'codicon.ttf',
+        'codicon-charmap.json'),
+)
+
+
+# MD5 Hashes for font files bundled with qtawesome:
+_MD5_HASHES = {
+    'fontawesome4.7-webfont.ttf': 'b06871f281fee6b241d60582ae9369b9',
+    'fontawesome5-regular-webfont.ttf': '808833867034fb67a4a86dd2155e195d',
+    'fontawesome5-solid-webfont.ttf': '139654bb0acaba6b00ae30d5faf3d02f',
+    'fontawesome5-brands-webfont.ttf': '085b1dd8427dbeff10bd55410915a3f6',
+    'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
+    'materialdesignicons5-webfont.ttf': 'b7d40e7ef80c1d4af6d94902af66e524',
+    'materialdesignicons6-webfont.ttf': '9a2f455e7cbce011368aee95d292613b',
+    'phosphor.ttf': '5b8dc57388b2d86243566b996cc3a789',
+    'remixicon.ttf': '888e61f04316f10bddfff7bee10c6dd0',
+    'codicon.ttf': 'ca2f9e22cee3a59156b3eded74d87784',
+}
 
 
 def has_valid_font_ids(inst):
@@ -60,28 +112,22 @@ def _instance():
         _resource['iconic'] = None
 
     if _resource['iconic'] is None:
-        _resource['iconic'] = IconicFont(
-            ('fa',
-             'fontawesome4.7-webfont.ttf',
-             'fontawesome4.7-webfont-charmap.json'),
-            ('fa5',
-             'fontawesome5-regular-webfont.ttf',
-             'fontawesome5-regular-webfont-charmap.json'),
-            ('fa5s',
-             'fontawesome5-solid-webfont.ttf',
-             'fontawesome5-solid-webfont-charmap.json'),
-            ('fa5b',
-             'fontawesome5-brands-webfont.ttf',
-             'fontawesome5-brands-webfont-charmap.json'),
-            ('ei', 'elusiveicons-webfont.ttf', 'elusiveicons-webfont-charmap.json'),
-            ('mdi', 'materialdesignicons5-webfont.ttf',
-             'materialdesignicons5-webfont-charmap.json'),
-            ('mdi6', 'materialdesignicons6-webfont.ttf',
-             'materialdesignicons6-webfont-charmap.json'),
-            ('ph', 'phosphor.ttf', 'phosphor-charmap.json'),
-            ('ri', 'remixicon.ttf', 'remixicon-charmap.json'),
-            ('msc', 'codicon.ttf', 'codicon-charmap.json'),
-        )
+        # Verify that vendorized fonts are not corrupt
+        if not _SYSTEM_FONTS:
+            for fargs in _BUNDLED_FONTS:
+                ttf_filename = fargs[1]
+                ttf_hash = _MD5_HASHES.get(ttf_filename, None)
+                if ttf_hash is None:
+                    continue
+                ttf_filepath = os.path.join(
+                    os.path.dirname(os.path.realpath(__file__)),
+                    "fonts", ttf_filename)
+                with open(ttf_filepath, "rb") as f:
+                    ttf_calculated_hash_code = hashlib.md5(f.read()).hexdigest()
+                if ttf_calculated_hash_code != ttf_hash:
+                    raise FontError(f"Font is corrupt at: '{ttf_filepath}'")
+
+        _resource['iconic'] = IconicFont(*_BUNDLED_FONTS)
     return _resource['iconic']
 
 
