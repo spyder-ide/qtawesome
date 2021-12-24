@@ -2,12 +2,8 @@
 import os
 import io
 
-try:
-    from setuptools import setup
-    from setuptools.command.install import install
-except ImportError:
-    from distutils.core import setup
-    from distutils.core.command.install import install
+from setuptools import setup
+from setuptools.command.install import install
 
 # Code to add custom build commands comes from here:
 import setupbase

@@ -17,8 +17,9 @@ except ImportError:
 
 from urllib.request import urlopen
 
-import distutils.cmd
-import distutils.log
+import setuptools
+
+LOG_INFO = 2
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 INIT_PY_PATH = os.path.join(HERE, 'qtawesome', '__init__.py')
@@ -74,7 +75,7 @@ def rename_font(font_path, font_name):
             f"ERROR: unable to write new name to OpenType tables for: {font_path}")
 
 
-class UpdateFA5Command(distutils.cmd.Command):
+class UpdateFA5Command(setuptools.Command):
     """A custom command to make updating FontAwesome 5.x easy!"""
     description = 'Try to update the FontAwesome 5.x data in the project.'
     user_options = [
@@ -102,8 +103,8 @@ class UpdateFA5Command(distutils.cmd.Command):
                 'Local zipfile does not exist: %s' % self.zip_path)
 
     def __print(self, msg):
-        """Shortcut for printing with the distutils logger."""
-        self.announce(msg, level=distutils.log.INFO)
+        """Shortcut for printing with the setuptools logger."""
+        self.announce(msg, level=LOG_INFO)
 
     def __get_charmap_path(self, style):
         """Get the project FA charmap path for a given style."""
@@ -232,7 +233,7 @@ class UpdateFA5Command(distutils.cmd.Command):
             'qtawesome/docs/source/usage.rst to reflect the changes.')
 
 
-class UpdateCodiconCommand(distutils.cmd.Command):
+class UpdateCodiconCommand(setuptools.Command):
     """A custom command to make updating Microsoft's Codicons easy!"""
     description = 'Try to update the Codicon font data in the project.'
     user_options = []
@@ -245,14 +246,14 @@ class UpdateCodiconCommand(distutils.cmd.Command):
     DOWNLOAD_URL_JSON = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/master/package.json'
 
     def initialize_options(self):
-        """Required by distutils."""
+        """Required by setuptools."""
 
     def finalize_options(self):
-        """Required by distutils."""
+        """Required by setuptools."""
 
     def __print(self, msg):
-        """Shortcut for printing with the distutils logger."""
-        self.announce(msg, level=distutils.log.INFO)
+        """Shortcut for printing with the setuptools logger."""
+        self.announce(msg, level=LOG_INFO)
 
     def run(self):
         """Run command."""
