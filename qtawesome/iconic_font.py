@@ -22,9 +22,10 @@ import shutil
 import warnings
 
 # Third party imports
-from qtpy.QtCore import QByteArray, QObject, QPoint, QRect, Qt
+from qtpy.QtCore import (QByteArray, QObject, QPoint, QRect, Qt,
+                         QSizeF, QMarginsF, QRectF)
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
-                        QPainter, QPixmap, QTransform, QPalette)
+                        QPainter, QPixmap, QTransform, QPalette, QRawFont)
 from qtpy.QtWidgets import QApplication
 
 # Linux packagers, please set this to True if you want to make qtawesome
@@ -184,6 +185,7 @@ class CharIconPainter:
         if animation is not None:
             font.setHintingPreference(QFont.PreferNoHinting)
         painter.setFont(font)
+
         if 'offset' in options:
             rect = QRect(rect)
             rect.translate(round(options['offset'][0] * rect.width()),
@@ -216,7 +218,47 @@ class CharIconPainter:
 
         painter.setOpacity(options.get('opacity', 1.0))
 
-        painter.drawText(rect, int(Qt.AlignCenter | Qt.AlignVCenter), char)
+        draw = options.get('draw', 'auto')
+        if draw == 'text':
+            draw_path = False
+        elif draw == 'path':
+            draw_path = True
+        else:
+            # Use QPainterPath when animation
+            # to fix tremulous spinning icons #39
+            draw_path = animation is not None
+
+        if draw_path:
+            if char not in iconic.path_cache[prefix]:
+                rawfont = iconic.rawfont[prefix]
+                glyph = rawfont.glyphIndexesForString(char)[0]
+                flag = QRawFont.SeparateAdvances | QRawFont.UseDesignMetrics
+                advance = rawfont.advancesForGlyphIndexes((glyph,), flag)[0]
+                path = rawfont.pathForGlyph(glyph)
+                path.translate(0, rawfont.ascent())
+                size = QSizeF(abs(advance.x()), rawfont.ascent() + rawfont.descent())
+                iconic.path_cache[prefix][char] = (path, size)
+
+            path, size = iconic.path_cache[prefix][char]
+
+            margin = (rect.height() - draw_size) / 2
+            rect = QRectF(rect).marginsRemoved(QMarginsF(*((margin,) * 4)))
+
+            w, h = rect.width(), rect.height()
+            W, H = size.width(), size.height()
+
+            scale = min(w / W, h / H)
+            painter.translate(rect.x() + (w - W * scale) / 2, rect.y() + (h - H * scale) / 2)
+            painter.scale(scale, scale)
+
+            painter.setRenderHint(QPainter.Antialiasing,
+                                  painter.renderHints() & QPainter.TextAntialiasing)
+            painter.fillPath(path, painter.pen().color())
+
+        else:
+            painter.setFont(iconic.font(prefix, draw_size))
+            painter.drawText(rect, int(Qt.AlignCenter | Qt.AlignVCenter), char)
+
         painter.restore()
 
 
@@ -269,6 +311,8 @@ class IconicFont(QObject):
         self.fontname = {}
         self.fontids = {}
         self.charmap = {}
+        self.rawfont = {}
+        self.path_cache = {}
         self.icon_cache = {}
         for fargs in args:
             self.load_font(*fargs)
@@ -312,7 +356,14 @@ class IconicFont(QObject):
         # Load font
         if QApplication.instance() is not None:
             with open(os.path.join(directory, ttf_filename), 'rb') as font_data:
-                id_ = QFontDatabase.addApplicationFontFromData(QByteArray(font_data.read()))
+                data = font_data.read()
+                id_ = QFontDatabase.addApplicationFontFromData(data)
+                # QRawFont() requires pixelSize, but it is unknown at this time.
+                # So, first create QRowfont with 2048, which is the size of
+                # almost TrueType fonts and reset actual size after that.
+                # Note: When TrueType fonts, pixelSize can be specified up to 16384.
+                rawfont = QRawFont(data, 2048)
+                rawfont.setPixelSize(rawfont.unitsPerEm())
             font_data.close()
 
             loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
@@ -320,6 +371,8 @@ class IconicFont(QObject):
             if loadedFontFamilies:
                 self.fontids[prefix] = id_
                 self.fontname[prefix] = loadedFontFamilies[0]
+                self.rawfont[prefix] = rawfont
+                self.path_cache[prefix] = {}
             else:
                 raise FontError(u"Font at '{0}' appears to be empty. "
                                 "If you are on Windows 10, please read "
