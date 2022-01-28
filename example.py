@@ -114,6 +114,14 @@ class AwesomeExample(QtWidgets.QDialog):
                                     {'scale_factor': 0.8}])
         saveall_button = QtWidgets.QPushButton(saveall, 'Stack, offset')
 
+        # Stack and offset icons, draw path
+        saveall_path = qta.icon('fa5.save', 'fa5.save',
+                           options=[{'scale_factor': 0.8,
+                                     'offset': (0.2, 0.2),
+                                     'color': 'gray', 'draw': 'path'},
+                                    {'scale_factor': 0.8, 'draw': 'path'}])
+        saveall_button_path = QtWidgets.QPushButton(saveall_path, 'Stack, offset, draw path')
+
         # Spin icons
         spin_button = QtWidgets.QPushButton(' Spinning icon')
         spin_icon = qta.icon('fa5s.spinner', color='red',
@@ -167,6 +175,7 @@ class AwesomeExample(QtWidgets.QDialog):
             pulse_button,
             stack_button,
             saveall_button,
+            saveall_button_path,
             stack_spin_button,
         ]
         other_widgets = [
