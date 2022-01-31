@@ -224,8 +224,9 @@ class CharIconPainter:
         elif draw == 'path':
             draw_path = True
         else:
-            # Use QPainterPath when animation
-            # to fix tremulous spinning icons #39
+            # Use QPainterPath when setting an animation
+            # to fix tremulous spinning icons.
+            # See #39
             draw_path = animation is not None
 
         if draw_path:
@@ -358,10 +359,10 @@ class IconicFont(QObject):
             with open(os.path.join(directory, ttf_filename), 'rb') as font_data:
                 data = font_data.read()
                 id_ = QFontDatabase.addApplicationFontFromData(data)
-                # QRawFont() requires pixelSize, but it is unknown at this time.
-                # So, first create QRowfont with 2048, which is the size of
-                # almost TrueType fonts and reset actual size after that.
-                # Note: When TrueType fonts, pixelSize can be specified up to 16384.
+                # `QRawFont()` requires a `pixelSize` value, but it is unknown at this point.
+                # To workaround that, first we create a `QRawFont` with 2048 as `pixelSize` 
+                # (usual size for TrueType fonts) and reset to the actual size after that.
+                # Note: For TrueType fonts, `pixelSize` can be specified up to 16384.
                 rawfont = QRawFont(data, 2048)
                 rawfont.setPixelSize(rawfont.unitsPerEm())
             font_data.close()
