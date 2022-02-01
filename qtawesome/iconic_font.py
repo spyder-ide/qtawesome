@@ -25,7 +25,8 @@ import warnings
 from qtpy.QtCore import (QByteArray, QObject, QPoint, QRect, Qt,
                          QSizeF, QRectF)
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
-                        QPainter, QPixmap, QTransform, QPalette, QRawFont)
+                        QPainter, QPixmap, QTransform, QPalette, QRawFont,
+                        QImage)
 from qtpy.QtWidgets import QApplication
 
 # Linux packagers, please set this to True if you want to make qtawesome
@@ -191,45 +192,30 @@ class CharIconPainter:
             rect.translate(round(options['offset'][0] * rect.width()),
                            round(options['offset'][1] * rect.height()))
 
+        x_center = rect.width() * 0.5
+        y_center = rect.height() * 0.5
+        transform = QTransform()
+        transform.translate(+x_center, +y_center)
         if 'vflip' in options and options['vflip'] == True:
-            x_center = rect.width() * 0.5
-            y_center = rect.height() * 0.5
-            painter.translate(x_center, y_center)
-            transfrom = QTransform()
-            transfrom.scale(1,-1)
-            painter.setTransform(transfrom, True)
-            painter.translate(-x_center, -y_center)
-
+            transform.scale(1,-1)
         if 'hflip' in options and options['hflip'] == True:
-            x_center = rect.width() * 0.5
-            y_center = rect.height() * 0.5
-            painter.translate(x_center, y_center)
-            transfrom = QTransform()
-            transfrom.scale(-1, 1)
-            painter.setTransform(transfrom, True)
-            painter.translate(-x_center, -y_center)
-
+            transform.scale(-1, 1)
         if 'rotated' in options:
-            x_center = rect.width() * 0.5
-            y_center = rect.height() * 0.5
-            painter.translate(x_center, y_center)
-            painter.rotate(options['rotated'])
-            painter.translate(-x_center, -y_center)
+            transform.rotate(options['rotated'])
+        transform.translate(-x_center, -y_center)
 
         painter.setOpacity(options.get('opacity', 1.0))
 
         draw = options.get('draw', 'auto')
-        if draw == 'text':
-            draw_path = False
-        elif draw == 'path':
-            draw_path = True
-        else:
+        if draw not in ('text', 'path', 'image', 'auto'):
+            draw = 'auto'
+        if draw == 'auto':
             # Use QPainterPath when setting an animation
             # to fix tremulous spinning icons.
             # See #39
-            draw_path = animation is not None
+            draw = 'path' if animation is not None else 'text'
 
-        if draw_path:
+        if draw == 'path':
             if (draw_size, char) not in iconic.path_cache[prefix]:
                 rawfont = QRawFont(iconic.rawfont[prefix])
                 rawfont.setPixelSize(draw_size)
@@ -244,6 +230,7 @@ class CharIconPainter:
 
             path, size = iconic.path_cache[prefix][(draw_size, char)]
 
+            painter.setTransform(transform, True)
             painter.translate(QRectF(rect).center())
             painter.translate(-size.width() / 2, -size.height() / 2)
 
@@ -251,7 +238,23 @@ class CharIconPainter:
                                   painter.renderHints() & QPainter.TextAntialiasing)
             painter.fillPath(path, painter.pen().color())
 
+        elif draw == 'image':
+            rawfont = QRawFont(iconic.rawfont[prefix])
+            rawfont.setPixelSize(draw_size)
+            glyph = rawfont.glyphIndexesForString(char)[0]
+            alpha = rawfont.alphaMapForGlyph(glyph, transform=transform)
+            size = alpha.size()
+            image = QImage(size, QImage.Format_RGBA8888)
+            image.fill(painter.pen().color())
+            image.setAlphaChannel(alpha)
+
+            painter.translate(QRectF(rect).center())
+            painter.translate(-size.width() / 2, -size.height() / 2)
+
+            painter.drawImage(QPoint(0, 0), image)
+
         else:
+            painter.setTransform(transform, True)
             painter.setFont(iconic.font(prefix, draw_size))
             painter.drawText(rect, int(Qt.AlignCenter | Qt.AlignVCenter), char)
 
