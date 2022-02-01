@@ -23,7 +23,7 @@ import warnings
 
 # Third party imports
 from qtpy.QtCore import (QByteArray, QObject, QPoint, QRect, Qt,
-                         QSizeF, QMarginsF, QRectF)
+                         QSizeF, QRectF)
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap, QTransform, QPalette, QRawFont)
 from qtpy.QtWidgets import QApplication
@@ -230,27 +230,22 @@ class CharIconPainter:
             draw_path = animation is not None
 
         if draw_path:
-            if char not in iconic.path_cache[prefix]:
-                rawfont = iconic.rawfont[prefix]
+            if (draw_size, char) not in iconic.path_cache[prefix]:
+                rawfont = QRawFont(iconic.rawfont[prefix])
+                rawfont.setPixelSize(draw_size)
                 glyph = rawfont.glyphIndexesForString(char)[0]
                 flag = QRawFont.SeparateAdvances | QRawFont.UseDesignMetrics
                 advance = rawfont.advancesForGlyphIndexes((glyph,), flag)[0]
                 path = rawfont.pathForGlyph(glyph)
                 path.translate(0, rawfont.ascent())
+                path.setFillRule(Qt.WindingFill)
                 size = QSizeF(abs(advance.x()), rawfont.ascent() + rawfont.descent())
-                iconic.path_cache[prefix][char] = (path, size)
+                iconic.path_cache[prefix][(draw_size, char)] = (path, size)
 
-            path, size = iconic.path_cache[prefix][char]
+            path, size = iconic.path_cache[prefix][(draw_size, char)]
 
-            margin = (rect.height() - draw_size) / 2
-            rect = QRectF(rect).marginsRemoved(QMarginsF(*((margin,) * 4)))
-
-            w, h = rect.width(), rect.height()
-            W, H = size.width(), size.height()
-
-            scale = min(w / W, h / H)
-            painter.translate(rect.x() + (w - W * scale) / 2, rect.y() + (h - H * scale) / 2)
-            painter.scale(scale, scale)
+            painter.translate(QRectF(rect).center())
+            painter.translate(-size.width() / 2, -size.height() / 2)
 
             painter.setRenderHint(QPainter.Antialiasing,
                                   painter.renderHints() & QPainter.TextAntialiasing)
@@ -360,11 +355,10 @@ class IconicFont(QObject):
                 data = font_data.read()
                 id_ = QFontDatabase.addApplicationFontFromData(data)
                 # `QRawFont()` requires a `pixelSize` value, but it is unknown at this point.
-                # To workaround that, first we create a `QRawFont` with 2048 as `pixelSize` 
+                # To workaround that, first we create a `QRawFont` with 2048 as `pixelSize`
                 # (usual size for TrueType fonts) and reset to the actual size after that.
                 # Note: For TrueType fonts, `pixelSize` can be specified up to 16384.
                 rawfont = QRawFont(data, 2048)
-                rawfont.setPixelSize(rawfont.unitsPerEm())
             font_data.close()
 
             loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
