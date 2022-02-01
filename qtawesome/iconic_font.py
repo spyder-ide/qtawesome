@@ -246,7 +246,15 @@ class CharIconPainter:
             size = alpha.size()
             image = QImage(size, QImage.Format_RGBA8888)
             image.fill(painter.pen().color())
-            image.setAlphaChannel(alpha)
+            try:
+                image.setAlphaChannel(alpha)
+            except AttributeError:
+                a = alpha.convertToFormat(QImage.Format_Grayscale8)
+                for i in range(size.width()):
+                    for j in range(size.height()):
+                        c = image.pixelColor(i, j)
+                        c.setAlpha(a.pixelColor(i, j).red())
+                        image.setPixelColor(i, j, c)
 
             painter.translate(QRectF(rect).center())
             painter.translate(-size.width() / 2, -size.height() / 2)
