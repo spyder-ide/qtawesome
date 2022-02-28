@@ -140,7 +140,12 @@ class CharIconPainter:
         if animation is not None:
             animation.setup(self, painter, rect)
 
-        painter.setFont(iconic.font(prefix, draw_size))
+        font = iconic.font(prefix, draw_size)
+        # Disable font hinting to mitigate tremulous spinning to some extent
+        # See spyder-ide/qtawesome#39
+        if animation is not None:
+            font.setHintingPreference(QFont.PreferNoHinting)
+        painter.setFont(font)
         if 'offset' in options:
             rect = QRect(rect)
             rect.translate(round(options['offset'][0] * rect.width()),
