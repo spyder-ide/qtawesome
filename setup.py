@@ -34,7 +34,7 @@ setup(
     packages=['qtawesome'],
     install_requires=['qtpy'],
     include_package_data=True,
-    python_requires='>=3.6',
+    python_requires='>=3.7',
     platforms=['OS-independent'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
@@ -42,7 +42,6 @@ setup(
         'Topic :: Software Development :: User Interfaces',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
