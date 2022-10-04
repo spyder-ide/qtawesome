@@ -23,11 +23,11 @@ jobs:
         PYTHON_VERSION: ['3.7', '3.8', '3.9', '3.10']
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Install System Packages
         run: |
-          sudo apt-get update
-          sudo apt-get install libegl1-mesa
+          sudo apt-get update --fix-missing
+          sudo apt-get install -qq pyqt5-dev-tools libxcb-xinerama0 xterm --fix-missing
       - name: Install Conda
         uses: conda-incubator/setup-miniconda@v2
         with:

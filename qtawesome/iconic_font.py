@@ -29,6 +29,52 @@ from qtpy.QtWidgets import QApplication
 # use system fonts
 SYSTEM_FONTS = False
 
+# Needed imports and constants to install bundled fonts on Windows
+# Based on https://stackoverflow.com/a/41841088/15954282
+if os.name == 'nt':
+    import shutil
+    import ctypes
+    from ctypes import wintypes
+
+    try:
+        import winreg
+    except ImportError:
+        import _winreg as winreg
+
+    user32 = ctypes.WinDLL('user32', use_last_error=True)
+    gdi32 = ctypes.WinDLL('gdi32', use_last_error=True)
+
+    FONTS_REG_PATH = r'Software\Microsoft\Windows NT\CurrentVersion\Fonts'
+
+    HWND_BROADCAST   = 0xFFFF
+    SMTO_ABORTIFHUNG = 0x0002
+    WM_FONTCHANGE    = 0x001D
+    GFRI_DESCRIPTION = 1
+    GFRI_ISTRUETYPE  = 3
+
+    if not hasattr(wintypes, 'LPDWORD'):
+        wintypes.LPDWORD = ctypes.POINTER(wintypes.DWORD)
+
+    user32.SendMessageTimeoutW.restype = wintypes.LPVOID
+    user32.SendMessageTimeoutW.argtypes = (
+        wintypes.HWND,   # hWnd
+        wintypes.UINT,   # Msg
+        wintypes.LPVOID, # wParam
+        wintypes.LPVOID, # lParam
+        wintypes.UINT,   # fuFlags
+        wintypes.UINT,   # uTimeout
+        wintypes.LPVOID) # lpdwResult
+
+    gdi32.AddFontResourceW.argtypes = (
+        wintypes.LPCWSTR,) # lpszFilename
+
+    # http://www.undocprint.org/winspool/getfontresourceinfo
+    gdi32.GetFontResourceInfoW.argtypes = (
+        wintypes.LPCWSTR, # lpszFilename
+        wintypes.LPDWORD, # cbBuffer
+        wintypes.LPVOID,  # lpBuffer
+        wintypes.DWORD)   # dwQueryType
+
 
 def text_color():
     try:
@@ -269,8 +315,7 @@ class IconicFont(QObject):
             return result
 
         if directory is None:
-            directory = os.path.join(
-                os.path.dirname(os.path.realpath(__file__)), 'fonts')
+            directory = self._get_fonts_directory()
 
         # Load font
         if QApplication.instance() is not None:
@@ -450,3 +495,62 @@ class IconicFont(QObject):
         """Return the icon corresponding to the given painter."""
         engine = CharIconEngine(self, painter, options)
         return QIcon(engine)
+
+    def _get_fonts_directory(self):
+        """
+        Get bundled fonts directory.
+
+        On Windows an attempt to install the fonts per user is done
+        to prevent errors with fonts loading.
+        See spyder-ide/qtawesome#167 and spyder-ide/spyder#18642
+        """
+        fonts_directory = os.path.join(
+            os.path.dirname(os.path.realpath(__file__)), 'fonts')
+        if os.name == 'nt':
+            fonts_directory = self._install_fonts(fonts_directory)
+        return fonts_directory
+
+    def _install_fonts(self, fonts_directory):
+        """Copy the fonts to the user Fonts folder."""
+        user_fonts_dir = os.path.join(
+            os.environ['LOCALAPPDATA'], 'Microsoft', 'Windows', 'Fonts')
+        os.makedirs(user_fonts_dir, exist_ok=True)
+        for root, __, files in os.walk(fonts_directory):
+            for name in files:
+                src_path = os.path.join(root, name)
+                dst_path = os.path.join(
+                    user_fonts_dir,
+                    os.path.basename(src_path))
+                # Check if font already exists and copy font
+                if os.path.isfile(dst_path):
+                    continue
+                shutil.copy(src_path, user_fonts_dir)
+                # Further process the font file (`.ttf`)
+                if os.path.splitext(name)[-1] == '.ttf':
+                    # Load the font in the current session
+                    if not gdi32.AddFontResourceW(dst_path):
+                        os.remove(dst_path)
+                        raise WindowsError(
+                            'AddFontResource failed to load "%s"' % src_path)
+                    # Store the fontname/filename in the registry
+                    filename = os.path.basename(dst_path)
+                    fontname = os.path.splitext(filename)[0]
+                    # Try to get the font's real name
+                    cb = wintypes.DWORD()
+                    if gdi32.GetFontResourceInfoW(
+                            filename, ctypes.byref(cb), None, GFRI_DESCRIPTION):
+                        buf = (ctypes.c_wchar * cb.value)()
+                        if gdi32.GetFontResourceInfoW(
+                                filename, ctypes.byref(cb), buf, GFRI_DESCRIPTION):
+                            fontname = buf.value
+                    is_truetype = wintypes.BOOL()
+                    cb.value = ctypes.sizeof(is_truetype)
+                    gdi32.GetFontResourceInfoW(
+                        filename, ctypes.byref(cb), ctypes.byref(is_truetype),
+                        GFRI_ISTRUETYPE)
+                    if is_truetype:
+                        fontname += ' (TrueType)'
+                    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, FONTS_REG_PATH, 0,
+                                        winreg.KEY_SET_VALUE) as key:
+                        winreg.SetValueEx(key, fontname, 0, winreg.REG_SZ, filename)
+        return user_fonts_dir
