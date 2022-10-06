@@ -502,7 +502,9 @@ class IconicFont(QObject):
 
         On Windows an attempt to install the fonts per user is done
         to prevent errors with fonts loading.
-        See spyder-ide/qtawesome#167 and spyder-ide/spyder#18642
+
+        See spyder-ide/qtawesome#167 and spyder-ide/spyder#18642 for
+        context.
         """
         fonts_directory = os.path.join(
             os.path.dirname(os.path.realpath(__file__)), 'fonts')
@@ -515,16 +517,19 @@ class IconicFont(QObject):
         user_fonts_dir = os.path.join(
             os.environ['LOCALAPPDATA'], 'Microsoft', 'Windows', 'Fonts')
         os.makedirs(user_fonts_dir, exist_ok=True)
+
         for root, __, files in os.walk(fonts_directory):
             for name in files:
                 src_path = os.path.join(root, name)
                 dst_path = os.path.join(
                     user_fonts_dir,
                     os.path.basename(src_path))
+
                 # Check if font already exists and copy font
                 if os.path.isfile(dst_path):
                     continue
                 shutil.copy(src_path, user_fonts_dir)
+
                 # Further process the font file (`.ttf`)
                 if os.path.splitext(name)[-1] == '.ttf':
                     # Load the font in the current session
@@ -532,9 +537,11 @@ class IconicFont(QObject):
                         os.remove(dst_path)
                         raise WindowsError(
                             'AddFontResource failed to load "%s"' % src_path)
+
                     # Store the fontname/filename in the registry
                     filename = os.path.basename(dst_path)
                     fontname = os.path.splitext(filename)[0]
+
                     # Try to get the font's real name
                     cb = wintypes.DWORD()
                     if gdi32.GetFontResourceInfoW(
