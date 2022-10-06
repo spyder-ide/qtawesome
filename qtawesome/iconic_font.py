@@ -14,9 +14,11 @@ methods returning instances of ``QIcon``.
 """
 
 # Standard library imports
-from __future__ import print_function
+import ctypes
+import filecmp
 import json
 import os
+import shutil
 import warnings
 
 # Third party imports
@@ -32,23 +34,13 @@ SYSTEM_FONTS = False
 # Needed imports and constants to install bundled fonts on Windows
 # Based on https://stackoverflow.com/a/41841088/15954282
 if os.name == 'nt':
-    import shutil
-    import ctypes
     from ctypes import wintypes
-
-    try:
-        import winreg
-    except ImportError:
-        import _winreg as winreg
-
+    import winreg
+    
     user32 = ctypes.WinDLL('user32', use_last_error=True)
     gdi32 = ctypes.WinDLL('gdi32', use_last_error=True)
 
     FONTS_REG_PATH = r'Software\Microsoft\Windows NT\CurrentVersion\Fonts'
-
-    HWND_BROADCAST   = 0xFFFF
-    SMTO_ABORTIFHUNG = 0x0002
-    WM_FONTCHANGE    = 0x001D
     GFRI_DESCRIPTION = 1
     GFRI_ISTRUETYPE  = 3
 
@@ -513,11 +505,22 @@ class IconicFont(QObject):
         return fonts_directory
 
     def _install_fonts(self, fonts_directory):
-        """Copy the fonts to the user Fonts folder."""
+        """
+        Copy the fonts to the user Fonts folder.
+        
+        Based on https://stackoverflow.com/a/41841088/15954282
+        """
+        # Try to get LOCALAPPDATA path
+        local_appdata_dir = os.environ.get('LOCALAPPDATA', None)
+        if not local_appdata_dir:
+            return fonts_directory
+
+        # Construct path to fonts from LOCALAPPDATA
         user_fonts_dir = os.path.join(
-            os.environ['LOCALAPPDATA'], 'Microsoft', 'Windows', 'Fonts')
+            local_appdata_dir, 'Microsoft', 'Windows', 'Fonts')
         os.makedirs(user_fonts_dir, exist_ok=True)
 
+        # Setup bundled fonts on the LOCALAPPDATA fonts directory
         for root, __, files in os.walk(fonts_directory):
             for name in files:
                 src_path = os.path.join(root, name)
@@ -526,7 +529,7 @@ class IconicFont(QObject):
                     os.path.basename(src_path))
 
                 # Check if font already exists and copy font
-                if os.path.isfile(dst_path):
+                if os.path.isfile(dst_path) and filecmp.cmp(src_path, dst_path):
                     continue
                 shutil.copy(src_path, user_fonts_dir)
 
@@ -536,7 +539,7 @@ class IconicFont(QObject):
                     if not gdi32.AddFontResourceW(dst_path):
                         os.remove(dst_path)
                         raise WindowsError(
-                            'AddFontResource failed to load "%s"' % src_path)
+                            f'AddFontResource failed to load "{src_path}"')
 
                     # Store the fontname/filename in the registry
                     filename = os.path.basename(dst_path)
@@ -560,4 +563,5 @@ class IconicFont(QObject):
                     with winreg.OpenKey(winreg.HKEY_CURRENT_USER, FONTS_REG_PATH, 0,
                                         winreg.KEY_SET_VALUE) as key:
                         winreg.SetValueEx(key, fontname, 0, winreg.REG_SZ, filename)
+
         return user_fonts_dir
