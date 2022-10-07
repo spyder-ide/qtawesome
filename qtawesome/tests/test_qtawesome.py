@@ -2,9 +2,10 @@ r"""
 Tests for QtAwesome.
 """
 # Standard library imports
+import collections
+import os
 import subprocess
 import sys
-import collections
 
 # Test Library imports
 import pytest
@@ -40,6 +41,37 @@ def test_unique_font_family_name(qtbot):
     duplicates = [fontname for fontname, count in
                   collections.Counter(fontnames).items() if count > 1]
     assert not duplicates
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Only meant for Windows")
+def test_bundled_font_installation():
+    """
+    Test that the bundled fonts are being installed on Windows.
+    
+    See spyder-ide/qtawesome#167 and spyder-ide/spyder#18642
+    """
+    qta._instance()
+    fonts_expected = [
+        ("codicon", "codicon.ttf"),
+        ("elusiveicons-webfont", "elusiveicons-webfont.ttf"),
+        ("fontawesome4.7-webfont", "fontawesome4.7-webfont.ttf"),
+        ("fontawesome5-brands-webfont", "fontawesome5-brands-webfont.ttf"),
+        ("fontawesome5-regular-webfont", "fontawesome5-regular-webfont.ttf"),
+        ("fontawesome5-solid-webfont", "fontawesome5-solid-webfont.ttf"),
+        ("materialdesignicons5-webfont", "materialdesignicons5-webfont.ttf"),
+        ("materialdesignicons6-webfont ", "materialdesignicons6-webfont.ttf"),
+        ("phosphor", "phosphor.ttf"),
+        ("remixicon", "remixicon.ttf")
+    ]
+    fonts_command = [
+        "powershell.exe",
+        r'Get-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"'
+    ]
+    fonts_result = subprocess.run(fonts_command, capture_output=True, check=True, text=True).stdout
+    
+    for font_name, font_filename in fonts_expected:
+        assert font_name in fonts_result
+        assert font_filename in fonts_result
 
 
 if __name__ == "__main__":
