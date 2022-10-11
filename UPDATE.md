@@ -5,7 +5,7 @@
 To update _FontAwesome_ icons, one must:
 
 - check what is the latest released version here: https://github.com/FortAwesome/Font-Awesome/releases/
-- run: python setup.py update_fa5 --fa-version X.X.X
+- run: `python setup.py update_fa5 --fa-version X.X.X`
 - update FA version number, icon counts and URLs inside:
   - README.md
   - qtawesome/docs/source/usage.rst
@@ -16,6 +16,9 @@ To update _Elusive Icons_, one must:
 
 - replace the ttf font file with the new version
 - regenerate the json charmap with the `icons.yml` file from the upstream repository:
+- update Elusive Icons version number, icon counts and URLs inside:
+  - README.md
+  - qtawesome/docs/source/usage.rst
 
 ```Python
 import yaml, json
@@ -40,6 +43,9 @@ To update _Material Design Icons 6.x_, you must:
 
 - download ttf from <https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/fonts/materialdesignicons-webfont.ttf>
 - regenerate the json charmap with the `materialdesignicons.css` file from <https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/css/materialdesignicons.css>
+- update Material Design Icons version number, icon counts and URLs inside:
+  - README.md
+  - qtawesome/docs/source/usage.rst
 
 The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update \_\_init__.py)
 
@@ -94,6 +100,9 @@ To update _Phosphor_, you must:
 
 - download ttf from <https://raw.githubusercontent.com/phosphor-icons/phosphor-icons/master/src/font/phosphor.ttf>
 - regenerate the json charmap with the `phosphor.css` file from <https://raw.githubusercontent.com/phosphor-icons/phosphor-icons/master/src/css/phosphor.css>
+- update Phosphor version number, icon counts and URLs inside:
+  - README.md
+  - qtawesome/docs/source/usage.rst
 
 The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update \_\_init__.py)
 
@@ -147,6 +156,9 @@ To update _Remix Icon_, you must:
 
 - download ttf from <https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/fonts/remixicon.ttf>
 - regenerate the json charmap with the `remixicon.css` file from <https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/fonts/remixicon.css>
+- update Remix Icon version number, icon counts and URLs inside:
+  - README.md
+  - qtawesome/docs/source/usage.rst
 
 The following script automatically download the last TTF font, generate the json charmap and display md5 hash of the TTF (to update \_\_init__.py)
 
@@ -193,3 +205,13 @@ with open('remixicon-charmap.json', 'w') as fp:
     json.dump(charmap, fp, indent=4, sort_keys=True)
 
 ```
+
+## Microsoft's Codicons
+
+To update _Codicons_ icons, one must:
+
+- check what is the latest released version here: https://github.com/microsoft/vscode-codicons/releases
+- run: `python setup.py update_msc`
+- update Codicons version number, icon counts and URLs inside:
+  - README.md
+  - qtawesome/docs/source/usage.rst
