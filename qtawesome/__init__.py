@@ -69,15 +69,15 @@ _BUNDLED_FONTS = (
 # MD5 Hashes for font files bundled with qtawesome:
 _MD5_HASHES = {
     'fontawesome4.7-webfont.ttf': 'b06871f281fee6b241d60582ae9369b9',
-    'fontawesome5-regular-webfont.ttf': '808833867034fb67a4a86dd2155e195d',
-    'fontawesome5-solid-webfont.ttf': '139654bb0acaba6b00ae30d5faf3d02f',
-    'fontawesome5-brands-webfont.ttf': '085b1dd8427dbeff10bd55410915a3f6',
+    'fontawesome5-regular-webfont.ttf': 'dc47e4089f5bcb25f241bdeb2de0fb58',
+    'fontawesome5-solid-webfont.ttf': '5de19800fc9ae73438c2e5c61d041b48',
+    'fontawesome5-brands-webfont.ttf': '513aa607d398efaccc559916c3431403',
     'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
     'materialdesignicons5-webfont.ttf': 'b7d40e7ef80c1d4af6d94902af66e524',
     'materialdesignicons6-webfont.ttf': '9a2f455e7cbce011368aee95d292613b',
     'phosphor.ttf': '5b8dc57388b2d86243566b996cc3a789',
     'remixicon.ttf': '888e61f04316f10bddfff7bee10c6dd0',
-    'codicon.ttf': 'ca2f9e22cee3a59156b3eded74d87784',
+    'codicon.ttf': 'd8565ee605ac4d2fa71fe018863337ca',
 }
 
 

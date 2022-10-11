@@ -48,11 +48,11 @@ The following prefixes are currently available to use:
 
 - [**FontAwesome**](https://fontawesome.com):
 
-  - FA 5.9.0 features 1,534 free icons in different styles:
+  - FA 5.15.4 features 1,608 free icons in different styles:
 
-    - `fa5` prefix has [152 icons in the "**regular**" style.](https://fontawesome.com/icons?d=gallery&s=regular&m=free)
-    - `fa5s` prefix has [1000 icons in the "**solid**" style.](https://fontawesome.com/icons?d=gallery&s=solid&m=free)
-    - `fa5b` prefix has [449 icons of various **brands**.](https://fontawesome.com/icons?d=gallery&s=brands&m=free)
+    - `fa5` prefix has [151 icons in the "**regular**" style.](https://fontawesome.com/v5/search?o=r&m=free&s=regular)
+    - `fa5s` prefix has [1001 icons in the "**solid**" style.](https://fontawesome.com/v5/search?o=r&m=free&s=solid)
+    - `fa5b` prefix has [456 icons of various **brands**.](https://fontawesome.com/v5/search?o=r&m=free&f=brands)
 
   - `fa` is the legacy [FA 4.7 version with its 675 icons](https://fontawesome.com/v4.7.0/icons/) but **all** of them (*and more!*) are part of FA 5.x so you should probably use the newer version above.
 
@@ -68,7 +68,7 @@ The following prefixes are currently available to use:
 
 - `ri` prefix holds [**Remix Icon** 2.5.0 with its 2271 icons.](https://github.com/Remix-Design/RemixIcon)
 
-- `msc` prefix holds Microsoft's [**Codicons** 0.0.25 with its 385 icons.](https://github.com/microsoft/vscode-codicons)
+- `msc` prefix holds Microsoft's [**Codicons** 0.0.32 with its 421 icons.](https://github.com/microsoft/vscode-codicons)
 
 ### Examples
 
