@@ -23,10 +23,10 @@ import warnings
 
 # Third party imports
 from qtpy.QtCore import (QByteArray, QObject, QPoint, QRect, Qt,
-                         QSizeF, QRectF)
+                         QSizeF, QRectF, QPointF, QThread)
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap, QTransform, QPalette, QRawFont,
-                        QImage)
+                        QGlyphRun, QImage)
 from qtpy.QtWidgets import QApplication
 
 # Linux packagers, please set this to True if you want to make qtawesome
@@ -105,7 +105,8 @@ def set_global_defaults(**kwargs):
         'color_active', 'color_selected', 'color_disabled',
         'color_on_selected', 'color_on_active', 'color_on_disabled',
         'color_off_selected', 'color_off_active', 'color_off_disabled',
-        'animation', 'offset', 'scale_factor', 'rotated', 'hflip', 'vflip'
+        'animation', 'offset', 'scale_factor', 'rotated', 'hflip', 'vflip',
+        'draw'
         ]
 
     for kw in kwargs:
@@ -128,8 +129,6 @@ class CharIconPainter:
     def _paint_icon(self, iconic, painter, rect, mode, state, options):
         """Paint a single icon."""
         painter.save()
-        color = options['color']
-        char = options['char']
 
         color_options = {
             QIcon.On: {
@@ -180,13 +179,6 @@ class CharIconPainter:
         if animation is not None:
             animation.setup(self, painter, rect)
 
-        font = iconic.font(prefix, draw_size)
-        # Disable font hinting to mitigate tremulous spinning to some extent
-        # See spyder-ide/qtawesome#39
-        if animation is not None:
-            font.setHintingPreference(QFont.PreferNoHinting)
-        painter.setFont(font)
-
         if 'offset' in options:
             rect = QRect(rect)
             rect.translate(round(options['offset'][0] * rect.width()),
@@ -196,74 +188,83 @@ class CharIconPainter:
         y_center = rect.height() * 0.5
         transform = QTransform()
         transform.translate(+x_center, +y_center)
-        if 'vflip' in options and options['vflip'] == True:
+        if 'vflip' in options and options['vflip'] is True:
             transform.scale(1,-1)
-        if 'hflip' in options and options['hflip'] == True:
+        if 'hflip' in options and options['hflip'] is True:
             transform.scale(-1, 1)
         if 'rotated' in options:
             transform.rotate(options['rotated'])
         transform.translate(-x_center, -y_center)
+        painter.setTransform(transform, True)
 
         painter.setOpacity(options.get('opacity', 1.0))
 
-        draw = options.get('draw', 'auto')
-        if draw not in ('text', 'path', 'image', 'auto'):
-            draw = 'auto'
-        if draw == 'auto':
+        draw = options.get('draw')
+        if draw not in ('text', 'path', 'glyphrun', 'image'):
             # Use QPainterPath when setting an animation
             # to fix tremulous spinning icons.
             # See #39
             draw = 'path' if animation is not None else 'text'
 
-        if draw == 'path':
-            if (draw_size, char) not in iconic.path_cache[prefix]:
-                rawfont = QRawFont(iconic.rawfont[prefix])
-                rawfont.setPixelSize(draw_size)
-                glyph = rawfont.glyphIndexesForString(char)[0]
-                flag = QRawFont.SeparateAdvances | QRawFont.UseDesignMetrics
-                advance = rawfont.advancesForGlyphIndexes((glyph,), flag)[0]
-                path = rawfont.pathForGlyph(glyph)
-                path.translate(0, rawfont.ascent())
-                path.setFillRule(Qt.WindingFill)
-                size = QSizeF(abs(advance.x()), rawfont.ascent() + rawfont.descent())
-                iconic.path_cache[prefix][(draw_size, char)] = (path, size)
+        def try_draw_rawfont():
+            if draw == 'glyphrun' and animation is not None:
+                # Disable font hinting to mitigate tremulous spinning to some extent
+                # See spyder-ide/qtawesome#39
+                rawfont = iconic.rawfont(prefix, draw_size, QFont.PreferNoHinting)
+            else:
+                rawfont = iconic.rawfont(prefix, draw_size)
 
-            path, size = iconic.path_cache[prefix][(draw_size, char)]
+            # Check glyf table and fallback to draw text if missing
+            # because font glyph is necessary to draw path/glyphrun/image.
+            if not rawfont.fontTable('glyf'):
+                return False
 
-            painter.setTransform(transform, True)
-            painter.translate(QRectF(rect).center())
-            painter.translate(-size.width() / 2, -size.height() / 2)
-
-            painter.setRenderHint(QPainter.Antialiasing,
-                                  painter.renderHints() & QPainter.TextAntialiasing)
-            painter.fillPath(path, painter.pen().color())
-
-        elif draw == 'image':
-            rawfont = QRawFont(iconic.rawfont[prefix])
-            rawfont.setPixelSize(draw_size)
             glyph = rawfont.glyphIndexesForString(char)[0]
-            alpha = rawfont.alphaMapForGlyph(glyph, transform=transform)
-            size = alpha.size()
-            image = QImage(size, QImage.Format_RGBA8888)
-            image.fill(painter.pen().color())
-            try:
-                image.setAlphaChannel(alpha)
-            except AttributeError:
-                a = alpha.convertToFormat(QImage.Format_Grayscale8)
-                for i in range(size.width()):
-                    for j in range(size.height()):
-                        c = image.pixelColor(i, j)
-                        c.setAlpha(a.pixelColor(i, j).red())
-                        image.setPixelColor(i, j, c)
-
+            advance = rawfont.advancesForGlyphIndexes((glyph,))[0]
+            ascent = rawfont.ascent()
+            size = QSizeF(abs(advance.x()), ascent + rawfont.descent())
             painter.translate(QRectF(rect).center())
             painter.translate(-size.width() / 2, -size.height() / 2)
 
-            painter.drawImage(QPoint(0, 0), image)
+            if draw == 'path':
+                path = rawfont.pathForGlyph(glyph)
+                path.translate(0, ascent)
+                path.setFillRule(Qt.WindingFill)
+                painter.setRenderHint(QPainter.Antialiasing, True)
+                painter.fillPath(path, painter.pen().color())
 
-        else:
-            painter.setTransform(transform, True)
-            painter.setFont(iconic.font(prefix, draw_size))
+            elif draw == 'glyphrun':
+                glyphrun = QGlyphRun()
+                glyphrun.setRawFont(rawfont)
+                glyphrun.setGlyphIndexes((glyph,))
+                glyphrun.setPositions((QPointF(0, ascent),))
+                painter.drawGlyphRun(QPointF(0, 0), glyphrun)
+
+            elif draw == 'image':
+                image = rawfont.alphaMapForGlyph(glyph, QRawFont.PixelAntialiasing) \
+                               .convertToFormat(QImage.Format_ARGB32_Premultiplied)
+                painter2 = QPainter(image)
+                painter2.setCompositionMode(QPainter.CompositionMode_SourceIn)
+                painter2.fillRect(image.rect(), painter.pen().color())
+                painter2.end()
+                brect = rawfont.boundingRect(glyph)
+                brect.translate(0, ascent)
+                painter.setRenderHint(QPainter.SmoothPixmapTransform, True)
+                painter.drawImage(brect.topLeft(), image)
+
+            else:
+                # fallback to draw text if unknown value
+                return False
+
+            return True
+
+        if draw == 'text' or not try_draw_rawfont():
+            font = iconic.font(prefix, draw_size)
+            # Disable font hinting to mitigate tremulous spinning to some extent
+            # See spyder-ide/qtawesome#39
+            if animation is not None:
+                font.setHintingPreference(QFont.PreferNoHinting)
+            painter.setFont(font)
             painter.drawText(rect, int(Qt.AlignCenter | Qt.AlignVCenter), char)
 
         painter.restore()
@@ -316,11 +317,11 @@ class IconicFont(QObject):
         self.painter = CharIconPainter()
         self.painters = {}
         self.fontname = {}
+        self.fontdata = {}
         self.fontids = {}
         self.charmap = {}
-        self.rawfont = {}
-        self.path_cache = {}
         self.icon_cache = {}
+        self.rawfont_cache = {}
         for fargs in args:
             self.load_font(*fargs)
 
@@ -365,11 +366,6 @@ class IconicFont(QObject):
             with open(os.path.join(directory, ttf_filename), 'rb') as font_data:
                 data = font_data.read()
                 id_ = QFontDatabase.addApplicationFontFromData(data)
-                # `QRawFont()` requires a `pixelSize` value, but it is unknown at this point.
-                # To workaround that, first we create a `QRawFont` with 2048 as `pixelSize`
-                # (usual size for TrueType fonts) and reset to the actual size after that.
-                # Note: For TrueType fonts, `pixelSize` can be specified up to 16384.
-                rawfont = QRawFont(data, 2048)
             font_data.close()
 
             loadedFontFamilies = QFontDatabase.applicationFontFamilies(id_)
@@ -377,8 +373,7 @@ class IconicFont(QObject):
             if loadedFontFamilies:
                 self.fontids[prefix] = id_
                 self.fontname[prefix] = loadedFontFamilies[0]
-                self.rawfont[prefix] = rawfont
-                self.path_cache[prefix] = {}
+                self.fontdata[prefix] = data
             else:
                 raise FontError(u"Font at '{0}' appears to be empty. "
                                 "If you are on Windows 10, please read "
@@ -516,6 +511,24 @@ class IconicFont(QObject):
         if prefix[-1] == 's':  # solid style
             font.setStyleName('Solid')
         return font
+
+    def rawfont(self, prefix, size, hintingPreference=QFont.PreferDefaultHinting):
+        """Return a QRawFont corresponding to the given prefix and size."""
+        cache = self.rawfont_cache
+        # https://doc.qt.io/qt-5/qrawfont.html
+        # QRawFont is considered local to the thread in which it is constructed
+        # (either using a constructor, or by calling loadFromData() or loadFromFile()).
+        # The QRawFont cannot be moved to a different thread,
+        # but will have to be recreated in the thread in question.
+        tid = int(QThread.currentThreadId())
+        if tid not in cache:
+            cache[tid] = {}
+            def clear_cache(): cache.pop(tid)
+            QThread().currentThread().finished.connect(clear_cache)
+        key = prefix, size, hintingPreference
+        if key not in cache[tid]:
+            cache[tid][key] = QRawFont(self.fontdata[prefix], size, hintingPreference)
+        return cache[tid][key]
 
     def set_custom_icon(self, name, painter):
         """Associate a user-provided CharIconPainter to an icon name.
