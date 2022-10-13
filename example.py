@@ -114,22 +114,6 @@ class AwesomeExample(QtWidgets.QDialog):
                                     {'scale_factor': 0.8}])
         saveall_button = QtWidgets.QPushButton(saveall, 'Stack, offset')
 
-        # Stack and offset icons, draw image
-        saveall_image = qta.icon('fa5.save', 'fa5.save',
-                           options=[{'scale_factor': 0.8,
-                                     'offset': (0.2, 0.2),
-                                     'color': 'gray', 'draw': 'image'},
-                                    {'scale_factor': 0.8, 'draw': 'image'}])
-        saveall_button_image = QtWidgets.QPushButton(saveall_image, 'Stack, offset, draw image')
-
-        # Stack and offset icons, draw path
-        saveall_path = qta.icon('fa5.save', 'fa5.save',
-                           options=[{'scale_factor': 0.8,
-                                     'offset': (0.2, 0.2),
-                                     'color': 'gray', 'draw': 'path'},
-                                    {'scale_factor': 0.8, 'draw': 'path'}])
-        saveall_button_path = QtWidgets.QPushButton(saveall_path, 'Stack, offset, draw path')
-
         # Spin icons
         spin_button = QtWidgets.QPushButton(' Spinning icon')
         spin_icon = qta.icon('fa5s.spinner', color='red',
@@ -183,8 +167,6 @@ class AwesomeExample(QtWidgets.QDialog):
             pulse_button,
             stack_button,
             saveall_button,
-            saveall_button_image,
-            saveall_button_path,
             stack_spin_button,
         ]
         other_widgets = [
@@ -198,20 +180,36 @@ class AwesomeExample(QtWidgets.QDialog):
 
         for idx, w in enumerate(styled_widgets):
             grid.addWidget(w, idx, 1)
-        
+
         for idx, w in enumerate(animated_widgets):
             grid.addWidget(w, idx + len(styled_widgets), 1)
-        
+
         for idx, w in enumerate(other_widgets):
             grid.addWidget(w, idx + len(styled_widgets) + len(animated_widgets), 1)
 
+        title = 'Awesome'
+        args = ' '.join(sys.argv[1:]).strip()
+        if args:
+            title += ' (' + args + ')'
+
         self.setLayout(grid)
-        self.setWindowTitle('Awesome')
+        self.setWindowTitle(title)
         self.setMinimumWidth(520)
         self.show()
 
 
 def main():
+
+    global_defaults = {}
+    for arg in sys.argv[1:]:
+        try:
+            key, val = arg.split('=', maxsplit=1)
+            global_defaults[key] = val
+        except:
+            pass
+    if global_defaults:
+        qta.set_global_defaults(**global_defaults)
+
     app = QtWidgets.QApplication(sys.argv)
 
     # Enable High DPI display with PyQt5
