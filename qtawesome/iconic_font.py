@@ -203,7 +203,7 @@ class CharIconPainter:
         if draw not in ('text', 'path', 'glyphrun', 'image'):
             # Use QPainterPath when setting an animation
             # to fix tremulous spinning icons.
-            # See #39
+            # See spyder-ide/qtawesome#39
             draw = 'path' if animation is not None else 'text'
 
         def try_draw_rawfont():
