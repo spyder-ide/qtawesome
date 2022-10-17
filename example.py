@@ -98,6 +98,12 @@ class AwesomeExample(QtWidgets.QDialog):
         iconwidgetholder.setLayout(lo)
         iconwidget2 = qta.IconWidget('mdi.web', color='blue')
 
+        # Icon drawn with the `image` option
+        drawn_image_icon = qta.icon('ri.truck-fill',
+                                    options=[{'draw': 'image'}])
+        drawn_image_button = QtWidgets.QPushButton(drawn_image_icon,
+                                                   'Icon drawn as an image')
+
         # Stack icons
         camera_ban = qta.icon('fa5s.camera', 'fa5s.ban',
                               options=[{'scale_factor': 0.5,
@@ -160,7 +166,8 @@ class AwesomeExample(QtWidgets.QDialog):
             rot_button,
             hflip_button,
             vflip_button,
-            toggle_button
+            toggle_button,
+            drawn_image_button
         ]
         animated_widgets = [
             spin_button,
@@ -216,6 +223,8 @@ def main():
     if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
         app.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
 
+    # Timer needed to close the example application
+    # when testing
     QtCore.QTimer.singleShot(10000, app.exit)
     _ = AwesomeExample()
     sys.exit(app.exec_())
