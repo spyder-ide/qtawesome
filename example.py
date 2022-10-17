@@ -180,20 +180,36 @@ class AwesomeExample(QtWidgets.QDialog):
 
         for idx, w in enumerate(styled_widgets):
             grid.addWidget(w, idx, 1)
-        
+
         for idx, w in enumerate(animated_widgets):
             grid.addWidget(w, idx + len(styled_widgets), 1)
-        
+
         for idx, w in enumerate(other_widgets):
             grid.addWidget(w, idx + len(styled_widgets) + len(animated_widgets), 1)
 
+        title = 'Awesome'
+        args = ' '.join(sys.argv[1:]).strip()
+        if args:
+            title += ' (' + args + ')'
+
         self.setLayout(grid)
-        self.setWindowTitle('Awesome')
+        self.setWindowTitle(title)
         self.setMinimumWidth(520)
         self.show()
 
 
 def main():
+
+    global_defaults = {}
+    for arg in sys.argv[1:]:
+        try:
+            key, val = arg.split('=', maxsplit=1)
+            global_defaults[key] = val
+        except:
+            pass
+    if global_defaults:
+        qta.set_global_defaults(**global_defaults)
+
     app = QtWidgets.QApplication(sys.argv)
 
     # Enable High DPI display with PyQt5
