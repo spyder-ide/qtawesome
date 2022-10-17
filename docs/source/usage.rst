@@ -115,7 +115,7 @@ Examples
                            color_active='orange')
    music_button = QtWidgets.QPushButton(styling_icon, 'Styling')
 
-- Set alpha in colors
+- Set alpha in colors:
 
 .. code:: python
 
@@ -138,7 +138,7 @@ Examples
    toggle_button = QtWidgets.QPushButton(toggle_icon, 'Toggle')
    toggle_button.setCheckable(True)
 
-- Define the way to draw icons (`text`- default for icons without animation, `path` - default for icons with animations, `glyphrun` and `image`)
+- Define the way to draw icons (`text`- default for icons without animation, `path` - default for icons with animations, `glyphrun` and `image`):
 
 .. code:: python
 
