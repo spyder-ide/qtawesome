@@ -10,7 +10,8 @@ on:
 
 jobs:
   windows:
-    name: Windows Py${{ matrix.PYTHON_VERSION }}
+    name: Windows Py${{ matrix.PYTHON_VERSION }}    
+    timeout-minutes: 15
     runs-on: windows-latest
     env:
       CI: True

@@ -223,7 +223,9 @@ def main():
     if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
         app.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
 
-    #QtCore.QTimer.singleShot(10000, app.exit)
+    # Timer needed to close the example application
+    # when testing
+    QtCore.QTimer.singleShot(10000, app.exit)
     _ = AwesomeExample()
     sys.exit(app.exec_())
 
