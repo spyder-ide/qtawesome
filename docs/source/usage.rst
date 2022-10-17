@@ -138,6 +138,16 @@ Examples
    toggle_button = QtWidgets.QPushButton(toggle_icon, 'Toggle')
    toggle_button.setCheckable(True)
 
+- Define the way to draw icons (`text`- default for icons without animation, `path` - default for icons with animations, `glyphrun` and `image`)
+
+.. code:: python
+
+   # Icon drawn with the `image` option
+   drawn_image_icon = qta.icon('ri.truck-fill',
+                            options=[{'draw': 'image'}])
+   drawn_image_button = QtWidgets.QPushButton(drawn_image_icon,
+                                              'Icon drawn as an image')
+
 -  Stack multiple icons:
 
 .. code:: python

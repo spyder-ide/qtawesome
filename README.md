@@ -8,7 +8,7 @@
 [![Join the chat at https://gitter.im/spyder-ide/public](https://badges.gitter.im/spyder-ide/spyder.svg)](https://gitter.im/spyder-ide/public)<br>
 [![PyPI status](https://img.shields.io/pypi/status/qtawesome.svg)](https://github.com/spyder-ide/qtawesome)
 [![Github build status](https://github.com/spyder-ide/qtawesome/workflows/Tests/badge.svg)](https://github.com/spyder-ide/qtawesome/actions)
-[![Documentation Status](https://readthedocs.org/projects/qtawesomedocs/badge/?version=latest)](https://qtawesomedocs.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/qtawesome/badge/?version=latest)](https://qtawesome.readthedocs.io/en/latest/?badge=latest)
 
 *Copyright © 2015–2022 Spyder Project Contributors*
 
@@ -142,6 +142,16 @@ stack_button = QtWidgets.QPushButton(camera_ban, 'Stack')
 stack_button.setIconSize(QtCore.QSize(32, 32))
 ```
 
+- Define the way to draw icons (`text`- default for icons without animation, `path` - default for icons with animations, `glyphrun` and `image`)
+
+```python
+# Icon drawn with the `image` option
+drawn_image_icon = qta.icon('ri.truck-fill',
+                            options=[{'draw': 'image'}])
+drawn_image_button = QtWidgets.QPushButton(drawn_image_icon,
+                                           'Icon drawn as an image')
+```
+
 - Animations
 
 ```python
@@ -169,6 +179,12 @@ simple_widget = qta.IconWidget('mdi.web', color='blue')
 
 ![QtAwesome screenshot](qtawesome-screenshot.gif)
 
+
+To check the options you can launch the `example.py` script and pass to it the options as arguments. For example, to test how the icons could look using the `glyphrun` draw option, you can run something like:
+
+```
+python example.py draw=glyphrun
+```
 
 ## Other features
 
