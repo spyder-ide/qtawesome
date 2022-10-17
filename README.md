@@ -180,7 +180,7 @@ simple_widget = qta.IconWidget('mdi.web', color='blue')
 ![QtAwesome screenshot](qtawesome-screenshot.gif)
 
 
-To check the options you can launch the `example.py` script and pass to it the options as arguments. For example, to test how the icons could look using the `glyphrun` draw option, you can run something like:
+To check these options you can launch the `example.py` script and pass to it the options as arguments. For example, to test how the icons could look using the `glyphrun` draw option, you can run something like:
 
 ```
 python example.py draw=glyphrun
