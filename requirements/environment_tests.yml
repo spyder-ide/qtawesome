@@ -4,6 +4,7 @@ channels:
 dependencies:
 - codecov
 - pyqt
+- pyside2>=5.12
 - pytest
 - pytest-cov
 - pytest-qt

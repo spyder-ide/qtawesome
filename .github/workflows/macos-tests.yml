@@ -10,17 +10,19 @@ on:
 
 jobs:
   macos:
-    name: Mac Py${{ matrix.PYTHON_VERSION }}
+    name: Mac Py${{ matrix.PYTHON_VERSION }} - ${{ matrix.QT_BINDING }}
     timeout-minutes: 15
     runs-on: macos-latest
     env:
       CI: True
+      QT_API:  ${{ matrix.QT_BINDING }}
       PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
       RUNNER_OS: 'macos'
     strategy:
       fail-fast: false
       matrix:
-        PYTHON_VERSION: ['3.7', '3.8', '3.9']
+        PYTHON_VERSION: ['3.7', '3.10']
+        QT_BINDING: ['pyqt5', 'pyside2']
     steps:
       - name: Checkout branch
         uses: actions/checkout@v1
@@ -33,7 +35,7 @@ jobs:
            python-version: ${{ matrix.PYTHON_VERSION }}
       - name: Install package dependencies
         shell: bash -l {0}
-        run: conda env update --file requirements/environment.yml
+        run: conda env update --file requirements/environment_tests.yml
       - name: Install Package
         shell: bash -l {0}
         run: pip install -e .
