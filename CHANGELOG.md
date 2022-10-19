@@ -1,5 +1,40 @@
 # History of changes
 
+## Version 1.2.0 (2022-10-19)
+
+### Issues Closed
+
+* [Issue 208](https://github.com/spyder-ide/qtawesome/issues/208) - Release QtAwesome 1.2.0 ([PR 209](https://github.com/spyder-ide/qtawesome/pull/209) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 196](https://github.com/spyder-ide/qtawesome/issues/196) - Unexpected corruption check when qta.load_font() with same ttf_filename as bundled ([PR 197](https://github.com/spyder-ide/qtawesome/pull/197) by [@kumattau](https://github.com/kumattau))
+* [Issue 195](https://github.com/spyder-ide/qtawesome/issues/195) - Incorrect search directory docstring of qta.load_font() with directory=None  ([PR 198](https://github.com/spyder-ide/qtawesome/pull/198) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 193](https://github.com/spyder-ide/qtawesome/issues/193) - Drop Python 3.6 support ([PR 204](https://github.com/spyder-ide/qtawesome/pull/204) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 191](https://github.com/spyder-ide/qtawesome/issues/191) - Update Codicons to the latest release (0.0.26) ([PR 206](https://github.com/spyder-ide/qtawesome/pull/206) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 189](https://github.com/spyder-ide/qtawesome/issues/189) - Incorrect FontAwesome5 Version in docs and update FontAwesome5 to the latest release (5.15.4) ([PR 206](https://github.com/spyder-ide/qtawesome/pull/206) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 167](https://github.com/spyder-ide/qtawesome/issues/167) - Icons are blocked because of untrusted fonts on Windows 10 ([PR 205](https://github.com/spyder-ide/qtawesome/pull/205) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 39](https://github.com/spyder-ide/qtawesome/issues/39) - Tremulous spinning icons ([PR 202](https://github.com/spyder-ide/qtawesome/pull/202) by [@kumattau](https://github.com/kumattau))
+
+In this release 8 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 209](https://github.com/spyder-ide/qtawesome/pull/209) - PR: Update docs with info about `example.py` args, new `draw` option and screenshot, by [@dalthviz](https://github.com/dalthviz) ([208](https://github.com/spyder-ide/qtawesome/issues/208))
+* [PR 206](https://github.com/spyder-ide/qtawesome/pull/206) - PR: Update FA5 icons to 5.15.4 and Codicons icons to 0.0.32, by [@dalthviz](https://github.com/dalthviz) ([191](https://github.com/spyder-ide/qtawesome/issues/191), [189](https://github.com/spyder-ide/qtawesome/issues/189))
+* [PR 205](https://github.com/spyder-ide/qtawesome/pull/205) - PR: Install bundled fonts for user on Windows and fix Linux CI, by [@dalthviz](https://github.com/dalthviz) ([167](https://github.com/spyder-ide/qtawesome/issues/167))
+* [PR 204](https://github.com/spyder-ide/qtawesome/pull/204) - PR: Drop Python 3.6 support, by [@dalthviz](https://github.com/dalthviz) ([193](https://github.com/spyder-ide/qtawesome/issues/193))
+* [PR 203](https://github.com/spyder-ide/qtawesome/pull/203) - PR: Disable font hinting to mitigate tremulous spinning to some extent, by [@kumattau](https://github.com/kumattau)
+* [PR 202](https://github.com/spyder-ide/qtawesome/pull/202) - PR: Use QRawFont and draw PainterPath of Glyph for animation to prevent tremulous spinning icons, by [@kumattau](https://github.com/kumattau) ([39](https://github.com/spyder-ide/qtawesome/issues/39))
+* [PR 199](https://github.com/spyder-ide/qtawesome/pull/199) - PR: Replace now deprecated distutils with setuptools, by [@kumattau](https://github.com/kumattau)
+* [PR 198](https://github.com/spyder-ide/qtawesome/pull/198) - PR: Update `load_font` documentation, by [@dalthviz](https://github.com/dalthviz) ([195](https://github.com/spyder-ide/qtawesome/issues/195))
+* [PR 197](https://github.com/spyder-ide/qtawesome/pull/197) - PR: Fix unexpected corruption check except for bundled fonts, by [@kumattau](https://github.com/kumattau) ([196](https://github.com/spyder-ide/qtawesome/issues/196))
+* [PR 190](https://github.com/spyder-ide/qtawesome/pull/190) - PR: Preserves timestamp, bboxes, and table order for faithful to original and reproducible font updating, by [@kumattau](https://github.com/kumattau)
+* [PR 187](https://github.com/spyder-ide/qtawesome/pull/187) - PR: Update RELEASE.md, by [@dalthviz](https://github.com/dalthviz)
+
+In this release 11 pull requests were closed.
+
+
+----
+
+
 ## Version 1.1.1 (2021-11-29)
 
 ### Issues Closed
