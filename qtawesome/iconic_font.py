@@ -531,7 +531,7 @@ class IconicFont(QObject):
         # (either using a constructor, or by calling loadFromData() or loadFromFile()).
         # The QRawFont cannot be moved to a different thread,
         # but will have to be recreated in the thread in question.
-        tid = int(QThread.currentThreadId())
+        tid = str(QThread.currentThread())
         if tid not in cache:
             cache[tid] = {}
             def clear_cache(): cache.pop(tid)
