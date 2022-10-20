@@ -28,7 +28,7 @@ C++ library by Rick Blommers.
 Using `conda`:
 
 ```
-conda install qtawesome
+conda install -c conda-forge qtawesome
 ```
 
 or using `pip` (only if you don't have conda installed):
