@@ -27,14 +27,14 @@ from qtpy.QtCore import (QByteArray, QObject, QPoint, QRect, Qt,
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
                         QPainter, QPixmap, QTransform, QPalette, QRawFont,
                         QImage)
+from qtpy.QtWidgets import QApplication
+
 try:
     # Needed since `QGlyphRun` is not available for PySide2
     # See spyder-ide/qtawesome#210
     from qtpy.QtGui import QGlyphRun
 except ImportError:
     QGlyphRun = None
-
-from qtpy.QtWidgets import QApplication
 
 # Linux packagers, please set this to True if you want to make qtawesome
 # use system fonts
@@ -248,7 +248,7 @@ class CharIconPainter:
                     glyphrun.setPositions((QPointF(0, ascent),))
                     painter.drawGlyphRun(QPointF(0, 0), glyphrun)
                 else:
-                    warnings.warn("QGlyphRun is unavailable with the current Qt binding! "
+                    warnings.warn("QGlyphRun is unavailable for the current Qt binding! "
                                   "QtAwesome will use the default draw values")
                     return False
             elif draw == 'image':
