@@ -632,8 +632,15 @@ class IconicFont(QObject):
                         GFRI_ISTRUETYPE)
                     if is_truetype:
                         fontname += ' (TrueType)'
-                    with winreg.OpenKey(winreg.HKEY_CURRENT_USER, FONTS_REG_PATH, 0,
-                                        winreg.KEY_SET_VALUE) as key:
-                        winreg.SetValueEx(key, fontname, 0, winreg.REG_SZ, filename)
+                    try:
+                        with winreg.OpenKey(winreg.HKEY_CURRENT_USER, FONTS_REG_PATH, 0,
+                                            winreg.KEY_SET_VALUE) as key:
+                            winreg.SetValueEx(key, fontname, 0, winreg.REG_SZ, filename)
+                    except FileNotFoundError:
+                        # Needed to support older Windows version where
+                        # font installation per user is not possible/related registry
+                        # entry is not available
+                        # See spyder-ide/qtawesome#214 
+                        return fonts_directory
 
         return user_fonts_dir
