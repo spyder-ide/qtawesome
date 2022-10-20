@@ -636,7 +636,7 @@ class IconicFont(QObject):
                         with winreg.OpenKey(winreg.HKEY_CURRENT_USER, FONTS_REG_PATH, 0,
                                             winreg.KEY_SET_VALUE) as key:
                             winreg.SetValueEx(key, fontname, 0, winreg.REG_SZ, filename)
-                    except FileNotFoundError:
+                    except OSError:
                         # Needed to support older Windows version where
                         # font installation per user is not possible/related registry
                         # entry is not available
