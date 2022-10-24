@@ -1,5 +1,26 @@
 # History of changes
 
+## Version 1.2.1 (2022-10-24)
+
+### Issues Closed
+
+* [Issue 214](https://github.com/spyder-ide/qtawesome/issues/214) - Regression with 1.2 on Windows ([PR 215](https://github.com/spyder-ide/qtawesome/pull/215) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 212](https://github.com/spyder-ide/qtawesome/issues/212) - Release QtAwesome 1.2.1
+* [Issue 210](https://github.com/spyder-ide/qtawesome/issues/210) - QtAwesome 1.2.0 incompatible with PySide2  ([PR 211](https://github.com/spyder-ide/qtawesome/pull/211) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 3 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 215](https://github.com/spyder-ide/qtawesome/pull/215) - PR: Handle per user font installation failing due to missing/not available registry keys, by [@dalthviz](https://github.com/dalthviz) ([214](https://github.com/spyder-ide/qtawesome/issues/214))
+* [PR 211](https://github.com/spyder-ide/qtawesome/pull/211) - PR: Handle PySide2 not having `QtGui.QGlyphRun` and add tests jobs with PySide2, by [@dalthviz](https://github.com/dalthviz) ([210](https://github.com/spyder-ide/qtawesome/issues/210))
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 1.2.0 (2022-10-19)
 
 ### Issues Closed
