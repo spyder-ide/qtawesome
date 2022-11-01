@@ -2,8 +2,7 @@ channels:
   - conda-forge
 dependencies:
 - codecov
-- pyqt
-- pyside2>=5.12
+- pyqt>=5.15
 - pytest
 - pytest-cov
 - pytest-qt
