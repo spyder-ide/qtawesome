@@ -7,7 +7,9 @@
 [![OpenCollective Backers](https://opencollective.com/spyder/backers/badge.svg?color=blue)](#backers)
 [![Join the chat at https://gitter.im/spyder-ide/public](https://badges.gitter.im/spyder-ide/spyder.svg)](https://gitter.im/spyder-ide/public)<br>
 [![PyPI status](https://img.shields.io/pypi/status/qtawesome.svg)](https://github.com/spyder-ide/qtawesome)
-[![Github build status](https://github.com/spyder-ide/qtawesome/workflows/Tests/badge.svg)](https://github.com/spyder-ide/qtawesome/actions)
+[![Github Windows build status](https://github.com/spyder-ide/qtawesome/workflows/Windows%20tests/badge.svg)](https://github.com/spyder-ide/qtawesome/actions)
+[![Github Linux build status](https://github.com/spyder-ide/qtawesome/workflows/Linux%20tests/badge.svg)](https://github.com/spyder-ide/qtawesome/actions)
+[![Github MacOS build status](https://github.com/spyder-ide/qtawesome/workflows/Macos%20tests/badge.svg)](https://github.com/spyder-ide/qtawesome/actions)
 [![Documentation Status](https://readthedocs.org/projects/qtawesome/badge/?version=latest)](https://qtawesome.readthedocs.io/en/latest/?badge=latest)
 
 *Copyright © 2015–2022 Spyder Project Contributors*
