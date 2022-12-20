@@ -533,10 +533,11 @@ class IconicFont(QObject):
         # The QRawFont cannot be moved to a different thread,
         # but will have to be recreated in the thread in question.
         if PYSIDE2 or PYSIDE6:
-            # Needed since PySide* bindings doesn't expose QThread.currentThreadId
+            # Needed since PySide* bindings don't expose QThread.currentThreadId
             tid = str(QThread.currentThread())
         else:
             tid = int(QThread.currentThreadId())
+
         if tid not in cache:
             cache[tid] = {}
             def clear_cache(): cache.pop(tid)
