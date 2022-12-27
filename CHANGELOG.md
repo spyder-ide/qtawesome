@@ -1,5 +1,26 @@
 # History of changes
 
+## Version 1.2.2 (2022-12-27)
+
+### Issues Closed
+
+* [Issue 226](https://github.com/spyder-ide/qtawesome/issues/226) - Release QtAwesome 1.2.2
+* [Issue 223](https://github.com/spyder-ide/qtawesome/issues/223) - Memory leak when using spin animation class on PyQt bindings ([PR 224](https://github.com/spyder-ide/qtawesome/pull/224) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 213](https://github.com/spyder-ide/qtawesome/issues/213) - Add a contributing guide ([PR 218](https://github.com/spyder-ide/qtawesome/pull/218) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 3 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 224](https://github.com/spyder-ide/qtawesome/pull/224) - PR: Use currentThreadId to identify thread for PyQt bindings, by [@dalthviz](https://github.com/dalthviz) ([223](https://github.com/spyder-ide/qtawesome/issues/223))
+* [PR 218](https://github.com/spyder-ide/qtawesome/pull/218) - PR: Add contributing guide and fix macOS tests, by [@dalthviz](https://github.com/dalthviz) ([213](https://github.com/spyder-ide/qtawesome/issues/213))
+
+In this release 2 pull requests were closed.
+
+
+----
+
+
 ## Version 1.2.1 (2022-10-24)
 
 ### Issues Closed
