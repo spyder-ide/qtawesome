@@ -22,7 +22,7 @@ import shutil
 import warnings
 
 # Third party imports
-from qtpy import PYSIDE2, PYSIDE6
+from qtpy import PYSIDE_VERSION
 from qtpy.QtCore import (QObject, QPoint, QRect, Qt,
                          QSizeF, QRectF, QPointF, QThread)
 from qtpy.QtGui import (QColor, QFont, QFontDatabase, QIcon, QIconEngine,
@@ -532,7 +532,7 @@ class IconicFont(QObject):
         # (either using a constructor, or by calling loadFromData() or loadFromFile()).
         # The QRawFont cannot be moved to a different thread,
         # but will have to be recreated in the thread in question.
-        if PYSIDE2 or PYSIDE6:
+        if PYSIDE_VERSION:
             # Needed since PySide* bindings don't expose QThread.currentThreadId
             tid = str(QThread.currentThread())
         else:

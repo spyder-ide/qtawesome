@@ -10,6 +10,7 @@ build
 # Projects
 .pydevproject
 .project
+.spyproject
 
 # Sphinx
 _build/
