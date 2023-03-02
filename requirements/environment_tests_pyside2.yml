@@ -6,4 +6,4 @@ dependencies:
 - pytest
 - pytest-cov
 - pytest-qt
-- qtpy
+- qtpy<2.0.0
