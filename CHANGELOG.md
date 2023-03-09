@@ -1,5 +1,24 @@
 # History of changes
 
+## Version 1.2.3 (2023-03-09)
+
+### Issues Closed
+
+* [Issue 229](https://github.com/spyder-ide/qtawesome/issues/229) - Release QtAwesome 1.2.3
+* [Issue 227](https://github.com/spyder-ide/qtawesome/issues/227) - Import error when importing `PYSIDE6` while using `QtPy` <= 1.x ([PR 228](https://github.com/spyder-ide/qtawesome/pull/228) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 2 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 228](https://github.com/spyder-ide/qtawesome/pull/228) - PR: Change constants used to validate `PySide` installation and update `PySide2` test environment to use `QtPy`<2.0.0, by [@dalthviz](https://github.com/dalthviz) ([227](https://github.com/spyder-ide/qtawesome/issues/227))
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 1.2.2 (2022-12-27)
 
 ### Issues Closed
