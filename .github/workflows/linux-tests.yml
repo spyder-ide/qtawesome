@@ -57,6 +57,7 @@ jobs:
           xvfb-run --auto-servernum python example.py
           xvfb-run --auto-servernum pytest -x -vv --cov=qtawesome --cov-report=term-missing qtawesome
       - name: Upload coverage to Codecov
-        if: matrix.PYTHON_VERSION == '3.8'
-        shell: bash -l {0}
-        run: codecov -t ed8563f8-ec80-484d-83eb-4233d7a083d2
+        uses: codecov/codecov-action@v3
+        with:
+          fail_ci_if_error: true
+          verbose: true

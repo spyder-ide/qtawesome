@@ -1,7 +1,6 @@
 channels:
   - conda-forge
 dependencies:
-- codecov
 - pyqt
 - pytest
 - pytest-cov
