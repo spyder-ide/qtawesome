@@ -50,7 +50,7 @@ jobs:
         shell: bash -l {0}
         run: |
           python example.py
-          pytest -x -vv --cov=qtawesome --cov-report=term-missing qtawesome
+          pytest -x -vv --cov-report xml --cov=qtawesome qtawesome
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
