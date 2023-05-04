@@ -8,7 +8,7 @@ import qtawesome
 
 # TODO: Set icon colour and copy code with color kwarg
 
-VIEW_COLUMNS = 5
+DEFAULT_VIEW_COLUMNS = 10
 AUTO_SEARCH_TIMEOUT = 500
 ALL_COLLECTIONS = 'All'
 
@@ -22,8 +22,6 @@ class IconBrowser(QtWidgets.QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setMinimumSize(400, 300)
-        self.setWindowTitle('QtAwesome Icon Browser')
 
         qtawesome._instance()
         fontMaps = qtawesome._resource['iconic'].charmap
@@ -32,6 +30,14 @@ class IconBrowser(QtWidgets.QMainWindow):
         for fontCollection, fontData in fontMaps.items():
             for iconName in fontData:
                 iconNames.append('%s.%s' % (fontCollection, iconName))
+
+        self.setMinimumSize(800, 800)
+        self.setWindowTitle('QtAwesome Icon Browser')
+        self.setWindowIcon(qtawesome.icon("mdi6.panda"))
+
+        self.settings = QtCore.QSettings("QtAwesome", "qta-browser")
+        last_col = int(self.settings.value("view_columns", DEFAULT_VIEW_COLUMNS))
+        last_style = self.settings.value("style", 0)
 
         self._filterTimer = QtCore.QTimer(self)
         self._filterTimer.setSingleShot(True)
@@ -45,7 +51,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._proxyModel.setSourceModel(model)
         self._proxyModel.setFilterCaseSensitivity(QtCore.Qt.CaseInsensitive)
 
-        self._listView = IconListView(self)
+        self._listView = IconListView(self, last_col)
         self._listView.setUniformItemSizes(True)
         self._listView.setViewMode(QtWidgets.QListView.IconMode)
         self._listView.setModel(self._proxyModel)
@@ -53,54 +59,90 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._listView.doubleClicked.connect(self._copyIconText)
         self._listView.selectionModel().selectionChanged.connect(self._updateNameField)
 
-        self._lineEdit = QtWidgets.QLineEdit(self)
-        self._lineEdit.setAlignment(QtCore.Qt.AlignCenter)
-        self._lineEdit.textChanged.connect(self._triggerDelayedUpdate)
-        self._lineEdit.returnPressed.connect(self._triggerImmediateUpdate)
+        toolbar = QtWidgets.QHBoxLayout()
 
-        self._comboBox = QtWidgets.QComboBox(self)
-        self._comboBox.setMinimumWidth(75)
-        self._comboBox.currentIndexChanged.connect(self._triggerImmediateUpdate)
-        self._comboBox.addItems([ALL_COLLECTIONS] + sorted(fontMaps.keys()))
+        # filter group
+        tbgFont = ToolBarGroup("Filter")
+        toolbar.addWidget(tbgFont)
+        self._comboFont = QtWidgets.QComboBox(self)
+        self._comboFont.setFixedWidth(75)
+        self._comboFont.addItems([ALL_COLLECTIONS] + sorted(fontMaps.keys()))
+        self._comboFont.currentIndexChanged.connect(self._triggerImmediateUpdate)
+        tbgFont.addWidget(self._comboFont)
 
-        lyt = QtWidgets.QHBoxLayout()
-        lyt.setContentsMargins(0, 0, 0, 0)
-        lyt.addWidget(self._comboBox)
-        lyt.addWidget(self._lineEdit)
-        self._combo_style = QtWidgets.QComboBox(self)
-        self._combo_style.addItems([
-            qtawesome.styles.DEFAULT_DARK_PALETTE,
-            qtawesome.styles.DEFAULT_LIGHT_PALETTE])
-        self._combo_style.currentTextChanged.connect(self._updateStyle)
-        lyt.addWidget(self._combo_style)
+        self._lineEditFilter = QtWidgets.QLineEdit(self)
+        self._lineEditFilter.setFixedWidth(200)
+        self._lineEditFilter.setAlignment(QtCore.Qt.AlignLeft)
+        self._lineEditFilter.textChanged.connect(self._triggerDelayedUpdate)
+        self._lineEditFilter.returnPressed.connect(self._triggerImmediateUpdate)
+        tbgFont.addWidget(self._lineEditFilter)
 
-        searchBarFrame = QtWidgets.QFrame(self)
-        searchBarFrame.setLayout(lyt)
+        buttClear = QtWidgets.QToolButton()
+        buttClear.setAutoRaise(True)
+        buttClear.setToolButtonStyle(QtCore.Qt.ToolButtonIconOnly)
+        buttClear.setIcon(qtawesome.icon("mdi.alpha-x"))
+        buttClear.clicked.connect(self._clearClicked)
+        tbgFont.addWidget(buttClear)
+
+        # selected group
+        tbgSelected = ToolBarGroup("Selected")
+        toolbar.addWidget(tbgSelected)
 
         self._nameField = QtWidgets.QLineEdit(self)
         self._nameField.setAlignment(QtCore.Qt.AlignCenter)
         self._nameField.setReadOnly(True)
+        self._nameField.setFixedWidth(250)
+        fnt = self._nameField.font()
+        fnt.setFamily("monospace")
+        fnt.setBold(True)
+        self._nameField.setFont(fnt)
+        tbgSelected.addWidget(self._nameField)
 
         self._copyButton = QtWidgets.QPushButton('Copy Name', self)
         self._copyButton.clicked.connect(self._copyIconText)
+        self._copyButton.setDisabled(True)
+        tbgSelected.addWidget(self._copyButton)
+
+
+        toolbar.addStretch(100)
+
+        # Style
+        tbgroup = ToolBarGroup("Style")
+        toolbar.addWidget(tbgroup)
+
+        self._combo_style = QtWidgets.QComboBox(self)
+        self._combo_style.addItem(qtawesome.styles.DEFAULT_DARK_PALETTE, 0)
+        self._combo_style.addItem(qtawesome.styles.DEFAULT_LIGHT_PALETTE, 1)
+        self._combo_style.setCurrentIndex(self._combo_style.findData(last_style))
+        self._combo_style.currentTextChanged.connect(self._updateStyle)
+        tbgroup.addWidget(self._combo_style)
+
+
+        # Cols across
+        tbcols = ToolBarGroup("Columns")
+        toolbar.addWidget(tbcols)
+        self._combo_cols = QtWidgets.QComboBox(self)
+        for idx, no in enumerate([5, 10, 15, 20, 25, 30]):
+            self._combo_cols.addItem(str(no), no)
+        self._combo_cols.setCurrentIndex(self._combo_cols.findData(last_col))
+        tbcols.addWidget(self._combo_cols)
+        self._combo_cols.currentTextChanged.connect(self._updateColumns)
 
         lyt = QtWidgets.QVBoxLayout()
-        lyt.addWidget(searchBarFrame)
+        lyt.addLayout(toolbar)
         lyt.addWidget(self._listView)
-        lyt.addWidget(self._nameField)
-        lyt.addWidget(self._copyButton)
 
         frame = QtWidgets.QFrame(self)
         frame.setLayout(lyt)
 
         self.setCentralWidget(frame)
 
-        self.setTabOrder(self._comboBox, self._lineEdit)
-        self.setTabOrder(self._lineEdit, self._combo_style)
+        self.setTabOrder(self._comboFont, self._lineEditFilter)
+        self.setTabOrder(self._lineEditFilter, self._combo_style)
         self.setTabOrder(self._combo_style, self._listView)
         self.setTabOrder(self._listView, self._nameField)
         self.setTabOrder(self._nameField, self._copyButton)
-        self.setTabOrder(self._copyButton, self._comboBox)
+        self.setTabOrder(self._copyButton, self._comboFont)
 
         QtWidgets.QShortcut(
             QtGui.QKeySequence(QtCore.Qt.Key_Return),
@@ -110,10 +152,10 @@ class IconBrowser(QtWidgets.QMainWindow):
         QtWidgets.QShortcut(
             QtGui.QKeySequence("Ctrl+F"),
             self,
-            self._lineEdit.setFocus,
+            self._lineEditFilter.setFocus,
         )
 
-        self._lineEdit.setFocus()
+        self._lineEditFilter.setFocus()
 
         geo = self.geometry()
 
@@ -130,6 +172,7 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         geo.moveCenter(centerPoint)
         self.setGeometry(geo)
+        self._updateStyle(self._combo_style.currentText())
 
     def _updateStyle(self, text: str):
         _app = QtWidgets.QApplication.instance()
@@ -139,6 +182,11 @@ class IconBrowser(QtWidgets.QMainWindow):
         else:
             qtawesome.reset_cache()
             qtawesome.light(_app)
+        self.settings.setValue("style", self._combo_style.currentData())
+
+    def _updateColumns(self):
+        self._listView.set_cols(self._combo_cols.currentData())
+        self.settings.setValue("view_columns", self._combo_cols.currentData())
 
     def _updateFilter(self):
         """
@@ -147,11 +195,11 @@ class IconBrowser(QtWidgets.QMainWindow):
         """
         reString = ""
 
-        group = self._comboBox.currentText()
+        group = self._comboFont.currentText()
         if group != ALL_COLLECTIONS:
             reString += r"^%s\." % group
 
-        searchTerm = self._lineEdit.text()
+        searchTerm = self._lineEditFilter.text()
         if searchTerm:
             reString += ".*%s.*$" % searchTerm
 
@@ -178,6 +226,9 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._filterTimer.stop()
         self._updateFilter()
 
+    def _clearClicked(self):
+        self._lineEditFilter.clear()
+
     def _copyIconText(self):
         """
         Copy the name of the currently selected icon to the clipboard.
@@ -196,8 +247,11 @@ class IconBrowser(QtWidgets.QMainWindow):
         indexes = self._listView.selectedIndexes()
         if not indexes:
             self._nameField.setText("")
-        else:
-            self._nameField.setText(indexes[0].data())
+            self._copyButton.setDisabled(True)
+            return
+
+        self._nameField.setText(indexes[0].data())
+        self._copyButton.setDisabled(False)
 
 
 class IconListView(QtWidgets.QListView):
@@ -206,23 +260,25 @@ class IconListView(QtWidgets.QListView):
     columns are always drawn.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, parent, columns):
         super().__init__(parent)
+        self._columns = columns
         self.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
 
-    def resizeEvent(self, event):
-        """
-        Re-implemented to re-calculate the grid size to provide scaling icons
+    def set_cols(self, cols):
+        self._columns = cols
+        self._calc_cols()
 
-        Parameters
-        ----------
-        event : QtCore.QEvent
+    def _calc_cols(self):
         """
+        re-calculate the grid size to provide scaling icons
+        """
+
         width = self.viewport().width() - 30
         # The minus 30 above ensures we don't end up with an item width that
         # can't be drawn the expected number of times across the view without
         # being wrapped. Without this, the view can flicker during resize
-        tileWidth = width / VIEW_COLUMNS
+        tileWidth = width / self._columns
         iconWidth = int(tileWidth * 0.8)
         # tileWidth needs to be an integer for setGridSize
         tileWidth = int(tileWidth)
@@ -230,6 +286,8 @@ class IconListView(QtWidgets.QListView):
         self.setGridSize(QtCore.QSize(tileWidth, tileWidth))
         self.setIconSize(QtCore.QSize(iconWidth, iconWidth))
 
+    def resizeEvent(self, event):
+        self._calc_cols()
         return super().resizeEvent(event)
 
 
@@ -258,6 +316,31 @@ class IconModel(QtCore.QStringListModel):
             iconString = self.data(index, role=QtCore.Qt.DisplayRole)
             return qtawesome.icon(iconString)
         return super().data(index, role)
+
+
+class ToolBarGroup(QtWidgets.QWidget):
+    def __init__(self, title):
+        super().__init__()
+
+        vlay = QtWidgets.QVBoxLayout()
+        vlay.setContentsMargins(0,0,0,0)
+        vlay.setSpacing(2)
+        self.setLayout(vlay)
+
+        lbl = QtWidgets.QLabel(title)
+        lbl.setFrameShape(QtWidgets.QFrame.Panel)
+        lbl.setFrameShadow(QtWidgets.QFrame.Raised)
+        vlay.addWidget(lbl)
+
+        self.tbar = QtWidgets.QHBoxLayout()
+        self.tbar.setContentsMargins(0, 0, 0, 0)
+        self.tbar.setSpacing(2)
+        vlay.addLayout(self.tbar)
+
+    def addWidget(self, widget):
+        self.tbar.addWidget(widget)
+
+
 
 
 def run():
