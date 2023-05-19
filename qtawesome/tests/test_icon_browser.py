@@ -44,8 +44,8 @@ def test_copy(qtbot, browser):
     assert clipboard.text() == ""
 
     # Enter a search term and press enter
-    qtbot.keyClicks(browser._lineEdit, 'google')
-    qtbot.keyPress(browser._lineEdit, QtCore.Qt.Key_Enter)
+    qtbot.keyClicks(browser._lineEditFilter, 'google')
+    qtbot.keyPress(browser._lineEditFilter, QtCore.Qt.Key_Enter)
 
     # TODO: Figure out how to do this via a qtbot.mouseClick call
     # Select the first item in the list
@@ -67,10 +67,10 @@ def test_filter(qtbot, browser):
     assert initRowCount > 0
 
     # Enter a search term
-    qtbot.keyClicks(browser._lineEdit, 'google')
+    qtbot.keyClicks(browser._lineEditFilter, 'google')
 
     # Press Enter to perform the filter
-    qtbot.keyPress(browser._lineEdit, QtCore.Qt.Key_Enter)
+    qtbot.keyPress(browser._lineEditFilter, QtCore.Qt.Key_Enter)
 
     filteredRowCount = browser._listView.model().rowCount()
     assert initRowCount > filteredRowCount

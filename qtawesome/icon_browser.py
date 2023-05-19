@@ -35,10 +35,6 @@ class IconBrowser(QtWidgets.QMainWindow):
         self.setWindowTitle('QtAwesome Icon Browser')
         self.setWindowIcon(qtawesome.icon("mdi6.panda"))
 
-        self.settings = QtCore.QSettings("QtAwesome", "qta-browser")
-        last_col = int(self.settings.value("view_columns", DEFAULT_VIEW_COLUMNS))
-        last_style = self.settings.value("style", 0)
-
         self._filterTimer = QtCore.QTimer(self)
         self._filterTimer.setSingleShot(True)
         self._filterTimer.setInterval(AUTO_SEARCH_TIMEOUT)
@@ -51,7 +47,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._proxyModel.setSourceModel(model)
         self._proxyModel.setFilterCaseSensitivity(QtCore.Qt.CaseInsensitive)
 
-        self._listView = IconListView(self, last_col)
+        self._listView = IconListView(self, DEFAULT_VIEW_COLUMNS)
         self._listView.setUniformItemSizes(True)
         self._listView.setViewMode(QtWidgets.QListView.IconMode)
         self._listView.setModel(self._proxyModel)
@@ -113,7 +109,6 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._combo_style = QtWidgets.QComboBox(self)
         self._combo_style.addItem(qtawesome.styles.DEFAULT_DARK_PALETTE, 0)
         self._combo_style.addItem(qtawesome.styles.DEFAULT_LIGHT_PALETTE, 1)
-        self._combo_style.setCurrentIndex(self._combo_style.findData(last_style))
         self._combo_style.currentTextChanged.connect(self._updateStyle)
         tbgroup.addWidget(self._combo_style)
 
@@ -124,7 +119,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._combo_cols = QtWidgets.QComboBox(self)
         for idx, no in enumerate([5, 10, 15, 20, 25, 30]):
             self._combo_cols.addItem(str(no), no)
-        self._combo_cols.setCurrentIndex(self._combo_cols.findData(last_col))
+        self._combo_cols.setCurrentIndex(self._combo_cols.findData(DEFAULT_VIEW_COLUMNS))
         tbcols.addWidget(self._combo_cols)
         self._combo_cols.currentTextChanged.connect(self._updateColumns)
 
@@ -182,11 +177,9 @@ class IconBrowser(QtWidgets.QMainWindow):
         else:
             qtawesome.reset_cache()
             qtawesome.light(_app)
-        self.settings.setValue("style", self._combo_style.currentData())
 
     def _updateColumns(self):
         self._listView.set_cols(self._combo_cols.currentData())
-        self.settings.setValue("view_columns", self._combo_cols.currentData())
 
     def _updateFilter(self):
         """
