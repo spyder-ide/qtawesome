@@ -44,7 +44,7 @@ def test_copy(qtbot, browser):
     assert clipboard.text() == ""
 
     # Enter a search term and press enter
-    qtbot.keyClicks(browser._lineEditFilter, 'google')
+    qtbot.keyClicks(browser._lineEditFilter, 'penguin')
     qtbot.keyPress(browser._lineEditFilter, QtCore.Qt.Key_Enter)
 
     # TODO: Figure out how to do this via a qtbot.mouseClick call
@@ -56,24 +56,34 @@ def test_copy(qtbot, browser):
     # Click the copy button
     qtbot.mouseClick(browser._copyButton, QtCore.Qt.LeftButton)
 
-    assert "google" in clipboard.text()
+    assert "penguin" in clipboard.text()
 
-
-def test_filter(qtbot, browser):
+def test_filter_success(qtbot, browser):
     """
-    Ensure the filter UX works
+    What happens if a `penguin`
     """
-    initRowCount = browser._listView.model().rowCount()
-    assert initRowCount > 0
+    #initRowCount = browser._listView.model().rowCount()
+    #assert initRowCount > 0
 
+    # Enter a search term and click
+    qtbot.keyClicks(browser._lineEditFilter, 'penguin')
+    qtbot.keyPress(browser._lineEditFilter, QtCore.Qt.Key_Enter)
+
+    filteredRowCount = browser._listView.model().rowCount()
+    assert filteredRowCount > 1
+
+def test_filter_fail(qtbot, browser):
+    """
+    What happens if a `not a penguin-penguin`
+    """
     # Enter a search term
-    qtbot.keyClicks(browser._lineEditFilter, 'google')
+    qtbot.keyClicks(browser._lineEditFilter, 'I-AM-NOT-penguin-A-penguin')
 
     # Press Enter to perform the filter
     qtbot.keyPress(browser._lineEditFilter, QtCore.Qt.Key_Enter)
 
     filteredRowCount = browser._listView.model().rowCount()
-    assert initRowCount > filteredRowCount
+    assert filteredRowCount == 0
 
 
 if __name__ == "__main__":
