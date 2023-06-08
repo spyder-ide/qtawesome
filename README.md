@@ -206,7 +206,7 @@ name that should be used to create that icon!
 
 Once installed, run `qta-browser` from a shell to start the browser.
 
-![QtAwesomeIconbrowser](qtawesome-browser.png)
+![qta-browser](qtawesome-browser.png)
 
 
 ## License
