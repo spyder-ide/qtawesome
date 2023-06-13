@@ -8,7 +8,7 @@ import qtawesome
 
 # TODO: Set icon colour and copy code with color kwarg
 
-DEFAULT_VIEW_COLUMNS = 10
+DEFAULT_VIEW_COLUMNS = 8
 AUTO_SEARCH_TIMEOUT = 500
 ALL_COLLECTIONS = 'All'
 
@@ -33,7 +33,7 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         self.setMinimumSize(800, 800)
         self.setWindowTitle('QtAwesome Icon Browser')
-        self.setWindowIcon(qtawesome.icon("mdi6.panda"))
+        self.setWindowIcon(qtawesome.icon("fa5s.icons"))
 
         self._filterTimer = QtCore.QTimer(self)
         self._filterTimer.setSingleShot(True)
@@ -117,7 +117,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         tbcols = ToolBarGroup("Columns")
         toolbar.addWidget(tbcols)
         self._combo_cols = QtWidgets.QComboBox(self)
-        for idx, no in enumerate([5, 10, 15, 20, 25, 30]):
+        for idx, no in enumerate([5, 8, 10, 15, 20, 25, 30]):
             self._combo_cols.addItem(str(no), no)
         self._combo_cols.setCurrentIndex(self._combo_cols.findData(DEFAULT_VIEW_COLUMNS))
         tbcols.addWidget(self._combo_cols)
