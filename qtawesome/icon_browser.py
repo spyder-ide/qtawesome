@@ -8,7 +8,7 @@ import qtawesome
 
 # TODO: Set icon colour and copy code with color kwarg
 
-DEFAULT_VIEW_COLUMNS = 8
+DEFAULT_VIEW_COLUMNS = 5
 AUTO_SEARCH_TIMEOUT = 500
 ALL_COLLECTIONS = 'All'
 
@@ -31,7 +31,7 @@ class IconBrowser(QtWidgets.QMainWindow):
             for iconName in fontData:
                 iconNames.append('%s.%s' % (fontCollection, iconName))
 
-        self.setMinimumSize(800, 800)
+        self.setMinimumSize(300, 300)
         self.setWindowTitle('QtAwesome Icon Browser')
         self.setWindowIcon(qtawesome.icon("fa5s.icons"))
 
