@@ -334,19 +334,23 @@ class IconWidget(QtWidgets.QLabel):
     """
     IconWidget gives the ability to display an icon as a widget
 
-    if supports the same arguments as icon()
-    for example
-    music_icon = qta.IconWidget('fa5s.music',
-                                color='blue',
-                                color_active='orange')
+    It supports the same arguments as `icon()`,
+    for example,
 
-    it also have setIcon() and setIconSize() functions
+        music_icon = qta.IconWidget('fa5s.music',
+                                    color='blue',
+                                    color_active='orange')
+
+    The exceptions are `parent` and `size` keyword-only arguments,
+    which allow setting the widget parent and initial size, correspondingly.
+
+    It also has `setIcon()` and `setIconSize()` functions.
     """
 
     def __init__(self, *names, **kwargs):
         super().__init__(parent=kwargs.get('parent'))
         self._icon = None
-        self._size = QtCore.QSize(16, 16)
+        self._size = kwargs.get('size', QtCore.QSize(16, 16))
         self.setIcon(icon(*names, **kwargs))
 
     def setIcon(self, _icon):
