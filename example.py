@@ -96,7 +96,7 @@ class AwesomeExample(QtWidgets.QDialog):
         lo.addWidget(iconwidget)
         lo.addWidget(QtWidgets.QLabel('IconWidget'))
         iconwidgetholder.setLayout(lo)
-        iconwidget2 = qta.IconWidget('mdi.web', color='blue', size=QtCore.QSize(24, 24))
+        iconwidget2 = qta.IconWidget('mdi.web', color='blue', size=QtCore.QSize(16, 16))
 
         # Icon drawn with the `image` option
         drawn_image_icon = qta.icon('ri.truck-fill',
