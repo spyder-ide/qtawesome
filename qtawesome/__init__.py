@@ -10,6 +10,7 @@ Font-Awesome and other iconic fonts for PyQt / PySide applications.
    :toctree: _generate
 
    icon
+   IconWidget
    load_font
    charmap
    font
