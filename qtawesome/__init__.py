@@ -77,7 +77,7 @@ _MD5_HASHES = {
     'materialdesignicons6-webfont.ttf': '9a2f455e7cbce011368aee95d292613b',
     'phosphor.ttf': '5b8dc57388b2d86243566b996cc3a789',
     'remixicon.ttf': '888e61f04316f10bddfff7bee10c6dd0',
-    'codicon.ttf': 'd8565ee605ac4d2fa71fe018863337ca',
+    'codicon.ttf': 'c8bafa1de09b4a286abf7159343aeffc',
 }
 
 

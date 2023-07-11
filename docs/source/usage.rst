@@ -32,7 +32,7 @@ The following prefixes are currently available to use:
 
 - ``ri`` prefix holds `Remix Icon 2.5.0 with its 2271 icons.`_
 
--  ``msc`` prefix holds Microsoft's `Codicons 0.0.32 with its 421 icons.`_
+-  ``msc`` prefix holds Microsoft's `Codicons 0.0.33 with its 426 icons.`_
 
 .. _FontAwesome: https://fontawesome.com
 .. _151 icons in the "regular" style.: https://fontawesome.com/v5/search?o=r&m=free&s=regular
@@ -45,7 +45,7 @@ The following prefixes are currently available to use:
 .. _Material Design Icons 5.9.55 with its 5955 icons.: https://cdn.materialdesignicons.com/5.9.55/
 .. _Phosphor 1.3.0 with its 4470 icons (894 icons * 5 weights\: Thin, Light, Regular, Bold and Fill).: https://github.com/phosphor-icons/phosphor-icons
 .. _Remix Icon 2.5.0 with its 2271 icons.: https://github.com/Remix-Design/RemixIcon
-.. _Codicons 0.0.32 with its 421 icons.: https://github.com/microsoft/vscode-codicons
+.. _Codicons 0.0.33 with its 426 icons.: https://github.com/microsoft/vscode-codicons
 
 Examples
 ~~~~~~~~
