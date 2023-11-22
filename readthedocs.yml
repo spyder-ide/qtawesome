@@ -8,6 +8,11 @@ build:
 conda:
   environment: docs/environment.yml
 
+python:
+  install:
+    - method: pip
+      path: .
+
 sphinx:
   builder: html
   configuration: docs/source/conf.py
