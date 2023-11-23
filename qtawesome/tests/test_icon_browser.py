@@ -58,24 +58,29 @@ def test_copy(qtbot, browser):
 
     assert "penguin" in clipboard.text()
 
-def test_filter_success(qtbot, browser):
+
+def test_filter(qtbot, browser):
     """
-    What happens if a `penguin`
+    Ensure the filter UX works when searching for `penguin`
     """
-    #initRowCount = browser._listView.model().rowCount()
-    #assert initRowCount > 0
+    initRowCount = browser._listView.model().rowCount()
+    assert initRowCount > 0
 
     # Enter a search term and click
     qtbot.keyClicks(browser._lineEditFilter, 'penguin')
     qtbot.keyPress(browser._lineEditFilter, QtCore.Qt.Key_Enter)
 
     filteredRowCount = browser._listView.model().rowCount()
-    assert filteredRowCount > 1
+    assert initRowCount > filteredRowCount
 
-def test_filter_fail(qtbot, browser):
+
+def test_filter_no_results(qtbot, browser):
     """
-    What happens if a `not a penguin-penguin`
+    Ensure the filter doesn't show results (the text doesn't match any icon)
     """
+    initRowCount = browser._listView.model().rowCount()
+    assert initRowCount > 0
+
     # Enter a search term
     qtbot.keyClicks(browser._lineEditFilter, 'I-AM-NOT-penguin-A-penguin')
 
