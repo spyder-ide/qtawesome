@@ -6,3 +6,4 @@ channels:
 dependencies:
 - pyqt
 - qtpy
+- sphinx_rtd_theme

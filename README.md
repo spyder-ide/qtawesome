@@ -175,7 +175,8 @@ spin_icon = qta.icon('mdi.loading', color='red',
 spin_widget.setIcon(spin_icon)
 
 # Simple icon widget
-simple_widget = qta.IconWidget('mdi.web', color='blue')
+simple_widget = qta.IconWidget('mdi.web', color='blue', 
+                               size=QtCore.QSize(16, 16))
 ```
 
 - Screenshot
