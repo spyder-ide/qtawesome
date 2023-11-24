@@ -63,8 +63,8 @@ class IconBrowser(QtWidgets.QMainWindow):
         # Filter section
         self._comboFont = QtWidgets.QComboBox(self)
         self._comboFont.setToolTip(
-            "Select the fonts prefix which icons will "
-            "be included in the filtering"
+            "Select the font prefix whose icons will "
+            "be included in the filtering."
         )
         self._comboFont.setMaximumWidth(75)
         self._comboFont.addItems([ALL_COLLECTIONS] + sorted(fontMaps.keys()))
@@ -87,7 +87,7 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         # Icon name section
         self._nameField = QtWidgets.QLineEdit(self)
-        self._nameField.setToolTip(
+        self._nameField.setPlaceholderText(
             "Full identifier of the currently selected icon"
         )
         self._nameField.setAlignment(QtCore.Qt.AlignCenter)
