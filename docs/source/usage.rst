@@ -40,7 +40,7 @@ The following prefixes are currently available to use:
 .. _456 icons of various brands.: https://fontawesome.com/v5/search?o=r&m=free&f=brands
 .. _FA 4.7 version with its 675 icons: https://fontawesome.com/v4.7.0/icons/
 .. _Elusive Icons 2.0 with its 304 icons: http://elusiveicons.com/icons/
-.. _Material Design Icons: https://cdn.materialdesignicons.com/
+.. _Material Design Icons: https://pictogrammers.com/library/mdi/
 .. _Material Design Icons 6.9.96 with its 6997 icons.: https://cdn.materialdesignicons.com/6.9.96/
 .. _Material Design Icons 5.9.55 with its 5955 icons.: https://cdn.materialdesignicons.com/5.9.55/
 .. _Phosphor 1.3.0 with its 4470 icons (894 icons * 5 weights\: Thin, Light, Regular, Bold and Fill).: https://github.com/phosphor-icons/phosphor-icons
