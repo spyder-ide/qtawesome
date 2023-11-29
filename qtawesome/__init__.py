@@ -74,7 +74,7 @@ _MD5_HASHES = {
     'fontawesome5-brands-webfont.ttf': '513aa607d398efaccc559916c3431403',
     'elusiveicons-webfont.ttf': '207966b04c032d5b873fd595a211582e',
     'materialdesignicons5-webfont.ttf': 'b7d40e7ef80c1d4af6d94902af66e524',
-    'materialdesignicons6-webfont.ttf': '9a2f455e7cbce011368aee95d292613b',
+    'materialdesignicons6-webfont.ttf': 'ecaabfbb23fdac4ddbaf897b97257a92',
     'phosphor.ttf': '5b8dc57388b2d86243566b996cc3a789',
     'remixicon.ttf': '888e61f04316f10bddfff7bee10c6dd0',
     'codicon.ttf': 'd8565ee605ac4d2fa71fe018863337ca',
