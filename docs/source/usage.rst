@@ -172,27 +172,38 @@ Examples
 
 .. code:: python
 
-   # Spin icons
+   # -- Spin icons
    spin_button = QtWidgets.QPushButton(' Spinning icon')
-   spin_icon = qta.icon('fa5s.spinner', color='red',
-                        animation=qta.Spin(spin_button))
+   animation = qta.Spin(spin_button)
+   spin_icon = qta.icon('fa5s.spinner', color='red', animation=animation)
    spin_button.setIcon(spin_icon)
 
-   # Pulse icons
+   # Stop animation when needed
+   animation.stop()
+
+   # -- Pulse icons
    pulse_button = QtWidgets.QPushButton(' Pulsing icon')
-   pulse_icon = qta.icon('fa5s.spinner', color='green',
-                        animation=qta.Pulse(pulse_button))
+   animation = qta.Pulse(pulse_button, autostart=False)
+   pulse_icon = qta.icon('fa5s.spinner', color='green', animation=animation)
    pulse_button.setIcon(pulse_icon)
 
-   # Stacked spin icons
+   # Start and stop the animation when needed
+   animation.start()
+   animation.stop()
+
+   # -- Stacked spin icons
    stack_spin_button = QtWidgets.QPushButton('Stack spin')
+   animation = qta.Spin(stack_spin_button)
    options = [{'scale_factor': 0.4,
-               'animation': qta.Spin(stack_spin_button)},
+               'animation': animation},
                {'color': 'blue'}]
    stack_spin_icon = qta.icon('ei.asl', 'fa5.square',
                               options=options)
    stack_spin_button.setIcon(stack_spin_icon)
    stack_spin_button.setIconSize(QtCore.QSize(32, 32))
+
+   # Stop animation when needed
+   animation.stop()
 
 -  Apply font label rendering:
 
@@ -206,13 +217,16 @@ Examples
 
 .. code:: python
 
-   # Spinning icon widget
+   # -- Spinning icon widget
    spin_widget = qta.IconWidget()
-   spin_icon = qta.icon('mdi.loading', color='red',
-                        animation=qta.Spin(spin_widget))
+   animation = qta.Spin(spin_widget)
+   spin_icon = qta.icon('mdi.loading', color='red', animation=animation)
    spin_widget.setIcon(spin_icon)
 
-   # simple widget
+   # Stop animation when needed
+   animation.stop()
+
+   # -- Simple widget
    simple_widget = qta.IconWidget('mdi.web', color='blue',
                                   size=QtCore.QSize(16, 16))
 

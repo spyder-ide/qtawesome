@@ -160,9 +160,12 @@ drawn_image_button = QtWidgets.QPushButton(drawn_image_icon,
 ```python
 # Spining icons
 spin_button = QtWidgets.QPushButton(' Spinning icon')
-spin_icon = qta.icon('fa5s.spinner', color='red',
-                     animation=qta.Spin(spin_button))
+animation = qta.Spin(spin_button)
+spin_icon = qta.icon('fa5s.spinner', color='red', animation=animation)
 spin_button.setIcon(spin_icon)
+
+# Stop the animation when needed
+animation.stop()
 ```
 
 - Display Icon as a widget
@@ -170,13 +173,17 @@ spin_button.setIcon(spin_icon)
 ```python
 # Spining icon widget
 spin_widget = qta.IconWidget()
-spin_icon = qta.icon('mdi.loading', color='red',
-                     animation=qta.Spin(spin_widget))
+animation = qta.Spin(spin_widget, autostart=False)
+spin_icon = qta.icon('mdi.loading', color='red', animation=animation)
 spin_widget.setIcon(spin_icon)
 
 # Simple icon widget
 simple_widget = qta.IconWidget('mdi.web', color='blue', 
                                size=QtCore.QSize(16, 16))
+
+# Start and stop the animation when needed
+animation.start()
+animation.stop()
 ```
 
 - Screenshot
