@@ -122,15 +122,24 @@ class AwesomeExample(QtWidgets.QDialog):
 
         # Spin icons
         spin_button = QtWidgets.QPushButton(' Spinning icon')
-        spin_icon = qta.icon('fa5s.spinner', color='red',
-                             animation=qta.Spin(spin_button))
+        animation1 = qta.Spin(spin_button)
+        spin_icon = qta.icon('fa5s.spinner', color='red', animation=animation1)
         spin_button.setIcon(spin_icon)
+
+        timer1 = QtCore.QTimer()
+        timer1.singleShot(3000, animation1.stop)
 
         # Pulse icons
         pulse_button = QtWidgets.QPushButton(' Pulsing icon')
+        animation2 = qta.Pulse(pulse_button, autostart=False)
         pulse_icon = qta.icon('fa5s.spinner', color='green',
-                              animation=qta.Pulse(pulse_button))
+                              animation=animation2)
         pulse_button.setIcon(pulse_icon)
+
+        timer2 = QtCore.QTimer()
+        timer2.singleShot(1500, animation2.start)
+        timer3 = QtCore.QTimer()
+        timer3.singleShot(6000, animation2.stop)
 
         # Stacked spin icons
         stack_spin_button = QtWidgets.QPushButton('Stack spin')

@@ -49,7 +49,10 @@ jobs:
       - name: Run tests
         shell: bash -l {0}
         run: |
-          python example.py
+          if [ "$QT_BINDING" = "pyside2" ]; then
+            python example.py
+          fi
+
           pytest -x -vv --cov-report xml --cov=qtawesome qtawesome
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

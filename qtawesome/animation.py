@@ -3,9 +3,12 @@ from qtpy.QtCore import QTimer
 
 class Spin:
 
-    def __init__(self, parent_widget, interval=10, step=1):
+    def __init__(self, parent_widget, interval=10, step=1, autostart=True):
         self.parent_widget = parent_widget
-        self.interval, self.step = interval, step
+        self.interval = interval
+        self.step = step
+        self.autostart = autostart
+
         self.info = {}
 
     def _update(self):
@@ -25,7 +28,8 @@ class Spin:
             timer = QTimer(self.parent_widget)
             timer.timeout.connect(self._update)
             self.info[self.parent_widget] = [timer, 0, self.step]
-            timer.start(self.interval)
+            if self.autostart:
+                timer.start(self.interval)
         else:
             timer, angle, self.step = self.info[self.parent_widget]
             x_center = rect.width() * 0.5
@@ -34,8 +38,21 @@ class Spin:
             painter.rotate(angle)
             painter.translate(-x_center, -y_center)
 
+    def start(self):
+        timer: QTimer = self.info[self.parent_widget][0]
+        timer.start(self.interval)
+
+    def stop(self):
+        timer: QTimer = self.info[self.parent_widget][0]
+        timer.stop()
+
 
 class Pulse(Spin):
 
-    def __init__(self, parent_widget):
-        super().__init__(parent_widget, interval=300, step=45)
+    def __init__(self, parent_widget, autostart=True):
+        super().__init__(
+            parent_widget,
+            interval=300,
+            step=45,
+            autostart=autostart
+        )
