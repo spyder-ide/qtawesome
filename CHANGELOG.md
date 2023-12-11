@@ -1,5 +1,31 @@
 # History of changes
 
+## Version 1.3.0 (2023-12-11)
+
+### Issues Closed
+
+* [Issue 253](https://github.com/spyder-ide/qtawesome/issues/253) - Release QtAwesome 1.3.0
+* [Issue 222](https://github.com/spyder-ide/qtawesome/issues/222) - Update Material Design Icons 6.x (`mdi6`) to latest version (6.9.96) ([PR 249](https://github.com/spyder-ide/qtawesome/pull/249) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 165](https://github.com/spyder-ide/qtawesome/issues/165) - Need a way to stop animation icon from calling _update ([PR 245](https://github.com/spyder-ide/qtawesome/pull/245) by [@ccordoba12](https://github.com/ccordoba12))
+
+In this release 3 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 251](https://github.com/spyder-ide/qtawesome/pull/251) - PR: Update Codicons (`msc`) to 0.0.35, by [@dalthviz](https://github.com/dalthviz)
+* [PR 249](https://github.com/spyder-ide/qtawesome/pull/249) - PR: Update Material Design Icons (`mdi6`) to 6.9.96, by [@dalthviz](https://github.com/dalthviz) ([222](https://github.com/spyder-ide/qtawesome/issues/222))
+* [PR 248](https://github.com/spyder-ide/qtawesome/pull/248) - PR: Improvements to the icon browser application, by [@dalthviz](https://github.com/dalthviz)
+* [PR 246](https://github.com/spyder-ide/qtawesome/pull/246) - PR: Update `readthedocs` config to version 2, by [@dalthviz](https://github.com/dalthviz)
+* [PR 245](https://github.com/spyder-ide/qtawesome/pull/245) - PR: Add API to start/stop animations to the Spin class, by [@ccordoba12](https://github.com/ccordoba12) ([165](https://github.com/spyder-ide/qtawesome/issues/165))
+* [PR 238](https://github.com/spyder-ide/qtawesome/pull/238) - PR: Provide icon size when creating an `IconWidget`, by [@StSav012](https://github.com/StSav012)
+* [PR 232](https://github.com/spyder-ide/qtawesome/pull/232) - PR: Remove usage of deprecated codecov package and move to GitHub Action variant, by [@dalthviz](https://github.com/dalthviz)
+
+In this release 7 pull requests were closed.
+
+
+----
+
+
 ## Version 1.2.3 (2023-03-09)
 
 ### Issues Closed
