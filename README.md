@@ -188,7 +188,7 @@ animation.stop()
 
 - Screenshot
 
-![QtAwesome screenshot](qtawesome-screenshot.gif)
+![QtAwesome screenshot](https://raw.githubusercontent.com/spyder-ide/qtawesome/master/qtawesome-screenshot.gif)
 
 
 To check these options you can launch the `example.py` script and pass to it the options as arguments. For example, to test how the icons could look using the `glyphrun` draw option, you can run something like:
@@ -214,7 +214,7 @@ name that should be used to create that icon!
 
 Once installed, run `qta-browser` from a shell to start the browser.
 
-![qta-browser](qtawesome-browser.png)
+![qta-browser](https://raw.githubusercontent.com/spyder-ide/qtawesome/master/qtawesome-browser.png)
 
 
 ## License
