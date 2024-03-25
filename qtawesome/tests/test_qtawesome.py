@@ -51,26 +51,13 @@ def test_bundled_font_installation():
     See spyder-ide/qtawesome#167 and spyder-ide/spyder#18642
     """
     qta._instance()
-    fonts_expected = [
-        ("codicon", "codicon.ttf"),
-        ("elusiveicons-webfont", "elusiveicons-webfont.ttf"),
-        ("fontawesome4.7-webfont", "fontawesome4.7-webfont.ttf"),
-        ("fontawesome5-brands-webfont", "fontawesome5-brands-webfont.ttf"),
-        ("fontawesome5-regular-webfont", "fontawesome5-regular-webfont.ttf"),
-        ("fontawesome5-solid-webfont", "fontawesome5-solid-webfont.ttf"),
-        ("materialdesignicons5-webfont", "materialdesignicons5-webfont.ttf"),
-        ("materialdesignicons6-webfont ", "materialdesignicons6-webfont.ttf"),
-        ("phosphor", "phosphor.ttf"),
-        ("remixicon", "remixicon.ttf")
-    ]
+    fonts_expected = [font_filename for _prefix, font_filename, _charmap_filename in qta._BUNDLED_FONTS]
     fonts_command = [
         "powershell.exe",
         r'Get-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"'
     ]
     fonts_result = subprocess.run(fonts_command, capture_output=True, check=True, text=True).stdout
-    
-    for font_name, font_filename in fonts_expected:
-        assert font_name in fonts_result
+    for font_filename in fonts_expected:
         assert font_filename in fonts_result
 
 
