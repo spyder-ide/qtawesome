@@ -5,6 +5,8 @@
 To update _FontAwesome_ icons, one must:
 
 - check what is the latest released version here: https://github.com/FortAwesome/Font-Awesome/releases/
+- update font version over \_\_init__.py
+- remove outdated files at the fonts dir
 - run: `python setup.py update_fa5 --fa-version X.X.X`
 - update FA version number, icon counts and URLs inside:
   - README.md
@@ -55,10 +57,15 @@ import json
 import urllib.request
 import hashlib
 
+
+VERSION = '6.9.96'  # Update version as required
 TTF_URL = 'https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/fonts/materialdesignicons-webfont.ttf'
 CSS_URL = 'https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/css/materialdesignicons.css'
+FONT_FILENAME = 'materialdesignicons6-webfont-{version}.ttf'.format(version=VERSION)
+FONT_CHARMAP_FILENAME = 'materialdesignicons6-webfont-charmap-{version}.json'.format(version=VERSION)
 
-with open('materialdesignicons6-webfont.ttf', 'wb') as fp:
+
+with open(FONT_FILENAME, 'wb') as fp:
     req = urllib.request.urlopen(TTF_URL)
     if req.status != 200:
         raise Exception('Failed to download TTF')
@@ -66,7 +73,7 @@ with open('materialdesignicons6-webfont.ttf', 'wb') as fp:
     req.close()
 
 hasher = hashlib.md5()
-with open('materialdesignicons6-webfont.ttf', 'rb') as f:
+with open(FONT_FILENAME, 'rb') as f:
     content = f.read()
     hasher.update(content)
 
@@ -89,7 +96,7 @@ for name, key in data:
     name = name.lower()
     charmap[name] = key
 
-with open('materialdesignicons6-webfont-charmap.json', 'w') as fp:
+with open(FONT_CHARMAP_FILENAME, 'w') as fp:
     json.dump(charmap, fp, indent=4, sort_keys=True)
 
 ```
@@ -112,10 +119,13 @@ import json
 import urllib.request
 import hashlib
 
+VERSION = '1.3.0'  # Update version as required
 TTF_URL = 'https://raw.githubusercontent.com/phosphor-icons/phosphor-icons/master/src/font/phosphor.ttf'
 CSS_URL = 'https://raw.githubusercontent.com/phosphor-icons/phosphor-icons/master/src/css/phosphor.css'
+FONT_FILENAME = 'phosphor-{version}.ttf'.format(version=VERSION)
+FONT_CHARMAP_FILENAME = 'phosphor-charmap-{version}.json'.format(version=VERSION)
 
-with open('phosphor.ttf', 'wb') as fp:
+with open(FONT_FILENAME, 'wb') as fp:
     req = urllib.request.urlopen(TTF_URL)
     if req.status != 200:
         raise Exception('Failed to download TTF')
@@ -123,7 +133,7 @@ with open('phosphor.ttf', 'wb') as fp:
     req.close()
 
 hasher = hashlib.md5()
-with open('phosphor.ttf', 'rb') as f:
+with open(FONT_FILENAME, 'rb') as f:
     content = f.read()
     hasher.update(content)
 
@@ -145,7 +155,7 @@ for name, key in data:
     name = name.lower()
     charmap[name] = key
 
-with open('phosphor-charmap.json', 'w') as fp:
+with open(FONT_CHARMAP_FILENAME, 'w') as fp:
     json.dump(charmap, fp, indent=4, sort_keys=True)
 
 ```
@@ -168,10 +178,13 @@ import json
 import urllib.request
 import hashlib
 
+VERSION = '2.5.0'  # Update version as required
 TTF_URL = 'https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/fonts/remixicon.ttf'
 CSS_URL = 'https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/fonts/remixicon.css'
+FONT_FILENAME = 'remixicon-{version}.ttf'.format(version=VERSION)
+FONT_CHARMAP_FILENAME = 'remixicon-charmap-{version}.json'.format(version=VERSION)
 
-with open('remixicon.ttf', 'wb') as fp:
+with open(FONT_FILENAME, 'wb') as fp:
     req = urllib.request.urlopen(TTF_URL)
     if req.status != 200:
         raise Exception('Failed to download TTF')
@@ -179,7 +192,7 @@ with open('remixicon.ttf', 'wb') as fp:
     req.close()
 
 hasher = hashlib.md5()
-with open('remixicon.ttf', 'rb') as f:
+with open(FONT_FILENAME, 'rb') as f:
     content = f.read()
     hasher.update(content)
 
@@ -201,7 +214,7 @@ for name, key in data:
     name = name.lower()
     charmap[name] = key
 
-with open('remixicon-charmap.json', 'w') as fp:
+with open(FONT_CHARMAP_FILENAME, 'w') as fp:
     json.dump(charmap, fp, indent=4, sort_keys=True)
 
 ```
@@ -211,6 +224,8 @@ with open('remixicon-charmap.json', 'w') as fp:
 To update _Codicons_ icons, one must:
 
 - check what is the latest released version here: https://github.com/microsoft/vscode-codicons/releases
+- update font version over \_\_init__.py
+- remove outdated files at the fonts dir
 - run: `python setup.py update_msc`
 - update Codicons version number, icon counts and URLs inside:
   - README.md
