@@ -51,12 +51,17 @@ def test_bundled_font_installation():
     See spyder-ide/qtawesome#167 and spyder-ide/spyder#18642
     """
     qta._instance()
-    fonts_expected = [font_filename for _prefix, font_filename, _charmap_filename in qta._BUNDLED_FONTS]
+    fonts_expected = [
+        font_filename
+        for _prefix, font_filename, _charmap_filename in qta._BUNDLED_FONTS
+    ]
     fonts_command = [
         "powershell.exe",
         r'Get-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts"'
     ]
-    fonts_result = subprocess.run(fonts_command, capture_output=True, check=True, text=True).stdout
+    fonts_result = subprocess.run(
+        fonts_command, capture_output=True, check=True, text=True
+    ).stdout
     for font_filename in fonts_expected:
         assert font_filename in fonts_result
 

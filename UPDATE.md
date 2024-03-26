@@ -5,8 +5,8 @@
 To update _FontAwesome_ icons, one must:
 
 - check what is the latest released version here: https://github.com/FortAwesome/Font-Awesome/releases/
-- update font version over \_\_init__.py
-- remove outdated files at the fonts dir
+- update font version in \_\_init__.py
+- remove outdated files in the fonts dir
 - run: `python setup.py update_fa5 --fa-version X.X.X`
 - update FA version number, icon counts and URLs inside:
   - README.md
@@ -61,8 +61,14 @@ import hashlib
 VERSION = '6.9.96'  # Update version as required
 TTF_URL = 'https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/fonts/materialdesignicons-webfont.ttf'
 CSS_URL = 'https://raw.githubusercontent.com/Templarian/MaterialDesign-Webfont/master/css/materialdesignicons.css'
-FONT_FILENAME = 'materialdesignicons6-webfont-{version}.ttf'.format(version=VERSION)
-FONT_CHARMAP_FILENAME = 'materialdesignicons6-webfont-charmap-{version}.json'.format(version=VERSION)
+FONT_FILENAME = "materialdesignicons6-webfont-{version}.ttf".format(
+    version=VERSION
+)
+FONT_CHARMAP_FILENAME = (
+    "materialdesignicons6-webfont-charmap-{version}.json".format(
+        version=VERSION
+    )
+)
 
 
 with open(FONT_FILENAME, 'wb') as fp:
@@ -123,7 +129,9 @@ VERSION = '1.3.0'  # Update version as required
 TTF_URL = 'https://raw.githubusercontent.com/phosphor-icons/phosphor-icons/master/src/font/phosphor.ttf'
 CSS_URL = 'https://raw.githubusercontent.com/phosphor-icons/phosphor-icons/master/src/css/phosphor.css'
 FONT_FILENAME = 'phosphor-{version}.ttf'.format(version=VERSION)
-FONT_CHARMAP_FILENAME = 'phosphor-charmap-{version}.json'.format(version=VERSION)
+FONT_CHARMAP_FILENAME = "phosphor-charmap-{version}.json".format(
+    version=VERSION
+)
 
 with open(FONT_FILENAME, 'wb') as fp:
     req = urllib.request.urlopen(TTF_URL)
@@ -182,7 +190,9 @@ VERSION = '2.5.0'  # Update version as required
 TTF_URL = 'https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/fonts/remixicon.ttf'
 CSS_URL = 'https://raw.githubusercontent.com/Remix-Design/RemixIcon/master/fonts/remixicon.css'
 FONT_FILENAME = 'remixicon-{version}.ttf'.format(version=VERSION)
-FONT_CHARMAP_FILENAME = 'remixicon-charmap-{version}.json'.format(version=VERSION)
+FONT_CHARMAP_FILENAME = "remixicon-charmap-{version}.json".format(
+    version=VERSION
+)
 
 with open(FONT_FILENAME, 'wb') as fp:
     req = urllib.request.urlopen(TTF_URL)
@@ -224,8 +234,8 @@ with open(FONT_CHARMAP_FILENAME, 'w') as fp:
 To update _Codicons_ icons, one must:
 
 - check what is the latest released version here: https://github.com/microsoft/vscode-codicons/releases
-- update font version over \_\_init__.py
-- remove outdated files at the fonts dir
+- update font version in \_\_init__.py
+- remove outdated files in the fonts dir
 - run: `python setup.py update_msc`
 - update Codicons version number, icon counts and URLs inside:
   - README.md
