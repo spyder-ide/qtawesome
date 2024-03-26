@@ -85,8 +85,18 @@ class UpdateFA5Command(setuptools.Command):
 
     # Update these below if the FontAwesome changes their structure:
     FA_STYLES = ('regular', 'solid', 'brands')
-    CHARMAP_PATH_TEMPLATE = os.path.join(HERE, 'qtawesome', 'fonts', 'fontawesome5-{style}-webfont-charmap.json')
-    TTF_PATH_TEMPLATE = os.path.join(HERE, 'qtawesome', 'fonts', 'fontawesome5-{style}-webfont.ttf')
+    CHARMAP_PATH_TEMPLATE = os.path.join(
+        HERE,
+        "qtawesome",
+        "fonts",
+        "fontawesome5-{style}-webfont-charmap-{version}.json",
+    )
+    TTF_PATH_TEMPLATE = os.path.join(
+        HERE,
+        "qtawesome",
+        "fonts",
+        "fontawesome5-{style}-webfont-{version}.ttf"
+    )
     URL_TEMPLATE = 'https://github.com/FortAwesome/Font-Awesome/' \
         'releases/download/{version}/fontawesome-free-{version}-web.zip'
 
@@ -108,11 +118,15 @@ class UpdateFA5Command(setuptools.Command):
 
     def __get_charmap_path(self, style):
         """Get the project FA charmap path for a given style."""
-        return self.CHARMAP_PATH_TEMPLATE.format(style=style)
+        return self.CHARMAP_PATH_TEMPLATE.format(
+            style=style, version=self.fa_version
+        )
 
     def __get_ttf_path(self, style):
         """Get the project FA font path for a given style."""
-        return self.TTF_PATH_TEMPLATE.format(style=style)
+        return self.TTF_PATH_TEMPLATE.format(
+            style=style, version=self.fa_version
+        )
 
     @property
     def __release_url(self):
@@ -218,7 +232,10 @@ class UpdateFA5Command(setuptools.Command):
         # We read it in full, then use regex substitution:
         for style, md5 in hashes.items():
             self.__print('New "%s" hash is: %s' % (style, md5))
-            regex = r"('fontawesome5-%s-webfont.ttf':\s+)'(\w+)'" % style
+            regex = r"('fontawesome5-%s-webfont-%s.ttf':\s+)'(\w+)'" % (
+                style,
+                self.fa_version
+            )
             subst = r"\g<1>'" + md5 + "'"
             contents = re.sub(regex, subst, contents, 1)
         # and finally overwrite with the modified file:
@@ -238,12 +255,16 @@ class UpdateCodiconCommand(setuptools.Command):
     description = 'Try to update the Codicon font data in the project.'
     user_options = []
 
-    CHARMAP_PATH = os.path.join(HERE, 'qtawesome', 'fonts', 'codicon-charmap.json')
-    TTF_PATH = os.path.join(HERE, 'qtawesome', 'fonts', 'codicon.ttf')
-    DOWNLOAD_URL_TTF = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/master/dist/codicon.ttf'
-    DOWNLOAD_URL_CSV = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/master/dist/codicon.csv'
+    CHARMAP_PATH = os.path.join(
+        HERE, "qtawesome", "fonts", "codicon-charmap-{version}.json"
+    )
+    TTF_PATH = os.path.join(
+        HERE, "qtawesome", "fonts", "codicon-{version}.ttf"
+    )
+    DOWNLOAD_URL_TTF = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/main/dist/codicon.ttf'
+    DOWNLOAD_URL_CSV = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/main/dist/codicon.csv'
     # At the time of writing this comment, vscode-codicons repo does not use git tags, but you can get the version from package.json:
-    DOWNLOAD_URL_JSON = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/master/package.json'
+    DOWNLOAD_URL_JSON = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/main/package.json'
 
     def initialize_options(self):
         """Required by setuptools."""
@@ -283,13 +304,17 @@ class UpdateCodiconCommand(setuptools.Command):
         os.remove(tempCSV.name)
 
         # Dump a .json charmap file the way we like it:
-        self.__print('Dumping updated charmap: %s' % self.CHARMAP_PATH)
-        with open(self.CHARMAP_PATH, 'w+') as f:
+        charmap_path = self.CHARMAP_PATH.format(version=package_version)
+        self.__print('Dumping updated charmap: %s' % charmap_path)
+        with open(charmap_path, 'w+') as f:
             json.dump(charmap, f, indent=4, sort_keys=True)
 
         # Dump a .ttf font file:
-        with open(self.TTF_PATH, 'wb+') as ttfFile:
-            self.__print('Downloading %s --> %s' % (self.DOWNLOAD_URL_TTF, self.TTF_PATH))
+        ttf_path = self.TTF_PATH.format(version=package_version)
+        with open(ttf_path, 'wb+') as ttfFile:
+            self.__print(
+                "Downloading %s --> %s" % (self.DOWNLOAD_URL_TTF, ttf_path)
+            )
             response = urlopen(self.DOWNLOAD_URL_TTF)
             data = response.read()
             ttfFile.write(data)
@@ -300,7 +325,7 @@ class UpdateCodiconCommand(setuptools.Command):
         self.__print('Patching new MD5 hashes in: %s' % INIT_PY_PATH)
         with open(INIT_PY_PATH, 'r') as init_file:
             contents = init_file.read()
-        regex = r"('codicon.ttf':\s+)'(\w+)'"
+        regex = r"('codicon-%s.ttf':\s+)'(\w+)'" % package_version
         subst = r"\g<1>'" + md5 + "'"
         contents = re.sub(regex, subst, contents, 1)
         self.__print('Dumping updated file: %s' % INIT_PY_PATH)

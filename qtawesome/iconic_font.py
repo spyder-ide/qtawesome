@@ -15,7 +15,6 @@ methods returning instances of ``QIcon``.
 
 # Standard library imports
 import ctypes
-import filecmp
 import json
 import os
 import shutil
@@ -611,27 +610,33 @@ class IconicFont(QObject):
 
         # Setup bundled fonts on the LOCALAPPDATA fonts directory
         for root, __, files in os.walk(fonts_directory):
-            for name in files:
-                src_path = os.path.join(root, name)
+            for filename in files:
+                src_path = os.path.join(root, filename)
+                dst_filename = filename
                 dst_path = os.path.join(
                     user_fonts_dir,
-                    os.path.basename(src_path))
+                    dst_filename
+                )
 
-                # Check if font already exists and copy font
-                if os.path.isfile(dst_path) and filecmp.cmp(src_path, dst_path):
+                # Check if font already exists and proceed with copy font
+                # process if needed or skip it
+                if os.path.isfile(dst_path):
                     continue
-                shutil.copy(src_path, user_fonts_dir)
+                shutil.copy(src_path, dst_path)
 
                 # Further process the font file (`.ttf`)
-                if os.path.splitext(name)[-1] == '.ttf':
+                if os.path.splitext(filename)[-1] == '.ttf':
                     # Load the font in the current session
                     if not gdi32.AddFontResourceW(dst_path):
-                        os.remove(dst_path)
-                        raise WindowsError(
-                            f'AddFontResource failed to load "{src_path}"')
+                        try:
+                            os.remove(dst_path)
+                        except OSError:
+                            # Possible permission error when trying to remove
+                            # a font which potentially is already in use
+                            # See spyder-ide/qtawesome#236
+                            continue
 
                     # Store the fontname/filename in the registry
-                    filename = os.path.basename(dst_path)
                     fontname = os.path.splitext(filename)[0]
 
                     # Try to get the font's real name
