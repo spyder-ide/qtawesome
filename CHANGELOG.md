@@ -1,5 +1,27 @@
 # History of changes
 
+## Version 1.3.1 (2024-03-27)
+
+### Issues Closed
+
+* [Issue 258](https://github.com/spyder-ide/qtawesome/issues/258) - Release QtAwesome 1.3.1
+* [Issue 252](https://github.com/spyder-ide/qtawesome/issues/252) - Improve Codicons update command ([PR 259](https://github.com/spyder-ide/qtawesome/pull/259) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 236](https://github.com/spyder-ide/qtawesome/issues/236) - PermissionError: [WinError 5] Access is denied ([PR 257](https://github.com/spyder-ide/qtawesome/pull/257) by [@dalthviz](https://github.com/dalthviz))
+
+In this release 3 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 259](https://github.com/spyder-ide/qtawesome/pull/259) - PR: Update Codicons update command and assets, by [@dalthviz](https://github.com/dalthviz) ([252](https://github.com/spyder-ide/qtawesome/issues/252))
+* [PR 257](https://github.com/spyder-ide/qtawesome/pull/257) - PR: Add version to fonts assets, some error handling for Windows font installation logic and keep up to date update scripts/commands, by [@dalthviz](https://github.com/dalthviz) ([236](https://github.com/spyder-ide/qtawesome/issues/236))
+* [PR 255](https://github.com/spyder-ide/qtawesome/pull/255) - PR: Use GitHub raw content URL to display `README` images over package PyPI landing page, by [@dalthviz](https://github.com/dalthviz)
+
+In this release 3 pull requests were closed.
+
+
+----
+
+
 ## Version 1.3.0 (2023-12-11)
 
 ### Issues Closed
