@@ -32,7 +32,7 @@ The following prefixes are currently available to use:
 
 - ``ri`` prefix holds `Remix Icon 2.5.0 with its 2271 icons.`_
 
--  ``msc`` prefix holds Microsoft's `Codicons 0.0.35 with its 446 icons.`_
+-  ``msc`` prefix holds Microsoft's `Codicons 0.0.35 with its 540 icons.`_
 
 .. _FontAwesome: https://fontawesome.com
 .. _151 icons in the "regular" style.: https://fontawesome.com/v5/search?o=r&m=free&s=regular
