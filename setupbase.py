@@ -268,7 +268,9 @@ class UpdateCodiconCommand(setuptools.Command):
 
     def finalize_options(self):
         """Validate the command options."""
-        assert bool(self.msc_version), 'Codicons version is mandatory for this command.'
+        assert bool(
+            self.msc_version
+        ), 'Codicons version is mandatory for this command.'
 
     def __print(self, msg):
         """Shortcut for printing with the setuptools logger."""
@@ -278,15 +280,25 @@ class UpdateCodiconCommand(setuptools.Command):
         """Run command."""
 
         # Download .json to a temporary path:
-        download_url_json = self.DOWNLOAD_URL_JSON.format(version=self.msc_version)
+        download_url_json = self.DOWNLOAD_URL_JSON.format(
+            version=self.msc_version
+        )
         package_json = urlopen(download_url_json)
         package_info = json.load(package_json)
         package_version = package_info['version']
-        assert self.msc_version == package_version, 'Codicons version does not match with `package.json` info. %s and %s' % (self.msc_version, package_version)
+        assert self.msc_version == package_version, (
+            "Codicons version does not match with `package.json` info. %s and %s"
+            % (
+                self.msc_version,
+                package_version,
+            )
+        )
         self.__print('Will download codicons version: %s' % package_version)
 
         # Download .css:
-        donwload_url_css = self.DOWNLOAD_URL_CSS.format(version=self.msc_version)
+        donwload_url_css = self.DOWNLOAD_URL_CSS.format(
+            version=self.msc_version
+        )
         req = urlopen(donwload_url_css)
         if req.status != 200:
             raise Exception('Failed to download CSS Charmap')
@@ -311,7 +323,9 @@ class UpdateCodiconCommand(setuptools.Command):
             json.dump(charmap, f, indent=4, sort_keys=True)
 
         # Dump a .ttf font file:
-        download_url_ttf = self.DOWNLOAD_URL_TTF.format(version=self.msc_version)
+        download_url_ttf = self.DOWNLOAD_URL_TTF.format(
+            version=self.msc_version
+        )
         ttf_path = self.TTF_PATH.format(version=package_version)
         with open(ttf_path, 'wb+') as ttfFile:
             self.__print(
