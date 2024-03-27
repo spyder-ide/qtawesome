@@ -71,7 +71,7 @@ The following prefixes are currently available to use:
 
 - `ri` prefix holds [**Remix Icon** 2.5.0 with its 2271 icons.](https://github.com/Remix-Design/RemixIcon)
 
-- `msc` prefix holds Microsoft's [**Codicons** 0.0.35 with its 446 icons.](https://github.com/microsoft/vscode-codicons)
+- `msc` prefix holds Microsoft's [**Codicons** 0.0.35 with its 540 icons.](https://github.com/microsoft/vscode-codicons)
 
 ### Examples
 

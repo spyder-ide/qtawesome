@@ -3,12 +3,9 @@ import os
 import re
 import io
 import sys
-import csv
 import json
-import shutil
 import hashlib
 import zipfile
-import tempfile
 
 try:
     from fontTools import ttLib
@@ -253,7 +250,7 @@ class UpdateFA5Command(setuptools.Command):
 class UpdateCodiconCommand(setuptools.Command):
     """A custom command to make updating Microsoft's Codicons easy!"""
     description = 'Try to update the Codicon font data in the project.'
-    user_options = []
+    user_options = [('msc-version=', None, 'Codicon version.')]
 
     CHARMAP_PATH = os.path.join(
         HERE, "qtawesome", "fonts", "codicon-charmap-{version}.json"
@@ -261,16 +258,19 @@ class UpdateCodiconCommand(setuptools.Command):
     TTF_PATH = os.path.join(
         HERE, "qtawesome", "fonts", "codicon-{version}.ttf"
     )
-    DOWNLOAD_URL_TTF = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/main/dist/codicon.ttf'
-    DOWNLOAD_URL_CSV = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/main/dist/codicon.csv'
-    # At the time of writing this comment, vscode-codicons repo does not use git tags, but you can get the version from package.json:
-    DOWNLOAD_URL_JSON = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/main/package.json'
+    DOWNLOAD_URL_TTF = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/{version}/dist/codicon.ttf'
+    DOWNLOAD_URL_CSS = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/{version}/dist/codicon.css'
+    DOWNLOAD_URL_JSON = 'https://raw.githubusercontent.com/microsoft/vscode-codicons/{version}/package.json'
 
     def initialize_options(self):
-        """Required by setuptools."""
+        """Set default values for the command options."""
+        self.msc_version = ''
 
     def finalize_options(self):
-        """Required by setuptools."""
+        """Validate the command options."""
+        assert bool(
+            self.msc_version
+        ), 'Codicons version is mandatory for this command.'
 
     def __print(self, msg):
         """Shortcut for printing with the setuptools logger."""
@@ -279,29 +279,42 @@ class UpdateCodiconCommand(setuptools.Command):
     def run(self):
         """Run command."""
 
-        # Download .csv to a temporary path:
-        package_json = urlopen(self.DOWNLOAD_URL_JSON)
+        # Download .json to a temporary path:
+        download_url_json = self.DOWNLOAD_URL_JSON.format(
+            version=self.msc_version
+        )
+        package_json = urlopen(download_url_json)
         package_info = json.load(package_json)
         package_version = package_info['version']
+        assert self.msc_version == package_version, (
+            "Codicons version does not match with `package.json` info. %s and %s"
+            % (
+                self.msc_version,
+                package_version,
+            )
+        )
         self.__print('Will download codicons version: %s' % package_version)
 
-        # Download .csv to a temporary path:
-        with tempfile.NamedTemporaryFile(mode='wb+', suffix='.csv', prefix='codicon', delete=False) as tempCSV:
-            self.__print('Downloading: %s' % self.DOWNLOAD_URL_CSV)
-            response = urlopen(self.DOWNLOAD_URL_CSV)
-            shutil.copyfileobj(response, tempCSV)
+        # Download .css:
+        donwload_url_css = self.DOWNLOAD_URL_CSS.format(
+            version=self.msc_version
+        )
+        req = urlopen(donwload_url_css)
+        if req.status != 200:
+            raise Exception('Failed to download CSS Charmap')
 
-        # Interpret the codicon.csv file:
+        rawcss = req.read().decode()
+        req.close()
+
+        # Interpret the codicon.css file:
         charmap = {}
-        with open(tempCSV.name, 'r', encoding='utf-8') as tempCSV:
-            reader = csv.DictReader(tempCSV)
-            for row in reader:
-                code = "0x" + row['unicode'].lower()
-                charmap[row['short_name']] = code
-        self.__print('Identified %s icons in the CSV.' % len(charmap))
-
-        # Remove temp file:
-        os.remove(tempCSV.name)
+        pattern = '^\.codicon-(.+):before {\s*content: "(.+)"\s*}$'
+        data = re.findall(pattern, rawcss, re.MULTILINE)
+        for name, key in data:
+            key = key.replace('\\', '0x')
+            name = name.lower()
+            charmap[name] = key
+        self.__print('Identified %s icons in the CSS.' % len(charmap))
 
         # Dump a .json charmap file the way we like it:
         charmap_path = self.CHARMAP_PATH.format(version=package_version)
@@ -310,12 +323,15 @@ class UpdateCodiconCommand(setuptools.Command):
             json.dump(charmap, f, indent=4, sort_keys=True)
 
         # Dump a .ttf font file:
+        download_url_ttf = self.DOWNLOAD_URL_TTF.format(
+            version=self.msc_version
+        )
         ttf_path = self.TTF_PATH.format(version=package_version)
         with open(ttf_path, 'wb+') as ttfFile:
             self.__print(
-                "Downloading %s --> %s" % (self.DOWNLOAD_URL_TTF, ttf_path)
+                "Downloading %s --> %s" % (download_url_ttf, ttf_path)
             )
-            response = urlopen(self.DOWNLOAD_URL_TTF)
+            response = urlopen(download_url_ttf)
             data = response.read()
             ttfFile.write(data)
             md5 = hashlib.md5(data).hexdigest()
@@ -325,7 +341,7 @@ class UpdateCodiconCommand(setuptools.Command):
         self.__print('Patching new MD5 hashes in: %s' % INIT_PY_PATH)
         with open(INIT_PY_PATH, 'r') as init_file:
             contents = init_file.read()
-        regex = r"('codicon-%s.ttf':\s+)'(\w+)'" % package_version
+        regex = r"('codicon-%s.ttf':\s+)'(\w+)'" % self.msc_version
         subst = r"\g<1>'" + md5 + "'"
         contents = re.sub(regex, subst, contents, 1)
         self.__print('Dumping updated file: %s' % INIT_PY_PATH)

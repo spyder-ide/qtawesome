@@ -236,7 +236,7 @@ To update _Codicons_ icons, one must:
 - check what is the latest released version here: https://github.com/microsoft/vscode-codicons/releases
 - update font version in \_\_init__.py
 - remove outdated files in the fonts dir
-- run: `python setup.py update_msc`
+- run: `python setup.py update_msc --msc-version X.X.X`
 - update Codicons version number, icon counts and URLs inside:
   - README.md
   - qtawesome/docs/source/usage.rst
