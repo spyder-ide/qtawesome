@@ -25,6 +25,7 @@ SOFTWARE.
 """
 
 from qtpy.QtGui import QPalette, QColor
+from qtpy.QtWidgets import QStyleFactory
 
 # Constant to reference default themes
 DEFAULT_DARK_PALETTE = 'Dark'
@@ -76,7 +77,7 @@ def dark(app):
     app.style().unpolish(app)
     app.setPalette(dark_palette)
 
-    app.setStyle('Fusion')
+    app.setStyle(QStyleFactory.create('Fusion'))
 
 
 def light(app):
@@ -124,4 +125,4 @@ def light(app):
     app.style().unpolish(app)
     app.setPalette(light_palette)
 
-    app.setStyle('Fusion')
+    app.setStyle(QStyleFactory.create('Fusion'))
