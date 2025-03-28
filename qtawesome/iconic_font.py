@@ -19,7 +19,6 @@ import json
 import os
 import platform
 import shutil
-import subprocess
 import warnings
 
 # Third party imports
@@ -681,14 +680,14 @@ class IconicFont(QObject):
         Based on https://stackoverflow.com/a/41841088/15954282 and
         https://superuser.com/a/1663482
         """
-        isWSL = (platform.system() == "Linux" and 
-                 "microsoft" in platform.release().lower())
+        isWSL = (
+            platform.system() == "Linux" and "microsoft" in platform.release().lower()
+        )
 
-        if (os.name != "nt" and not (isWSL)):
+        if os.name != "nt" and not (isWSL):
             return fonts_directory
 
         if os.name == "nt":
-
             # Try to get WINDIR and LOCALAPPDATA path
             windows_dir = os.environ.get("WINDIR", None)
             if not windows_dir and system_wide:
@@ -711,7 +710,7 @@ class IconicFont(QObject):
             else:
                 install_fonts_dir = user_fonts_dir
 
-        if (isWSL):
+        if isWSL:
             install_fonts_dir = "/mnt/c/Windows/Fonts"
             if not os.path.exists(install_fonts_dir):
                 os.makedirs(install_fonts_dir, exist_ok=True)
