@@ -17,7 +17,9 @@ methods returning instances of ``QIcon``.
 import ctypes
 import json
 import os
+import platform
 import shutil
+import subprocess
 import warnings
 
 # Third party imports
@@ -679,27 +681,40 @@ class IconicFont(QObject):
         Based on https://stackoverflow.com/a/41841088/15954282 and
         https://superuser.com/a/1663482
         """
-        if os.name != "nt":
+        isWSL = (platform.system() == "Linux" and 
+                 "microsoft" in platform.release().lower())
+
+        if (os.name != "nt" and not (isWSL)):
             return fonts_directory
 
-        # Try to get WINDIR and LOCALAPPDATA path
-        windows_dir = os.environ.get("WINDIR", None)
-        if not windows_dir and system_wide:
-            return fonts_directory
+        if os.name == "nt":
 
-        local_appdata_dir = os.environ.get("LOCALAPPDATA", None)
-        if not local_appdata_dir and not system_wide:
-            return fonts_directory
+            # Try to get WINDIR and LOCALAPPDATA path
+            windows_dir = os.environ.get("WINDIR", None)
+            if not windows_dir and system_wide:
+                return fonts_directory
 
-        # Construct path to fonts from WINDIR or LOCALAPPDATA
-        system_fonts_dir = os.path.join(windows_dir, "Fonts")
+            local_appdata_dir = os.environ.get("LOCALAPPDATA", None)
+            if not local_appdata_dir and not system_wide:
+                return fonts_directory
 
-        user_fonts_dir = os.path.join(
-            local_appdata_dir, "Microsoft", "Windows", "Fonts"
-        )
-        os.makedirs(user_fonts_dir, exist_ok=True)
+            # Construct path to fonts from WINDIR or LOCALAPPDATA
+            system_fonts_dir = os.path.join(windows_dir, "Fonts")
 
-        install_fonts_dir = system_fonts_dir if system_wide else user_fonts_dir
+            user_fonts_dir = os.path.join(
+                local_appdata_dir, "Microsoft", "Windows", "Fonts"
+            )
+            os.makedirs(user_fonts_dir, exist_ok=True)
+
+            if system_wide:
+                install_fonts_dir = system_fonts_dir
+            else:
+                install_fonts_dir = user_fonts_dir
+
+        if (isWSL):
+            install_fonts_dir = "/mnt/c/Windows/Fonts"
+            if not os.path.exists(install_fonts_dir):
+                os.makedirs(install_fonts_dir, exist_ok=True)
 
         # Setup bundled fonts on the WINDIR or LOCALAPPDATA fonts directory
         for root, __, files in os.walk(fonts_directory):
@@ -714,6 +729,9 @@ class IconicFont(QObject):
                     continue
 
                 shutil.copy(src_path, dst_path)
+
+                if isWSL:
+                    continue
 
                 # Further process the font file (`.ttf`)
                 if os.path.splitext(filename)[-1] == ".ttf":
