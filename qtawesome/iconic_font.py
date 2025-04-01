@@ -691,7 +691,7 @@ class IconicFont(QObject):
         windows_dir = os.environ.get("WINDIR", None)
         local_appdata_dir = os.environ.get("LOCALAPPDATA", None)
 
-        if (isWSL):
+        if isWSL:
             if windows_dir:
                 windows_dir = windows_dir.replace("\\", "/")
                 drive, path = windows_dir.split(":", 1)
@@ -701,10 +701,9 @@ class IconicFont(QObject):
                 drive, path = local_appdata_dir.split(":", 1)
                 local_appdata_dir = f"/mnt/{drive.lower()}{path}"
 
-
         if not windows_dir and system_wide:
             return fonts_directory
-        
+
         if not local_appdata_dir and not system_wide:
             return fonts_directory
 
