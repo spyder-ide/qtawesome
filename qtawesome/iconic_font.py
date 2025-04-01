@@ -687,34 +687,39 @@ class IconicFont(QObject):
         if (os.name != "nt" and not (isWSL)):
             return fonts_directory
 
-        if os.name == "nt":
-
-            # Try to get WINDIR and LOCALAPPDATA path
-            windows_dir = os.environ.get("WINDIR", None)
-            if not windows_dir and system_wide:
-                return fonts_directory
-
-            local_appdata_dir = os.environ.get("LOCALAPPDATA", None)
-            if not local_appdata_dir and not system_wide:
-                return fonts_directory
-
-            # Construct path to fonts from WINDIR or LOCALAPPDATA
-            system_fonts_dir = os.path.join(windows_dir, "Fonts")
-
-            user_fonts_dir = os.path.join(
-                local_appdata_dir, "Microsoft", "Windows", "Fonts"
-            )
-            os.makedirs(user_fonts_dir, exist_ok=True)
-
-            if system_wide:
-                install_fonts_dir = system_fonts_dir
-            else:
-                install_fonts_dir = user_fonts_dir
+        # Try to get WINDIR and LOCALAPPDATA path
+        windows_dir = os.environ.get("WINDIR", None)
+        local_appdata_dir = os.environ.get("LOCALAPPDATA", None)
 
         if (isWSL):
-            install_fonts_dir = "/mnt/c/Windows/Fonts"
-            if not os.path.exists(install_fonts_dir):
-                os.makedirs(install_fonts_dir, exist_ok=True)
+            if windows_dir:
+                windows_dir = windows_dir.replace("\\", "/")
+                drive, path = windows_dir.split(":", 1)
+                windows_dir = f"/mnt/{drive.lower()}{path}"
+            if local_appdata_dir:
+                local_appdata_dir = local_appdata_dir.replace("\\", "/")
+                drive, path = local_appdata_dir.split(":", 1)
+                local_appdata_dir = f"/mnt/{drive.lower()}{path}"
+
+
+        if not windows_dir and system_wide:
+            return fonts_directory
+        
+        if not local_appdata_dir and not system_wide:
+            return fonts_directory
+
+        # Construct path to fonts from WINDIR or LOCALAPPDATA
+        system_fonts_dir = os.path.join(windows_dir, "Fonts")
+
+        user_fonts_dir = os.path.join(
+            local_appdata_dir, "Microsoft", "Windows", "Fonts"
+        )
+        os.makedirs(user_fonts_dir, exist_ok=True)
+
+        if system_wide:
+            install_fonts_dir = system_fonts_dir
+        else:
+            install_fonts_dir = user_fonts_dir
 
         # Setup bundled fonts on the WINDIR or LOCALAPPDATA fonts directory
         for root, __, files in os.walk(fonts_directory):
