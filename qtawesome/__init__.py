@@ -132,7 +132,7 @@ def has_valid_font_ids(inst):
     return True
 
 
-def _instance():
+def _instance(**kwargs):
     """
     Return the singleton instance of IconicFont.
 
@@ -155,7 +155,9 @@ def _instance():
                     os.path.dirname(os.path.realpath(__file__)), "fonts", ttf_filename
                 )
                 with open(ttf_filepath, "rb") as f:
-                    ttf_calculated_hash_code = hashlib.md5(f.read()).hexdigest()
+                    ttf_calculated_hash_code = hashlib.md5(
+                        f.read(), usedforsecurity=kwargs.get("used_for_security", True)
+                    ).hexdigest()
                 if ttf_calculated_hash_code != ttf_hash:
                     raise FontError(f"Font is corrupt at: '{ttf_filepath}'")
 
@@ -265,10 +267,10 @@ def icon(*names, **kwargs):
     the glyph specified for the ``Normal`` mode will be used.
 
     """
-    return _instance().icon(*names, **kwargs)
+    return _instance(**kwargs).icon(*names, **kwargs)
 
 
-def load_font(prefix, ttf_filename, charmap_filename, directory=None):
+def load_font(prefix, ttf_filename, charmap_filename, directory=None, **kwargs):
     """
     Loads a font file and the associated charmap.
 
@@ -311,10 +313,10 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
         )
 
     """
-    return _instance().load_font(prefix, ttf_filename, charmap_filename, directory)
+    return _instance(**kwargs).load_font(prefix, ttf_filename, charmap_filename, directory)
 
 
-def charmap(prefixed_name):
+def charmap(prefixed_name, **kwargs):
     """
     Return the character map used for a given font.
 
@@ -325,10 +327,10 @@ def charmap(prefixed_name):
 
     """
     prefix, name = prefixed_name.split(".")
-    return _instance().charmap[prefix][name]
+    return _instance(**kwargs).charmap[prefix][name]
 
 
-def font(prefix, size):
+def font(prefix, size, **kwargs):
     """
     Return the font corresponding to the specified prefix.
 
@@ -348,7 +350,7 @@ def font(prefix, size):
         size for the font
 
     """
-    return _instance().font(prefix, size)
+    return _instance(**kwargs).font(prefix, size)
 
 
 def set_defaults(**kwargs):
