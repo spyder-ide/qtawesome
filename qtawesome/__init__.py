@@ -156,7 +156,7 @@ def _instance(**kwargs):
                 )
                 with open(ttf_filepath, "rb") as f:
                     ttf_calculated_hash_code = hashlib.md5(
-                        f.read(), usedforsecurity=kwargs.get("used_for_security", True)
+                        f.read(), usedforsecurity=kwargs.get("usedforsecurity", True)
                     ).hexdigest()
                 if ttf_calculated_hash_code != ttf_hash:
                     raise FontError(f"Font is corrupt at: '{ttf_filepath}'")
