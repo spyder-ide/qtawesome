@@ -4,5 +4,5 @@ dependencies:
 - pyside2>=5.15
 - pytest
 - pytest-cov
-- pytest-qt
+- pytest-qt<4.5.0
 - qtpy<2.0.0

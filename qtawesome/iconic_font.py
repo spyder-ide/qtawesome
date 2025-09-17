@@ -596,7 +596,16 @@ class IconicFont(QObject):
             def clear_cache():
                 cache.pop(tid)
 
-            QThread().currentThread().finished.connect(clear_cache)
+            # Do not clear cache for the main app thread.
+            # When it terminates, the app is over anyway.
+            # The OS takes care of the memory.
+            # Otherwise, this causes crash at the end of the `app.exec()`
+            # in Qt 6.8.2 to 6.9.0.
+            # See spyder-ide/qtawesome#280.
+            # For newer Qt (6.8+ or so), the condition below could be
+            # `QThread.isMainThread()`.
+            if QThread.currentThread() is not QApplication.instance().thread():
+                QThread.currentThread().finished.connect(clear_cache)
         key = prefix, size, hintingPreference
         if key not in cache[tid]:
             cache[tid][key] = QRawFont(self.fontdata[prefix], size, hintingPreference)

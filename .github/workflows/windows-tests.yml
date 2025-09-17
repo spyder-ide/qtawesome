@@ -9,8 +9,8 @@ on:
     - master
 
 jobs:
-  windows:
-    name: Windows Py${{ matrix.PYTHON_VERSION }} - ${{ matrix.QT_BINDING }}
+  windows-qt5:
+    name: Windows Py${{ matrix.PYTHON_VERSION }} - ${{ matrix.QT_BINDING }} - ${{ matrix.QT_BINDING_VERSION }}
     timeout-minutes: 15
     runs-on: windows-latest
     env:
@@ -23,6 +23,8 @@ jobs:
       matrix:
         PYTHON_VERSION: ['3.7', '3.10']
         QT_BINDING: ['pyqt5', 'pyside2']
+        include:
+          - QT_BINDING_VERSION: 'latest'
     steps:
       - name: Checkout branch
         uses: actions/checkout@v1
@@ -31,13 +33,14 @@ jobs:
         with:
            activate-environment: test
            auto-update-conda: false
-           auto-activate-base: false
+           auto-activate: false
            python-version: ${{ matrix.PYTHON_VERSION }}
            channels: conda-forge
            channel-priority: strict
+           conda-remove-defaults: true
       - name: Install package dependencies
         shell: bash -l {0}
-        run: conda env update --file requirements/environment_tests_${{ matrix.QT_BINDING }}.yml
+        run: conda env update --file requirements/environment_tests_${{ matrix.QT_BINDING }}_${{ matrix.QT_BINDING_VERSION }}.yml
       - name: Install Package
         shell: bash -l {0}
         run: pip install -e .
@@ -59,3 +62,55 @@ jobs:
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
+  windows-qt6:
+    name: Windows Py${{ matrix.PYTHON_VERSION }} - ${{ matrix.QT_BINDING }} - ${{ matrix.QT_BINDING_VERSION }}
+    timeout-minutes: 15
+    runs-on: windows-latest
+    env:
+      CI: True
+      QT_API:  ${{ matrix.QT_BINDING }}
+      PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
+      RUNNER_OS: 'windows'
+    strategy:
+      fail-fast: false
+      matrix:
+        PYTHON_VERSION: ['3.9', '3.13']
+        QT_BINDING: ['pyqt6', 'pyside6']
+        include:
+          - QT_BINDING_VERSION: 'latest'
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v1
+      - name: Install Conda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+           activate-environment: test
+           auto-update-conda: false
+           auto-activate: false
+           python-version: ${{ matrix.PYTHON_VERSION }}
+           channels: conda-forge
+           channel-priority: strict
+           conda-remove-defaults: true
+      - name: Install package dependencies
+        shell: bash -l {0}
+        run: conda env update --file requirements/environment_tests_${{ matrix.QT_BINDING }}_${{ matrix.QT_BINDING_VERSION }}.yml
+      - name: Install Package
+        shell: bash -l {0}
+        run: pip install -e .
+      - name: Show environment information
+        shell: bash -l {0}
+        run: |
+          conda info
+          conda list
+      - name: Run tests
+        shell: bash -l {0}
+        run: |
+          python example.py
+          pytest -x -vv --cov-report xml --cov=qtawesome qtawesome
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: true
+          verbose: true
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

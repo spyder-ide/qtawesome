@@ -140,5 +140,38 @@ def test_font_load_from_system_fonts(monkeypatch):
         qta._instance()
 
 
+def test_the_app_exits_gracefully_after_drawing_a_path():
+    """
+    Test that the app finishes gracefully when the `draw` parameter is `path`.
+
+    See spyder-ide/qtawesome#280
+
+    Notes
+    -----
+    * This `draw="path"` mode causes the icon to be drawn via `QRawFont`.
+      The font is cached for every `QThread`.
+      The cache is cleared when the current thread is over.
+      If the thread is the main one, this may cause a segfault when the app ends.
+    * The issue does not crash the app immediately,
+      but causes a segfault at the end only.
+      So, we start a new app for it to end within the test.
+    """
+    ret_code = subprocess.call(
+        [
+            sys.executable,
+            "-c",
+            ";".join(
+                (
+                    "from qtpy.QtWidgets import QApplication",
+                    "from qtawesome import IconWidget",
+                    "app = QApplication([])",
+                    "IconWidget('fa5s.egg', draw='path')",
+                )
+            ),
+        ],
+    )
+    assert ret_code == 0
+
+
 if __name__ == "__main__":
     pytest.main()
