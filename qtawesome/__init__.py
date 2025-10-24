@@ -38,6 +38,11 @@ from .animation import (
     Shake as Shake,
     Spin as Spin,
     Swing as Swing,
+    # Utility functions for custom animations (prefix with _ to indicate internal/advanced)
+    _sine_wave_value as _sine_wave_value,
+    _cosine_wave_value as _cosine_wave_value,
+    _get_cycle_position as _get_cycle_position,
+    _elastic_ease_out as _elastic_ease_out,
 )
 from .iconic_font import IconicFont, set_global_defaults, FontError
 from .iconic_font import SYSTEM_FONTS as _SYSTEM_FONTS

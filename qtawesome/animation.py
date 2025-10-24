@@ -3,6 +3,79 @@ from qtpy.QtCore import QTimer
 from qtpy.QtGui import QColor
 
 
+# Utility functions for common animation patterns
+def _sine_wave_value(elapsed, period, min_val, max_val):
+    """Map elapsed time to sine wave value between min and max.
+
+    Args:
+        elapsed: Elapsed time in milliseconds
+        period: Period of one complete sine wave cycle in milliseconds
+        min_val: Minimum value (at sine wave minimum)
+        max_val: Maximum value (at sine wave maximum)
+
+    Returns:
+        Value between min_val and max_val based on sine wave
+    """
+    angle = (elapsed % period) / period * 2 * math.pi
+    sine = math.sin(angle)
+    value_range = max_val - min_val
+    return min_val + (sine + 1) / 2 * value_range
+
+
+def _cosine_wave_value(elapsed, period, min_val, max_val):
+    """Map elapsed time to cosine wave value between min and max.
+
+    Similar to sine but starts at maximum value.
+
+    Args:
+        elapsed: Elapsed time in milliseconds
+        period: Period of one complete cosine wave cycle in milliseconds
+        min_val: Minimum value (at cosine wave minimum)
+        max_val: Maximum value (at cosine wave maximum)
+
+    Returns:
+        Value between min_val and max_val based on cosine wave
+    """
+    angle = (elapsed % period) / period * 2 * math.pi
+    cosine = math.cos(angle)
+    value_range = max_val - min_val
+    return min_val + (cosine + 1) / 2 * value_range
+
+
+def _get_cycle_position(elapsed, period):
+    """Get normalized position in current cycle.
+
+    Args:
+        elapsed: Elapsed time in milliseconds
+        period: Period of one complete cycle in milliseconds
+
+    Returns:
+        Float between 0.0 and 1.0 representing position in cycle
+    """
+    return (elapsed % period) / period
+
+
+def _elastic_ease_out(t, amplitude=1.0, period_factor=0.3):
+    """Elastic ease-out easing function.
+
+    Creates overshoot and bounce effect.
+
+    Args:
+        t: Progress value from 0.0 to 1.0
+        amplitude: Amplitude of the elastic effect (default: 1.0)
+        period_factor: Period factor for oscillation (default: 0.3)
+
+    Returns:
+        Eased value with elastic overshoot
+    """
+    if t == 0 or t == 1:
+        return t
+
+    p = period_factor
+    s = p / 4
+    return amplitude * math.pow(2, -10 * t) * math.sin((t - s) * (2 * math.pi) / p) + 1
+
+
 class BaseAnimation:
     """Base class for all icon animations.
 
@@ -170,12 +243,7 @@ class Breathe(BaseAnimation):
 
     def _update_animation_state(self, elapsed, state):
         # Use sine wave for smooth breathing effect
-        # Map elapsed time to angle in sine wave (0 to 2π over period)
-        angle = (elapsed % self.period) / self.period * 2 * math.pi
-        # Map sine wave (-1 to 1) to scale range (min_scale to max_scale)
-        sine_value = math.sin(angle)
-        scale_range = self.max_scale - self.min_scale
-        state['scale'] = self.min_scale + (sine_value + 1) / 2 * scale_range
+        state['scale'] = _sine_wave_value(elapsed, self.period, self.min_scale, self.max_scale)
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         scale = state['scale']
@@ -214,10 +282,7 @@ class Fade(BaseAnimation):
 
     def _update_animation_state(self, elapsed, state):
         # Use sine wave for smooth fading effect
-        angle = (elapsed % self.period) / self.period * 2 * math.pi
-        sine_value = math.sin(angle)
-        opacity_range = self.max_opacity - self.min_opacity
-        state['opacity'] = self.min_opacity + (sine_value + 1) / 2 * opacity_range
+        state['opacity'] = _sine_wave_value(elapsed, self.period, self.min_opacity, self.max_opacity)
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         # Store the animation opacity per-widget in the icon_painter so it can be used
@@ -380,9 +445,7 @@ class Swing(BaseAnimation):
 
     def _update_animation_state(self, elapsed, state):
         # Use sine wave for smooth pendulum motion
-        cycle_pos = (elapsed % self.period) / self.period
-        # Sine wave oscillates between -1 and 1
-        state['angle'] = math.sin(cycle_pos * 2 * math.pi) * self.max_angle
+        state['angle'] = _sine_wave_value(elapsed, self.period, -self.max_angle, self.max_angle)
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         angle = state['angle']
@@ -419,22 +482,9 @@ class Elastic(BaseAnimation):
 
     def _update_animation_state(self, elapsed, state):
         # Elastic easing function with overshoot
-        cycle_pos = (elapsed % self.period) / self.period
-
-        if cycle_pos < 1.0:
-            # Elastic ease-out formula
-            # Creates overshoot and bounce effect
-            p = 0.3
-            s = p / 4
-            t = cycle_pos
-            if t == 0 or t == 1:
-                scale_progress = t
-            else:
-                scale_progress = math.pow(2, -10 * t) * math.sin((t - s) * (2 * math.pi) / p) + 1
-
-            state['scale'] = self.min_scale + (self.max_scale - self.min_scale) * scale_progress
-        else:
-            state['scale'] = self.max_scale
+        cycle_pos = _get_cycle_position(elapsed, self.period)
+        scale_progress = _elastic_ease_out(cycle_pos)
+        state['scale'] = self.min_scale + (self.max_scale - self.min_scale) * scale_progress
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         scale = state['scale']
