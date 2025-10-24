@@ -132,7 +132,7 @@ class AnimationTestWindow(QtWidgets.QWidget):
             "• Duration: Animations can have limited duration\n"
             "• Manual: Control animations with start/stop/reset"
         )
-        info.setStyleSheet("margin: 10px; padding: 10px; background-color: #f0f0f0; border-radius: 5px;")
+        info.setStyleSheet("margin: 10px; padding: 10px; background-color: #000000; border-radius: 5px;")
         layout.addWidget(info)
 
         self.setLayout(layout)

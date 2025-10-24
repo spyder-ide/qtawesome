@@ -172,7 +172,9 @@ class NewAnimationTestWindow(QtWidgets.QWidget):
             "  composite = qta.CompositeAnimation(widget, [anim1, anim2])\n"
             "  icon = qta.icon('fa5s.star', animation=composite)"
         )
-        info.setStyleSheet("margin: 10px; padding: 10px; background-color: #f0f0f0; border-radius: 5px; font-size: 11px;")
+        info.setStyleSheet(
+            "margin: 10px; padding: 10px; background-color: #000000; border-radius: 5px; font-size: 11px;"
+        )
         layout.addWidget(info)
 
         self.setLayout(layout)
