@@ -333,8 +333,8 @@ def test_elastic_animation_overshoot_behavior(test_widget, qtbot):
 def test_composite_animation_combines_effects(test_widget, qtbot):
     """Test that CompositeAnimation actually combines multiple animation effects."""
     # Create a composite with Spin + Breathe
-    anim1 = qta.Spin(test_widget, step=10, autostart=False)
-    anim2 = qta.Breathe(test_widget, min_scale=0.8, max_scale=1.2, autostart=False)
+    anim1 = qta.Spin(test_widget, step=10, autostart=False, )
+    anim2 = qta.Breathe(test_widget, min_scale=0.8, max_scale=1.2, autostart=False, )
     composite = qta.CompositeAnimation(test_widget, [anim1, anim2], interval=50)
     icon = qta.icon('fa5s.star', animation=composite)
     test_widget.setIcon(icon)
@@ -366,6 +366,7 @@ def test_composite_animation_combines_effects(test_widget, qtbot):
         assert angle2 != angle1  # Spin is rotating
         # Scale might be the same if sampled at same point in sine wave, so just check it's valid
         assert 0.8 <= scale2 <= 1.2
+        assert scale1 != scale2 
 
 
 def test_composite_animation_child_autostart_disabled(test_widget):
@@ -376,7 +377,7 @@ def test_composite_animation_child_autostart_disabled(test_widget):
     # Child animations should have autostart disabled by composite
     assert anim1.autostart is False
     assert anim2.autostart is False
-
+    assert composite.animations == [anim1, anim2]
 
 def test_animation_start_stop(test_widget, qtbot):
     """Test that animations can be started and stopped."""
@@ -739,7 +740,9 @@ def test_composite_animation_all_effects_active(test_widget, qtbot):
         assert angle2 != angle1  # Spin is rotating
         # Scale and opacity should be within bounds
         assert 0.8 <= scale2 <= 1.2
+        assert scale1 != scale2
         assert 0.5 <= opacity2 <= 1.0
+        assert opacity1 != opacity2
 
         # Also verify Fade opacity is in the painter
         iconic_font = qta._instance()
