@@ -48,7 +48,9 @@ class NewAnimationTestWindow(QtWidgets.QWidget):
         # Elastic animation
         elastic_button = QtWidgets.QPushButton("  Elastic")
         elastic_anim = qta.Elastic(elastic_button, min_scale=0.6, max_scale=1.0)
-        elastic_icon = qta.icon("fa5s.certificate", color="purple", animation=elastic_anim)
+        elastic_icon = qta.icon(
+            "fa5s.certificate", color="purple", animation=elastic_anim
+        )
         elastic_button.setIcon(elastic_icon)
         elastic_button.setIconSize(QtCore.QSize(32, 32))
         grid.addWidget(elastic_button, 1, 2)
@@ -61,7 +63,9 @@ class NewAnimationTestWindow(QtWidgets.QWidget):
         # Spin + Breathe
         spin_breathe_button = QtWidgets.QPushButton("  Spin + Breathe")
         anim1 = qta.Spin(spin_breathe_button, step=2, autostart=False)
-        anim2 = qta.Breathe(spin_breathe_button, min_scale=0.8, max_scale=1.2, autostart=False)
+        anim2 = qta.Breathe(
+            spin_breathe_button, min_scale=0.8, max_scale=1.2, autostart=False
+        )
         composite1 = qta.CompositeAnimation(spin_breathe_button, [anim1, anim2])
         composite1_icon = qta.icon("fa5s.star", color="orange", animation=composite1)
         spin_breathe_button.setIcon(composite1_icon)
@@ -80,8 +84,12 @@ class NewAnimationTestWindow(QtWidgets.QWidget):
 
         # Shake + ColorCycle
         shake_color_button = QtWidgets.QPushButton("  Shake + ColorCycle")
-        anim5 = qta.Shake(shake_color_button, amplitude_x=2, amplitude_y=2, autostart=False)
-        anim6 = qta.ColorCycle(shake_color_button, colors=['red', 'orange', 'yellow'], autostart=False)
+        anim5 = qta.Shake(
+            shake_color_button, amplitude_x=2, amplitude_y=2, autostart=False
+        )
+        anim6 = qta.ColorCycle(
+            shake_color_button, colors=["red", "orange", "yellow"], autostart=False
+        )
         composite3 = qta.CompositeAnimation(shake_color_button, [anim5, anim6])
         composite3_icon = qta.icon("fa5s.fire", animation=composite3)
         shake_color_button.setIcon(composite3_icon)
@@ -93,7 +101,9 @@ class NewAnimationTestWindow(QtWidgets.QWidget):
         anim7 = qta.HeartBeat(heartbeat_fade_button, max_scale=1.4, autostart=False)
         anim8 = qta.Fade(heartbeat_fade_button, min_opacity=0.4, autostart=False)
         composite4 = qta.CompositeAnimation(heartbeat_fade_button, [anim7, anim8])
-        composite4_icon = qta.icon("fa5s.heartbeat", color="crimson", animation=composite4)
+        composite4_icon = qta.icon(
+            "fa5s.heartbeat", color="crimson", animation=composite4
+        )
         heartbeat_fade_button.setIcon(composite4_icon)
         heartbeat_fade_button.setIconSize(QtCore.QSize(32, 32))
         grid.addWidget(heartbeat_fade_button, 4, 0)
@@ -110,7 +120,9 @@ class NewAnimationTestWindow(QtWidgets.QWidget):
 
         # Triple combo: Breathe + Swing + Fade
         triple_button = QtWidgets.QPushButton("  Breathe + Swing + Fade")
-        anim11 = qta.Breathe(triple_button, min_scale=0.9, max_scale=1.1, autostart=False)
+        anim11 = qta.Breathe(
+            triple_button, min_scale=0.9, max_scale=1.1, autostart=False
+        )
         anim12 = qta.Swing(triple_button, angle=15, autostart=False)
         anim13 = qta.Fade(triple_button, min_opacity=0.5, autostart=False)
         composite6 = qta.CompositeAnimation(triple_button, [anim11, anim12, anim13])

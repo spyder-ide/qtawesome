@@ -9,7 +9,7 @@ import sys
 import time
 from pathlib import Path
 
-from qtpy import QtWidgets, QtCore, QtGui
+from qtpy import QtWidgets, QtCore
 
 try:
     from PIL import Image
@@ -75,11 +75,7 @@ class AnimationRecorder:
         qimage = pixmap.toImage()
         buffer = qimage.bits().asstring(qimage.sizeInBytes())
         img = Image.frombytes(
-            "RGBA",
-            (qimage.width(), qimage.height()),
-            buffer,
-            "raw",
-            "BGRA"
+            "RGBA", (qimage.width(), qimage.height()), buffer, "raw", "BGRA"
         )
 
         # Convert RGBA to RGB (GIF doesn't support transparency well)
@@ -103,7 +99,7 @@ class AnimationRecorder:
             append_images=self.frames[1:],
             duration=1000 // self.fps,
             loop=0,
-            optimize=True
+            optimize=True,
         )
         print(f"GIF saved: {self.output_path}")
 
@@ -124,9 +120,9 @@ def record_example(example_module, output_filename, duration, fps):
         Frames per second
     """
     # Import the example module
-    if example_module == 'example_animations':
+    if example_module == "example_animations":
         from example_animations import AnimationTestWindow as WindowClass
-    elif example_module == 'example_combined_animations':
+    elif example_module == "example_combined_animations":
         from example_combined_animations import NewAnimationTestWindow as WindowClass
     else:
         raise ValueError(f"Unknown example module: {example_module}")
@@ -142,32 +138,26 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(
-        description='Create GIF animations from qtawesome example scripts'
+        description="Create GIF animations from qtawesome example scripts"
     )
     parser.add_argument(
-        '--output-dir',
-        type=str,
-        default='',
-        help='Output directory for GIF files'
+        "--output-dir", type=str, default="", help="Output directory for GIF files"
     )
     parser.add_argument(
-        '--duration',
+        "--duration",
         type=int,
         default=5000,
-        help='Duration of each GIF in milliseconds (default: 5000)'
+        help="Duration of each GIF in milliseconds (default: 5000)",
     )
     parser.add_argument(
-        '--fps',
-        type=int,
-        default=20,
-        help='Frames per second (default: 20)'
+        "--fps", type=int, default=20, help="Frames per second (default: 20)"
     )
     parser.add_argument(
-        '--examples',
-        nargs='+',
-        choices=['basic', 'combined', 'all'],
-        default=['all'],
-        help='Which examples to generate: basic (example_animations), combined (example_combined_animations), or all'
+        "--examples",
+        nargs="+",
+        choices=["basic", "combined", "all"],
+        default=["all"],
+        help="Which examples to generate: basic (example_animations), combined (example_combined_animations), or all",
     )
 
     args = parser.parse_args()
@@ -178,10 +168,12 @@ def main():
 
     # Determine which examples to run
     examples = []
-    if 'all' in args.examples or 'basic' in args.examples:
-        examples.append(('example_animations', 'qtawesome-animations-basic.gif'))
-    if 'all' in args.examples or 'combined' in args.examples:
-        examples.append(('example_combined_animations', 'qtawesome-animations-combined.gif'))
+    if "all" in args.examples or "basic" in args.examples:
+        examples.append(("example_animations", "qtawesome-animations-basic.gif"))
+    if "all" in args.examples or "combined" in args.examples:
+        examples.append(
+            ("example_combined_animations", "qtawesome-animations-combined.gif")
+        )
 
     print(f"Creating {len(examples)} animation GIFs...")
     print(f"Output directory: {output_dir}")
@@ -200,19 +192,13 @@ def main():
         try:
             # Create the example window
             window, filename = record_example(
-                example_module,
-                output_filename,
-                args.duration,
-                args.fps
+                example_module, output_filename, args.duration, args.fps
             )
             output_path = output_dir / filename
 
             # Create recorder and start
             recorder = AnimationRecorder(
-                window,
-                output_path,
-                duration=args.duration,
-                fps=args.fps
+                window, output_path, duration=args.duration, fps=args.fps
             )
             recorder.start_recording()
 
@@ -228,5 +214,5 @@ def main():
     print("All GIFs created successfully!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -75,15 +75,21 @@ class AnimationTestWindow(QtWidgets.QWidget):
         # Spin with duration
         spin_duration_button = QtWidgets.QPushButton("  Spin (5s duration)")
         spin_duration_anim = qta.Spin(spin_duration_button, duration=5000)
-        spin_duration_icon = qta.icon("fa5s.hourglass", color="brown", animation=spin_duration_anim)
+        spin_duration_icon = qta.icon(
+            "fa5s.hourglass", color="brown", animation=spin_duration_anim
+        )
         spin_duration_button.setIcon(spin_duration_icon)
         spin_duration_button.setIconSize(QtCore.QSize(32, 32))
         grid.addWidget(spin_duration_button, 3, 0)
 
         # Breathe with custom params
         breathe_fast_button = QtWidgets.QPushButton("  Breathe (fast, large)")
-        breathe_fast_anim = qta.Breathe(breathe_fast_button, interval=10, min_scale=0.5, max_scale=1.5)
-        breathe_fast_icon = qta.icon("fa5s.circle", color="cyan", animation=breathe_fast_anim)
+        breathe_fast_anim = qta.Breathe(
+            breathe_fast_button, interval=10, min_scale=0.5, max_scale=1.5
+        )
+        breathe_fast_icon = qta.icon(
+            "fa5s.circle", color="cyan", animation=breathe_fast_anim
+        )
         breathe_fast_button.setIcon(breathe_fast_icon)
         breathe_fast_button.setIconSize(QtCore.QSize(32, 32))
         grid.addWidget(breathe_fast_button, 3, 1)
@@ -132,7 +138,9 @@ class AnimationTestWindow(QtWidgets.QWidget):
             "• Duration: Animations can have limited duration\n"
             "• Manual: Control animations with start/stop/reset"
         )
-        info.setStyleSheet("margin: 10px; padding: 10px; background-color: #000000; border-radius: 5px;")
+        info.setStyleSheet(
+            "margin: 10px; padding: 10px; background-color: #000000; border-radius: 5px;"
+        )
         layout.addWidget(info)
 
         self.setLayout(layout)

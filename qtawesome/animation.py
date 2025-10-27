@@ -88,6 +88,7 @@ class BaseAnimation:
         duration: Total animation duration in milliseconds, None for infinite (default: None)
         autostart: Whether to start animation automatically (default: True)
     """
+
     def __init__(self, parent_widget, interval=10, duration=None, autostart=True):
         self.parent_widget = parent_widget
         self.interval = interval
@@ -187,20 +188,23 @@ class Spin(BaseAnimation):
         duration: Total animation duration in milliseconds, None for infinite (default: None)
         autostart: Whether to start animation automatically (default: True)
     """
-    def __init__(self, parent_widget, interval=10, step=1, duration=None, autostart=True):
+
+    def __init__(
+        self, parent_widget, interval=10, step=1, duration=None, autostart=True
+    ):
         super().__init__(parent_widget, interval, duration, autostart)
         self.step = step
 
     def _get_initial_state(self):
-        return {'angle': 0}
+        return {"angle": 0}
 
     def _update_animation_state(self, elapsed, state):
-        state['angle'] += self.step
-        if state['angle'] >= 360:
-            state['angle'] = 0
+        state["angle"] += self.step
+        if state["angle"] >= 360:
+            state["angle"] = 0
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        angle = state['angle']
+        angle = state["angle"]
         x_center = rect.width() * 0.5
         y_center = rect.height() * 0.5
         painter.translate(x_center, y_center)
@@ -216,8 +220,11 @@ class Pulse(Spin):
         duration: Total animation duration in milliseconds, None for infinite (default: None)
         autostart: Whether to start animation automatically (default: True)
     """
+
     def __init__(self, parent_widget, duration=None, autostart=True):
-        super().__init__(parent_widget, interval=300, step=45, duration=duration, autostart=autostart)
+        super().__init__(
+            parent_widget, interval=300, step=45, duration=duration, autostart=autostart
+        )
 
 
 class Breathe(BaseAnimation):
@@ -232,21 +239,33 @@ class Breathe(BaseAnimation):
         duration: Total animation duration in milliseconds, None for infinite (default: None)
         autostart: Whether to start animation automatically (default: True)
     """
-    def __init__(self, parent_widget, interval=20, min_scale=0.8, max_scale=1.2, period=2000, duration=None, autostart=True):
+
+    def __init__(
+        self,
+        parent_widget,
+        interval=20,
+        min_scale=0.8,
+        max_scale=1.2,
+        period=2000,
+        duration=None,
+        autostart=True,
+    ):
         super().__init__(parent_widget, interval, duration, autostart)
         self.min_scale = min_scale
         self.max_scale = max_scale
         self.period = period
 
     def _get_initial_state(self):
-        return {'scale': 1.0}
+        return {"scale": 1.0}
 
     def _update_animation_state(self, elapsed, state):
         # Use sine wave for smooth breathing effect
-        state['scale'] = _sine_wave_value(elapsed, self.period, self.min_scale, self.max_scale)
+        state["scale"] = _sine_wave_value(
+            elapsed, self.period, self.min_scale, self.max_scale
+        )
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        scale = state['scale']
+        scale = state["scale"]
         x_center = rect.width() * 0.5
         y_center = rect.height() * 0.5
         painter.translate(x_center, y_center)
@@ -271,25 +290,39 @@ class Fade(BaseAnimation):
         The opacity animation is applied by storing it per-widget in the icon_painter instance,
         which will be read during the paint process.
     """
-    def __init__(self, parent_widget, interval=20, min_opacity=0.2, max_opacity=1.0, period=2000, duration=None, autostart=True):
+
+    def __init__(
+        self,
+        parent_widget,
+        interval=20,
+        min_opacity=0.2,
+        max_opacity=1.0,
+        period=2000,
+        duration=None,
+        autostart=True,
+    ):
         super().__init__(parent_widget, interval, duration, autostart)
         self.min_opacity = max(0.0, min(1.0, min_opacity))
         self.max_opacity = max(0.0, min(1.0, max_opacity))
         self.period = period
 
     def _get_initial_state(self):
-        return {'opacity': 1.0}
+        return {"opacity": 1.0}
 
     def _update_animation_state(self, elapsed, state):
         # Use sine wave for smooth fading effect
-        state['opacity'] = _sine_wave_value(elapsed, self.period, self.min_opacity, self.max_opacity)
+        state["opacity"] = _sine_wave_value(
+            elapsed, self.period, self.min_opacity, self.max_opacity
+        )
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         # Store the animation opacity per-widget in the icon_painter so it can be used
         # when the opacity is set later in the paint process
-        if not hasattr(icon_painter, '_fade_animation_opacities'):
+        if not hasattr(icon_painter, "_fade_animation_opacities"):
             icon_painter._fade_animation_opacities = {}
-        icon_painter._fade_animation_opacities[id(self.parent_widget)] = state['opacity']
+        icon_painter._fade_animation_opacities[id(self.parent_widget)] = state[
+            "opacity"
+        ]
 
 
 class Shake(BaseAnimation):
@@ -304,25 +337,35 @@ class Shake(BaseAnimation):
         duration: Total animation duration in milliseconds, None for infinite (default: None)
         autostart: Whether to start animation automatically (default: True)
     """
-    def __init__(self, parent_widget, interval=20, amplitude_x=3, amplitude_y=3, period=200, duration=None, autostart=True):
+
+    def __init__(
+        self,
+        parent_widget,
+        interval=20,
+        amplitude_x=3,
+        amplitude_y=3,
+        period=200,
+        duration=None,
+        autostart=True,
+    ):
         super().__init__(parent_widget, interval, duration, autostart)
         self.amplitude_x = amplitude_x
         self.amplitude_y = amplitude_y
         self.period = period
 
     def _get_initial_state(self):
-        return {'offset_x': 0, 'offset_y': 0}
+        return {"offset_x": 0, "offset_y": 0}
 
     def _update_animation_state(self, elapsed, state):
         # Use different frequencies for x and y to create more natural shake
         angle_x = (elapsed % self.period) / self.period * 2 * math.pi
         angle_y = (elapsed % (self.period * 1.3)) / (self.period * 1.3) * 2 * math.pi
 
-        state['offset_x'] = math.sin(angle_x) * self.amplitude_x
-        state['offset_y'] = math.sin(angle_y) * self.amplitude_y
+        state["offset_x"] = math.sin(angle_x) * self.amplitude_x
+        state["offset_y"] = math.sin(angle_y) * self.amplitude_y
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        painter.translate(state['offset_x'], state['offset_y'])
+        painter.translate(state["offset_x"], state["offset_y"])
 
 
 class ColorCycle(BaseAnimation):
@@ -336,18 +379,35 @@ class ColorCycle(BaseAnimation):
         duration: Total animation duration in milliseconds, None for infinite (default: None)
         autostart: Whether to start animation automatically (default: True)
     """
-    def __init__(self, parent_widget, interval=50, colors=None, color_duration=500, duration=None, autostart=True):
+
+    def __init__(
+        self,
+        parent_widget,
+        interval=50,
+        colors=None,
+        color_duration=500,
+        duration=None,
+        autostart=True,
+    ):
         super().__init__(parent_widget, interval, duration, autostart)
         if colors is None:
             # Default rainbow colors
-            self.colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+            self.colors = [
+                "red",
+                "orange",
+                "yellow",
+                "green",
+                "blue",
+                "indigo",
+                "violet",
+            ]
         else:
             self.colors = colors
 
         self.color_duration = color_duration
 
     def _get_initial_state(self):
-        return {'current_color': QColor(self.colors[0]), 'color_index': 0}
+        return {"current_color": QColor(self.colors[0]), "color_index": 0}
 
     def _update_animation_state(self, elapsed, state):
         # Calculate which color we should be at
@@ -355,14 +415,14 @@ class ColorCycle(BaseAnimation):
         cycle_position = elapsed % total_cycle_time
         color_index = int(cycle_position / self.color_duration)
 
-        if color_index != state['color_index']:
-            state['color_index'] = color_index
-            state['current_color'] = QColor(self.colors[color_index])
+        if color_index != state["color_index"]:
+            state["color_index"] = color_index
+            state["current_color"] = QColor(self.colors[color_index])
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         # Store the color in icon_painter's options for the paint operation
         # This is a bit of a hack - we're modifying the painter's pen color
-        current_color = state['current_color']
+        current_color = state["current_color"]
         painter.setPen(current_color)
         painter.setBrush(current_color)
 
@@ -379,7 +439,17 @@ class HeartBeat(BaseAnimation):
         duration: Total animation duration in milliseconds, None for infinite (default: None)
         autostart: Whether to start animation automatically (default: True)
     """
-    def __init__(self, parent_widget, interval=20, min_scale=1.0, max_scale=1.3, period=1000, duration=None, autostart=True):
+
+    def __init__(
+        self,
+        parent_widget,
+        interval=20,
+        min_scale=1.0,
+        max_scale=1.3,
+        period=1000,
+        duration=None,
+        autostart=True,
+    ):
         super().__init__(parent_widget, interval, duration, autostart)
         self.min_scale = min_scale
         self.max_scale = max_scale
@@ -391,7 +461,7 @@ class HeartBeat(BaseAnimation):
         self.beat2_end = self.period * 0.40
 
     def _get_initial_state(self):
-        return {'scale': 1.0}
+        return {"scale": 1.0}
 
     def _update_animation_state(self, elapsed, state):
         # Calculate position in current cycle
@@ -402,21 +472,25 @@ class HeartBeat(BaseAnimation):
             progress = cycle_pos / self.beat1_end
             # Use sin for smooth pulse
             scale_factor = math.sin(progress * math.pi)
-            state['scale'] = self.min_scale + (self.max_scale - self.min_scale) * scale_factor
+            state["scale"] = (
+                self.min_scale + (self.max_scale - self.min_scale) * scale_factor
+            )
         elif cycle_pos < self.gap_end:
             # Gap between beats
-            state['scale'] = self.min_scale
+            state["scale"] = self.min_scale
         elif cycle_pos < self.beat2_end:
             # Second beat: scale up then down
             progress = (cycle_pos - self.gap_end) / (self.beat2_end - self.gap_end)
             scale_factor = math.sin(progress * math.pi)
-            state['scale'] = self.min_scale + (self.max_scale - self.min_scale) * scale_factor
+            state["scale"] = (
+                self.min_scale + (self.max_scale - self.min_scale) * scale_factor
+            )
         else:
             # Pause
-            state['scale'] = self.min_scale
+            state["scale"] = self.min_scale
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        scale = state['scale']
+        scale = state["scale"]
         x_center = rect.width() * 0.5
         y_center = rect.height() * 0.5
         painter.translate(x_center, y_center)
@@ -435,20 +509,31 @@ class Swing(BaseAnimation):
         duration: Total animation duration in milliseconds, None for infinite (default: None)
         autostart: Whether to start animation automatically (default: True)
     """
-    def __init__(self, parent_widget, interval=20, angle=15, period=1000, duration=None, autostart=True):
+
+    def __init__(
+        self,
+        parent_widget,
+        interval=20,
+        angle=15,
+        period=1000,
+        duration=None,
+        autostart=True,
+    ):
         super().__init__(parent_widget, interval, duration, autostart)
         self.max_angle = angle
         self.period = period
 
     def _get_initial_state(self):
-        return {'angle': 0}
+        return {"angle": 0}
 
     def _update_animation_state(self, elapsed, state):
         # Use sine wave for smooth pendulum motion
-        state['angle'] = _sine_wave_value(elapsed, self.period, -self.max_angle, self.max_angle)
+        state["angle"] = _sine_wave_value(
+            elapsed, self.period, -self.max_angle, self.max_angle
+        )
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        angle = state['angle']
+        angle = state["angle"]
         x_center = rect.width() * 0.5
         y_center = rect.height() * 0.5
         painter.translate(x_center, y_center)
@@ -471,23 +556,35 @@ class Elastic(BaseAnimation):
         duration: Total animation duration in milliseconds, None for infinite (default: None)
         autostart: Whether to start animation automatically (default: True)
     """
-    def __init__(self, parent_widget, interval=20, min_scale=0.5, max_scale=1.0, period=1500, duration=None, autostart=True):
+
+    def __init__(
+        self,
+        parent_widget,
+        interval=20,
+        min_scale=0.5,
+        max_scale=1.0,
+        period=1500,
+        duration=None,
+        autostart=True,
+    ):
         super().__init__(parent_widget, interval, duration, autostart)
         self.min_scale = min_scale
         self.max_scale = max_scale
         self.period = period
 
     def _get_initial_state(self):
-        return {'scale': self.min_scale}
+        return {"scale": self.min_scale}
 
     def _update_animation_state(self, elapsed, state):
         # Elastic easing function with overshoot
         cycle_pos = _get_cycle_position(elapsed, self.period)
         scale_progress = _elastic_ease_out(cycle_pos)
-        state['scale'] = self.min_scale + (self.max_scale - self.min_scale) * scale_progress
+        state["scale"] = (
+            self.min_scale + (self.max_scale - self.min_scale) * scale_progress
+        )
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        scale = state['scale']
+        scale = state["scale"]
         x_center = rect.width() * 0.5
         y_center = rect.height() * 0.5
         painter.translate(x_center, y_center)
@@ -515,7 +612,10 @@ class CompositeAnimation(BaseAnimation):
         composite = qta.CompositeAnimation(button, [anim1, anim2])
         icon = qta.icon('fa5s.star', animation=composite)
     """
-    def __init__(self, parent_widget, animations, interval=10, duration=None, autostart=True):
+
+    def __init__(
+        self, parent_widget, animations, interval=10, duration=None, autostart=True
+    ):
         super().__init__(parent_widget, interval, duration, autostart)
         self.animations = animations
 
@@ -525,7 +625,7 @@ class CompositeAnimation(BaseAnimation):
             anim.parent_widget = parent_widget
 
     def _get_initial_state(self):
-        return {'initialized': False}
+        return {"initialized": False}
 
     def _update_animation_state(self, elapsed, state):
         # Update all child animations' states
@@ -538,14 +638,19 @@ class CompositeAnimation(BaseAnimation):
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         # Initialize child animations on first call
-        if not state['initialized']:
+        if not state["initialized"]:
             for anim in self.animations:
                 if anim.parent_widget not in anim.info:
                     # Create a dummy timer (won't be used)
                     from qtpy.QtCore import QTimer
+
                     timer = QTimer(anim.parent_widget)
-                    anim.info[anim.parent_widget] = [timer, 0, anim._get_initial_state()]
-            state['initialized'] = True
+                    anim.info[anim.parent_widget] = [
+                        timer,
+                        0,
+                        anim._get_initial_state(),
+                    ]
+            state["initialized"] = True
 
         # Apply all child animation transforms
         for anim in self.animations:

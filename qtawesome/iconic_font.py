@@ -237,10 +237,12 @@ class CharIconPainter:
 
         # Apply opacity from options, multiplied by animation opacity if present
         base_opacity = options.get("opacity", 1.0)
-        if animation is not None and hasattr(self, '_fade_animation_opacities'):
+        if animation is not None and hasattr(self, "_fade_animation_opacities"):
             widget_id = id(animation.parent_widget)
             if widget_id in self._fade_animation_opacities:
-                painter.setOpacity(base_opacity * self._fade_animation_opacities[widget_id])
+                painter.setOpacity(
+                    base_opacity * self._fade_animation_opacities[widget_id]
+                )
             else:
                 painter.setOpacity(base_opacity)
         else:
