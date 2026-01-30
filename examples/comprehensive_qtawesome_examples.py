@@ -5,14 +5,35 @@ pip install pyside6 qtawesome thefuzz
 import sys
 from thefuzz import fuzz
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-    QListWidget, QListWidgetItem, QStackedWidget, QLabel, QGridLayout,
-    QGroupBox, QPushButton, QSlider, QSpinBox, QComboBox, QScrollArea,
-    QFrame, QSizePolicy, QToolButton, QCheckBox, QLineEdit, QDoubleSpinBox,
-    QColorDialog, QSplitter, QMenu, QFileDialog, QInputDialog
+    QApplication,
+    QMainWindow,
+    QWidget,
+    QVBoxLayout,
+    QHBoxLayout,
+    QListWidget,
+    QListWidgetItem,
+    QStackedWidget,
+    QLabel,
+    QGridLayout,
+    QGroupBox,
+    QPushButton,
+    QSlider,
+    QSpinBox,
+    QComboBox,
+    QScrollArea,
+    QFrame,
+    QToolButton,
+    QCheckBox,
+    QLineEdit,
+    QDoubleSpinBox,
+    QColorDialog,
+    QSplitter,
+    QMenu,
+    QFileDialog,
+    QInputDialog,
 )
 from PySide6.QtCore import Qt, QSize, QTimer, Signal
-from PySide6.QtGui import QFont, QColor
+from PySide6.QtGui import QColor
 
 import qtawesome as qta
 from qtawesome.animation import Spin, Pulse
@@ -29,18 +50,198 @@ class FontShowcasePage(QScrollArea):
         layout.setSpacing(20)
 
         fonts_info = [
-            ("fa5", "Font Awesome 5 Regular", ["bookmark", "bell", "calendar", "comment", "envelope", "file", "heart", "image", "star", "user"]),
-            ("fa5s", "Font Awesome 5 Solid", ["home", "cog", "check", "times", "search", "plus", "minus", "trash", "edit", "save"]),
-            ("fa5b", "Font Awesome 5 Brands", ["github", "twitter", "facebook", "google", "apple", "windows", "linux", "python", "js", "css3"]),
-            ("fa6", "Font Awesome 6 Regular", ["bookmark", "bell", "calendar", "comment", "envelope", "file", "heart", "image", "star", "user"]),
-            ("fa6s", "Font Awesome 6 Solid", ["house", "gear", "check", "xmark", "magnifying-glass", "plus", "minus", "trash", "pen", "floppy-disk"]),
-            ("fa6b", "Font Awesome 6 Brands", ["github", "twitter", "facebook", "google", "apple", "windows", "linux", "python", "js", "css3"]),
-            ("ei", "Elusive Icons", ["home", "cog", "ok", "remove", "search", "plus", "minus", "trash", "pencil", "file"]),
-            ("mdi", "Material Design Icons 5", ["home", "cog", "check", "close", "magnify", "plus", "minus", "delete", "pencil", "content-save"]),
-            ("mdi6", "Material Design Icons 6", ["home", "cog", "check", "close", "magnify", "plus", "minus", "delete", "pencil", "content-save"]),
-            ("ph", "Phosphor Icons", ["house", "gear", "check", "x", "magnifying-glass", "plus", "minus", "trash", "pencil", "floppy-disk"]),
-            ("ri", "Remix Icon", ["home-line", "settings-3-line", "check-line", "close-line", "search-line", "add-line", "subtract-line", "delete-bin-line", "edit-line", "save-line"]),
-            ("msc", "Microsoft Codicons", ["home", "gear", "check", "close", "search", "add", "remove", "trash", "edit", "save"]),
+            (
+                "fa5",
+                "Font Awesome 5 Regular",
+                [
+                    "bookmark",
+                    "bell",
+                    "calendar",
+                    "comment",
+                    "envelope",
+                    "file",
+                    "heart",
+                    "image",
+                    "star",
+                    "user",
+                ],
+            ),
+            (
+                "fa5s",
+                "Font Awesome 5 Solid",
+                [
+                    "home",
+                    "cog",
+                    "check",
+                    "times",
+                    "search",
+                    "plus",
+                    "minus",
+                    "trash",
+                    "edit",
+                    "save",
+                ],
+            ),
+            (
+                "fa5b",
+                "Font Awesome 5 Brands",
+                [
+                    "github",
+                    "twitter",
+                    "facebook",
+                    "google",
+                    "apple",
+                    "windows",
+                    "linux",
+                    "python",
+                    "js",
+                    "css3",
+                ],
+            ),
+            (
+                "fa6",
+                "Font Awesome 6 Regular",
+                [
+                    "bookmark",
+                    "bell",
+                    "calendar",
+                    "comment",
+                    "envelope",
+                    "file",
+                    "heart",
+                    "image",
+                    "star",
+                    "user",
+                ],
+            ),
+            (
+                "fa6s",
+                "Font Awesome 6 Solid",
+                [
+                    "house",
+                    "gear",
+                    "check",
+                    "xmark",
+                    "magnifying-glass",
+                    "plus",
+                    "minus",
+                    "trash",
+                    "pen",
+                    "floppy-disk",
+                ],
+            ),
+            (
+                "fa6b",
+                "Font Awesome 6 Brands",
+                [
+                    "github",
+                    "twitter",
+                    "facebook",
+                    "google",
+                    "apple",
+                    "windows",
+                    "linux",
+                    "python",
+                    "js",
+                    "css3",
+                ],
+            ),
+            (
+                "ei",
+                "Elusive Icons",
+                [
+                    "home",
+                    "cog",
+                    "ok",
+                    "remove",
+                    "search",
+                    "plus",
+                    "minus",
+                    "trash",
+                    "pencil",
+                    "file",
+                ],
+            ),
+            (
+                "mdi",
+                "Material Design Icons 5",
+                [
+                    "home",
+                    "cog",
+                    "check",
+                    "close",
+                    "magnify",
+                    "plus",
+                    "minus",
+                    "delete",
+                    "pencil",
+                    "content-save",
+                ],
+            ),
+            (
+                "mdi6",
+                "Material Design Icons 6",
+                [
+                    "home",
+                    "cog",
+                    "check",
+                    "close",
+                    "magnify",
+                    "plus",
+                    "minus",
+                    "delete",
+                    "pencil",
+                    "content-save",
+                ],
+            ),
+            (
+                "ph",
+                "Phosphor Icons",
+                [
+                    "house",
+                    "gear",
+                    "check",
+                    "x",
+                    "magnifying-glass",
+                    "plus",
+                    "minus",
+                    "trash",
+                    "pencil",
+                    "floppy-disk",
+                ],
+            ),
+            (
+                "ri",
+                "Remix Icon",
+                [
+                    "home-line",
+                    "settings-3-line",
+                    "check-line",
+                    "close-line",
+                    "search-line",
+                    "add-line",
+                    "subtract-line",
+                    "delete-bin-line",
+                    "edit-line",
+                    "save-line",
+                ],
+            ),
+            (
+                "msc",
+                "Microsoft Codicons",
+                [
+                    "home",
+                    "gear",
+                    "check",
+                    "close",
+                    "search",
+                    "add",
+                    "remove",
+                    "trash",
+                    "edit",
+                    "save",
+                ],
+            ),
         ]
 
         for prefix, name, icons in fonts_info:
@@ -78,7 +279,18 @@ class ColorShowcasePage(QScrollArea):
         basic_colors_group = QGroupBox("Basic Colors")
         basic_layout = QHBoxLayout(basic_colors_group)
 
-        colors = ["red", "green", "blue", "orange", "purple", "cyan", "magenta", "yellow", "white", "gray"]
+        colors = [
+            "red",
+            "green",
+            "blue",
+            "orange",
+            "purple",
+            "cyan",
+            "magenta",
+            "yellow",
+            "white",
+            "gray",
+        ]
         for color in colors:
             btn = QToolButton()
             btn.setIcon(qta.icon("fa6s.star", color=color))
@@ -93,7 +305,18 @@ class ColorShowcasePage(QScrollArea):
         hex_colors_group = QGroupBox("Hex Colors")
         hex_layout = QHBoxLayout(hex_colors_group)
 
-        hex_colors = ["#FF5733", "#33FF57", "#3357FF", "#FF33F5", "#33FFF5", "#F5FF33", "#FF8C00", "#8B00FF", "#00FF7F", "#DC143C"]
+        hex_colors = [
+            "#FF5733",
+            "#33FF57",
+            "#3357FF",
+            "#FF33F5",
+            "#33FFF5",
+            "#F5FF33",
+            "#FF8C00",
+            "#8B00FF",
+            "#00FF7F",
+            "#DC143C",
+        ]
         for hex_color in hex_colors:
             btn = QToolButton()
             btn.setIcon(qta.icon("fa6s.heart", color=hex_color))
@@ -105,7 +328,9 @@ class ColorShowcasePage(QScrollArea):
         hex_layout.addStretch()
         layout.addWidget(hex_colors_group)
 
-        state_colors_group = QGroupBox("State-Based Colors (Normal / Active / Disabled / Selected)")
+        state_colors_group = QGroupBox(
+            "State-Based Colors (Normal / Active / Disabled / Selected)"
+        )
         state_layout = QVBoxLayout(state_colors_group)
 
         info_label = QLabel("Icons can have different colors for different states:")
@@ -117,7 +342,15 @@ class ColorShowcasePage(QScrollArea):
             ("Normal: Blue", {"color": "blue"}),
             ("With Active: Orange", {"color": "blue", "color_active": "orange"}),
             ("With Disabled: Gray", {"color": "blue", "color_disabled": "gray"}),
-            ("All States", {"color": "blue", "color_active": "orange", "color_disabled": "gray", "color_selected": "green"}),
+            (
+                "All States",
+                {
+                    "color": "blue",
+                    "color_active": "orange",
+                    "color_disabled": "gray",
+                    "color_selected": "green",
+                },
+            ),
         ]:
             frame = QFrame()
             frame.setFrameStyle(QFrame.Box)
@@ -327,7 +560,9 @@ class AnimationShowcasePage(QScrollArea):
         spin_group = QGroupBox("Spin Animation")
         spin_layout = QVBoxLayout(spin_group)
 
-        spin_desc = QLabel("Smooth continuous rotation. Parameters: interval (ms), step (degrees)")
+        spin_desc = QLabel(
+            "Smooth continuous rotation. Parameters: interval (ms), step (degrees)"
+        )
         spin_layout.addWidget(spin_desc)
 
         spin_row = QHBoxLayout()
@@ -366,7 +601,9 @@ class AnimationShowcasePage(QScrollArea):
         pulse_group = QGroupBox("Pulse Animation")
         pulse_layout = QVBoxLayout(pulse_group)
 
-        pulse_desc = QLabel("Stepped rotation (300ms interval, 45° steps) - creates a 'ticking' effect")
+        pulse_desc = QLabel(
+            "Stepped rotation (300ms interval, 45° steps) - creates a 'ticking' effect"
+        )
         pulse_layout.addWidget(pulse_desc)
 
         pulse_row = QHBoxLayout()
@@ -407,9 +644,15 @@ class AnimationShowcasePage(QScrollArea):
         control_row = QHBoxLayout()
 
         self.controlled_btn = QToolButton()
-        self.controlled_anim = Spin(self.controlled_btn, interval=10, step=1, autostart=False)
+        self.controlled_anim = Spin(
+            self.controlled_btn, interval=10, step=1, autostart=False
+        )
         self.animations.append(self.controlled_anim)
-        self.controlled_btn.setIcon(qta.icon("fa6s.circle-notch", color="#9b59b6", animation=self.controlled_anim))
+        self.controlled_btn.setIcon(
+            qta.icon(
+                "fa6s.circle-notch", color="#9b59b6", animation=self.controlled_anim
+            )
+        )
         self.controlled_btn.setIconSize(QSize(64, 64))
         self.controlled_btn.setFixedSize(80, 80)
         control_row.addWidget(self.controlled_btn)
@@ -447,11 +690,40 @@ class StackedIconsPage(QScrollArea):
         basic_layout = QHBoxLayout(basic_stack_group)
 
         stacked_examples = [
-            (["fa6s.square", "fa6s.terminal"], [{"color": "#34495e"}, {"color": "white", "scale_factor": 0.6}], "Terminal"),
-            (["fa6s.circle", "fa6s.play"], [{"color": "#27ae60"}, {"color": "white", "scale_factor": 0.5, "offset": (0.05, 0)}], "Play"),
-            (["fa6s.certificate", "fa6s.check"], [{"color": "#f1c40f"}, {"color": "white", "scale_factor": 0.5}], "Verified"),
-            (["fa6s.cloud", "fa6s.arrow-down"], [{"color": "#3498db"}, {"color": "white", "scale_factor": 0.4, "offset": (0, 0.1)}], "Download"),
-            (["fa6s.folder", "fa6s.plus"], [{"color": "#e67e22"}, {"color": "white", "scale_factor": 0.4, "offset": (0.1, 0.1)}], "New Folder"),
+            (
+                ["fa6s.square", "fa6s.terminal"],
+                [{"color": "#34495e"}, {"color": "white", "scale_factor": 0.6}],
+                "Terminal",
+            ),
+            (
+                ["fa6s.circle", "fa6s.play"],
+                [
+                    {"color": "#27ae60"},
+                    {"color": "white", "scale_factor": 0.5, "offset": (0.05, 0)},
+                ],
+                "Play",
+            ),
+            (
+                ["fa6s.certificate", "fa6s.check"],
+                [{"color": "#f1c40f"}, {"color": "white", "scale_factor": 0.5}],
+                "Verified",
+            ),
+            (
+                ["fa6s.cloud", "fa6s.arrow-down"],
+                [
+                    {"color": "#3498db"},
+                    {"color": "white", "scale_factor": 0.4, "offset": (0, 0.1)},
+                ],
+                "Download",
+            ),
+            (
+                ["fa6s.folder", "fa6s.plus"],
+                [
+                    {"color": "#e67e22"},
+                    {"color": "white", "scale_factor": 0.4, "offset": (0.1, 0.1)},
+                ],
+                "New Folder",
+            ),
         ]
 
         for icons, options, label_text in stacked_examples:
@@ -478,10 +750,38 @@ class StackedIconsPage(QScrollArea):
         badge_layout = QHBoxLayout(badge_group)
 
         badge_examples = [
-            (["fa6s.envelope", "fa6s.circle"], [{"color": "#7f8c8d"}, {"color": "#e74c3c", "scale_factor": 0.4, "offset": (0.25, -0.25)}], "Notification"),
-            (["fa6s.bell", "fa6s.exclamation"], [{"color": "#3498db"}, {"color": "#e74c3c", "scale_factor": 0.5, "offset": (0.2, -0.2)}], "Alert"),
-            (["fa6s.user", "fa6s.check"], [{"color": "#9b59b6"}, {"color": "#27ae60", "scale_factor": 0.4, "offset": (0.25, 0.2)}], "Verified User"),
-            (["fa6s.file", "fa6s.lock"], [{"color": "#34495e"}, {"color": "#e74c3c", "scale_factor": 0.4, "offset": (0.2, 0.15)}], "Locked File"),
+            (
+                ["fa6s.envelope", "fa6s.circle"],
+                [
+                    {"color": "#7f8c8d"},
+                    {"color": "#e74c3c", "scale_factor": 0.4, "offset": (0.25, -0.25)},
+                ],
+                "Notification",
+            ),
+            (
+                ["fa6s.bell", "fa6s.exclamation"],
+                [
+                    {"color": "#3498db"},
+                    {"color": "#e74c3c", "scale_factor": 0.5, "offset": (0.2, -0.2)},
+                ],
+                "Alert",
+            ),
+            (
+                ["fa6s.user", "fa6s.check"],
+                [
+                    {"color": "#9b59b6"},
+                    {"color": "#27ae60", "scale_factor": 0.4, "offset": (0.25, 0.2)},
+                ],
+                "Verified User",
+            ),
+            (
+                ["fa6s.file", "fa6s.lock"],
+                [
+                    {"color": "#34495e"},
+                    {"color": "#e74c3c", "scale_factor": 0.4, "offset": (0.2, 0.15)},
+                ],
+                "Locked File",
+            ),
         ]
 
         for icons, options, label_text in badge_examples:
@@ -522,13 +822,16 @@ class StackedIconsPage(QScrollArea):
             frame_layout = QVBoxLayout(frame)
 
             btn = QToolButton()
-            btn.setIcon(qta.icon(
-                base_icon, "fa6s.ban",
-                options=[
-                    {"color": "#7f8c8d", "scale_factor": 0.6},
-                    {"color": "#e74c3c", "opacity": 0.8}
-                ]
-            ))
+            btn.setIcon(
+                qta.icon(
+                    base_icon,
+                    "fa6s.ban",
+                    options=[
+                        {"color": "#7f8c8d", "scale_factor": 0.6},
+                        {"color": "#e74c3c", "opacity": 0.8},
+                    ],
+                )
+            )
             btn.setIconSize(QSize(48, 48))
             frame_layout.addWidget(btn, alignment=Qt.AlignCenter)
 
@@ -564,7 +867,9 @@ class IconWidgetPage(QScrollArea):
             frame.setMinimumSize(90, 100)
             frame_layout = QVBoxLayout(frame)
 
-            icon_widget = qta.IconWidget("fa6s.star", color="#f1c40f", size=QSize(size, size))
+            icon_widget = qta.IconWidget(
+                "fa6s.star", color="#f1c40f", size=QSize(size, size)
+            )
             frame_layout.addWidget(icon_widget, alignment=Qt.AlignCenter)
 
             label = QLabel(f"{size}px")
@@ -610,7 +915,9 @@ class ThemePage(QScrollArea):
         theme_group = QGroupBox("Theme Switching")
         theme_layout = QVBoxLayout(theme_group)
 
-        desc = QLabel("QtAwesome provides built-in dark and light themes that affect the entire application palette.")
+        desc = QLabel(
+            "QtAwesome provides built-in dark and light themes that affect the entire application palette."
+        )
         desc.setWordWrap(True)
         theme_layout.addWidget(desc)
 
@@ -634,8 +941,14 @@ class ThemePage(QScrollArea):
         preview_layout = QGridLayout(preview_group)
 
         preview_icons = [
-            "fa6s.house", "fa6s.gear", "fa6s.user", "fa6s.envelope",
-            "fa6s.bell", "fa6s.calendar", "fa6s.folder", "fa6s.file",
+            "fa6s.house",
+            "fa6s.gear",
+            "fa6s.user",
+            "fa6s.envelope",
+            "fa6s.bell",
+            "fa6s.calendar",
+            "fa6s.folder",
+            "fa6s.file",
         ]
 
         for i, icon_name in enumerate(preview_icons):
@@ -827,7 +1140,9 @@ class ExportDialog(QWidget):
         self.icon_name_label.setStyleSheet("font-weight: bold;")
         preview_layout.addWidget(self.icon_name_label)
 
-        self.size_label = QLabel(f"Export size: {self.export_size} x {self.export_size} px")
+        self.size_label = QLabel(
+            f"Export size: {self.export_size} x {self.export_size} px"
+        )
         self.size_label.setAlignment(Qt.AlignCenter)
         self.size_label.setStyleSheet("color: #7f8c8d;")
         preview_layout.addWidget(self.size_label)
@@ -986,13 +1301,13 @@ class ExportDialog(QWidget):
         except Exception:
             return
 
-        default_filename = self.icon_name.replace(".", "_") + f"_{self.export_size}x{self.export_size}.png"
+        default_filename = (
+            self.icon_name.replace(".", "_")
+            + f"_{self.export_size}x{self.export_size}.png"
+        )
 
         filepath, _ = QFileDialog.getSaveFileName(
-            self,
-            "Export Icon as PNG",
-            default_filename,
-            "PNG Files (*.png)"
+            self, "Export Icon as PNG", default_filename, "PNG Files (*.png)"
         )
 
         if filepath:
@@ -1111,7 +1426,9 @@ class PlaygroundPage(QWidget):
         self.code_label = QLabel("")
         self.code_label.setAlignment(Qt.AlignCenter)
         self.code_label.setWordWrap(True)
-        self.code_label.setStyleSheet("font-family: monospace; font-size: 10px; color: #7f8c8d;")
+        self.code_label.setStyleSheet(
+            "font-family: monospace; font-size: 10px; color: #7f8c8d;"
+        )
         preview_layout.addWidget(self.code_label)
 
         copy_btn = QPushButton("Copy Code")
@@ -1331,7 +1648,7 @@ class PlaygroundPage(QWidget):
             else:
                 score = max(
                     fuzz.ratio(search_text, short_name),
-                    fuzz.partial_ratio(search_text, short_name)
+                    fuzz.partial_ratio(search_text, short_name),
                 )
                 if score >= 60:
                     fuzzy_matches.append((icon_name, score))
@@ -1339,7 +1656,9 @@ class PlaygroundPage(QWidget):
         exact_matches.sort(key=lambda x: (-x[1], x[0]))
         fuzzy_matches.sort(key=lambda x: (-x[1], x[0]))
 
-        combined = [item[0] for item in exact_matches] + [item[0] for item in fuzzy_matches]
+        combined = [item[0] for item in exact_matches] + [
+            item[0] for item in fuzzy_matches
+        ]
 
         self._populate_icon_list(combined)
 
@@ -1392,7 +1711,7 @@ class PlaygroundPage(QWidget):
                 self.preview_button,
                 interval=self.spin_interval.value(),
                 step=self.spin_step.value(),
-                autostart=True
+                autostart=True,
             )
             kwargs["animation"] = self.current_animation
         elif anim_type == "Pulse":
@@ -1416,7 +1735,9 @@ class PlaygroundPage(QWidget):
             if key == "animation":
                 anim_type = self.anim_combo.currentText()
                 if anim_type == "Spin":
-                    code_parts.append(f'animation=Spin(widget, interval={self.spin_interval.value()}, step={self.spin_step.value()})')
+                    code_parts.append(
+                        f"animation=Spin(widget, interval={self.spin_interval.value()}, step={self.spin_step.value()})"
+                    )
                 elif anim_type == "Pulse":
                     code_parts.append("animation=Pulse(widget)")
             elif key == "color":
@@ -1435,7 +1756,9 @@ class PlaygroundPage(QWidget):
         if len(code_parts) == 1:
             self.code_label.setText(code_parts[0] + ")")
         else:
-            self.code_label.setText(code_parts[0] + ",\n    " + ",\n    ".join(code_parts[1:]) + ")")
+            self.code_label.setText(
+                code_parts[0] + ",\n    " + ",\n    ".join(code_parts[1:]) + ")"
+            )
 
     def _pick_color(self):
         color = QColorDialog.getColor(QColor(self.color_input.text()), self)
@@ -1481,7 +1804,9 @@ class PlaygroundPage(QWidget):
 
         for size in [128, 256, 512, 1024]:
             action = export_menu.addAction(f"{size} x {size}")
-            action.triggered.connect(lambda checked, n=icon_name, s=size: self._export_icon(n, s))
+            action.triggered.connect(
+                lambda checked, n=icon_name, s=size: self._export_icon(n, s)
+            )
 
         export_menu.addSeparator()
         custom_action = export_menu.addAction("Custom size...")
@@ -1500,7 +1825,7 @@ class PlaygroundPage(QWidget):
             "Enter size in pixels (will be square):",
             value=256,
             min=16,
-            max=4096
+            max=4096,
         )
 
         if ok:
@@ -1521,7 +1846,9 @@ class StackLayerWidget(QFrame):
         super().__init__(parent)
         self.icon_name = icon_name
         self.setFrameStyle(QFrame.Box)
-        self.setStyleSheet("StackLayerWidget { background-color: #3d3d3d; border-radius: 4px; }")
+        self.setStyleSheet(
+            "StackLayerWidget { background-color: #3d3d3d; border-radius: 4px; }"
+        )
         self._setup_ui()
 
     def _setup_ui(self):
@@ -1778,7 +2105,9 @@ class StackBuilderPage(QWidget):
         self.layers_layout.setAlignment(Qt.AlignTop)
         self.layers_layout.setSpacing(8)
 
-        self.no_layers_label = QLabel("No layers yet.\nClick icons on the left to add layers.")
+        self.no_layers_label = QLabel(
+            "No layers yet.\nClick icons on the left to add layers."
+        )
         self.no_layers_label.setAlignment(Qt.AlignCenter)
         self.no_layers_label.setStyleSheet("color: #7f8c8d; padding: 40px;")
         self.layers_layout.addWidget(self.no_layers_label)
@@ -1824,7 +2153,9 @@ class StackBuilderPage(QWidget):
 
         self.code_text = QLabel("# Add layers to generate code")
         self.code_text.setWordWrap(True)
-        self.code_text.setStyleSheet("font-family: monospace; font-size: 10px; color: #7f8c8d; padding: 8px; background-color: #2a2a2a; border-radius: 4px;")
+        self.code_text.setStyleSheet(
+            "font-family: monospace; font-size: 10px; color: #7f8c8d; padding: 8px; background-color: #2a2a2a; border-radius: 4px;"
+        )
         self.code_text.setTextInteractionFlags(Qt.TextSelectableByMouse)
         code_layout.addWidget(self.code_text)
 
@@ -1918,7 +2249,7 @@ class StackBuilderPage(QWidget):
             else:
                 score = max(
                     fuzz.ratio(search_text, short_name),
-                    fuzz.partial_ratio(search_text, short_name)
+                    fuzz.partial_ratio(search_text, short_name),
                 )
                 if score >= 60:
                     fuzzy_matches.append((icon_name, score))
@@ -1926,7 +2257,9 @@ class StackBuilderPage(QWidget):
         exact_matches.sort(key=lambda x: (-x[1], x[0]))
         fuzzy_matches.sort(key=lambda x: (-x[1], x[0]))
 
-        combined = [item[0] for item in exact_matches] + [item[0] for item in fuzzy_matches]
+        combined = [item[0] for item in exact_matches] + [
+            item[0] for item in fuzzy_matches
+        ]
 
         self._populate_icon_list(combined)
 
@@ -1985,7 +2318,9 @@ class StackBuilderPage(QWidget):
             self._remove_layer(layer)
 
     def _update_preview(self):
-        self.layer_count_label.setText(f"{len(self.layers)} layer{'s' if len(self.layers) != 1 else ''}")
+        self.layer_count_label.setText(
+            f"{len(self.layers)} layer{'s' if len(self.layers) != 1 else ''}"
+        )
 
         if not self.layers:
             self.preview_button.setIcon(qta.icon("fa6s.layer-group", color="#7f8c8d"))
@@ -2051,7 +2386,7 @@ class StackBuilderPage(QWidget):
                 "Enter size in pixels (will be square):",
                 value=256,
                 min=16,
-                max=4096
+                max=4096,
             )
             if not ok:
                 return
@@ -2069,10 +2404,7 @@ class StackBuilderPage(QWidget):
         default_filename = f"stacked_icon_{size}x{size}.png"
 
         filepath, _ = QFileDialog.getSaveFileName(
-            self,
-            "Export Stacked Icon as PNG",
-            default_filename,
-            "PNG Files (*.png)"
+            self, "Export Stacked Icon as PNG", default_filename, "PNG Files (*.png)"
         )
 
         if filepath:
@@ -2103,7 +2435,9 @@ class MainWindow(QMainWindow):
         nav_layout.setContentsMargins(0, 0, 0, 0)
 
         title_label = QLabel("QtAwesome Demo")
-        title_label.setStyleSheet("color: white; font-size: 16px; font-weight: bold; padding: 15px;")
+        title_label.setStyleSheet(
+            "color: white; font-size: 16px; font-weight: bold; padding: 15px;"
+        )
         title_label.setAlignment(Qt.AlignCenter)
         nav_layout.addWidget(title_label)
 
