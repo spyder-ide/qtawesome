@@ -30,8 +30,8 @@ class Spin:
                 timer.start(self.interval)
         else:
             timer, angle, self.step = self.info[self.parent_widget]
-            x_center = rect.width() * 0.5
-            y_center = rect.height() * 0.5
+            x_center = rect.x() + rect.width() * 0.5
+            y_center = rect.y() + rect.height() * 0.5
             painter.translate(x_center, y_center)
             painter.rotate(angle)
             painter.translate(-x_center, -y_center)
