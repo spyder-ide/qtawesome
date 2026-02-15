@@ -137,9 +137,7 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         self._exportAction = toolsMenu.addAction("&Export Icon...")
         self._exportAction.setShortcut(QtGui.QKeySequence("Ctrl+E"))
-        self._exportAction.setToolTip(
-            "Open the export dialog for the selected icon"
-        )
+        self._exportAction.setToolTip("Open the export dialog for the selected icon")
         self._exportAction.setEnabled(False)
         self._exportAction.triggered.connect(self._openExportDialog)
 
@@ -540,14 +538,12 @@ class ExportDialog(QtWidgets.QDialog):
                 items.append("    '%s': %s" % (key, repr(value)))
 
         if items:
-            optionsText = (
-                "# qtawesome.icon('%s', **options)\n"
-                "options = {\n%s\n}" % (self._iconName, ",\n".join(items))
+            optionsText = "# qtawesome.icon('%s', **options)\noptions = {\n%s\n}" % (
+                self._iconName,
+                ",\n".join(items),
             )
         else:
-            optionsText = (
-                "# qtawesome.icon('%s')  # default options" % self._iconName
-            )
+            optionsText = "# qtawesome.icon('%s')  # default options" % self._iconName
 
         clipboard = QtWidgets.QApplication.instance().clipboard()
         clipboard.setText(optionsText)
