@@ -241,26 +241,26 @@ class IconBrowser(QtWidgets.QMainWindow):
         """
         Copy the name of the currently selected icon to the clipboard.
         """
-        icon_name = self._getSelectedIconName()
-        if not icon_name:
+        iconName = self._getSelectedIconName()
+        if not iconName:
             return
 
         clipboard = QtWidgets.QApplication.instance().clipboard()
-        clipboard.setText(icon_name)
+        clipboard.setText(iconName)
 
     def _updateNameField(self):
         """
         Update field to the name of the currently selected icon.
         """
-        icon_name = self._getSelectedIconName()
-        if not icon_name:
+        iconName = self._getSelectedIconName()
+        if not iconName:
             self._nameField.setText("")
             self._copyButton.setDisabled(True)
             self._exportAction.setEnabled(False)
             self._copyCodeAction.setEnabled(False)
             return
 
-        self._nameField.setText(icon_name)
+        self._nameField.setText(iconName)
         self._copyButton.setDisabled(False)
         self._exportAction.setEnabled(True)
         self._copyCodeAction.setEnabled(True)
