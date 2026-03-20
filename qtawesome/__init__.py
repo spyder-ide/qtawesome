@@ -18,6 +18,8 @@ Font-Awesome and other iconic fonts for PyQt / PySide applications.
    set_defaults
 """
 
+from __future__ import annotations
+
 import hashlib
 import os
 
@@ -99,7 +101,7 @@ _MD5_HASHES = {
 }
 
 
-def get_fonts_info():
+def get_fonts_info() -> tuple[str, list[str]]:
     """
     Return tuple with information about the bundled fonts being used.
 
@@ -114,11 +116,11 @@ def get_fonts_info():
     )
 
 
-def install_bundled_fonts_system_wide():
+def install_bundled_fonts_system_wide() -> None:
     _instance().install_fonts_system_wide()
 
 
-def has_valid_font_ids(inst):
+def has_valid_font_ids(inst: IconicFont) -> bool:
     """Validate instance's font ids are loaded to QFontDatabase.
 
     It is possible that QFontDatabase was reset or QApplication was recreated
@@ -132,7 +134,7 @@ def has_valid_font_ids(inst):
     return True
 
 
-def _instance():
+def _instance() -> IconicFont:
     """
     Return the singleton instance of IconicFont.
 
@@ -163,12 +165,12 @@ def _instance():
     return _resource["iconic"]
 
 
-def reset_cache():
+def reset_cache() -> None:
     if _resource["iconic"] is not None:
         _resource["iconic"].icon_cache = {}
 
 
-def icon(*names, **kwargs):
+def icon(*names: str, **kwargs) -> QtGui.QIcon:
     """
     Return a QIcon object corresponding to the provided icon name(s).
 
@@ -268,7 +270,8 @@ def icon(*names, **kwargs):
     return _instance().icon(*names, **kwargs)
 
 
-def load_font(prefix, ttf_filename, charmap_filename, directory=None):
+def load_font(prefix: str, ttf_filename: str, charmap_filename: str,
+              directory: str | None = None) -> None:
     """
     Loads a font file and the associated charmap.
 
@@ -314,7 +317,7 @@ def load_font(prefix, ttf_filename, charmap_filename, directory=None):
     return _instance().load_font(prefix, ttf_filename, charmap_filename, directory)
 
 
-def charmap(prefixed_name):
+def charmap(prefixed_name: str) -> dict[str, str]:
     """
     Return the character map used for a given font.
 
@@ -328,7 +331,7 @@ def charmap(prefixed_name):
     return _instance().charmap[prefix][name]
 
 
-def font(prefix, size):
+def font(prefix: str, size: int) -> QtGui.QFont:
     """
     Return the font corresponding to the specified prefix.
 
@@ -351,7 +354,7 @@ def font(prefix, size):
     return _instance().font(prefix, size)
 
 
-def set_defaults(**kwargs):
+def set_defaults(**kwargs) -> None:
     """
     Set default options for icons.
 
@@ -381,13 +384,13 @@ class IconWidget(QtWidgets.QLabel):
     It also has `setIcon()` and `setIconSize()` functions.
     """
 
-    def __init__(self, *names, **kwargs):
+    def __init__(self, *names: str, **kwargs) -> None:
         super().__init__(parent=kwargs.get("parent"))
         self._icon = None
         self._size = kwargs.get("size", QtCore.QSize(16, 16))
         self.setIcon(icon(*names, **kwargs))
 
-    def setIcon(self, _icon):
+    def setIcon(self, _icon: QtGui.QIcon) -> None:
         """
         set a new icon()
 
@@ -399,7 +402,7 @@ class IconWidget(QtWidgets.QLabel):
         self._icon = _icon
         self.setPixmap(_icon.pixmap(self._size))
 
-    def setIconSize(self, size):
+    def setIconSize(self, size: QtCore.QSize) -> None:
         """
         set icon size
 
@@ -410,7 +413,7 @@ class IconWidget(QtWidgets.QLabel):
         """
         self._size = size
 
-    def update(self, *args, **kwargs):
+    def update(self, *args, **kwargs) -> None:
         if self._icon:
             self.setPixmap(self._icon.pixmap(self._size))
         return super().update(*args, **kwargs)
