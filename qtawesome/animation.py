@@ -7,8 +7,13 @@ from qtpy.QtWidgets import QWidget
 
 
 class Spin:
-    def __init__(self, parent_widget: QWidget, interval: int = 10,
-                 step: int = 1, autostart: bool = True) -> None:
+    def __init__(
+        self,
+        parent_widget: QWidget,
+        interval: int = 10,
+        step: int = 1,
+        autostart: bool = True,
+    ) -> None:
         self.parent_widget = parent_widget
         self.interval = interval
         self.step = step
@@ -27,8 +32,9 @@ class Spin:
             self.info[self.parent_widget] = timer, angle, step
             self.parent_widget.update()
 
-    def setup(self, icon_painter: object, painter: QPainter,
-              rect: QtCore.QRect) -> None:
+    def setup(
+        self, icon_painter: object, painter: QPainter, rect: QtCore.QRect
+    ) -> None:
         if self.parent_widget not in self.info:
             timer = QTimer(self.parent_widget)
             timer.timeout.connect(self._update)

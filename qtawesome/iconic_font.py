@@ -12,6 +12,7 @@ contains methods for loading new iconic fonts with their character map and
 methods returning instances of ``QIcon``.
 
 """
+
 from __future__ import annotations
 
 # Standard library imports
@@ -23,7 +24,17 @@ import warnings
 
 # Third party imports
 from qtpy import PYSIDE_VERSION
-from qtpy.QtCore import QObject, QPoint, QRect, QSize, Qt, QSizeF, QRectF, QPointF, QThread
+from qtpy.QtCore import (
+    QObject,
+    QPoint,
+    QRect,
+    QSize,
+    Qt,
+    QSizeF,
+    QRectF,
+    QPointF,
+    QThread,
+)
 from qtpy.QtGui import (
     QColor,
     QFont,
@@ -159,14 +170,28 @@ def set_global_defaults(**kwargs) -> None:
 class CharIconPainter:
     """Char icon painter."""
 
-    def paint(self, iconic: IconicFont, painter: QPainter, rect: QRect,
-              mode: QIcon.Mode, state: QIcon.State, options: list[dict]) -> None:
+    def paint(
+        self,
+        iconic: IconicFont,
+        painter: QPainter,
+        rect: QRect,
+        mode: QIcon.Mode,
+        state: QIcon.State,
+        options: list[dict],
+    ) -> None:
         """Main paint method."""
         for opt in options:
             self._paint_icon(iconic, painter, rect, mode, state, opt)
 
-    def _paint_icon(self, iconic: IconicFont, painter: QPainter, rect: QRect,
-                    mode: QIcon.Mode, state: QIcon.State, options: dict) -> None:
+    def _paint_icon(
+        self,
+        iconic: IconicFont,
+        painter: QPainter,
+        rect: QRect,
+        mode: QIcon.Mode,
+        state: QIcon.State,
+        options: dict,
+    ) -> None:
         """Paint a single icon."""
         painter.save()
 
@@ -325,19 +350,20 @@ class FontError(Exception):
 class CharIconEngine(QIconEngine):
     """Specialization of QIconEngine used to draw font-based icons."""
 
-    def __init__(self, iconic: IconicFont, painter: CharIconPainter,
-                 options: list[dict]) -> None:
+    def __init__(
+        self, iconic: IconicFont, painter: CharIconPainter, options: list[dict]
+    ) -> None:
         super().__init__()
         self.iconic = iconic
         self.painter = painter
         self.options = options
 
-    def paint(self, painter: QPainter, rect: QRect, mode: QIcon.Mode,
-              state: QIcon.State) -> None:
+    def paint(
+        self, painter: QPainter, rect: QRect, mode: QIcon.Mode, state: QIcon.State
+    ) -> None:
         self.painter.paint(self.iconic, painter, rect, mode, state, self.options)
 
-    def pixmap(self, size: QSize, mode: QIcon.Mode,
-               state: QIcon.State) -> QPixmap:
+    def pixmap(self, size: QSize, mode: QIcon.Mode, state: QIcon.State) -> QPixmap:
         pm = QPixmap(size)
         pm.fill(Qt.transparent)
         self.paint(QPainter(pm), QRect(QPoint(0, 0), size), mode, state)
@@ -373,8 +399,13 @@ class IconicFont(QObject):
         for fargs in args:
             self.load_font(*fargs)
 
-    def load_font(self, prefix: str, ttf_filename: str,
-                  charmap_filename: str, directory: str | None = None) -> None:
+    def load_font(
+        self,
+        prefix: str,
+        ttf_filename: str,
+        charmap_filename: str,
+        directory: str | None = None,
+    ) -> None:
         """Loads a font file and the associated charmap.
 
         If ``directory`` is None, the files will be looked for in
@@ -583,8 +614,12 @@ class IconicFont(QObject):
             font.setStyleName("Solid")
         return font
 
-    def rawfont(self, prefix: str, size: int,
-                hintingPreference: QFont.HintingPreference = QFont.PreferDefaultHinting) -> QRawFont:
+    def rawfont(
+        self,
+        prefix: str,
+        size: int,
+        hintingPreference: QFont.HintingPreference = QFont.PreferDefaultHinting,
+    ) -> QRawFont:
         """Return a QRawFont corresponding to the given prefix and size."""
         cache = self.rawfont_cache
         # https://doc.qt.io/qt-5/qrawfont.html

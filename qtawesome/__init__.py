@@ -270,8 +270,9 @@ def icon(*names: str, **kwargs) -> QtGui.QIcon:
     return _instance().icon(*names, **kwargs)
 
 
-def load_font(prefix: str, ttf_filename: str, charmap_filename: str,
-              directory: str | None = None) -> None:
+def load_font(
+    prefix: str, ttf_filename: str, charmap_filename: str, directory: str | None = None
+) -> None:
     """
     Loads a font file and the associated charmap.
 
