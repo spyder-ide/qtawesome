@@ -50,6 +50,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         self._listView.setViewMode(QtWidgets.QListView.IconMode)
         self._listView.setModel(self._proxyModel)
         self._listView.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self._listView.customContextMenuRequested.connect(self._showContextMenu)
         self._listView.doubleClicked.connect(self._copyIconText)
         self._listView.selectionModel().selectionChanged.connect(self._updateNameField)
 
@@ -148,6 +149,14 @@ class IconBrowser(QtWidgets.QMainWindow):
         )
         self._copyCodeAction.setEnabled(False)
         self._copyCodeAction.triggered.connect(self._copyIconCode)
+
+        self._copyNameAction = toolsMenu.addAction("Copy &Name")
+        self._copyNameAction.setShortcut(QtGui.QKeySequence("Ctrl+N"))
+        self._copyNameAction.setToolTip(
+            "Copy the selected icon name to the clipboard"
+        )
+        self._copyNameAction.setEnabled(False)
+        self._copyNameAction.triggered.connect(self._copyIconText)
 
         self.setTabOrder(self._comboFont, self._lineEditFilter)
         self.setTabOrder(self._lineEditFilter, self._comboStyle)
@@ -258,12 +267,14 @@ class IconBrowser(QtWidgets.QMainWindow):
             self._copyButton.setDisabled(True)
             self._exportAction.setEnabled(False)
             self._copyCodeAction.setEnabled(False)
+            self._copyNameAction.setEnabled(False)
             return
 
         self._nameField.setText(iconName)
         self._copyButton.setDisabled(False)
         self._exportAction.setEnabled(True)
         self._copyCodeAction.setEnabled(True)
+        self._copyNameAction.setEnabled(True)
 
     def _getSelectedIconName(self):
         """
@@ -295,6 +306,19 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         clipboard = QtWidgets.QApplication.instance().clipboard()
         clipboard.setText("qtawesome.icon('%s')" % iconName)
+
+    def _showContextMenu(self, pos):
+        """
+        Show a context menu with icon actions at the given position.
+        """
+        if not self._getSelectedIconName():
+            return
+
+        menu = QtWidgets.QMenu(self)
+        menu.addAction(self._exportAction)
+        menu.addAction(self._copyCodeAction)
+        menu.addAction(self._copyNameAction)
+        menu.exec_(self._listView.viewport().mapToGlobal(pos))
 
 
 class ExportDialog(QtWidgets.QDialog):
