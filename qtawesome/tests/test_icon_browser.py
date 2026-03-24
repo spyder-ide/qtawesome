@@ -270,7 +270,6 @@ def test_context_menu(qtbot, browser):
 
     # Track which menu was created
     menus = []
-    origExec = QtWidgets.QMenu.exec_
 
     def fakeExec(self, *args, **kwargs):
         menus.append(self)
