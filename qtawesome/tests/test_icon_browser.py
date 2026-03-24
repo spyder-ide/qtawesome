@@ -258,6 +258,7 @@ def test_export_dialog_do_export(qtbot, browser, tmp_path, monkeypatch):
     dialog._doExport()
 
     import os
+
     assert os.path.exists(filepath)
     assert os.path.getsize(filepath) > 0
 

@@ -152,9 +152,7 @@ class IconBrowser(QtWidgets.QMainWindow):
 
         self._copyNameAction = toolsMenu.addAction("Copy &Name")
         self._copyNameAction.setShortcut(QtGui.QKeySequence("Ctrl+N"))
-        self._copyNameAction.setToolTip(
-            "Copy the selected icon name to the clipboard"
-        )
+        self._copyNameAction.setToolTip("Copy the selected icon name to the clipboard")
         self._copyNameAction.setEnabled(False)
         self._copyNameAction.triggered.connect(self._copyIconText)
 
