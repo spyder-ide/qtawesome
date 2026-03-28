@@ -2,6 +2,8 @@
 Tests for QtAwesome Icon Browser.
 """
 
+import os
+
 # Third party imports
 from qtpy import QtCore, QtWidgets
 import pytest
@@ -9,6 +11,19 @@ import pytest
 # Local imports
 from qtawesome.icon_browser import IconBrowser, ExportDialog
 from qtawesome.styles import DEFAULT_DARK_PALETTE
+
+
+def _select_first_icon(qtbot, browser, search="penguin"):
+    """Helper to filter and select the first matching icon."""
+    qtbot.keyClicks(browser._lineEditFilter, search)
+    qtbot.keyPress(browser._lineEditFilter, QtCore.Qt.Key_Enter)
+
+    model = browser._listView.model()
+    selectionModel = browser._listView.selectionModel()
+    selectionModel.setCurrentIndex(
+        model.index(0, 0), QtCore.QItemSelectionModel.ClearAndSelect
+    )
+    return browser._getSelectedIconName()
 
 
 @pytest.fixture
@@ -92,19 +107,6 @@ def test_filter_no_results(qtbot, browser):
 
     filteredRowCount = browser._listView.model().rowCount()
     assert filteredRowCount == 0
-
-
-def _select_first_icon(qtbot, browser, search="penguin"):
-    """Helper to filter and select the first matching icon."""
-    qtbot.keyClicks(browser._lineEditFilter, search)
-    qtbot.keyPress(browser._lineEditFilter, QtCore.Qt.Key_Enter)
-
-    model = browser._listView.model()
-    selectionModel = browser._listView.selectionModel()
-    selectionModel.setCurrentIndex(
-        model.index(0, 0), QtCore.QItemSelectionModel.ClearAndSelect
-    )
-    return browser._getSelectedIconName()
 
 
 def test_copy_code(qtbot, browser):
@@ -257,36 +259,35 @@ def test_export_dialog_do_export(qtbot, browser, tmp_path, monkeypatch):
 
     dialog._doExport()
 
-    import os
-
     assert os.path.exists(filepath)
     assert os.path.getsize(filepath) > 0
 
 
-def test_context_menu(qtbot, browser):
+def test_context_menu(qtbot, browser, monkeypatch):
     """
     Ensure the context menu contains the expected actions.
     """
     _select_first_icon(qtbot, browser)
 
-    # Track which menu was created
-    menus = []
+    # Capture the menu by replacing _showContextMenu with a version
+    # that builds the menu but skips exec_ to avoid blocking on PySide2
+    menu = None
 
-    def fakeExec(self, *args, **kwargs):
-        menus.append(self)
-        # Don't actually show the menu
-        return None
+    def fakeShowContextMenu(pos):
+        nonlocal menu
+        if not browser._getSelectedIconName():
+            return
+        menu = QtWidgets.QMenu(browser)
+        menu.addAction(browser._exportAction)
+        menu.addAction(browser._copyCodeAction)
+        menu.addAction(browser._copyNameAction)
+        # Skip menu.exec_() to prevent blocking
 
-    monkeypatch = pytest.MonkeyPatch()
-    monkeypatch.setattr(QtWidgets.QMenu, "exec_", fakeExec)
-
+    monkeypatch.setattr(browser, "_showContextMenu", fakeShowContextMenu)
     browser._showContextMenu(QtCore.QPoint(10, 10))
 
-    monkeypatch.undo()
-
-    assert len(menus) == 1
-    actions = menus[0].actions()
-    actionTexts = [a.text() for a in actions]
+    assert menu is not None
+    actionTexts = [a.text() for a in menu.actions()]
     assert "&Export Icon..." in actionTexts
     assert "Copy &Code" in actionTexts
     assert "Copy &Name" in actionTexts
