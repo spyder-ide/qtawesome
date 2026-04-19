@@ -1,5 +1,23 @@
 # History of changes
 
+## Version 1.4.2 (2026-04-10)
+
+### Issues Closed
+
+* [Issue 302](https://github.com/spyder-ide/qtawesome/issues/302) - Release QtAwesome 1.4.2
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 298](https://github.com/spyder-ide/qtawesome/pull/298) - PR: Fix icon center when using a custom rect definition, by [@fdklgbh](https://github.com/fdklgbh)
+
+In this release 1 pull request was closed.
+
+
+----
+
+
 ## Version 1.4.1 (2026-01-23)
 
 ### Issues Closed
