@@ -2,6 +2,7 @@
 Tests for QtAwesome Icon Browser.
 """
 
+# Standard library imports
 import os
 
 # Third party imports
@@ -9,7 +10,7 @@ from qtpy import QtCore, QtWidgets
 import pytest
 
 # Local imports
-from qtawesome.icon_browser import IconBrowser, ExportDialog
+from qtawesome.icon_browser import ExportDialog, IconBrowser
 from qtawesome.styles import DEFAULT_DARK_PALETTE
 
 

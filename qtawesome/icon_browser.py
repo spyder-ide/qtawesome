@@ -136,7 +136,7 @@ class IconBrowser(QtWidgets.QMainWindow):
         menuBar = self.menuBar()
         toolsMenu = menuBar.addMenu("&Tools")
 
-        self._exportAction = toolsMenu.addAction("&Export Icon...")
+        self._exportAction = toolsMenu.addAction("Customize &Icon...")
         self._exportAction.setShortcut(QtGui.QKeySequence("Ctrl+E"))
         self._exportAction.setToolTip("Open the export dialog for the selected icon")
         self._exportAction.setEnabled(False)
@@ -328,7 +328,7 @@ class ExportDialog(QtWidgets.QDialog):
 
     def __init__(self, iconName, parent=None):
         super().__init__(parent)
-        self.setWindowTitle("Export Icon")
+        self.setWindowTitle("Customize Icon")
         self.setMinimumWidth(420)
         self._iconName = iconName
         self._setupUi()
