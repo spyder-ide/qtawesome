@@ -149,7 +149,7 @@ def test_export_dialog_init(qtbot, browser):
     dialog = ExportDialog(iconName, parent=browser)
     qtbot.add_widget(dialog)
 
-    assert dialog.windowTitle() == "Export Icon"
+    assert dialog.windowTitle() == "Customize Icon"
     assert dialog._iconName == iconName
     assert dialog._scaleSpin.value() == 1.0
     assert dialog._opacitySlider.value() == 100
@@ -289,7 +289,7 @@ def test_context_menu(qtbot, browser, monkeypatch):
 
     assert menu is not None
     actionTexts = [a.text() for a in menu.actions()]
-    assert "&Export Icon..." in actionTexts
+    assert "Customize &Icon..." in actionTexts
     assert "Copy &Code" in actionTexts
     assert "Copy &Name" in actionTexts
 
