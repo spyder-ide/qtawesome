@@ -75,6 +75,30 @@ def _elastic_ease_out(t, amplitude=1.0, period_factor=0.3):
     s = p / 4
     return amplitude * math.pow(2, -10 * t) * math.sin((t - s) * (2 * math.pi) / p) + 1
 
+# Utility functions for common transformations
+def _apply_centered_transform(painter, rect, scale=1.0, angle=0.0):
+    """Apply centered transformation to painter.
+    
+    Parameters
+    ----------
+    painter: QPainter
+        Painter object
+    rect: QRect
+        Rectangle containing the icon
+    scale: float
+        Scale factor
+    angle: float
+        Rotation angle in degrees
+    """
+    x_center = rect.width() * 0.5
+    y_center = rect.height() * 0.5
+    painter.translate(x_center, y_center)
+    if angle != 0:
+        painter.rotate(angle)
+    if scale != 1.0:
+        painter.scale(scale, scale)
+    painter.translate(-x_center, -y_center)
+
 
 class BaseAnimation:
     """Base class for all icon animations.
@@ -204,12 +228,7 @@ class Spin(BaseAnimation):
             state["angle"] = 0
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        angle = state["angle"]
-        x_center = rect.width() * 0.5
-        y_center = rect.height() * 0.5
-        painter.translate(x_center, y_center)
-        painter.rotate(angle)
-        painter.translate(-x_center, -y_center)
+        _apply_centered_transform(painter, rect, angle=state["angle"])
 
 
 class Pulse(Spin):
@@ -265,13 +284,7 @@ class Breathe(BaseAnimation):
         )
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        scale = state["scale"]
-        x_center = rect.width() * 0.5
-        y_center = rect.height() * 0.5
-        painter.translate(x_center, y_center)
-        painter.scale(scale, scale)
-        painter.translate(-x_center, -y_center)
-
+        _apply_centered_transform(painter, rect, scale=state["scale"])
 
 class Fade(BaseAnimation):
     """Fade/opacity pulsating animation (icon fades in and out).
@@ -490,12 +503,7 @@ class HeartBeat(BaseAnimation):
             state["scale"] = self.min_scale
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        scale = state["scale"]
-        x_center = rect.width() * 0.5
-        y_center = rect.height() * 0.5
-        painter.translate(x_center, y_center)
-        painter.scale(scale, scale)
-        painter.translate(-x_center, -y_center)
+        _apply_centered_transform(painter, rect, scale=state["scale"])
 
 
 class Swing(BaseAnimation):
@@ -533,12 +541,7 @@ class Swing(BaseAnimation):
         )
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        angle = state["angle"]
-        x_center = rect.width() * 0.5
-        y_center = rect.height() * 0.5
-        painter.translate(x_center, y_center)
-        painter.rotate(angle)
-        painter.translate(-x_center, -y_center)
+        _apply_centered_transform(painter, rect, angle=state["angle"])
 
 
 class Elastic(BaseAnimation):
@@ -584,12 +587,7 @@ class Elastic(BaseAnimation):
         )
 
     def _apply_transform(self, icon_painter, painter, rect, state):
-        scale = state["scale"]
-        x_center = rect.width() * 0.5
-        y_center = rect.height() * 0.5
-        painter.translate(x_center, y_center)
-        painter.scale(scale, scale)
-        painter.translate(-x_center, -y_center)
+        _apply_centered_transform(painter, rect, scale=state["scale"])
 
 
 class CompositeAnimation(BaseAnimation):
