@@ -75,10 +75,11 @@ def _elastic_ease_out(t, amplitude=1.0, period_factor=0.3):
     s = p / 4
     return amplitude * math.pow(2, -10 * t) * math.sin((t - s) * (2 * math.pi) / p) + 1
 
+
 # Utility functions for common transformations
 def _apply_centered_transform(painter, rect, scale=1.0, angle=0.0):
     """Apply centered transformation to painter.
-    
+
     Parameters
     ----------
     painter: QPainter
@@ -285,6 +286,7 @@ class Breathe(BaseAnimation):
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         _apply_centered_transform(painter, rect, scale=state["scale"])
+
 
 class Fade(BaseAnimation):
     """Fade/opacity pulsating animation (icon fades in and out).
