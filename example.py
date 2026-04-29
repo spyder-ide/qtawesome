@@ -223,7 +223,9 @@ class AwesomeExample(QtWidgets.QDialog):
         # Elastic animation
         elastic_button = QtWidgets.QPushButton(" Elastic")
         animation9 = qta.Elastic(elastic_button, min_scale=0.6, max_scale=1.0)
-        elastic_icon = qta.icon("fa5s.certificate", color="purple", animation=animation9)
+        elastic_icon = qta.icon(
+            "fa5s.certificate", color="purple", animation=animation9
+        )
         elastic_button.setIcon(elastic_icon)
         elastic_button.setIconSize(ICON_SIZE)
 
@@ -233,7 +235,9 @@ class AwesomeExample(QtWidgets.QDialog):
         anim_breathe = qta.Breathe(
             composite_button, min_scale=0.8, max_scale=1.2, autostart=False
         )
-        composite_anim = qta.CompositeAnimation(composite_button, [anim_spin, anim_breathe])
+        composite_anim = qta.CompositeAnimation(
+            composite_button, [anim_spin, anim_breathe]
+        )
         composite_icon = qta.icon("fa5s.star", color="orange", animation=composite_anim)
         composite_button.setIcon(composite_icon)
         composite_button.setIconSize(ICON_SIZE)
