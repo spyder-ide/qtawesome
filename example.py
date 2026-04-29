@@ -10,7 +10,7 @@ from qtpy import QtCore, QtWidgets
 import qtawesome as qta
 
 
-ICON_SIZE = QtCore.QSize(28, 28)
+ICON_SIZE = QtCore.QSize(16, 16)
 
 
 class AwesomeExample(QtWidgets.QDialog):
