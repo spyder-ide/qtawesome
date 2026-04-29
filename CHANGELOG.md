@@ -1,5 +1,48 @@
 # History of changes
 
+## Version 1.4.2 (2026-04-10)
+
+### Issues Closed
+
+* [Issue 302](https://github.com/spyder-ide/qtawesome/issues/302) - Release QtAwesome 1.4.2
+
+In this release 1 issue was closed.
+
+### Pull Requests Merged
+
+* [PR 298](https://github.com/spyder-ide/qtawesome/pull/298) - PR: Fix icon center when using a custom rect definition, by [@fdklgbh](https://github.com/fdklgbh)
+
+In this release 1 pull request was closed.
+
+
+----
+
+
+## Version 1.4.1 (2026-01-23)
+
+### Issues Closed
+
+* [Issue 296](https://github.com/spyder-ide/qtawesome/issues/296) - Release QtAwesome 1.4.1
+* [Issue 284](https://github.com/spyder-ide/qtawesome/issues/284) - `example.py` segfaults with both PyQt 6 and PySide 6 (6.8.x) ([PR 288](https://github.com/spyder-ide/qtawesome/pull/288) by [@dalthviz](https://github.com/dalthviz))
+* [Issue 280](https://github.com/spyder-ide/qtawesome/issues/280) - Segfault at the end on Qt6 when `draw=='path'` ([PR 290](https://github.com/spyder-ide/qtawesome/pull/290) by [@StSav012](https://github.com/StSav012))
+
+In this release 3 issues were closed.
+
+### Pull Requests Merged
+
+* [PR 299](https://github.com/spyder-ide/qtawesome/pull/299) - PR: Update macOS image label to `macos-15-intel`, by [@dalthviz](https://github.com/dalthviz)
+* [PR 292](https://github.com/spyder-ide/qtawesome/pull/292) - PR: Add Qt6 (PyQt6/PySide6) test jobs and fix PySide2 and `pytest-qt` support related failures, by [@StSav012](https://github.com/StSav012)
+* [PR 290](https://github.com/spyder-ide/qtawesome/pull/290) - PR: Do not clear the cache of `QRawFont` instances for the main app thread, by [@StSav012](https://github.com/StSav012) ([280](https://github.com/spyder-ide/qtawesome/issues/280))
+* [PR 288](https://github.com/spyder-ide/qtawesome/pull/288) - PR: Check specific PySide6 version (6.8.3) in CI and address CI warnings (`setup-miniconda`), by [@dalthviz](https://github.com/dalthviz) ([284](https://github.com/spyder-ide/qtawesome/issues/284))
+* [PR 287](https://github.com/spyder-ide/qtawesome/pull/287) - PR: Add new security policy, by [@CAM-Gerlach](https://github.com/CAM-Gerlach)
+* [PR 286](https://github.com/spyder-ide/qtawesome/pull/286) - [pre-commit.ci] pre-commit autoupdate, by [@pre-commit-ci[bot]](https://github.com/apps/pre-commit-ci)
+
+In this release 6 pull requests were closed.
+
+
+----
+
+
 ## Version 1.4.0 (2025-02-27)
 
 ### Issues Closed
