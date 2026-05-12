@@ -19,7 +19,7 @@ class Spin:
         self.step = step
         self.autostart = autostart
 
-        self.info = {}
+        self.info: dict[QWidget, tuple[QTimer, int, int]] = {}
 
     def _update(self):
         if self.parent_widget in self.info:
