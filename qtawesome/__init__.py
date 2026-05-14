@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+from typing import cast
 
 # Third party imports
 from qtpy import QtCore, QtWidgets, QtGui
@@ -34,7 +35,7 @@ from .iconic_font import SYSTEM_FONTS as _SYSTEM_FONTS
 from .styles import dark as dark, light as light
 
 # Constants
-_resource = {"iconic": None}
+_resource: dict[str, None | IconicFont] = {"iconic": None}
 
 _BUNDLED_FONTS = (
     (
@@ -162,7 +163,7 @@ def _instance() -> IconicFont:
                     raise FontError(f"Font is corrupt at: '{ttf_filepath}'")
 
         _resource["iconic"] = IconicFont(*_BUNDLED_FONTS)
-    return _resource["iconic"]
+    return cast(IconicFont, _resource["iconic"])
 
 
 def reset_cache() -> None:

@@ -75,7 +75,7 @@ if os.name == "nt":
     GFRI_ISTRUETYPE = 3
 
     if not hasattr(wintypes, "LPDWORD"):
-        wintypes.LPDWORD = ctypes.POINTER(wintypes.DWORD)
+        wintypes.LPDWORD = ctypes.POINTER(wintypes.DWORD)  # type: ignore[assignment]
 
     user32.SendMessageTimeoutW.restype = wintypes.LPVOID
     user32.SendMessageTimeoutW.argtypes = (
@@ -389,13 +389,13 @@ class IconicFont(QObject):
         """
         super().__init__()
         self.painter = CharIconPainter()
-        self.painters = {}
-        self.fontname = {}
-        self.fontdata = {}
-        self.fontids = {}
-        self.charmap = {}
-        self.icon_cache = {}
-        self.rawfont_cache = {}
+        self.painters: dict[str, CharIconPainter] = {}
+        self.fontname: dict[str, str] = {}
+        self.fontdata: dict[str, bytes] = {}
+        self.fontids: dict[str, int] = {}
+        self.charmap: dict[str, dict] = {}
+        self.icon_cache: dict[str, QIcon] = {}
+        self.rawfont_cache: dict[str | int, dict] = {}
         for fargs in args:
             self.load_font(*fargs)
 
@@ -629,7 +629,7 @@ class IconicFont(QObject):
         # but will have to be recreated in the thread in question.
         if PYSIDE_VERSION:
             # Needed since PySide* bindings don't expose QThread.currentThreadId
-            tid = str(QThread.currentThread())
+            tid: str | int = str(QThread.currentThread())
         else:
             tid = int(QThread.currentThreadId())
 

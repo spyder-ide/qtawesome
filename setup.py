@@ -9,7 +9,7 @@ import setupbase
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 
-VERSION_NS = {}
+VERSION_NS: dict[str, str] = {}
 with open(os.path.join(HERE, "qtawesome", "_version.py")) as f:
     exec(f.read(), {}, VERSION_NS)
 
