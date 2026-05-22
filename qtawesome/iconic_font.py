@@ -64,11 +64,11 @@ SYSTEM_FONTS = False
 # Needed imports and constants to install bundled fonts on Windows
 # Based on https://stackoverflow.com/a/41841088/15954282
 if os.name == "nt":
-    from ctypes import wintypes, windll
+    from ctypes import wintypes, windll  # type: ignore[attr-defined]
     import winreg
 
-    user32 = ctypes.WinDLL("user32", use_last_error=True)
-    gdi32 = ctypes.WinDLL("gdi32", use_last_error=True)
+    user32 = ctypes.WinDLL("user32", use_last_error=True)  # type: ignore[attr-defined]
+    gdi32 = ctypes.WinDLL("gdi32", use_last_error=True)  # type: ignore[attr-defined]
 
     FONTS_REG_PATH = r"Software\Microsoft\Windows NT\CurrentVersion\Fonts"
     GFRI_DESCRIPTION = 1
