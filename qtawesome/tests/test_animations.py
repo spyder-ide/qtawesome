@@ -28,26 +28,25 @@ def test_spin_animation_rotation(test_widget, qtbot):
     icon = qta.icon("fa5s.spinner", animation=animation)
     test_widget.setIcon(icon)
 
-    test_widget.show()
-    qtbot.waitExposed(test_widget)
+    with qtbot.waitExposed(test_widget):
+        test_widget.show()
     test_widget.update()
-    qtbot.wait(100)
 
-    if test_widget in animation.info:
-        _, _, state1 = animation.info[test_widget]
-        angle1 = state1["angle"]
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    _, _, state1 = animation.info[test_widget]
+    angle1 = state1["angle"]
 
-        # Wait for rotation to progress
-        qtbot.wait(200)
-        test_widget.update()
+    # Wait for rotation to progress
+    qtbot.wait(200)
+    test_widget.update()
 
-        _, _, state2 = animation.info[test_widget]
-        angle2 = state2["angle"]
+    _, _, state2 = animation.info[test_widget]
+    angle2 = state2["angle"]
 
-        # Angle should have increased
-        assert angle2 > angle1
-        # Angle should wrap at 360
-        assert 0 <= angle2 < 360
+    # Angle should have increased
+    assert angle2 > angle1
+    # Angle should wrap at 360
+    assert 0 <= angle2 < 360
 
 
 def test_spin_animation_step_size(test_widget, qtbot):
@@ -57,27 +56,22 @@ def test_spin_animation_step_size(test_widget, qtbot):
     icon = qta.icon("fa5s.spinner", animation=animation)
     test_widget.setIcon(icon)
 
-    test_widget.show()
-    qtbot.waitExposed(test_widget)
+    with qtbot.waitExposed(test_widget):
+        test_widget.show()
     test_widget.update()
-    qtbot.wait(100)
 
-    if test_widget in animation.info:
-        _, _, state1 = animation.info[test_widget]
-        angle1 = state1["angle"]
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    _, _, state1 = animation.info[test_widget]
+    angle1 = state1["angle"]
 
-        # Wait for one update
-        qtbot.wait(60)
-        test_widget.update()
+    # Wait for one update
+    qtbot.wait(60)
+    test_widget.update()
 
-        _, _, state2 = animation.info[test_widget]
-        angle2 = state2["angle"]
-
-        # Should have rotated by approximately the step size
-        angle_diff = angle2 - angle1
-        if angle_diff < 0:  # Handle wrap-around
-            angle_diff += 360
-        assert 40 <= angle_diff <= 50  # Allow some tolerance
+    # Should have rotated by approximately the step size
+    qtbot.waitUntil(
+        lambda: 40 <= animation.info[test_widget][2]["angle"] - angle1 <= 50
+    )  # Allow some tolerance
 
 
 def test_pulse_animation_creation(test_widget):
@@ -97,27 +91,26 @@ def test_breathe_animation_scaling(test_widget, qtbot):
     icon = qta.icon("fa5s.heart", animation=animation)
     test_widget.setIcon(icon)
 
-    test_widget.show()
-    qtbot.waitExposed(test_widget)
+    with qtbot.waitExposed(test_widget):
+        test_widget.show()
     test_widget.update()
-    qtbot.wait(100)
 
-    if test_widget in animation.info:
-        scales = []
-        # Sample scales over time
-        for i in range(8):
-            _, _, state = animation.info[test_widget]
-            scales.append(state["scale"])
-            qtbot.wait(100)
-            test_widget.update()
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    scales = []
+    # Sample scales over time
+    for i in range(8):
+        _, _, state = animation.info[test_widget]
+        scales.append(state["scale"])
+        qtbot.wait(100)
+        test_widget.update()
 
-        # Should see variation in scales
-        assert len(set(scales)) > 2
-        # All scales should be within bounds
-        for scale in scales:
-            assert animation.min_scale <= scale <= animation.max_scale
-        # Should see both growth and shrinkage
-        assert max(scales) > min(scales)
+    # Should see variation in scales
+    assert len(set(scales)) > 2
+    # All scales should be within bounds
+    for scale in scales:
+        assert animation.min_scale <= scale <= animation.max_scale
+    # Should see both growth and shrinkage
+    assert max(scales) > min(scales)
 
 
 def test_fade_animation_opacity_changes(test_widget, qtbot):
@@ -129,28 +122,27 @@ def test_fade_animation_opacity_changes(test_widget, qtbot):
     test_widget.setIcon(icon)
 
     # Trigger paint to initialize
-    test_widget.show()
-    qtbot.waitExposed(test_widget)
+    with qtbot.waitExposed(test_widget):
+        test_widget.show()
     test_widget.update()
-    qtbot.wait(100)
 
     # Get initial opacity state
-    if test_widget in animation.info:
-        _, _, state1 = animation.info[test_widget]
-        opacity1 = state1["opacity"]
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    _, _, state1 = animation.info[test_widget]
+    opacity1 = state1["opacity"]
 
-        # Wait for animation to progress
-        qtbot.wait(300)
-        test_widget.update()
+    # Wait for animation to progress
+    qtbot.wait(100)
+    test_widget.update()
 
-        # Get new opacity state
-        _, _, state2 = animation.info[test_widget]
-        opacity2 = state2["opacity"]
+    # Get new opacity state
+    _, _, state2 = animation.info[test_widget]
+    opacity2 = state2["opacity"]
 
-        # Opacity should have changed
-        assert opacity1 != opacity2
-        # Opacity should be within bounds
-        assert animation.min_opacity <= opacity2 <= animation.max_opacity
+    # Opacity should have changed
+    assert opacity1 != opacity2
+    # Opacity should be within bounds
+    assert animation.min_opacity <= opacity2 <= animation.max_opacity
 
 
 def test_fade_animation_period_affects_speed(test_widget, qtbot):
@@ -160,19 +152,17 @@ def test_fade_animation_period_affects_speed(test_widget, qtbot):
     icon = qta.icon("fa5s.lightbulb", animation=fast_anim)
     test_widget.setIcon(icon)
 
-    test_widget.show()
-    qtbot.waitExposed(test_widget)
+    with qtbot.waitExposed(test_widget):
+        test_widget.show()
     test_widget.update()
-    qtbot.wait(100)
 
-    if test_widget in fast_anim.info:
-        # Progress through half the period
-        qtbot.wait(250)
-        test_widget.update()
+    qtbot.waitUntil(lambda: test_widget in fast_anim.info)
+    # Progress through half the period
+    qtbot.wait(300)
+    test_widget.update()
 
-        _, elapsed, _ = fast_anim.info[test_widget]
-        # Should have progressed significantly (at least 250ms)
-        assert elapsed >= 250
+    # Should have progressed significantly (at least 250ms)
+    qtbot.waitUntil(lambda: fast_anim.info[test_widget][1] >= 250)
 
 
 def test_shake_animation_offset_changes(test_widget, qtbot):
@@ -186,27 +176,26 @@ def test_shake_animation_offset_changes(test_widget, qtbot):
     test_widget.show()
     qtbot.waitExposed(test_widget)
     test_widget.update()
+
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    _, _, state = animation.info[test_widget]
+    offset_x = state["offset_x"]
+    offset_y = state["offset_y"]
+
+    # Offsets should be within amplitude bounds
+    assert abs(offset_x) <= animation.amplitude_x
+    assert abs(offset_y) <= animation.amplitude_y
+
+    # Wait and check that offsets change
     qtbot.wait(100)
+    test_widget.update()
 
-    if test_widget in animation.info:
-        _, _, state = animation.info[test_widget]
-        offset_x = state["offset_x"]
-        offset_y = state["offset_y"]
+    _, _, state2 = animation.info[test_widget]
+    offset_x2 = state2["offset_x"]
+    offset_y2 = state2["offset_y"]
 
-        # Offsets should be within amplitude bounds
-        assert abs(offset_x) <= animation.amplitude_x
-        assert abs(offset_y) <= animation.amplitude_y
-
-        # Wait and check that offsets change
-        qtbot.wait(100)
-        test_widget.update()
-
-        _, _, state2 = animation.info[test_widget]
-        offset_x2 = state2["offset_x"]
-        offset_y2 = state2["offset_y"]
-
-        # At least one offset should have changed
-        assert offset_x != offset_x2 or offset_y != offset_y2
+    # At least one offset should have changed
+    assert offset_x != offset_x2 or offset_y != offset_y2
 
 
 def test_color_cycle_changes_colors(test_widget, qtbot):
@@ -221,23 +210,21 @@ def test_color_cycle_changes_colors(test_widget, qtbot):
     test_widget.show()
     qtbot.waitExposed(test_widget)
     test_widget.update()
-    qtbot.wait(100)
 
-    if test_widget in animation.info:
-        _, _, state1 = animation.info[test_widget]
-        color_index1 = state1["color_index"]
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    _, _, state1 = animation.info[test_widget]
+    color_index1 = state1["color_index"]
 
-        # Wait for color to change (longer than color_duration)
-        qtbot.wait(250)
-        test_widget.update()
+    # Wait for color to change (longer than color_duration)
+    qtbot.wait(250)
+    test_widget.update()
 
-        _, _, state2 = animation.info[test_widget]
-        color_index2 = state2["color_index"]
-
-        # Color index should have changed
-        assert color_index1 != color_index2
-        # Should cycle within bounds
-        assert 0 <= color_index2 < len(custom_colors)
+    # Color index should have changed
+    qtbot.waitUntil(
+        lambda: color_index1 != animation.info[test_widget][2]["color_index"]
+    )
+    # Should cycle within bounds
+    assert 0 <= animation.info[test_widget][2]["color_index"] < len(custom_colors)
 
 
 def test_heartbeat_animation_double_pulse(test_widget, qtbot):
@@ -253,20 +240,20 @@ def test_heartbeat_animation_double_pulse(test_widget, qtbot):
     test_widget.update()
     qtbot.wait(100)
 
-    if test_widget in animation.info:
-        scales = []
-        # Sample scale values throughout one complete period
-        for i in range(8):
-            _, _, state = animation.info[test_widget]
-            scales.append(state["scale"])
-            qtbot.wait(100)
-            test_widget.update()
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    scales = []
+    # Sample scale values throughout one complete period
+    for i in range(8):
+        _, _, state = animation.info[test_widget]
+        scales.append(state["scale"])
+        qtbot.wait(100)
+        test_widget.update()
 
-        # Should see variation in scales (not all the same)
-        assert len(set(scales)) > 1
-        # All scales should be within bounds
-        for scale in scales:
-            assert animation.min_scale <= scale <= animation.max_scale
+    # Should see variation in scales (not all the same)
+    assert len(set(scales)) > 1
+    # All scales should be within bounds
+    for scale in scales:
+        assert animation.min_scale <= scale <= animation.max_scale
 
 
 def test_heartbeat_timing_proportions(test_widget):
@@ -289,24 +276,23 @@ def test_swing_animation_pendulum_motion(test_widget, qtbot):
     test_widget.update()
     qtbot.wait(100)
 
-    if test_widget in animation.info:
-        angles = []
-        # Sample angles throughout period
-        for i in range(6):
-            _, _, state = animation.info[test_widget]
-            angles.append(state["angle"])
-            qtbot.wait(100)
-            test_widget.update()
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    angles = []
+    # Sample angles throughout period
+    for i in range(6):
+        _, _, state = animation.info[test_widget]
+        angles.append(state["angle"])
+        qtbot.wait(100)
+        test_widget.update()
 
-        # Should see variation in angles
-        assert len(set(angles)) > 1
-        # All angles should be within bounds (±max_angle)
-        for angle in angles:
-            assert -animation.max_angle <= angle <= animation.max_angle
-        # Should swing both positive and negative
-        has_positive = any(a > 0 for a in angles)
-        has_negative = any(a < 0 for a in angles)
-        assert has_positive and has_negative
+    # Should see variation in angles
+    assert len(set(angles)) > 1
+    # All angles should be within bounds (±max_angle)
+    for angle in angles:
+        assert -animation.max_angle <= angle <= animation.max_angle
+    # Should swing both positive and negative
+    qtbot.waitUntil(lambda: animation.info[test_widget][2]["angle"] > 0)
+    qtbot.waitUntil(lambda: animation.info[test_widget][2]["angle"] > 0)
 
 
 def test_elastic_animation_overshoot_behavior(test_widget, qtbot):
@@ -322,26 +308,25 @@ def test_elastic_animation_overshoot_behavior(test_widget, qtbot):
     test_widget.update()
     qtbot.wait(100)
 
-    if test_widget in animation.info:
-        scales = []
-        max_observed = 0
-        # Sample scales throughout the elastic animation
-        for i in range(12):
-            _, _, state = animation.info[test_widget]
-            scale = state["scale"]
-            scales.append(scale)
-            max_observed = max(max_observed, scale)
-            qtbot.wait(80)
-            test_widget.update()
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    scales = []
+    max_observed = 0
+    # Sample scales throughout the elastic animation
+    for i in range(12):
+        _, _, state = animation.info[test_widget]
+        scale = state["scale"]
+        scales.append(scale)
+        max_observed = max(max_observed, scale)
+        qtbot.wait(80)
+        test_widget.update()
 
-        # Should see scale variations (bouncing)
-        assert len(set(scales)) > 1
-        # Elastic should overshoot the target (max_scale)
-        # Due to elastic easing, it should exceed max_scale at some point
-        assert (
-            max_observed > animation.max_scale
-            or max_observed >= animation.max_scale * 0.95
-        )
+    # Should see scale variations (bouncing)
+    assert len(set(scales)) > 1
+    # Elastic should overshoot the target (max_scale)
+    # Due to elastic easing, it should exceed max_scale at some point
+    assert (
+        max_observed > animation.max_scale or max_observed >= animation.max_scale * 0.95
+    )
 
 
 def test_composite_animation_combines_effects(test_widget, qtbot):
@@ -368,28 +353,28 @@ def test_composite_animation_combines_effects(test_widget, qtbot):
     qtbot.wait(100)
 
     # Check that both child animations are updating
-    if test_widget in anim1.info and test_widget in anim2.info:
-        # Get initial states
-        _, _, spin_state1 = anim1.info[test_widget]
-        _, _, breathe_state1 = anim2.info[test_widget]
-        angle1 = spin_state1["angle"]
-        scale1 = breathe_state1["scale"]
+    qtbot.waitUntil(lambda: test_widget in anim1.info and test_widget in anim2.info)
+    # Get initial states
+    _, _, spin_state1 = anim1.info[test_widget]
+    _, _, breathe_state1 = anim2.info[test_widget]
+    angle1 = spin_state1["angle"]
+    scale1 = breathe_state1["scale"]
 
-        # Wait for updates
-        qtbot.wait(200)
-        test_widget.update()
+    # Wait for updates
+    qtbot.wait(200)
+    test_widget.update()
 
-        # Get new states
-        _, _, spin_state2 = anim1.info[test_widget]
-        _, _, breathe_state2 = anim2.info[test_widget]
-        angle2 = spin_state2["angle"]
-        scale2 = breathe_state2["scale"]
+    # Get new states
+    _, _, spin_state2 = anim1.info[test_widget]
+    _, _, breathe_state2 = anim2.info[test_widget]
+    angle2 = spin_state2["angle"]
+    scale2 = breathe_state2["scale"]
 
-        # Both animations should be progressing
-        assert angle2 != angle1  # Spin is rotating
-        # Scale might be the same if sampled at same point in sine wave, so just check it's valid
-        assert 0.8 <= scale2 <= 1.2
-        assert scale1 != scale2
+    # Both animations should be progressing
+    assert angle2 != angle1  # Spin is rotating
+    # Scale might be the same if sampled at same point in sine wave, so just check it's valid
+    assert 0.8 <= scale2 <= 1.2
+    assert scale1 != scale2
 
 
 def test_composite_animation_child_autostart_disabled(test_widget):
@@ -420,13 +405,12 @@ def test_animation_start_stop(test_widget, qtbot):
 
     # Start animation
     animation.start()
-    if test_widget in animation.info:
-        timer = animation.info[test_widget][0]
-        assert timer.isActive()
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    qtbot.waitUntil(lambda: animation.info[test_widget][0].isActive())
 
-        # Stop animation
-        animation.stop()
-        assert not timer.isActive()
+    # Stop animation
+    animation.stop()
+    qtbot.waitUntil(lambda: not animation.info[test_widget][0].isActive())
 
 
 def test_animation_reset(test_widget, qtbot):
@@ -443,14 +427,13 @@ def test_animation_reset(test_widget, qtbot):
 
     animation.start()
     # Force an update to change the state
-    if test_widget in animation.info:
-        timer, elapsed, state = animation.info[test_widget]
-        animation.info[test_widget] = [timer, 1000, state]  # Set elapsed time
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    timer, elapsed, state = animation.info[test_widget]
+    animation.info[test_widget] = [timer, 1000, state]  # Set elapsed time
 
-        # Reset should restore initial state
-        animation.reset()
-        timer, elapsed, state = animation.info[test_widget]
-        assert elapsed == 0
+    # Reset should restore initial state
+    animation.reset()
+    qtbot.waitUntil(lambda: animation.info[test_widget][1] == 0)
 
 
 def test_animation_with_duration(test_widget, qtbot):
@@ -468,9 +451,8 @@ def test_animation_with_duration(test_widget, qtbot):
     qtbot.wait(200)
 
     # Animation should have stopped
-    if test_widget in animation.info:
-        timer = animation.info[test_widget][0]
-        assert not timer.isActive()
+    qtbot.waitUntil(lambda: test_widget in animation.info)
+    qtbot.waitUntil(lambda: not animation.info[test_widget][0].isActive())
 
 
 def test_base_animation_interface(test_widget):
@@ -497,7 +479,8 @@ def test_animation_state_initialization(test_widget):
 
 def test_fade_animation_opacity_isolation(qtbot):
     """Test that Fade animation only affects its own widget, not others."""
-
+    qta._resource["iconic"] = None
+    iconic_font = qta._instance()
     widget1 = QtWidgets.QPushButton("Widget 1")
     widget2 = QtWidgets.QPushButton("Widget 2")
     qtbot.addWidget(widget1)
@@ -513,32 +496,33 @@ def test_fade_animation_opacity_isolation(qtbot):
     widget2.setIcon(icon2)
 
     # Show widgets and trigger paint
-    widget1.show()
-    widget2.show()
-    qtbot.waitExposed(widget1)
-    qtbot.waitExposed(widget2)
+    with qtbot.waitExposed(widget1):
+        widget1.show()
+    with qtbot.waitExposed(widget2):
+        widget2.show()
+
     widget1.update()
     widget2.update()
-    qtbot.wait(100)
 
     # Check that fade opacity is stored per-widget
-    iconic_font = qta._instance()
     painter = iconic_font.painter
+    qtbot.waitUntil(lambda: hasattr(painter, "_fade_animation_opacities"))
 
-    if hasattr(painter, "_fade_animation_opacities"):
-        # Widget1 should have opacity stored
-        assert id(widget1) in painter._fade_animation_opacities
-        # Widget2 should NOT have opacity stored
-        assert id(widget2) not in painter._fade_animation_opacities
+    # Widget1 should have opacity stored
+    assert id(widget1) in painter._fade_animation_opacities
+    # Widget2 should NOT have opacity stored
+    assert id(widget2) not in painter._fade_animation_opacities
 
-        # Widget1's opacity should be within bounds
-        opacity1 = painter._fade_animation_opacities[id(widget1)]
-        assert 0.3 <= opacity1 <= 1.0
+    # Widget1's opacity should be within bounds
+    qtbot.waitUntil(
+        lambda: 0.3 <= painter._fade_animation_opacities[id(widget1)] <= 1.0
+    )
 
 
 def test_fade_animation_painter_integration(qtbot):
     """Test that Fade animation actually integrates with the icon painter."""
-
+    qta._resource["iconic"] = None
+    iconic_font = qta._instance()
     widget = QtWidgets.QPushButton("Test")
     qtbot.addWidget(widget)
 
@@ -549,37 +533,39 @@ def test_fade_animation_painter_integration(qtbot):
     icon = qta.icon("fa5s.circle", color="blue", animation=fade_anim)
     widget.setIcon(icon)
 
-    widget.show()
-    qtbot.waitExposed(widget)
+    with qtbot.waitExposed(widget):
+        widget.show()
+    widget.update()
+
+    # Get the iconic font instance and painter
+    painter_instance = iconic_font.painter
+    qtbot.waitUntil(lambda: hasattr(painter_instance, "_fade_animation_opacities"))
+
+    # Verify the fade opacity is being stored in the painter
+    widget_id = id(widget)
+    assert widget_id in painter_instance._fade_animation_opacities
+
+    # Get opacity at different times and verify it changes
+    opacity1 = painter_instance._fade_animation_opacities[widget_id]
+
+    qtbot.wait(100)
     widget.update()
     qtbot.wait(100)
 
-    # Get the iconic font instance and painter
-    iconic_font = qta._instance()
-    painter_instance = iconic_font.painter
+    opacity2 = painter_instance._fade_animation_opacities[widget_id]
 
-    # Verify the fade opacity is being stored in the painter
-    if hasattr(painter_instance, "_fade_animation_opacities"):
-        widget_id = id(widget)
-        assert widget_id in painter_instance._fade_animation_opacities
+    # Opacity should change over time (unless we hit the exact same point in the cycle)
+    assert opacity1 != opacity2
 
-        # Get opacity at different times and verify it changes
-        opacity1 = painter_instance._fade_animation_opacities[widget_id]
-
-        qtbot.wait(300)
-        widget.update()
-        qtbot.wait(50)
-
-        opacity2 = painter_instance._fade_animation_opacities[widget_id]
-
-        # Opacity should change over time (unless we hit the exact same point in the cycle)
-        # Both should be in valid range
-        assert 0.5 <= opacity1 <= 1.0
-        assert 0.5 <= opacity2 <= 1.0
+    # Both should be in valid range
+    assert 0.5 <= opacity1 <= 1.0
+    assert 0.5 <= opacity2 <= 1.0
 
 
 def test_fade_animation_multiple_widgets_independent(qtbot):
     """Test that multiple Fade animations on different widgets are independent."""
+    qta._resource["iconic"] = None
+    iconic_font = qta._instance()
 
     widget1 = QtWidgets.QPushButton("Widget 1")
     widget2 = QtWidgets.QPushButton("Widget 2")
@@ -602,51 +588,52 @@ def test_fade_animation_multiple_widgets_independent(qtbot):
     widget3.setIcon(icon3)
 
     # Show all widgets
-    widget1.show()
-    widget2.show()
-    widget3.show()
-    qtbot.waitExposed(widget1)
-    qtbot.waitExposed(widget2)
-    qtbot.waitExposed(widget3)
+    with qtbot.waitExposed(widget1):
+        widget1.show()
+    with qtbot.waitExposed(widget2):
+        widget2.show()
+    with qtbot.waitExposed(widget3):
+        widget3.show()
     widget1.update()
     widget2.update()
     widget3.update()
-    qtbot.wait(100)
 
     # Check painter has separate opacity for each widget
-    iconic_font = qta._instance()
     painter = iconic_font.painter
+    qtbot.waitUntil(lambda: hasattr(painter, "_fade_animation_opacities"))
 
-    if hasattr(painter, "_fade_animation_opacities"):
-        opacities = painter._fade_animation_opacities
+    opacities = painter._fade_animation_opacities
 
-        # All three widgets should have entries
-        assert id(widget1) in opacities
-        assert id(widget2) in opacities
-        assert id(widget3) in opacities
+    # All three widgets should have entries
+    qtbot.waitUntil(lambda: id(widget1) in opacities)
+    qtbot.waitUntil(lambda: id(widget2) in opacities)
+    qtbot.waitUntil(lambda: id(widget3) in opacities)
 
-        # Each should be within their respective bounds
-        assert 0.2 <= opacities[id(widget1)] <= 1.0
-        assert 0.5 <= opacities[id(widget2)] <= 0.9
-        assert 0.1 <= opacities[id(widget3)] <= 0.8
+    # Each should be within their respective bounds
+    qtbot.waitUntil(lambda: 0.2 <= opacities[id(widget1)] <= 1.0)
+    qtbot.waitUntil(lambda: 0.5 <= opacities[id(widget2)] <= 0.9)
+    qtbot.waitUntil(lambda: 0.1 <= opacities[id(widget3)] <= 0.8)
 
-        # Wait and verify they can have different values
-        qtbot.wait(200)
-        widget1.update()
-        widget2.update()
-        widget3.update()
-        qtbot.wait(50)
+    # Wait and verify they can have different values
+    qtbot.wait(200)
+    widget1.update()
+    widget2.update()
+    widget3.update()
+    qtbot.wait(50)
 
-        # Re-check opacities - they may be different from each other
-        # due to different periods
-        opacity1 = opacities[id(widget1)]
-        opacity2 = opacities[id(widget2)]
-        opacity3 = opacities[id(widget3)]
+    # Re-check opacities - they may be different from each other
+    # due to different periods
+    opacity1 = opacities[id(widget1)]
+    opacity2 = opacities[id(widget2)]
+    opacity3 = opacities[id(widget3)]
+    assert opacity1 != opacity2
+    assert opacity2 != opacity3
+    assert opacity3 != opacity1
 
-        # All should still be in valid ranges
-        assert 0.2 <= opacity1 <= 1.0
-        assert 0.5 <= opacity2 <= 0.9
-        assert 0.1 <= opacity3 <= 0.8
+    # All should still be in valid ranges
+    qtbot.waitUntil(lambda: 0.2 <= opacity1 <= 1.0)
+    qtbot.waitUntil(lambda: 0.5 <= opacity2 <= 0.9)
+    qtbot.waitUntil(lambda: 0.1 <= opacity3 <= 0.8)
 
 
 def test_multiple_animations_on_different_widgets(qtbot):
@@ -666,18 +653,17 @@ def test_multiple_animations_on_different_widgets(qtbot):
     widget2.setIcon(icon2)
 
     # Show widgets to trigger paint and initialize animations
-    widget1.show()
-    widget2.show()
-    qtbot.waitExposed(widget1)
-    qtbot.waitExposed(widget2)
+    with qtbot.waitExposed(widget1):
+        widget1.show()
+    with qtbot.waitExposed(widget2):
+        widget2.show()
     widget1.update()
     widget2.update()
-    qtbot.wait(50)
 
     # Both animations should have their own state
-    if widget1 in anim1.info and widget2 in anim2.info:
-        assert widget1 not in anim2.info
-        assert widget2 not in anim1.info
+    qtbot.waitUntil(lambda: widget1 in anim1.info and widget2 in anim2.info)
+    assert widget1 not in anim2.info
+    assert widget2 not in anim1.info
 
 
 def test_animation_with_icon_widget_updates(qtbot):
@@ -691,27 +677,26 @@ def test_animation_with_icon_widget_updates(qtbot):
     icon_widget.setIcon(icon)
     qtbot.addWidget(icon_widget)
 
-    icon_widget.show()
-    qtbot.waitExposed(icon_widget)
+    with qtbot.waitExposed(icon_widget):
+        icon_widget.show()
     icon_widget.update()
-    qtbot.wait(100)
 
     # Verify animation is running on IconWidget
-    if icon_widget in animation.info:
-        _, _, state1 = animation.info[icon_widget]
-        angle1 = state1["angle"]
+    qtbot.waitUntil(lambda: icon_widget in animation.info)
+    _, _, state1 = animation.info[icon_widget]
+    angle1 = state1["angle"]
 
-        # Wait for animation to progress
-        qtbot.wait(150)
-        icon_widget.update()
+    # Wait for animation to progress
+    qtbot.wait(150)
+    icon_widget.update()
 
-        _, _, state2 = animation.info[icon_widget]
-        angle2 = state2["angle"]
+    _, _, state2 = animation.info[icon_widget]
+    angle2 = state2["angle"]
 
-        # Angle should have changed
-        assert angle2 != angle1
-        # Should be within valid range
-        assert 0 <= angle2 < 360
+    # Angle should have changed
+    assert angle2 != angle1
+    # Should be within valid range
+    assert 0 <= angle2 < 360
 
 
 def test_composite_animation_all_effects_active(test_widget, qtbot):
@@ -725,55 +710,55 @@ def test_composite_animation_all_effects_active(test_widget, qtbot):
     icon = qta.icon("fa5s.gem", animation=composite)
     test_widget.setIcon(icon)
 
-    test_widget.show()
-    qtbot.waitExposed(test_widget)
+    with qtbot.waitExposed(test_widget):
+        test_widget.show()
     test_widget.update()
     qtbot.wait(100)
 
     # Verify all three child animations are initialized and updating
-    if (
-        test_widget in anim1.info
+    qtbot.waitUntil(
+        lambda: test_widget in anim1.info
         and test_widget in anim2.info
         and test_widget in anim3.info
-    ):
-        # Get initial states
-        _, _, spin_state1 = anim1.info[test_widget]
-        _, _, breathe_state1 = anim2.info[test_widget]
-        _, _, fade_state1 = anim3.info[test_widget]
+    )
+    # Get initial states
+    _, _, spin_state1 = anim1.info[test_widget]
+    _, _, breathe_state1 = anim2.info[test_widget]
+    _, _, fade_state1 = anim3.info[test_widget]
 
-        angle1 = spin_state1["angle"]
-        scale1 = breathe_state1["scale"]
-        opacity1 = fade_state1["opacity"]
+    angle1 = spin_state1["angle"]
+    scale1 = breathe_state1["scale"]
+    opacity1 = fade_state1["opacity"]
 
-        # Wait for updates
-        qtbot.wait(200)
-        test_widget.update()
+    # Wait for updates
+    qtbot.wait(200)
+    test_widget.update()
 
-        # Get new states
-        _, _, spin_state2 = anim1.info[test_widget]
-        _, _, breathe_state2 = anim2.info[test_widget]
-        _, _, fade_state2 = anim3.info[test_widget]
+    # Get new states
+    _, _, spin_state2 = anim1.info[test_widget]
+    _, _, breathe_state2 = anim2.info[test_widget]
+    _, _, fade_state2 = anim3.info[test_widget]
 
-        angle2 = spin_state2["angle"]
-        scale2 = breathe_state2["scale"]
-        opacity2 = fade_state2["opacity"]
+    angle2 = spin_state2["angle"]
+    scale2 = breathe_state2["scale"]
+    opacity2 = fade_state2["opacity"]
 
-        # All three should be progressing
-        assert angle2 != angle1  # Spin is rotating
-        # Scale and opacity should be within bounds
-        assert 0.8 <= scale2 <= 1.2
-        assert scale1 != scale2
-        assert 0.5 <= opacity2 <= 1.0
-        assert opacity1 != opacity2
+    # All three should be progressing
+    assert angle2 != angle1  # Spin is rotating
+    # Scale and opacity should be within bounds
+    assert 0.8 <= scale2 <= 1.2
+    assert scale1 != scale2
+    assert 0.5 <= opacity2 <= 1.0
+    assert opacity1 != opacity2
 
-        # Also verify Fade opacity is in the painter
-        iconic_font = qta._instance()
-        painter = iconic_font.painter
-        if hasattr(painter, "_fade_animation_opacities"):
-            assert id(test_widget) in painter._fade_animation_opacities
-            painter_opacity = painter._fade_animation_opacities[id(test_widget)]
-            assert 0.5 <= painter_opacity <= 1.0
+    # Also verify Fade opacity is in the painter
+    iconic_font = qta._instance()
+    painter = iconic_font.painter
+    qtbot.waitUntil(lambda: hasattr(painter, "_fade_animation_opacities"))
+    assert id(test_widget) in painter._fade_animation_opacities
+    painter_opacity = painter._fade_animation_opacities[id(test_widget)]
+    assert 0.5 <= painter_opacity <= 1.0
 
 
 if __name__ == "__main__":
-    pytest.main([__file__])
+    pytest.main()

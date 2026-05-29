@@ -16,6 +16,7 @@ jobs:
     env:
       CI: True
       QT_API:  ${{ matrix.QT_BINDING }}
+      PYTEST_QT_API: ${{ matrix.QT_BINDING }}
       PYTHON_VERSION: ${{ matrix.PYTHON_VERSION }}
       RUNNER_OS: 'ubuntu'
     strategy:
@@ -53,7 +54,7 @@ jobs:
         run: conda env update --file requirements/environment_tests_${{ matrix.QT_BINDING }}_${{ matrix.QT_BINDING_VERSION }}.yml
       - name: Install Package
         shell: bash -l {0}
-        run: pip install -e .
+        run: python -m pip install -e .
       - name: Show environment information
         shell: bash -l {0}
         run: |
