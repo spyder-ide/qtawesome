@@ -336,7 +336,3 @@ Screenshot
 ~~~~~~~~~~
 
 .. image:: ../../qtawesome-screenshot.gif
-
-.. image:: ../../qtawesome-animations-basic.gif
-
-.. image:: ../../qtawesome-animations-combined.gif
