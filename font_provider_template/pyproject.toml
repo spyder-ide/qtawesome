@@ -1,0 +1,16 @@
+[build-system]
+requires = ["uv_build>=0.11.28,<0.12"]
+build-backend = "uv_build"
+
+[project]
+name = "font_provider_template"
+version = "0.1.0"
+description = "qtawesome-fonts-provider-template"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+license = "MIT"
+license-files = ["LICENSE.txt"]
+
+[project.entry-points."qtawesome.font_providers"]
+qtmdi_icons = "font_provider_template:get_fonts"

@@ -181,8 +181,36 @@ def _instance() -> IconicFont:
                 if ttf_calculated_hash_code != ttf_hash:
                     raise FontError(f"Font is corrupt at: '{ttf_filepath}'")
 
-        _resource["iconic"] = IconicFont(*_BUNDLED_FONTS)
+        _resource["iconic"] = IconicFont(*_BUNDLED_FONTS, *_get_external_fonts())
     return cast(IconicFont, _resource["iconic"])
+
+
+def _get_external_fonts():
+    """
+    Collect font sets registered by third-party packages.
+
+    Any installed package can contribute fonts by exposing an entry point
+    in the ``qtawesome.font_providers`` group. The entry point must resolve
+    to a callable that takes no arguments and returns an iterable of
+    ``(prefix, ttf_filename, charmap_filename, directory)`` tuples (see
+    ``font_provider_template`` for a reference implementation).
+
+    Returns
+    -------
+    list
+        Flat list of font tuples from all registered providers, suitable
+        to be passed as ``*args`` to ``IconicFont``.
+    """
+    import importlib.metadata as im
+
+    try:
+        eps = im.entry_points(group="qtawesome.font_providers")
+    except TypeError:
+        eps = im.entry_points().get("qtawesome.font_providers", [])
+    external_fonts = []
+    for ep in eps:
+        external_fonts.extend(ep.load()())
+    return external_fonts
 
 
 def reset_cache() -> None:
