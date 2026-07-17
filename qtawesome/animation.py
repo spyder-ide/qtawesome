@@ -7,13 +7,20 @@ from qtpy.QtGui import QColor
 def _sine_wave_value(elapsed, period, min_val, max_val):
     """Map elapsed time to sine wave value between min and max.
 
-    Args:
-        elapsed: Elapsed time in milliseconds
-        period: Period of one complete sine wave cycle in milliseconds
-        min_val: Minimum value (at sine wave minimum)
-        max_val: Maximum value (at sine wave maximum)
+    Parameters
+    ----------
+    elapsed: int
+        Elapsed time in milliseconds
+    period: int
+        Period of one complete sine wave cycle in milliseconds
+    min_val: float
+        Minimum value (at sine wave minimum)
+    max_val: float
+        Maximum value (at sine wave maximum)
 
-    Returns:
+    Returns
+    -------
+    return_value: float
         Value between min_val and max_val based on sine wave
     """
     angle = (elapsed % period) / period * 2 * math.pi
@@ -27,13 +34,20 @@ def _cosine_wave_value(elapsed, period, min_val, max_val):
 
     Similar to sine but starts at maximum value.
 
-    Args:
-        elapsed: Elapsed time in milliseconds
-        period: Period of one complete cosine wave cycle in milliseconds
-        min_val: Minimum value (at cosine wave minimum)
-        max_val: Maximum value (at cosine wave maximum)
+    Parameters
+    ----------
+    elapsed: int
+        Elapsed time in milliseconds
+    period: int
+        Period of one complete cosine wave cycle in milliseconds
+    min_val: float
+        Minimum value (at cosine wave minimum)
+    max_val: float
+        Maximum value (at cosine wave maximum)
 
-    Returns:
+    Returns
+    -------
+    return_value: float
         Value between min_val and max_val based on cosine wave
     """
     angle = (elapsed % period) / period * 2 * math.pi
@@ -45,11 +59,16 @@ def _cosine_wave_value(elapsed, period, min_val, max_val):
 def _get_cycle_position(elapsed, period):
     """Get normalized position in current cycle.
 
-    Args:
-        elapsed: Elapsed time in milliseconds
-        period: Period of one complete cycle in milliseconds
+    Parameters
+    ----------
+    elapsed: int
+        Elapsed time in milliseconds
+    period: int
+        Period of one complete cycle in milliseconds
 
-    Returns:
+    Returns
+    -------
+    return_value: float
         Float between 0.0 and 1.0 representing position in cycle
     """
     return (elapsed % period) / period
@@ -60,12 +79,18 @@ def _elastic_ease_out(t, amplitude=1.0, period_factor=0.3):
 
     Creates overshoot and bounce effect.
 
-    Args:
-        t: Progress value from 0.0 to 1.0
-        amplitude: Amplitude of the elastic effect (default: 1.0)
-        period_factor: Period factor for oscillation (default: 0.3)
+    Parameters
+    ----------
+    t: float
+        Progress value from 0.0 to 1.0
+    amplitude: Optional(float)
+        Amplitude of the elastic effect (default: 1.0)
+    period_factor: Optional(float)
+        Period factor for oscillation (default: 0.3)
 
-    Returns:
+    Returns
+    -------
+    return_value: float
         Eased value with elastic overshoot
     """
     if t == 0 or t == 1:
@@ -86,9 +111,9 @@ def _apply_centered_transform(painter, rect, scale=1.0, angle=0.0):
         Painter object
     rect: QRect
         Rectangle containing the icon
-    scale: float
+    scale: Optional(float)
         Scale factor
-    angle: float
+    angle: Optional(float)
         Rotation angle in degrees
     """
     x_center = rect.width() * 0.5
@@ -107,11 +132,16 @@ class BaseAnimation:
     Provides common functionality like timing, duration, and lifecycle management.
     Subclasses should override _update_animation_state() and _apply_transform().
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        interval: Update interval in milliseconds (default: 10)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    interval: Optional(int)
+        Update interval in milliseconds (default: 10)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
     """
 
     def __init__(self, parent_widget, interval=10, duration=None, autostart=True):
@@ -145,20 +175,28 @@ class BaseAnimation:
     def _update_animation_state(self, elapsed, state):
         """Override this method to update animation-specific state.
 
-        Args:
-            elapsed: Elapsed time in milliseconds
-            state: Dictionary containing animation state
+        Parameters
+        ----------
+        elapsed: int
+            Elapsed time in milliseconds
+        state: dict
+            Dictionary containing animation state
         """
         raise NotImplementedError("Subclasses must implement _update_animation_state")
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         """Override this method to apply painter transformations.
 
-        Args:
-            icon_painter: The icon painter instance
-            painter: QPainter object
-            rect: QRect defining the icon area
-            state: Dictionary containing animation state
+        Parameters
+        ----------
+        icon_painter:
+            The icon painter instance
+        painter: QPainter
+            Painter object
+        rect: QRect
+            Rect object defining the icon area
+        state: dict
+            Dictionary containing animation state
         """
         raise NotImplementedError("Subclasses must implement _apply_transform")
 
@@ -206,12 +244,18 @@ class BaseAnimation:
 class Spin(BaseAnimation):
     """Continuous rotation animation.
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        interval: Update interval in milliseconds (default: 10)
-        step: Rotation increment per update in degrees (default: 1)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    interval: int
+        Update interval in milliseconds (default: 10)
+    step: int
+        Rotation increment per update in degrees (default: 1)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
     """
 
     def __init__(
@@ -235,10 +279,14 @@ class Spin(BaseAnimation):
 class Pulse(Spin):
     """Stepped rotation animation (45-degree increments).
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
     """
 
     def __init__(self, parent_widget, duration=None, autostart=True):
@@ -250,14 +298,22 @@ class Pulse(Spin):
 class Breathe(BaseAnimation):
     """Breathing/scaling animation (icon grows and shrinks).
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        interval: Update interval in milliseconds (default: 20)
-        min_scale: Minimum scale factor (default: 0.8)
-        max_scale: Maximum scale factor (default: 1.2)
-        period: Period in milliseconds for one complete breath cycle (default: 2000)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    interval: Optional(int)
+        Update interval in milliseconds (default: 20)
+    min_scale: Optional(float)
+        Minimum scale factor (default: 0.8)
+    max_scale: Optional(float)
+        Maximum scale factor (default: 1.2)
+    period: Optional(int)
+        Period in milliseconds for one complete breath cycle (default: 2000)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
     """
 
     def __init__(
@@ -291,14 +347,22 @@ class Breathe(BaseAnimation):
 class Fade(BaseAnimation):
     """Fade/opacity pulsating animation (icon fades in and out).
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        interval: Update interval in milliseconds (default: 20)
-        min_opacity: Minimum opacity (0.0 to 1.0, default: 0.2)
-        max_opacity: Maximum opacity (0.0 to 1.0, default: 1.0)
-        period: Period in milliseconds for one complete fade cycle (default: 2000)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    interval: Optional(int)
+        Update interval in milliseconds (default: 20)
+    min_opacity: Optional(float)
+        Minimum opacity (0.0 to 1.0, default: 0.2)
+    max_opacity: Optional(float)
+        Maximum opacity (0.0 to 1.0, default: 1.0)
+    period: Optional(int)
+        Period in milliseconds for one complete fade cycle (default: 2000)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
 
     Note:
         This animation modifies the icon_painter to inject the animated opacity.
@@ -343,14 +407,22 @@ class Fade(BaseAnimation):
 class Shake(BaseAnimation):
     """Shake/bounce animation (icon vibrates horizontally and vertically).
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        interval: Update interval in milliseconds (default: 20)
-        amplitude_x: Horizontal shake amplitude in pixels (default: 3)
-        amplitude_y: Vertical shake amplitude in pixels (default: 3)
-        period: Period in milliseconds for one complete shake cycle (default: 200)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    interval: Optional(int)
+        Update interval in milliseconds (default: 20)
+    amplitude_x: Optional(int)
+        Horizontal shake amplitude in pixels (default: 3)
+    amplitude_y: Optional(int)
+        Vertical shake amplitude in pixels (default: 3)
+    period: Optional(int)
+        Period in milliseconds for one complete shake cycle (default: 200)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
     """
 
     def __init__(
@@ -386,13 +458,20 @@ class Shake(BaseAnimation):
 class ColorCycle(BaseAnimation):
     """Color cycling animation (icon cycles through specified colors).
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        interval: Update interval in milliseconds (default: 50)
-        colors: List of color strings to cycle through (default: rainbow colors)
-        color_duration: Time to spend on each color in milliseconds (default: 500)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    interval: Optional(int)
+        Update interval in milliseconds (default: 50)
+    colors: Optional(list[str] | None)
+        List of color strings to cycle through (default: None that fallbacks to rainbow colors)
+    color_duration: Optional(int)
+        Time to spend on each color in milliseconds (default: 500)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
     """
 
     def __init__(
@@ -445,14 +524,21 @@ class ColorCycle(BaseAnimation):
 class HeartBeat(BaseAnimation):
     """HeartBeat animation (double pulse with pause, like a heartbeat).
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        interval: Update interval in milliseconds (default: 20)
-        min_scale: Minimum scale factor (default: 1.0)
-        max_scale: Maximum scale factor during pulse (default: 1.3)
-        period: Period in milliseconds for one complete heartbeat cycle (default: 1000)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    interval: Optional(int)
+        Update interval in milliseconds (default: 20)
+    min_scale: Optional(float)
+        Minimum scale factor (default: 1.0)
+    max_scale: Optional(float)
+        Maximum scale factor during pulse (default: 1.3)
+    period: Optional(int)
+        Period in milliseconds for one complete heartbeat cycle (default: 1000)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Whether to start animation automatically (default: True)
     """
 
     def __init__(
@@ -511,13 +597,20 @@ class HeartBeat(BaseAnimation):
 class Swing(BaseAnimation):
     """Swing animation (pendulum-like rotation back and forth).
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        interval: Update interval in milliseconds (default: 20)
-        angle: Maximum swing angle in degrees (±angle, default: 15)
-        period: Period in milliseconds for one complete swing cycle (default: 1000)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    interval: Optional(int)
+        Update interval in milliseconds (default: 20)
+    angle: Optional(int)
+        Maximum swing angle in degrees (±angle, default: 15)
+    period: Optional(int)
+        Period in milliseconds for one complete swing cycle (default: 1000)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
     """
 
     def __init__(
@@ -552,14 +645,22 @@ class Elastic(BaseAnimation):
     The icon scales up, overshoots, bounces back, and settles at the target scale.
     This creates a spring-like elastic effect.
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        interval: Update interval in milliseconds (default: 20)
-        min_scale: Starting scale factor (default: 0.5)
-        max_scale: Target scale factor (default: 1.0)
-        period: Period in milliseconds for one complete elastic bounce cycle (default: 1500)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    interval: Optional(int)
+        Update interval in milliseconds (default: 20)
+    min_scale: Optional(float)
+        Starting scale factor (default: 0.5)
+    max_scale: Optional(float)
+        Target scale factor (default: 1.0)
+    period: Optional(int)
+        Period in milliseconds for one complete elastic bounce cycle (default: 1500)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
     """
 
     def __init__(
@@ -598,12 +699,18 @@ class CompositeAnimation(BaseAnimation):
     This allows you to layer multiple animation effects on a single icon.
     For example, you could combine Spin + Breathe, or Swing + Fade.
 
-    Args:
-        parent_widget: The widget containing the animated icon
-        animations: List of animation instances to combine
-        interval: Update interval in milliseconds (default: 10)
-        duration: Total animation duration in milliseconds, None for infinite (default: None)
-        autostart: Whether to start animation automatically (default: True)
+    Parameters
+    ----------
+    parent_widget: QWidget
+        The widget containing the animated icon
+    animations: list
+        List of animation instances to combine
+    interval: Optional(int)
+        Update interval in milliseconds (default: 10)
+    duration: Optional(int | None)
+        Total animation duration in milliseconds, None for infinite (default: None)
+    autostart: Optional(boolean)
+        Whether to start animation automatically (default: True)
 
     Example:
         # Combine spinning and breathing
