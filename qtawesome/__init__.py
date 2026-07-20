@@ -171,7 +171,10 @@ def _instance():
                     os.path.dirname(os.path.realpath(__file__)), "fonts", ttf_filename
                 )
                 with open(ttf_filepath, "rb") as f:
-                    ttf_calculated_hash_code = hashlib.md5(f.read()).hexdigest()
+                    ttf_calculated_hash_code = hashlib.md5(
+                        f.read(),
+                        usedforsecurity=False,
+                    ).hexdigest()
                 if ttf_calculated_hash_code != ttf_hash:
                     raise FontError(f"Font is corrupt at: '{ttf_filepath}'")
 
