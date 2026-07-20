@@ -26,7 +26,23 @@ from qtpy import QtCore, QtWidgets, QtGui
 
 # Local imports
 from ._version import __version__ as __version__, version_info as version_info
-from .animation import Pulse as Pulse, Spin as Spin
+from .animation import (
+    BaseAnimation as BaseAnimation,
+    Breathe as Breathe,
+    ColorCycle as ColorCycle,
+    CompositeAnimation as CompositeAnimation,
+    Elastic as Elastic,
+    Fade as Fade,
+    HeartBeat as HeartBeat,
+    Pulse as Pulse,
+    Shake as Shake,
+    Spin as Spin,
+    Swing as Swing,
+    _sine_wave_value as _sine_wave_value,
+    _cosine_wave_value as _cosine_wave_value,
+    _get_cycle_position as _get_cycle_position,
+    _elastic_ease_out as _elastic_ease_out,
+)
 from .iconic_font import IconicFont, set_global_defaults, FontError
 from .iconic_font import SYSTEM_FONTS as _SYSTEM_FONTS
 from .styles import dark as dark, light as light

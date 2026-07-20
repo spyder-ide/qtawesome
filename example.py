@@ -10,6 +10,9 @@ from qtpy import QtCore, QtWidgets
 import qtawesome as qta
 
 
+ICON_SIZE = QtCore.QSize(16, 16)
+
+
 class AwesomeExample(QtWidgets.QDialog):
     def __init__(self):
         super().__init__()
@@ -59,9 +62,13 @@ class AwesomeExample(QtWidgets.QDialog):
         squirrel_icon = qta.icon("msc.squirrel")
         msc_button = QtWidgets.QPushButton(squirrel_icon, "Codicons (msc)")
 
-        # Label for style options and animations
+        # Label for style options
         styles_label = QtWidgets.QLabel("Styles")
         styles_label.setAlignment(QtCore.Qt.AlignCenter)
+
+        # Label for animations
+        animations_label = QtWidgets.QLabel("Animations")
+        animations_label.setAlignment(QtCore.Qt.AlignCenter)
 
         # Rotated
         rot_icon = qta.icon("mdi.access-point-network", rotated=45)
@@ -104,7 +111,7 @@ class AwesomeExample(QtWidgets.QDialog):
         iconwidget = qta.IconWidget()
         spin_icon = qta.icon("mdi.loading", color="red", animation=qta.Spin(iconwidget))
         iconwidget.setIcon(spin_icon)
-        iconwidget.setIconSize(QtCore.QSize(32, 32))
+        iconwidget.setIconSize(ICON_SIZE)
         iconwidgetholder = QtWidgets.QWidget()
         lo = QtWidgets.QHBoxLayout()
         lo.addWidget(iconwidget)
@@ -128,7 +135,7 @@ class AwesomeExample(QtWidgets.QDialog):
             ],
         )
         stack_button = QtWidgets.QPushButton(camera_ban, "Stack")
-        stack_button.setIconSize(QtCore.QSize(32, 32))
+        stack_button.setIconSize(ICON_SIZE)
 
         # Stack and offset icons
         saveall = qta.icon(
@@ -169,7 +176,71 @@ class AwesomeExample(QtWidgets.QDialog):
         ]
         stack_spin_icon = qta.icon("ei.asl", "fa5.square", options=options)
         stack_spin_button.setIcon(stack_spin_icon)
-        stack_spin_button.setIconSize(QtCore.QSize(32, 32))
+        stack_spin_button.setIconSize(ICON_SIZE)
+
+        # Breathe animation
+        breathe_button = QtWidgets.QPushButton(" Breathe")
+        animation3 = qta.Breathe(breathe_button)
+        breathe_icon = qta.icon("fa5s.heart", color="red", animation=animation3)
+        breathe_button.setIcon(breathe_icon)
+        breathe_button.setIconSize(ICON_SIZE)
+
+        # Fade animation
+        fade_button = QtWidgets.QPushButton(" Fade")
+        animation4 = qta.Fade(fade_button)
+        fade_icon = qta.icon("fa5s.lightbulb", color="orange", animation=animation4)
+        fade_button.setIcon(fade_icon)
+        fade_button.setIconSize(ICON_SIZE)
+
+        # Shake animation
+        shake_button = QtWidgets.QPushButton(" Shake")
+        animation5 = qta.Shake(shake_button, amplitude_x=2, amplitude_y=2)
+        shake_icon = qta.icon("fa5s.bell", color="purple", animation=animation5)
+        shake_button.setIcon(shake_icon)
+        shake_button.setIconSize(ICON_SIZE)
+
+        # ColorCycle animation
+        color_button = QtWidgets.QPushButton(" ColorCycle")
+        animation6 = qta.ColorCycle(color_button)
+        color_icon = qta.icon("fa5s.star", animation=animation6)
+        color_button.setIcon(color_icon)
+        color_button.setIconSize(ICON_SIZE)
+
+        # HeartBeat animation
+        heartbeat_button = QtWidgets.QPushButton(" HeartBeat")
+        animation7 = qta.HeartBeat(heartbeat_button)
+        heartbeat_icon = qta.icon("fa5s.heart", color="crimson", animation=animation7)
+        heartbeat_button.setIcon(heartbeat_icon)
+        heartbeat_button.setIconSize(ICON_SIZE)
+
+        # Swing animation
+        swing_button = QtWidgets.QPushButton(" Swing")
+        animation8 = qta.Swing(swing_button, angle=20)
+        swing_icon = qta.icon("fa5s.bell", color="gold", animation=animation8)
+        swing_button.setIcon(swing_icon)
+        swing_button.setIconSize(ICON_SIZE)
+
+        # Elastic animation
+        elastic_button = QtWidgets.QPushButton(" Elastic")
+        animation9 = qta.Elastic(elastic_button, min_scale=0.6, max_scale=1.0)
+        elastic_icon = qta.icon(
+            "fa5s.certificate", color="purple", animation=animation9
+        )
+        elastic_button.setIcon(elastic_icon)
+        elastic_button.setIconSize(ICON_SIZE)
+
+        # Composite animation (Spin + Breathe)
+        composite_button = QtWidgets.QPushButton(" Spin + Breathe")
+        anim_spin = qta.Spin(composite_button, step=2, autostart=False)
+        anim_breathe = qta.Breathe(
+            composite_button, min_scale=0.8, max_scale=1.2, autostart=False
+        )
+        composite_anim = qta.CompositeAnimation(
+            composite_button, [anim_spin, anim_breathe]
+        )
+        composite_icon = qta.icon("fa5s.star", color="orange", animation=composite_anim)
+        composite_button.setIcon(composite_icon)
+        composite_button.setIconSize(ICON_SIZE)
 
         # Render a label with this font
         label = QtWidgets.QLabel(chr(0xF19C) + " " + "Label")
@@ -200,15 +271,25 @@ class AwesomeExample(QtWidgets.QDialog):
             vflip_button,
             toggle_button,
             drawn_image_button,
-        ]
-        animated_widgets = [
-            spin_button,
-            pulse_button,
             stack_button,
             saveall_button,
-            stack_spin_button,
         ]
-        other_widgets = [label, iconwidgetholder, iconwidget2]
+        other_widgets = [label, iconwidget2]
+        animated_widgets = [
+            animations_label,
+            spin_button,
+            pulse_button,
+            stack_spin_button,
+            breathe_button,
+            fade_button,
+            shake_button,
+            color_button,
+            heartbeat_button,
+            swing_button,
+            elastic_button,
+            composite_button,
+            iconwidgetholder,
+        ]
 
         for idx, w in enumerate(fonts_widgets):
             grid.addWidget(w, idx, 0)
@@ -216,11 +297,11 @@ class AwesomeExample(QtWidgets.QDialog):
         for idx, w in enumerate(styled_widgets):
             grid.addWidget(w, idx, 1)
 
-        for idx, w in enumerate(animated_widgets):
+        for idx, w in enumerate(other_widgets):
             grid.addWidget(w, idx + len(styled_widgets), 1)
 
-        for idx, w in enumerate(other_widgets):
-            grid.addWidget(w, idx + len(styled_widgets) + len(animated_widgets), 1)
+        for idx, w in enumerate(animated_widgets):
+            grid.addWidget(w, idx, 2)
 
         title = "Awesome"
         args = " ".join(sys.argv[1:]).strip()
@@ -229,7 +310,7 @@ class AwesomeExample(QtWidgets.QDialog):
 
         self.setLayout(grid)
         self.setWindowTitle(title)
-        self.setMinimumWidth(520)
+        self.setMinimumWidth(720)
         self.show()
 
 
