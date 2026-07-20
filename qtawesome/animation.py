@@ -99,12 +99,7 @@ def _elastic_ease_out(t, amplitude=1.0, period_factor=0.3):
 
     p = period_factor
     s = p / 4
-    return (
-        amplitude
-        * math.pow(2, -10 * t)
-        * math.sin((t - s) * (2 * math.pi) / p)
-        + 1
-    )
+    return amplitude * math.pow(2, -10 * t) * math.sin((t - s) * (2 * math.pi) / p) + 1
 
 
 # ---- Utility functions for common transformations
@@ -194,9 +189,7 @@ class BaseAnimation:
         state: dict
             Dictionary containing animation state
         """
-        raise NotImplementedError(
-            "Subclasses must implement _update_animation_state"
-        )
+        raise NotImplementedError("Subclasses must implement _update_animation_state")
 
     def _apply_transform(self, icon_painter, painter, rect, state):
         """Override this method to apply painter transformations.
@@ -228,9 +221,7 @@ class BaseAnimation:
             # First setup - create timer
             timer = QTimer(self.parent_widget)
             timer.timeout.connect(self._update)
-            self.info[self.parent_widget] = [
-                timer, 0, self._get_initial_state()
-            ]
+            self.info[self.parent_widget] = [timer, 0, self._get_initial_state()]
             if self.autostart:
                 timer.start(self.interval)
         else:
@@ -254,9 +245,7 @@ class BaseAnimation:
         """Reset animation to initial state."""
         if self.parent_widget in self.info:
             timer = self.info[self.parent_widget][0]
-            self.info[self.parent_widget] = [
-                timer, 0, self._get_initial_state()
-            ]
+            self.info[self.parent_widget] = [timer, 0, self._get_initial_state()]
 
 
 class Spin(BaseAnimation):
@@ -474,9 +463,7 @@ class Shake(BaseAnimation):
     def _update_animation_state(self, elapsed, state):
         # Use different frequencies for x and y to create more natural shake
         angle_x = (elapsed % self.period) / self.period * 2 * math.pi
-        angle_y = (
-            (elapsed % (self.period * 1.3)) / (self.period * 1.3) * 2 * math.pi
-        )
+        angle_y = (elapsed % (self.period * 1.3)) / (self.period * 1.3) * 2 * math.pi
 
         state["offset_x"] = math.sin(angle_x) * self.amplitude_x
         state["offset_y"] = math.sin(angle_y) * self.amplitude_y
@@ -607,21 +594,17 @@ class HeartBeat(BaseAnimation):
             # Use sin for smooth pulse
             scale_factor = math.sin(progress * math.pi)
             state["scale"] = (
-                self.min_scale
-                + (self.max_scale - self.min_scale) * scale_factor
+                self.min_scale + (self.max_scale - self.min_scale) * scale_factor
             )
         elif cycle_pos < self.gap_end:
             # Gap between beats
             state["scale"] = self.min_scale
         elif cycle_pos < self.beat2_end:
             # Second beat: scale up then down
-            progress = (cycle_pos - self.gap_end) / (
-                self.beat2_end - self.gap_end
-            )
+            progress = (cycle_pos - self.gap_end) / (self.beat2_end - self.gap_end)
             scale_factor = math.sin(progress * math.pi)
             state["scale"] = (
-                self.min_scale
-                + (self.max_scale - self.min_scale) * scale_factor
+                self.min_scale + (self.max_scale - self.min_scale) * scale_factor
             )
         else:
             # Pause
