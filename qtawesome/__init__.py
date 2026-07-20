@@ -38,7 +38,6 @@ from .animation import (
     Shake as Shake,
     Spin as Spin,
     Swing as Swing,
-    # Utility functions for custom animations (prefix with _ to indicate internal/advanced)
     _sine_wave_value as _sine_wave_value,
     _cosine_wave_value as _cosine_wave_value,
     _get_cycle_position as _get_cycle_position,
