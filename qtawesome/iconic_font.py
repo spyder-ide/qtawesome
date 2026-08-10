@@ -170,6 +170,9 @@ def set_global_defaults(**kwargs) -> None:
 class CharIconPainter:
     """Char icon painter."""
 
+    def __init__(self) -> None:
+        self.animation_opacity: dict[int, float] = {}
+
     def paint(
         self,
         iconic: IconicFont,
@@ -263,7 +266,16 @@ class CharIconPainter:
         transform.translate(-x_center, -y_center)
         painter.setTransform(transform, True)
 
-        painter.setOpacity(options.get("opacity", 1.0))
+        # Apply opacity from options, multiplied by animation opacity if present
+        base_opacity = options.get("opacity", 1.0)
+        if animation is not None:
+            widget_id = id(animation.parent_widget)
+            if widget_id in self.animation_opacity:
+                painter.setOpacity(base_opacity * self.animation_opacity[widget_id])
+            else:
+                painter.setOpacity(base_opacity)
+        else:
+            painter.setOpacity(base_opacity)
 
         draw = options.get("draw")
         if draw not in ("text", "path", "glyphrun", "image"):
