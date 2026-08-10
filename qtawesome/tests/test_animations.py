@@ -506,17 +506,14 @@ def test_fade_animation_opacity_isolation(qtbot):
 
     # Check that fade opacity is stored per-widget
     painter = iconic_font.painter
-    qtbot.waitUntil(lambda: hasattr(painter, "_fade_animation_opacities"))
 
     # Widget1 should have opacity stored
-    assert id(widget1) in painter._fade_animation_opacities
+    qtbot.waitUntil(lambda: id(widget1) in painter.animation_opacity)
     # Widget2 should NOT have opacity stored
-    assert id(widget2) not in painter._fade_animation_opacities
+    qtbot.waitUntil(lambda: id(widget2) not in painter.animation_opacity)
 
     # Widget1's opacity should be within bounds
-    qtbot.waitUntil(
-        lambda: 0.3 <= painter._fade_animation_opacities[id(widget1)] <= 1.0
-    )
+    qtbot.waitUntil(lambda: 0.3 <= painter.animation_opacity[id(widget1)] <= 1.0)
 
 
 def test_fade_animation_painter_integration(qtbot):
@@ -539,20 +536,19 @@ def test_fade_animation_painter_integration(qtbot):
 
     # Get the iconic font instance and painter
     painter_instance = iconic_font.painter
-    qtbot.waitUntil(lambda: hasattr(painter_instance, "_fade_animation_opacities"))
 
     # Verify the fade opacity is being stored in the painter
     widget_id = id(widget)
-    assert widget_id in painter_instance._fade_animation_opacities
+    qtbot.waitUntil(lambda: widget_id in painter_instance.animation_opacity)
 
     # Get opacity at different times and verify it changes
-    opacity1 = painter_instance._fade_animation_opacities[widget_id]
+    opacity1 = painter_instance.animation_opacity[widget_id]
 
     qtbot.wait(100)
     widget.update()
     qtbot.wait(100)
 
-    opacity2 = painter_instance._fade_animation_opacities[widget_id]
+    opacity2 = painter_instance.animation_opacity[widget_id]
 
     # Opacity should change over time (unless we hit the exact same point in the cycle)
     assert opacity1 != opacity2
@@ -600,9 +596,8 @@ def test_fade_animation_multiple_widgets_independent(qtbot):
 
     # Check painter has separate opacity for each widget
     painter = iconic_font.painter
-    qtbot.waitUntil(lambda: hasattr(painter, "_fade_animation_opacities"))
 
-    opacities = painter._fade_animation_opacities
+    opacities = painter.animation_opacity
 
     # All three widgets should have entries
     qtbot.waitUntil(lambda: id(widget1) in opacities)
@@ -754,9 +749,8 @@ def test_composite_animation_all_effects_active(test_widget, qtbot):
     # Also verify Fade opacity is in the painter
     iconic_font = qta._instance()
     painter = iconic_font.painter
-    qtbot.waitUntil(lambda: hasattr(painter, "_fade_animation_opacities"))
-    assert id(test_widget) in painter._fade_animation_opacities
-    painter_opacity = painter._fade_animation_opacities[id(test_widget)]
+    assert id(test_widget) in painter.animation_opacity
+    painter_opacity = painter.animation_opacity[id(test_widget)]
     assert 0.5 <= painter_opacity <= 1.0
 
 

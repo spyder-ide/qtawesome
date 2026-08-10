@@ -1,11 +1,20 @@
+from __future__ import annotations
+
 import math
-from qtpy.QtCore import QTimer
-from qtpy.QtGui import QColor
+from typing import Any
+
+from qtpy.QtCore import QRect, QTimer
+from qtpy.QtGui import QColor, QPainter
+from qtpy.QtWidgets import QWidget
+
+from qtawesome.iconic_font import CharIconPainter
 
 
 # ---- Utility functions for common animation patterns
 # ----------------------------------------------------------------------------
-def _sine_wave_value(elapsed, period, min_val, max_val):
+def _sine_wave_value(
+    elapsed: int, period: int, min_val: float, max_val: float
+) -> float:
     """Map elapsed time to sine wave value between min and max.
 
     Parameters
@@ -30,7 +39,9 @@ def _sine_wave_value(elapsed, period, min_val, max_val):
     return min_val + (sine + 1) / 2 * value_range
 
 
-def _cosine_wave_value(elapsed, period, min_val, max_val):
+def _cosine_wave_value(
+    elapsed: int, period: int, min_val: float, max_val: float
+) -> float:
     """Map elapsed time to cosine wave value between min and max.
 
     Similar to sine but starts at maximum value.
@@ -57,7 +68,7 @@ def _cosine_wave_value(elapsed, period, min_val, max_val):
     return min_val + (cosine + 1) / 2 * value_range
 
 
-def _get_cycle_position(elapsed, period):
+def _get_cycle_position(elapsed: int, period: int) -> float:
     """Get normalized position in current cycle.
 
     Parameters
@@ -75,7 +86,9 @@ def _get_cycle_position(elapsed, period):
     return (elapsed % period) / period
 
 
-def _elastic_ease_out(t, amplitude=1.0, period_factor=0.3):
+def _elastic_ease_out(
+    t: float, amplitude: float = 1.0, period_factor: float = 0.3
+) -> float:
     """Elastic ease-out easing function.
 
     Creates overshoot and bounce effect.
@@ -104,7 +117,9 @@ def _elastic_ease_out(t, amplitude=1.0, period_factor=0.3):
 
 # ---- Utility functions for common transformations
 # ----------------------------------------------------------------------------
-def _apply_centered_transform(painter, rect, scale=1.0, angle=0.0):
+def _apply_centered_transform(
+    painter: QPainter, rect: QRect, scale: float = 1.0, angle: float = 0.0
+) -> None:
     """Apply centered transformation to painter.
 
     Parameters
@@ -151,16 +166,21 @@ class BaseAnimation:
         Whether to start the animation automatically (default: True)
     """
 
-    def __init__(self, parent_widget, interval=10, duration=None, autostart=True):
+    def __init__(
+        self,
+        parent_widget: QWidget,
+        interval: int = 10,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         self.parent_widget = parent_widget
         self.interval = interval
         self.duration = duration
         self.autostart = autostart
 
-        # Store animation state per widget: [timer, elapsed_time, state_dict]
-        self.info = {}
+        self.info: dict[QWidget, tuple[QTimer, int, dict[str, Any]]] = {}
 
-    def _update(self):
+    def _update(self) -> None:
         """Internal update method called by timer."""
         if self.parent_widget in self.info:
             timer, elapsed, state = self.info[self.parent_widget]
@@ -179,35 +199,41 @@ class BaseAnimation:
             self.info[self.parent_widget] = timer, elapsed, state
             self.parent_widget.update()
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(self, elapsed: int, state: dict[str, Any]) -> None:
         """Override this method to update animation-specific state.
 
         Parameters
         ----------
         elapsed: int
             Elapsed time in milliseconds
-        state: dict
+        state: dict[str, Any]
             Dictionary containing animation state
         """
         raise NotImplementedError("Subclasses must implement _update_animation_state")
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, Any],
+    ) -> None:
         """Override this method to apply painter transformations.
 
         Parameters
         ----------
-        icon_painter:
+        icon_painter: CharIconPainter
             The icon painter instance
         painter: QPainter
             Painter object
         rect: QRect
             Rect object defining the icon area
-        state: dict
+        state: dict[str, Any]
             Dictionary containing animation state
         """
         raise NotImplementedError("Subclasses must implement _apply_transform")
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, Any]:
         """Override this method to provide initial animation state.
 
         Returns:
@@ -215,13 +241,19 @@ class BaseAnimation:
         """
         return {}
 
-    def setup(self, icon_painter, painter, rect):
+    def setup(
+        self, icon_painter: CharIconPainter, painter: QPainter, rect: QRect
+    ) -> None:
         """Called during paint event to set up and apply animation."""
         if self.parent_widget not in self.info:
             # First setup - create timer
             timer = QTimer(self.parent_widget)
             timer.timeout.connect(self._update)
-            self.info[self.parent_widget] = [timer, 0, self._get_initial_state()]
+            self.info[self.parent_widget] = (
+                timer,
+                0,
+                self._get_initial_state(),
+            )
             if self.autostart:
                 timer.start(self.interval)
         else:
@@ -229,23 +261,27 @@ class BaseAnimation:
             timer, elapsed, state = self.info[self.parent_widget]
             self._apply_transform(icon_painter, painter, rect, state)
 
-    def start(self):
+    def start(self) -> None:
         """Start the animation."""
         if self.parent_widget in self.info:
             timer = self.info[self.parent_widget][0]
             timer.start(self.interval)
 
-    def stop(self):
+    def stop(self) -> None:
         """Stop the animation."""
         if self.parent_widget in self.info:
             timer = self.info[self.parent_widget][0]
             timer.stop()
 
-    def reset(self):
+    def reset(self) -> None:
         """Reset animation to initial state."""
         if self.parent_widget in self.info:
             timer = self.info[self.parent_widget][0]
-            self.info[self.parent_widget] = [timer, 0, self._get_initial_state()]
+            self.info[self.parent_widget] = (
+                timer,
+                0,
+                self._get_initial_state(),
+            )
 
 
 class Spin(BaseAnimation):
@@ -267,20 +303,33 @@ class Spin(BaseAnimation):
     """
 
     def __init__(
-        self, parent_widget, interval=10, step=1, duration=None, autostart=True
-    ):
+        self,
+        parent_widget: QWidget,
+        interval: int = 10,
+        step: int = 1,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         super().__init__(parent_widget, interval, duration, autostart)
         self.step = step
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, int]:
         return {"angle": 0}
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(
+        self, elapsed: int, state: dict[str, int | float]
+    ) -> None:
         state["angle"] += self.step
         if state["angle"] >= 360:
             state["angle"] = 0
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, int | float],
+    ) -> None:
         _apply_centered_transform(painter, rect, angle=state["angle"])
 
 
@@ -298,7 +347,12 @@ class Pulse(Spin):
         Whether to start the animation automatically (default: True)
     """
 
-    def __init__(self, parent_widget, duration=None, autostart=True):
+    def __init__(
+        self,
+        parent_widget: QWidget,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         super().__init__(
             parent_widget,
             interval=300,
@@ -332,29 +386,35 @@ class Breathe(BaseAnimation):
 
     def __init__(
         self,
-        parent_widget,
-        interval=20,
-        min_scale=0.8,
-        max_scale=1.2,
-        period=2000,
-        duration=None,
-        autostart=True,
-    ):
+        parent_widget: QWidget,
+        interval: int = 20,
+        min_scale: float = 0.8,
+        max_scale: float = 1.2,
+        period: int = 2000,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         super().__init__(parent_widget, interval, duration, autostart)
         self.min_scale = min_scale
         self.max_scale = max_scale
         self.period = period
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, float]:
         return {"scale": 1.0}
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(self, elapsed: int, state: dict[str, float]) -> None:
         # Use sine wave for smooth breathing effect
         state["scale"] = _sine_wave_value(
             elapsed, self.period, self.min_scale, self.max_scale
         )
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, float],
+    ) -> None:
         _apply_centered_transform(painter, rect, scale=state["scale"])
 
 
@@ -388,36 +448,38 @@ class Fade(BaseAnimation):
 
     def __init__(
         self,
-        parent_widget,
-        interval=20,
-        min_opacity=0.2,
-        max_opacity=1.0,
-        period=2000,
-        duration=None,
-        autostart=True,
-    ):
+        parent_widget: QWidget,
+        interval: int = 20,
+        min_opacity: float = 0.2,
+        max_opacity: float = 1.0,
+        period: int = 2000,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         super().__init__(parent_widget, interval, duration, autostart)
         self.min_opacity = max(0.0, min(1.0, min_opacity))
         self.max_opacity = max(0.0, min(1.0, max_opacity))
         self.period = period
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, float]:
         return {"opacity": 1.0}
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(self, elapsed: int, state: dict[str, float]) -> None:
         # Use sine wave for smooth fading effect
         state["opacity"] = _sine_wave_value(
             elapsed, self.period, self.min_opacity, self.max_opacity
         )
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, float],
+    ) -> None:
         # Store the animation opacity per-widget in the icon_painter so it can
         # be used when the opacity is set later in the paint process
-        if not hasattr(icon_painter, "_fade_animation_opacities"):
-            icon_painter._fade_animation_opacities = {}
-        icon_painter._fade_animation_opacities[id(self.parent_widget)] = state[
-            "opacity"
-        ]
+        icon_painter.animation_opacity[id(self.parent_widget)] = state["opacity"]
 
 
 class Shake(BaseAnimation):
@@ -444,23 +506,25 @@ class Shake(BaseAnimation):
 
     def __init__(
         self,
-        parent_widget,
-        interval=20,
-        amplitude_x=3,
-        amplitude_y=3,
-        period=200,
-        duration=None,
-        autostart=True,
-    ):
+        parent_widget: QWidget,
+        interval: int = 20,
+        amplitude_x: int = 3,
+        amplitude_y: int = 3,
+        period: int = 200,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         super().__init__(parent_widget, interval, duration, autostart)
         self.amplitude_x = amplitude_x
         self.amplitude_y = amplitude_y
         self.period = period
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, int | float]:
         return {"offset_x": 0, "offset_y": 0}
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(
+        self, elapsed: int, state: dict[str, int | float]
+    ) -> None:
         # Use different frequencies for x and y to create more natural shake
         angle_x = (elapsed % self.period) / self.period * 2 * math.pi
         angle_y = (elapsed % (self.period * 1.3)) / (self.period * 1.3) * 2 * math.pi
@@ -468,7 +532,13 @@ class Shake(BaseAnimation):
         state["offset_x"] = math.sin(angle_x) * self.amplitude_x
         state["offset_y"] = math.sin(angle_y) * self.amplitude_y
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, int | float],
+    ) -> None:
         painter.translate(state["offset_x"], state["offset_y"])
 
 
@@ -495,13 +565,13 @@ class ColorCycle(BaseAnimation):
 
     def __init__(
         self,
-        parent_widget,
-        interval=50,
-        colors=None,
-        color_duration=500,
-        duration=None,
-        autostart=True,
-    ):
+        parent_widget: QWidget,
+        interval: int = 50,
+        colors: list[str] | None = None,
+        color_duration: int = 500,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         super().__init__(parent_widget, interval, duration, autostart)
         if colors is None:
             # Default rainbow colors
@@ -519,10 +589,10 @@ class ColorCycle(BaseAnimation):
 
         self.color_duration = color_duration
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, QColor | int]:
         return {"current_color": QColor(self.colors[0]), "color_index": 0}
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(self, elapsed, state) -> None:
         # Calculate which color we should be at
         total_cycle_time = len(self.colors) * self.color_duration
         cycle_position = elapsed % total_cycle_time
@@ -532,7 +602,13 @@ class ColorCycle(BaseAnimation):
             state["color_index"] = color_index
             state["current_color"] = QColor(self.colors[color_index])
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, QColor | int],
+    ) -> None:
         # Store the color in icon_painter's options for the paint operation
         # This is a bit of a hack - we're modifying the painter's pen color
         current_color = state["current_color"]
@@ -563,14 +639,14 @@ class HeartBeat(BaseAnimation):
 
     def __init__(
         self,
-        parent_widget,
-        interval=20,
-        min_scale=1.0,
-        max_scale=1.3,
-        period=1000,
-        duration=None,
-        autostart=True,
-    ):
+        parent_widget: QWidget,
+        interval: int = 20,
+        min_scale: float = 1.0,
+        max_scale: float = 1.3,
+        period: int = 1000,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         super().__init__(parent_widget, interval, duration, autostart)
         self.min_scale = min_scale
         self.max_scale = max_scale
@@ -581,10 +657,10 @@ class HeartBeat(BaseAnimation):
         self.gap_end = self.period * 0.25
         self.beat2_end = self.period * 0.40
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, float]:
         return {"scale": 1.0}
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(self, elapsed: int, state: dict[str, float]) -> None:
         # Calculate position in current cycle
         cycle_pos = elapsed % self.period
 
@@ -610,7 +686,13 @@ class HeartBeat(BaseAnimation):
             # Pause
             state["scale"] = self.min_scale
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, float],
+    ) -> None:
         _apply_centered_transform(painter, rect, scale=state["scale"])
 
 
@@ -636,27 +718,35 @@ class Swing(BaseAnimation):
 
     def __init__(
         self,
-        parent_widget,
-        interval=20,
-        angle=15,
-        period=1000,
-        duration=None,
-        autostart=True,
+        parent_widget: QWidget,
+        interval: int = 20,
+        angle: int = 15,
+        period: int = 1000,
+        duration: int | None = None,
+        autostart: bool = True,
     ):
         super().__init__(parent_widget, interval, duration, autostart)
         self.max_angle = angle
         self.period = period
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, int | float]:
         return {"angle": 0}
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(
+        self, elapsed: int, state: dict[str, int | float]
+    ) -> None:
         # Use sine wave for smooth pendulum motion
         state["angle"] = _sine_wave_value(
             elapsed, self.period, -self.max_angle, self.max_angle
         )
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, int | float],
+    ) -> None:
         _apply_centered_transform(painter, rect, angle=state["angle"])
 
 
@@ -688,23 +778,23 @@ class Elastic(BaseAnimation):
 
     def __init__(
         self,
-        parent_widget,
-        interval=20,
-        min_scale=0.5,
-        max_scale=1.0,
-        period=1500,
-        duration=None,
-        autostart=True,
-    ):
+        parent_widget: QWidget,
+        interval: int = 20,
+        min_scale: float = 0.5,
+        max_scale: float = 1.0,
+        period: int = 1500,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         super().__init__(parent_widget, interval, duration, autostart)
         self.min_scale = min_scale
         self.max_scale = max_scale
         self.period = period
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, float]:
         return {"scale": self.min_scale}
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(self, elapsed: int, state: dict[str, float]) -> None:
         # Elastic easing function with overshoot
         cycle_pos = _get_cycle_position(elapsed, self.period)
         scale_progress = _elastic_ease_out(cycle_pos)
@@ -712,7 +802,13 @@ class Elastic(BaseAnimation):
             self.min_scale + (self.max_scale - self.min_scale) * scale_progress
         )
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, float],
+    ) -> None:
         _apply_centered_transform(painter, rect, scale=state["scale"])
 
 
@@ -750,12 +846,12 @@ class CompositeAnimation(BaseAnimation):
 
     def __init__(
         self,
-        parent_widget,
-        animations,
-        interval=10,
-        duration=None,
-        autostart=True,
-    ):
+        parent_widget: QWidget,
+        animations: list,
+        interval: int = 10,
+        duration: int | None = None,
+        autostart: bool = True,
+    ) -> None:
         super().__init__(parent_widget, interval, duration, autostart)
         self.animations = animations
 
@@ -764,10 +860,10 @@ class CompositeAnimation(BaseAnimation):
             anim.autostart = False
             anim.parent_widget = parent_widget
 
-    def _get_initial_state(self):
+    def _get_initial_state(self) -> dict[str, bool]:
         return {"initialized": False}
 
-    def _update_animation_state(self, elapsed, state):
+    def _update_animation_state(self, elapsed: int, state: dict[str, bool]) -> None:
         # Update all child animations' states
         for anim in self.animations:
             if anim.parent_widget in anim.info:
@@ -776,7 +872,13 @@ class CompositeAnimation(BaseAnimation):
                 anim._update_animation_state(anim_elapsed, anim_state)
                 anim.info[anim.parent_widget] = timer, anim_elapsed, anim_state
 
-    def _apply_transform(self, icon_painter, painter, rect, state):
+    def _apply_transform(
+        self,
+        icon_painter: CharIconPainter,
+        painter: QPainter,
+        rect: QRect,
+        state: dict[str, bool],
+    ) -> None:
         # Initialize child animations on first call
         if not state["initialized"]:
             for anim in self.animations:
@@ -796,7 +898,7 @@ class CompositeAnimation(BaseAnimation):
                 timer, anim_elapsed, anim_state = anim.info[anim.parent_widget]
                 anim._apply_transform(icon_painter, painter, rect, anim_state)
 
-    def start(self):
+    def start(self) -> None:
         """Start the composite animation and all child animations."""
         super().start()
         for anim in self.animations:
@@ -804,7 +906,7 @@ class CompositeAnimation(BaseAnimation):
                 # Child animations don't have active timers, managed by parent
                 pass
 
-    def stop(self):
+    def stop(self) -> None:
         """Stop the composite animation and all child animations."""
         super().stop()
         for anim in self.animations:
