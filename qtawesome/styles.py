@@ -24,14 +24,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from __future__ import annotations
+
 from qtpy.QtGui import QPalette, QColor
+from qtpy.QtWidgets import QApplication
 
 # Constant to reference default themes
 DEFAULT_DARK_PALETTE = "Dark"
 DEFAULT_LIGHT_PALETTE = "Light"
 
 
-def dark(app):
+def dark(app: QApplication) -> None:
     """
     Apply dark theme to the Qt application instance.
 
@@ -76,7 +79,7 @@ def dark(app):
     app.setStyle("Fusion")
 
 
-def light(app):
+def light(app: QApplication) -> None:
     """
     Apply light theme to the Qt application instance.
 
