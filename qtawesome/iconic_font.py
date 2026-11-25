@@ -47,6 +47,7 @@ from qtpy.QtGui import (
     QPalette,
     QRawFont,
     QImage,
+    QPen,
 )
 from qtpy.QtWidgets import QApplication
 
@@ -343,6 +344,48 @@ class CharIconPainter:
 
             return True
 
+        def try_draw_outline():
+            """draws the font outline, adding support for border=color, and border-width options"""
+            # Draw the outer stroke (border) of the letters
+            # not sure if appropriate but i default color to fill color and edge-weight to 0
+            border_color = QColor(options.get("border-color", color))
+            edge_weight = options.get("edge-weight", 0)
+            draw_outline = options.get("draw")
+
+            if draw_outline not in ("text", "path", "glyphrun", "image"):
+                draw_outline = "path" if animation is not None else "text"
+
+            if draw_outline == "glyphrun" and animation is not None:
+                font_outline = iconic.rawfont(prefix, draw_size, QFont.PreferNoHinting)
+            else:
+                font_outline = iconic.rawfont(prefix, draw_size)
+
+            glyph = font_outline.glyphIndexesForString(char)[0]
+            path = font_outline.pathForGlyph(glyph)
+            ascent = font_outline.ascent()
+            path.translate(0, ascent)
+
+            # translate by AABB
+            if rect is not None:
+                aabb = path.boundingRect()
+                target = rect.adjusted(
+                    edge_weight / 2, edge_weight / 2, -edge_weight / 2, -edge_weight / 2
+                )
+                dx = target.center().x() - aabb.center().x()
+                dy = target.center().y() - aabb.center().y()
+                path.translate(dx, dy)
+
+            if edge_weight <= 0:
+                return True
+            else:
+                painter.save()
+                outline_pen = QPen(border_color, edge_weight)
+                outline_pen.setJoinStyle(Qt.PenJoinStyle.RoundJoin)
+                painter.setPen(outline_pen)
+                painter.drawPath(path)
+                painter.restore()
+                return False
+
         if draw == "text" or not try_draw_rawfont():
             font = iconic.font(prefix, draw_size)
             # Disable font hinting to mitigate tremulous spinning to some extent
@@ -351,6 +394,7 @@ class CharIconPainter:
                 font.setHintingPreference(QFont.PreferNoHinting)
             painter.setFont(font)
             painter.drawText(rect, int(Qt.AlignCenter | Qt.AlignVCenter), char)
+            try_draw_outline()
 
         painter.restore()
 
