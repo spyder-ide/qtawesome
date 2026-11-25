@@ -47,8 +47,7 @@ from qtpy.QtGui import (
     QPalette,
     QRawFont,
     QImage,
-    QPainterPath,
-    QPen
+    QPen,
 )
 from qtpy.QtWidgets import QApplication
 
@@ -346,7 +345,7 @@ class CharIconPainter:
             return True
 
         def try_draw_outline():
-            """ draws the font outline, adding support for border=color, and border-width options """
+            """draws the font outline, adding support for border=color, and border-width options"""
             # Draw the outer stroke (border) of the letters
             # not sure if appropriate but i default color to fill color and edge-weight to 0
             border_color = QColor(options.get("border-color", color))
@@ -366,10 +365,12 @@ class CharIconPainter:
             ascent = font_outline.ascent()
             path.translate(0, ascent)
 
-            #translate by AABB
+            # translate by AABB
             if rect is not None:
                 aabb = path.boundingRect()
-                target = rect.adjusted(edge_weight/2, edge_weight/2,-edge_weight/2, -edge_weight/2)
+                target = rect.adjusted(
+                    edge_weight / 2, edge_weight / 2, -edge_weight / 2, -edge_weight / 2
+                )
                 dx = target.center().x() - aabb.center().x()
                 dy = target.center().y() - aabb.center().y()
                 path.translate(dx, dy)
